@@ -2,32 +2,32 @@ package com.x62life.mo.model;
 
 public class BoardReply {
 	
-	private String reply_id;
-	private String board_id;
-	private String parent_id;
+	private String replyId;
+	private String boardId;
+	private String parentId;
 	private String depth;
-	private String reply_content;
-	private String reply_writer;
-	private String reply_password;
-	private String register_datetime;
+	private String replyContent;
+	private String replyWriter;
+	private String replyPassword;
+	private String registerDatetime;
 	
-	public String getReply_id() {
-		return reply_id;
+	public String getreplyId() {
+		return replyId;
 	}
-	public void setReply_id(String reply_id) {
-		this.reply_id = reply_id;
+	public void setreplyId(String replyId) {
+		this.replyId = replyId;
 	}
-	public String getBoard_id() {
-		return board_id;
+	public String getboardId() {
+		return boardId;
 	}
-	public void setBoard_id(String board_id) {
-		this.board_id = board_id;
+	public void setboardId(String boardId) {
+		this.boardId = boardId;
 	}
-	public String getParent_id() {
-		return parent_id;
+	public String getparentId() {
+		return parentId;
 	}
-	public void setParent_id(String parent_id) {
-		this.parent_id = parent_id;
+	public void setparentId(String parentId) {
+		this.parentId = parentId;
 	}
 	public String getDepth() {
 		return depth;
@@ -35,29 +35,29 @@ public class BoardReply {
 	public void setDepth(String depth) {
 		this.depth = depth;
 	}
-	public String getReply_content() {
-		return reply_content;
+	public String getreplyContent() {
+		return replyContent;
 	}
-	public void setReply_content(String reply_content) {
-		this.reply_content = reply_content;
+	public void setreplyContent(String replyContent) {
+		this.replyContent = replyContent;
 	}
-	public String getReply_writer() {
-		return reply_writer;
+	public String getreplyWriter() {
+		return replyWriter;
 	}
-	public void setReply_writer(String reply_writer) {
-		this.reply_writer = reply_writer;
+	public void setreplyWriter(String replyWriter) {
+		this.replyWriter = replyWriter;
 	}
-	public String getReply_password() {
-		return reply_password;
+	public String getreplyPassword() {
+		return replyPassword;
 	}
-	public void setReply_password(String reply_password) {
-		this.reply_password = reply_password;
+	public void setreplyPassword(String replyPassword) {
+		this.replyPassword = replyPassword;
 	}
-	public String getRegister_datetime() {
-		return register_datetime;
+	public String getregisterDatetime() {
+		return registerDatetime;
 	}
-	public void setRegister_datetime(String register_datetime) {
-		this.register_datetime = register_datetime;
+	public void setregisterDatetime(String registerDatetime) {
+		this.registerDatetime = registerDatetime;
 	}
 	
 }

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="common">
+    <select id="getSearchRank" parameterType="java.lang.String" resultType="">
+       /*getSearchRank 랭크 가져오기*/
+        SELECT TOP 10 RANK() OVER (ORDER BY COUNT(word) DESC) AS rank
+             , word
+             , COUNT(word) AS cnt
+        FROM searchword
+         WHERE DATEDIFF(d,datex, getdate())  <![CDATA[ >= #{periodDay}]]>
+         GROUP BY word
+    </select>
+
+    <select id="getSearchRecentView" parameterType="java.lang.String">
+        /*strOrderCase 쿠키에 저장된 최근 본 상품목록 가져오기*/
+        <![CDATA[
+        SELECT *
+        FROM(
+            SELECT '11' AS odttype
+                (
+                    SELECT CASE g.dispatchtype WHEN 'I' THEN '11'
+                                               WHEN '0' THEN '15'
+                           END AS odttype
+                         , g.gdcd
+                         , g.gdname
+                         , g.unit
+                         , g.price1
+                         , dbo.getMasterPrice(g.gdcd) saleprice
+                         , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy}, g.gdcd) AS groupsaleprice
+                         , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy},g.gdcd) AS isgroupsale
+                         , g.gdimg
+                         , g.div1
+                         , ISNULL(g.deliverydtyn,'N') deliverydtyn
+                         , ISNULL(g.soldoutyn,'N') soldoutyn
+                         , ISNULL(s.gdcnt,99999) gdcnt
+                         , g.newyn
+                         , g.qtysaleyn
+                         , g.recommendyn
+                         , ISNULL(t.cdname,'미지정') gradedesc
+                         , '01' odtype2
+                         , g.divcd
+                         , ISNULL(g.reserveyn,'N') reserveyn
+                    FROM gd_master g
+                      LEFT JOIN gd_cnt s
+                             ON g.gdcd = s.gdcd
+                      LEFT JOIN gd_item i
+                             ON i.gdcd = g.gdcd
+                      LEFT JOIN cd_master t
+                             ON t.cdtype = '09'
+                            AND t.cdcode = i.typecd
+                      LEFT JOIN od_reservegoods r
+                             ON g.gdcd = r.gdcd
+                            AND r.useyn = 'Y'
+                            AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                            AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                     WHERE g.useyn = 'Y'
+                       AND ( g.divcd = '30' OR (g.divcd = '20' AND g.deliverydtyn = 'N' AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')))
+                       AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                       AND g.gdcd IN (#{strInCase})
+                ) g
+            )
+        ]]>
+    </select>
+
+    <select id="jsonSearchAutoComplete">
+        /*jsonSearchAutoComplete 첫구매(2019)이벤트 상품, 5월휴면고객특가*/
+        <![CDATA[
+        SELECT gdname
+        FROM gd_master g
+          LEFT JOIN od_reservegoods r
+                 ON g.gdcd = r.gdcd
+                AND r.od_from <= CONVERT(CHAR(10), GETDATE(), 121)
+                AND r.od_to >= CONVERT(CHAR(10), GETDATE(), 121)
+                AND r.useyn = 'Y'
+         WHERE 1=1
+           AND (g.useyn = 'Y' OR (g.useyn = 'N' AND r.useyn = 'Y'))
+           AND g.useyn = 'Y'
+           AND ((ISNULL(g.reserveyn,'N') = 'N')
+            OR (ISNULL(g.reserveyn,'N') = 'Y' AND r.useyn = 'Y' AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0 AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0))
+           AND (g.divcd = '30' OR (g.divcd='20' AND g.gdcd='R2') )
+        ]]>
+        <if test='strMEMGRPCD = "" OR strMEMGRPCD.indexOf("219") lte 0'>
+           AND g.gdcd NOT IN (#{isensExceptProduct})
+        </if>
+        <if test='strMEMGRPCD == "" OR userDefinedTarget.indexOf(strMEMGRPCD) lte 0 '>
+           AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx=468)
+        </if>
+        <if test='strMEMGRPCD == "" OR userDefinedTarget2.indexOf(strMEMGRPCD) lte 0'>
+           AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx = 641)
+        </if>
+        <if test='strMEMGRPCD == "" OR spCustomerGroup.indexOf(strMEMGRPCD) lte 0'>
+            AND g.gdcd NOT IN (#{spProduct})
+        </if>
+        <if test='customFilterProduct != ""'>
+            AND g.gdcd NOT IN (#{customFilterProduct})
+        </if>
+    </select>
+</mapper>
