@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myAcceptPoint">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 적립포인트 적립, 사용 이력 보기-->
+<!--    'File          : myaccpoint_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20150409-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+<!--    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    '20150409   hwkim   0.9     처음 작성-->
+<!--    '20181102   hwkim   0.9.1   포인트 사용 만료일자 추가.-->
+<!--    '20190627   sykim   0.9.2   멤버십 등 내용 변경.-->
+    <select id="getMyAcceptPoint">
+       /* getMyAcceptPoint 현재 사용가능 적립 포인트*/
+        SELECT ISNULL(accpoint,0) accpoint
+        FROM mb_currency
+         WHERE 1 = 1
+           AND memcd = #{strLoginMemCd}
+    </select>
+
+    <select id="myAcceptPointPaging">
+         /* myAcceptPointPaging  사용가능 포인트 페이징*/
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem}) MAXPAGE
+             , COUNT(a.nox) CNT
+        FROM mb_accpoint a
+          JOIN cd_master b
+            ON a.rscd = b.cdcode
+           AND b.cdtype = #{typePntcd}
+          JOIN cd_master b
+            ON a.rscd = b.cdcode
+           AND b.cdtype = #{typePntcd}
+         WHERE 1 = 1
+           AND a.memcd = #{strLoginMemCd}
+          <![CDATA[
+           AND a.expdt >= GETDATE()
+           AND a.useyn = 'Y'
+           AND a.indt >= CONVERT(DATETIME,#{dteSDate},21)
+           AND a.indt < CONVERT(DATETIME,#{dteEDate},21)+1
+         ]]>
+    </select>
+
+    <select id="myAcceptPointList">
+        SELECT * FROM (
+                        SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY a.nox DESC ) - 1 ) /  #{intPagePerItem}  + 1) AS PAGE
+                             , a.nox
+                             , a.memcd
+                             , CONVERT(varchar(10),a.expdt,120) expdt
+                             , CONVERT(varchar(10),a.indt,120) indt
+                             , a.withdraw
+                             , a.deposit
+                             , a.cpoint
+                             , a.memid
+                             , a.rscd
+                             , a.rsnote
+                             , a.paynum
+                             , a.updt
+                             , a.upid
+                             , a.useyn
+                             , b.cdname pntdesc
+                             , a.nox
+                             , a.memcd
+                             , a.rscd
+                             , a.rsnote
+                             , a.deposit
+                             , a.withdraw
+                             , a.cpoint
+                             , CONVERT(varchar(10),a.expdt,120) expdt
+                             , CONVERT(varchar(10),a.indt,120) indt
+                             , b.cdname accdesc
+                        FROM mb_accpoint a
+                          JOIN cd_master b 
+                            ON a.rscd = b.cdcode 
+                           AND b.cdtype = #{typePntcd}
+                          JOIN cd_master b 
+                            ON a.rscd = b.cdcode 
+                           AND b.cdtype = #{typePntcd}
+                         WHERE a.memcd = #{strLoginMemCd}
+                          <![CDATA[
+                           AND a.expdt >= GETDATE()
+                           AND a.useyn = 'Y'
+                           AND a.indt >= CONVERT(DATETIME,#{dteSDate},21)
+                           AND a.indt < CONVERT(DATETIME,#{dteEDate},21)+1
+                          ]]>
+                       ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+</mapper>

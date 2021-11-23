@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="searchPwdConf">
+<!--    '프로젝트: 자연이랑 모바일 웹-->
+<!--    '프로그램: 비밀번호 찾기-->
+
+<!--    '20170306   sykim   처음작성-->
+<!--    '20170313   hwkim   레이아웃 조정-->
+    <select id="getMemberInfoByDi">
+        /* 본인인증의 di값으로 회원검색*/
+        SELECT memcd
+        FROM mb_master
+         WHERE memid = #{strInputId}
+          AND pcert_di = #{strPidNo}
+    </select>
+
+    <select id="noMemberInfoFromDi" statementType="CALLABLE">
+        /*noMemberFromDi 아이디, 본인인증으로 받은 성명, 생년월일, 성별로 다시 검색*/
+       {CALL encryptionOpen
+        SELECT memcd
+        FROM mb_master
+         WHERE memid = #{strInputId}
+          AND memname = #{strMemName}
+          AND CONVERT(VARCHAR(24),DECRYPTBYKEY(residentno1_enc)) = #{strResidentno1}
+          AND gender = #{strGender}
+        CALL encryptionClose}
+    </select>
+
+    <update id="updatePcert">
+        /* updatePcert 본인인증값 갱신*/
+        UPDATE mb_master
+        SET pcert_reqno = #{strReqNo}
+          , pcert_di = #{strPidNo}
+         WHERE memcd = #{rsMemCd}
+    </update>
+</mapper>

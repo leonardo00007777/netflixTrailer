@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="skec">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 2020년 SKSKC&C창립기념일 이벤트(모바일)
+    'File          : skcnc_main_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hyeok
+    'Date Started  : 20200406
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20200406   hyeok   0.9     초안작성(sk가스창립기념 코드 참조)-->
+    <select id="eventHeader">
+        /*eventHeader 이벤트 헤더*/
+        SELECT *
+        FROM specialsellingh
+        WHERE shidx = #{sidx}
+    </select>
+    <select id="includeSpecialSellingProdList">
+        /* includeSpecialSellingProdList SKSKC&C창립기념일*/
+        SELECT * FROM (
+                        SELECT a.gdcd
+                             , a.gdname
+                             , a.unit
+                             , a.price1
+                             , a.gdimg
+                             , a.divcd
+                             , a.div1
+                             , a.exdiv1
+                             , a.indt
+                             , a.updt
+                             , a.shortdesc
+                             , ISNULL(z.gdcnt,99999) gdcnt
+                             , ISNULL(a.soldoutyn,'N') soldoutyn
+                             , ISNULL(a.newyn,'N') newyn
+                             , ISNULL(a.qtysaleyn,'N') qtysaleyn
+                             , dbo.getMasterPrice(a.gdcd) saleprice
+                             , CASE a.dispatchtype WHEN 'I' THEN '11'
+                                                   WHEN 'O' THEN '15'
+                               END odtype
+                             , ISNULL(a.deliverydtyn,'N') deliverydtyn
+                             , ISNULL(a.reserveyn,'N') reserveyn
+                             , ISNULL(a.recommendyn,'N') recommendyn
+                             <if test='strMEMGRPCD != "" AND strGroupSalePolicy != "N" '>
+                               , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},a.gdcd) groupsaleprice
+                             </if>
+                             , c.catdesc
+                             , x.slcat
+                             , x.slnote
+                             , a.plandate
+                             , a.thedaysyn
+                             , ISNULL(c1.cdname,'미정') gradedesc
+                             , '-' alltimesale
+                             , c2.cdcode
+                             , c2.cdname
+                             , i.origin
+                             , a.priceyn
+                             , a.mgdimg1
+                             , i.producer
+                             , i.address
+                        FROM gd_master a
+                          JOIN exmenu c
+                            ON a.exdiv1 = c.cat1
+                          JOIN specialsellingl x
+                            ON x.slgdcd = a.gdcd
+                          LEFT JOIN gd_cnt z
+                                 ON z.gdcd = a.gdcd
+                          LEFT JOIN gd_item i
+                                 ON i.gdcd = a.gdcd
+                          LEFT JOIN cd_master c1
+                                 ON c1.cdtype = '09'
+                                AND c1.cdcode = i.typecd
+                          LEFT JOIN cd_master c2
+                                 ON c2.cdtype = '20'
+                                AND c2.cdcode = a.div1
+                          LEFT JOIN od_reservegoods r
+                                 ON a.gdcd = r.gdcd
+                                AND r.useyn = 'Y'
+                                <![CDATA[
+                                AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                                AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                                ]]>
+                         WHERE 1 = 1
+                           AND a.useyn = 'Y'
+                           AND (a.reserveyn = 'N' OR (a.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                           AND a.divcd IN ('30','20')
+                           AND x.slidx = #{sidx}
+                         <if test="listingMode == 'OPT'">
+                             AND ISNULL(a.optionp,'N') = 'N'
+                         </if>
+                     ) x
+                WHERE 1 = 1
+                <choose>
+                   <when test="shltoty == '12'">
+                         AND x.reserveyn = 'Y'
+                   </when>
+                   <when test="shltoty == '11'">
+                         AND x.reserveyn = 'N'
+                   </when>
+                </choose>
+                <choose>
+                    <when test="rsIsud == 'Y'">
+                          ORDER BY x.slcat, x.gdcd
+                    </when>
+                    <otherwise>
+                         ORDER BY x.exdiv1, x.gdcd
+                    </otherwise>
+                </choose>
+    </select>
+</mapper>

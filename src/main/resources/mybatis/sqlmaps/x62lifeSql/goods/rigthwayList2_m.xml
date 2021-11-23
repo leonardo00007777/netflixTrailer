@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="petfoodList_m">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 오늘발송 상품 블록형 표시-->
+<!--    'File          : rightaway_list2_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20170621-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20170621   hwkim   0.9     처음 작성-->
+<!--    '20170707   hwkim   0.9.1   카테고리 추가-->
+<!--    '20180626   hyeok   0.9.2   목록내 검색 기능 추가-->
+<!--    '20180629   sykim   -       7시 > 8시 당일발송 변경.-->
+    <select id="todayDeliveryDefaultSetSingleProd">
+       /* todayDeliveryDefaultSetSingleProd 기본세트상품 단품상품 표시*/
+        SELECT cat1
+             , catdesc
+             , COUNT(g.gdcd) cnt
+        FROM gd_master g
+          LEFT JOIN exmenu c ON g.exdiv1 = c.cat1
+        WHERE 1 = 1
+          AND g.useyn = 'Y'
+          AND g.divcd = '30'
+          AND g.thedaysyn = 'Y'
+        GROUP BY cdcode,cdname
+        ORDER BY cdcode
+            GROUP BY cat1, catdesc
+        ORDER BY cat1
+    </select>
+</mapper>

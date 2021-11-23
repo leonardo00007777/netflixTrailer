@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="autoSetInfo">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑 모바일 - 꾸러미 구성 안내-->
+<!--    'File          : autosetinfo_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hnjang-->
+<!--    'Date Started  : 20201110-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20201110   hnjang   0.9     처음작성-->
+    <sql id="patternSerialNumberCommon">
+        /* patternSerialNumberCommon 배송 일련번호 공통*/
+        SELECT g.ptnidx
+        FROM od_autogoods g
+        WHERE g.memcd = #{strLoginMemCD}
+          AND g.autoidx = #{rsAutoIdx}
+          AND g.ptnidx > #{rsPtnidx2}
+    </sql>
+
+    <sql id="deliveryInfoCommon">
+        /*deliveryInfoCommon 배송상품 정보 공통*/
+        SELECT TOP 1 g.gdcd
+             , m.gdname
+             , g.ptnidx
+             , n.gwbom
+             , n.gwyn1
+             , n.gwyn2
+             , n.gwchgs
+             , n.gwyn3
+             , n.gwanno
+        FROM od_autogoods g
+                 LEFT JOIN goodset_week_note n ON g.gdcd = n.gwgdcd
+    </sql>
+
+    <sql id="deliveryPerWeekJoinCommon">
+        /* deliveryPerWeekJoinCommon 매주배송 테이블 JOIN 공통*/
+        JOIN gd_master m
+            ON g.gdcd = m.gdcd
+         WHERE g.memcd = #{strLoginMemCD}
+        AND g.autoidx = #{rsAutoIdx}
+    </sql>
+
+    <select id="getDateByYearWeek">
+         /* getDateByYearWeek 주차 구하기*/
+        SELECT
+               dbo.getDateByYearWeek(#{setYear}, #{setWeek}) weekdate
+    </select>
+
+    <select id="getDateTwoWeek" statementType="CALLABLE">
+        /* getDateTwoWeek 날짜기준 2주 후까지 연도주차정보 가져오기*/
+        {CALL
+              dbo.sp_getWeekSeries #{rsWeekDate}, 0, 2
+        }
+    </select>
+
+    <select id="autoPackageCnt">
+        /* 꾸러미 개수 */
+        SELECT count(1) cnt
+        FROM  od_auto a
+         WHERE memcd = #{strLoginMemCD}
+           AND (a.enddt IS NULL OR a.enddt BETWEEN #{arrYearWeek(2,0) } AND #{arrYearWeek(3,2) })
+    </select>
+
+    <select id="getAutoPackageInfo">
+        /* getAutoPackageInfo 꾸러미 정보 가져오기*/
+        SELECT a.autoidx
+             , a.rcvname
+             , a.dlvweekday
+             , a.weekgap
+        FROM od_auto a
+         WHERE a.memcd = #{strLoginMemCD}
+           AND (a.enddt IS NULL OR a.enddt BETWEEN #{arrYearWeek(2,0) } AND #{arrYearWeek(3,2) })
+
+    </select>
+    
+    <select id="getPackageGoodsCode">
+        SELECT gdcd
+        FROM od_autogoods
+         WHERE autoidx = #{rsAutoIdx}
+           AND memcd = #{strLoginMemCD}
+    </select>
+
+    <select id="getProdDetailInfoPerWeek">
+       /* getProdDetailInfoPerWeek 매주배송 상품 상세 rsWeekGap = "1" Then '매주일때 */
+        SELECT c.gdcd
+             , m.gdname
+             , c.ptnidx
+             , n.gwbom
+             , n.gwyn1
+             , n.gwyn2
+             , n.gwchgs
+             , n.gwyn3
+             , n.gwanno
+        FROM (
+                 SELECT h.paynum
+                      , h.dlvdt
+                      , a.ptnidx
+                      , g.gdcd
+                 FROM od_header h
+                   JOIN od_autopay a
+                     ON h.paynum = a.paynum
+                   JOIN od_goods g
+                     ON h.ordnum = g.ordnum
+                  WHERE h.dlvdt BETWEEN #{arrYearWeek(2,0) AND #{arrYearWeek(3,0)}
+                    AND a.autoidx = #{rsAutoIdx}
+                    AND h.memcd = #{strLoginMemCD}
+             ) c
+          LEFT JOIN goodset_week_note n
+                 ON c.gdcd = n.gwgdcd
+                 AND n.gwyear = #{arrYearWeek(0,0)}
+                 AND n.gwweek = #{arrYearWeek(1,0)}
+          JOIN gd_master m
+            ON c.gdcd = m.gdcd
+    </select>
+
+    <sql id="deliveryBiWeeklyJoinCommon">
+        /*deliveryBiWeeklyJoinCommon 격주배송 JOIN 공통*/
+        JOIN gd_master m
+          ON g.gdcd = m.gdcd
+      WHERE g.memcd = #{strLoginMemCD}
+        AND g.autoidx = #{rsAutoIdx}
+        AND g.ptnidx > #{rsPtnidx}
+    </sql>
+
+    <select id="deliverySerialNumber">
+       /*deliveryPerWeekSerialNumber 배송 일련번호*/
+        <include refid="patternSerialNumberCommon"/>
+    </select>
+
+    <select id="getPackageDeliveryInfoOne">
+          /* getPackageDeliveryInfoOne 매주배송 상품 정보1*/
+          <include refid="deliveryInfoCommon"/>
+                AND n.gwyear = #{arrYearWeek(0,1)}
+                AND n.gwweek = #{arrYearWeek(1,1)}
+          <include refid="deliveryPerWeekJoinCommon"/>
+           AND g.ptnidx > #{rsPtnidx1}
+    </select>
+
+    <select id="getPackageDeliveryInfoTwo">
+        /* getPackageDeliveryInfoTwo 매주배송 상품 정보2*/
+        <include refid="deliveryInfoCommon"/>
+              AND n.gwyear = #{arrYearWeek(0,2)}
+              AND n.gwweek = #{arrYearWeek(1,2)}
+        <include refid="deliveryPerWeekJoinCommon"/>
+          AND g.ptnidx > #{rsPtnidx2}
+    </select>
+
+    <select id="getProdDetailInfoBiWeek">
+        /*getProdDetailInfoBiWeek 상품 상세정보 격주 rsWeekGap != "1" '격주일때*/
+        SELECT a.paynum
+             , a.ptnidx
+             , h.dlvdt
+        FROM od_header h
+          JOIN od_autopay a
+            ON h.paynum = a.paynum
+         WHERE a.paynum = ( SELECT MAX(paynum) maxpaynum
+                            FROM od_autopay
+                             WHERE autoidx = #{rsAutoIdx}
+                               AND memcd = #{strLoginMemCD} )
+    </select>
+
+    <select id="deliveryBiweeklyProdInfoOne">
+        /* deliveryBiweeklyProdInfoOne 격주배송상품 정보 1*/
+        <include refid="deliveryInfoCommon"/>
+               ON g.gdcd = n.gwgdcd
+              AND n.gwyear = #{arrYearWeek(0,0)}
+              AND n.gwweek = #{arrYearWeek(1,0)}
+        <include refid="deliveryBiWeeklyJoinCommon"/>
+    </select>
+
+    <select id="deliveryBiweeklyProdInfoTwo">
+        /* deliveryBiweeklyProdInfoTwo 격주배송상품 정보 1*/
+        <include refid="deliveryInfoCommon"/>
+               ON g.gdcd = n.gwgdcd
+              AND n.gwyear = #{arrYearWeek(0,1)}
+              AND n.gwweek = #{arrYearWeek(1,1)}
+        <include refid="deliveryBiWeeklyJoinCommon"/>
+    </select>
+
+</mapper>

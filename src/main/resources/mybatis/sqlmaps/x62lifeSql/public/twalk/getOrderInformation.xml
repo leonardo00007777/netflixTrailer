@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="getOrderInformation">
+<!--    'System        : 62life.com
+    'Program       :
+    'Title         : T Walk 회원 구매실적조회 JSON
+    'File          : getOrderInformation.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20191101
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    
+    '20191101   hwkim   0.9     규약에 따른 변경s-->
+    <select id="getOrderInformation">
+        /* getOrderInformation T Walk 회원 구매실적조회*/
+        SELECT CONVERT(varchar(6),p.paydt,112) yyyymm
+                <![CDATA[
+              , SUM(payprice-(dlvprice-ROUND((CAST(ISNULL(accprice,0) AS FLOAT) / (CASE WHEN payprice+ISNULL(accprice,0)=0 THEN 1 ELSE payprice+ISNULL(accprice,0) END))*dlvprice,0))) tsum
+              , CASE WHEN SUM(payprice-(dlvprice-ROUND((CAST(ISNULL(accprice,0) AS FLOAT) / (CASE WHEN payprice+ISNULL(accprice,0)=0 THEN 1 ELSE payprice+ISNULL(accprice,0) END))*dlvprice,0))) >= #{goalAmount} THEN #{benefit} ELSE 0 END benefit
+                ]]>
+        FROM od_pay p
+          JOIN twalk_pay_log t
+            ON p.memcd = t.tp_memcd
+           AND p.paynum = t.tp_paynum
+         WHERE p.paystcd = #{paystPay}
+           <![CDATA[
+           AND p.paydt >= CONVERT(varchar(10),CONVERT(varchar(8),DATEADD(m,0,#{dateFrom}),21)+'01',21)
+           AND p.paydt < CONVERT(varchar(10),DATEADD(d,-1,(CONVERT(varchar(8),DATEADD(m,1,#{dateTo}),21)+'01')),21)
+           ]]>
+           AND p.paynum IN (SELECT paynum
+                            FROM od_header
+                             WHERE paystcd = #{paystPay}
+                               <![CDATA[
+                               AND orddt >= CONVERT(varchar(10),CONVERT(varchar(8),DATEADD(m,0,#{dateFrom}),21)+'01',21)
+                               AND orddt < CONVERT(varchar(10),DATEADD(d,-1,(CONVERT(varchar(8),DATEADD(m,1,#{dateTo}),21)+'01')),21)
+                               ]]>
+                               AND odgubun IN ( #{nSalesOrderType} )
+                           )
+           AND t.tp_pid = #{partyId}
+          GROUP BY CONVERT(varchar(6),p.paydt,112) 
+          ORDER BY CONVERT(varchar(6),p.paydt,112) 
+    </select>
+
+    <select id="getAdditionalOrderInformation">
+        /* getOrderInformation T Walk 회원 추가 구매실적조회*/
+        SELECT p.paynum orderNo
+             , CONVERT(VARCHAR(8),p.paydt,112) orderDate 
+             , SUM(payprice-(dlvprice-ROUND((CAST(ISNULL(accprice,0) AS FLOAT)/(CASE WHEN payprice+ISNULL(accprice,0)=0 THEN 1 ELSE payprice+ISNULL(accprice,0) END))*dlvprice,0))) orderAmount 
+        FROM od_pay p 
+          JOIN twalk_pay_log t 
+            ON p.memcd = t.tp_memcd 
+           AND p.paynum = t.tp_paynum 
+         WHERE p.paystcd = #{paystPay} 
+           AND CONVERT(VARCHAR(6),p.paydt,112) = #{yyyymm}
+           AND t.tp_pid = #{partyId}
+        GROUP BY paynum, paydt
+        ORDER BY paydt
+    </select>
+
+<!--    'System        : 62life.com
+    'Program       :
+    'Title         : T Walk 회원 구매실적조회 JSON
+    'File          : getOrderInformation.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : sykim
+    'Date Started  : 20190515
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20190515   sykim   0.9     처음초안작성.
+    '20190516   hwkim   0.9.1   규약에 따른 변경, Access Token 조회 체계 추가.
+    '20190610   hwkim   0.9.2   수정된 규정으로 변경 구현
+    '20190701   hwkim   0.9.3   혜택금액에서 배송비 제외
+    '20190701   hwkim   0.9.4   혜택금액 산정 배송비 제외 버그 수정-->
+    <select id="getOrderInformationBugFix">
+        SELECT CONVERT(varchar(6),p.paydt,112) yyyymm
+             , SUM(payprice-(dlvprice-ROUND((CAST(ISNULL(accprice,0) AS FLOAT)/(CASE WHEN payprice+ISNULL(accprice,0)=0 THEN 1 ELSE payprice+ISNULL(accprice,0) END))*dlvprice,0))) tsum 
+             , CASE WHEN SUM(payprice-(dlvprice-ROUND((CAST(ISNULL(accprice,0) AS FLOAT)/(CASE WHEN payprice+ISNULL(accprice,0)=0 THEN 1 ELSE payprice+ISNULL(accprice,0) END))*dlvprice,0))) >= #{goalAmount} THEN #{benefit} ELSE 0 END benefit
+        FROM od_pay p
+          JOIN twalk_pay_log t ON p.memcd = t.tp_memcd AND p.paynum = t.tp_paynum 
+         WHERE p.paystcd = #{paystPay}
+           <![CDATA[
+           AND p.paydt >= CONVERT(varchar(10),CONVERT(varchar(8),DATEADD(m,0,#{dateFrom}),21)+'01',21)
+           AND p.paydt < CONVERT(varchar(10),DATEADD(d,-1,(CONVERT(varchar(8),DATEADD(m,1,#{dateTo}),21)+'01')),21) 
+           ]]>
+           AND p.paynum IN (SELECT paynum FROM od_header
+                             WHERE paystcd = #{paystPay}
+                               <![CDATA[
+                               AND orddt >= CONVERT(varchar(10),CONVERT(varchar(8),DATEADD(m,0,#{dateFrom}),21)+'01',21)
+                               AND orddt < CONVERT(varchar(10),DATEADD(d,-1,(CONVERT(varchar(8),DATEADD(m,1,#{dateTo}),21)+'01')),21) 
+                               ]]>
+                               AND odgubun IN ( #{nSalesOrderType} ))
+           AND t.tp_pid = #{partyId}
+         GROUP BY CONVERT(varchar(6),p.paydt,112) 
+         ORDER BY CONVERT(varchar(6),p.paydt,112) 
+    </select>
+</mapper>

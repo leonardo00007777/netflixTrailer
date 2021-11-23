@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dobeforepaymentVersion2">
+<!--    '20121114 hwkim 새로 작성
+    '20161006 sykim 이니시스 결제시, 부가세, 비과세 명세 전달하기 위한 기능추가.
+    '20170406 hwkim 보내는사람 정보 변경 기능 추가
+    '20170707 sykim pgcd 추가.
+    '20180918 sykim 이니시스 Fake Check 기능 추가.(금액변조방지)
+    '20181011 sykim 전화번호의 개행문자, 줄바꿈 없애기.
+    '20190830 sykim vos공급가 추가.
+    '20191216 hwkim 뒤로가기를 통한 중복 호출 시 임시결제번호 발행 제외 처리-->
+    <insert id="saveTemporaryPaymentInfo">
+       /* saveTemporaryPaymentInfo 임시결제정보 저장*/
+        INSERT INTO od_pay_temp(
+                                 paynum
+                               , memcd
+                               , paycd
+                               , pgcd
+                               , bnkidx
+                               , bnkuser
+                               , payprice
+                               , bntprice
+                               , dpsprice
+                               , dlvprice
+                               , ttlprice
+                               , fixdt
+                               , paystcd
+                               , paystcds
+                               , paydt
+                               , tvos
+                               , ttax
+                               , tvat
+                               , updid
+                               , pntprice
+                               , accprice
+                               , device
+                               , cash_yn
+                               , cash_req
+                               , cash_type
+                               , cash_info
+                               , rcp_type
+                               )
+        VALUES(
+                #{strPayNum_temp}
+              , #{strLoginMemCd}
+              , #{strPAYCD}
+              , #{strPgCd}
+              , #{strBNKIDX}
+              , #{strBNKUser}
+              , #{lngPAYPrice}
+              , #{lngBNTPrice}
+              , #{lngDPSPrice}
+              , #{lngDLVPrice}
+              , #{lngTTLPrice}
+              , CONVERT(CHAR(10),GETDATE(),120)
+              , #{strPAYSTCD}
+              , #{strPAYSTCD}
+              , GETDATE()
+              , #{lngTvos}
+              , #{lngTtax}
+              , #{lngTvat}
+              , #{strLoginMemCd}
+              , #{lngPNTPrice}
+              , #{lngACCPrice}
+              ,'M'
+              , #{cashReceiptYN}
+              , #{receipt_req}
+              , #{strRCPCD}
+              , #{strRCPINFO}
+              , #{strRcpType}
+              )
+    </insert>
+
+    <insert id="saveDeliveryInfo" statementType="CALLABLE">
+        /* saveDeliveryInfo 배송정보 저장*/
+        {CALL encryptionOpen
+            INSERT INTO od_delivery_temp(
+                                           paynum
+                                         , ordnum
+                                         , memcd
+                                         , rcvname
+                                         , zipcd
+                                         , addr1
+                                         , addr1_enc
+                                         , addr2
+                                         , addr2_enc
+                                         , telno
+                                         , telno_enc
+                                         , hpno_enc
+                                         , dlvmsg
+                                         , rcvmsg
+                                         , sndname
+                                        )
+            VALUES(
+                    #{strPayNum_temp}
+                  , #{strPayNum_temp}
+                  , #{strLoginMemCd}
+                  , #{strRCVNAME}
+                  , #{strZIPCD}
+                  , ' '
+                  , ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),N#{strADDR1})
+                  , ' '
+                  , ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),N#{strADDR2})
+                  , ' '
+                  , ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strTELNO})
+                  , ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strHPNO})
+                  , #{strDLVMSG}
+                  , #{strRCVMSG}
+                  , #{strSNDName}
+                 )
+            CALL encryptionClos}
+    </insert>
+
+    <select id="getPaymentTaxPrice">
+         /*
+           getPaymentTaxPrice
+           '최종 이니시스 결제금액에서 부가세와 면세값 구하기.
+           '2016-10-05 sykim 이니시스에서는 [부가세 업체 정함] 설정이 되어 있지 않으면 결제금액을 모두 과세로 보고 영수증처리를 함,
+           '[부가세 업체 정함] 설정을 신청한 후에 TX통신을 하기 전에 부가세와 면세가를 저장한 후에 통신하도록 수정함.
+           'a 안의 쿼리 설명: sp_getOrderList 프로시저에 의한 od_order_temp 을 운영하지 않으므로, od_cart 에 의한
+           '일반할인, 수량할인, 그룹할인 등이 모두 적용된 가격과 부가세를 구함.
+           '하지만 적립포인트에 의한 각 상품별 최종가격은 결제정보 마지막에 정의되므로 미리 할인된 가격을 알아야 하는 절차가 필요함.
+           '그 적용된 공급가에 총금액(적립포인트 제외) 대비 결제금액의 비율로 구하고, 부가세는 가격에서 공급가를 빼서 구한다.
+           'a 밖의 쿼리 설명: 상품별 공급가와 부가세를 구하고, 면세는 결제금액에서 공급가와 부가세를 빼서 구한다.
+         */
+        SELECT ROUND(SUM(c.vosprice),0) vosprice
+             , ROUND(SUM(c.vatprice),0) vatprice
+             , c.payprice - (ROUND(SUM(c.vosprice),0)+ROUND(SUM(c.vatprice),0)) txfprice
+        FROM (
+                 SELECT #{lngPAYPrice}  payprice
+                      , CASE WHEN b.vos>0 THEN b.vos*(1-(CAST( #{lngACCPrice}  AS FLOAT)/ #{lngTTLPricece} ))
+                             ELSE 0
+                        END * (CAST( #{lngPAYPrice}  AS FLOAT)/ #{lngTtlMinusAcc} ) vosprice
+                      , CASE WHEN b.vos>0 THEN b.gdprice*(1-(CAST( #{lngACCPrice}  AS FLOAT)/ #{lngTTLPricece} ))*(CAST( #{lngPAYPrice}  AS FLOAT)/ #{lngTtlMinusAcc} ) -
+                                  b.vos*(1-(CAST( #{lngACCPrice}  AS FLOAT)/ #{lngTTLPricece} ))*(CAST( #{lngPAYPrice}  AS FLOAT)/ #{lngTtlMinusAcc} )
+                             ELSE 0
+                        END vatprice
+                 FROM (
+                        SELECT a.gdprice * a.gdcnt gdprice
+                             , CASE WHEN a.vat = '1' THEN (a.gdprice*a.gdcnt/1.1)
+                                    ELSE 0
+                               END vos
+                        FROM (
+                               SELECT c.gdcd
+                                    , c.gdcnt
+                                    , m.vat
+                                    , CASE WHEN m.qtysaleyn = 'Y' THEN dbo.getQtySalePrice(c.gdcd, c.gdcnt, dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},c.gdcd))
+                                           ELSE dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},c.gdcd)
+                                      END gdprice
+                               FROM od_cart c
+                                 JOIN gd_master m
+                                   ON c.gdcd = m.gdcd
+                                WHERE c.memcd = #{strLoginMemCd}
+                                  AND c.freeze = '0'
+                             ) a
+                      ) b
+                 UNION ALL
+                 SELECT #{lngPAYPrice}  payprice
+                      , (a.dlvpay/1.1) dlvvos
+                      , a.dlvpay - (a.dlvpay/1.1) dlvvat
+                 FROM (SELECT  #{lngDlvPrice} *(1-(CAST( #{lngACCPrice}  AS FLOAT)/ #{lngTTLPricece} ))*(CAST( #{lngPAYPrice}  AS FLOAT)/ #{lngTtlMinusAcc} ) dlvpay) a
+             ) c
+        GROUP BY c.payprice
+    </select>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmModifyProc">
+<!--    '20190307   hyeok   처음작성(member_modify_proc_m.asp 복사, 신규가입프로세스에따른 변경)-->
+<!--    '20200729   sykim   휴대전화 인증번호의 Session화, 넘어온 값과 비교, 우회방지.-->
+    <update id="updateMemberInfo" statementType="CALLABLE">
+        /* updateMemberInfo 유저 정보 변경 업데이트*/
+       {CALL encryptionOpen
+        UPDATE mb_master
+           SET
+               email_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strEmail})
+             , emailyn = #{strEmailYN}
+             , zipcd = #{strZipCD}
+             , addr1_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), N#{strAddr1})
+             , addr2_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), N#{strAddr2})
+             , telno_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), #{strTelNO})
+             , hpno_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), #{strHPNO})
+             , smsyn = #{strSMSYN}
+             , telyn = #{strTelYn}
+             , updt = GETDATE()
+             , updid = #{strLoginMemCD}
+             <if test="strEmailYnOrig != strEmailYN">
+                 , emailynupdt = GETDATE()
+             </if>
+             <if test="strSmsYnOrig != strSMSYN">
+                 , smsynupdt = GETDATE()
+             </if>
+            WHERE memcd = #{strLoginMemCD}
+        CALL encryptionClose}
+    </update>
+    <insert id="changeMemberInfo">
+         /* changeMemberInfo 고객정보 변경이력 남김*/
+        INSERT INTO WWW62LIFE_CUSTINFO_LOG (
+                                             ubwebsitecode
+                                           , accessdatetime
+                                           , fullurlpath
+                                           , custidx
+                                           , accessgubuncode
+                                           , accessoripaddr
+                                           , accessdesc
+                                           )
+               VALUES (
+                       '62LIFEMN'
+                      , GETDATE()
+                      ,'/member/jm_modify.jsp'
+                      , #{strLoginMemCD}
+                      , 'U'
+                      , #{ipx}
+                      , '회원정보수정'
+                      )
+
+    </insert>
+    <update id="jmModifyProcLoginInfo">
+         /*jmModifyProcLoginInfo 로그아웃처리하여 다시 로그인하도록 유*/
+        UPDATE logininfo
+           SET last_logout = GETDATE()
+             , islogin = 0
+         WHERE memcd = #{Session("memcd")}
+    </update>
+
+    <insert id="jmModifyProcLoginInfoInsert">
+        INSERT INTO logininfo(
+                               memcd
+                             , last_login
+                             , last_logout
+                             , islogin
+                             , login_count
+                             )
+             VALUES (
+                        #{memcd}
+                        , ''
+                        , GETDATE()
+                        , 0
+                        , 1
+                    )
+    </insert>
+</mapper>

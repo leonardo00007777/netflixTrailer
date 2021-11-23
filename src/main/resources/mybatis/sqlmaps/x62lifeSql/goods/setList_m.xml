@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seasonalFood_m">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 상품 카테고리별 보기-->
+<!--    'File          : item_list_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20120525-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20130506   hwkim   0.9     처음 작성-->
+<!--    '20161205   hyeok   0.9.1   리뉴얼 적용 header, footer표시-->
+<!--    '20161210   hwkim   0.9.3   표준 레이아웃 및 기능 추가 정리 처리-->
+<!--    '20170329   hwkim   0.9.4   할인 가격 표시 변경-->
+<!--    '20170512   hwkim   0.9.5   판매 세트 확장 및 옵션 별 주문 처리 추가-->
+<!--    '20180114   hwkim   0.9.6   상품표시 레이아웃 개선-->
+<!--    '20180803   hwkim   0.9.7   상품등급 라벨 표시, 할인율 사각형스티커 변경 등-->
+    <select id="setProdListPaging">
+        /* setProdListPaging 페이지 계산 (세트상품)*/
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem}  ) MAXPAGE
+             , COUNT(g.gdcd) CNT
+        FROM gd_master g
+          JOIN cd_master c ON c.cdtype = '20' AND c.cdcode = div1
+          LEFT JOIN gd_cnt s ON g.gdcd = s.gdcd
+          LEFT JOIN gd_item i ON i.gdcd = g.gdcd
+         WHERE 1 = 1
+           AND g.divcd = '20'
+           AND g.useyn = 'Y'
+           AND g.gdcd IN (SELECT gdcd FROM gd_set WHERE gdsetyn='Y')
+         <if test='strMEMGRPCD == "" OR strMEMGRPCD.indexOf("219") lte 0'>
+             AND g.gdcd NOT IN (#{isensExceptProduct})
+         </if>
+    </select>
+
+    <select id="setProdListSearch">
+        /* setProdListSearch 세트 상품 리스트 */
+        SELECT * FROM (
+                          SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY g.gdcd ) - 1 ) /  #{intPagePerItem} + 1) AS PAGE
+                               , g.gdcd
+                               , g.gdname
+                               , g.unit
+                               , g.priceyn
+                               , g.newyn
+                               , g.recommendyn
+                               , g.qtysaleyn
+                               , g.price1
+                               , dbo.getMasterPrice(g.gdcd) saleprice
+                               , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) groupsaleprice
+                               , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) isgroupsale
+                               , g.gdimg
+                               , g.divcd
+                               , g.div1
+                               , c.cdcode
+                               , c.cdname
+                               , CASE WHEN ISNULL(g.deliverydtyn,'')='' THEN 'N' ELSE g.deliverydtyn END deliverydtyn
+                               , CASE WHEN ISNULL(g.soldoutyn,'')='' THEN 'N' ELSE g.soldoutyn END soldoutyn
+                               , ISNULL(s.gdcnt,99999) gdcnt
+                               , i.origin, i.producer, i.address, ISNULL(t.cdname,'미지정') AS gradedesc
+                               , g.thedaysyn
+                          FROM gd_master g
+                            JOIN cd_master c ON c.cdtype = '20'
+                                            AND c.cdcode = div1
+                            LEFT JOIN gd_cnt s ON g.gdcd = s.gdcd
+                            LEFT JOIN gd_item i ON i.gdcd = g.gdcd
+                            LEFT JOIN cd_master t ON t.cdtype = '09'
+                                                 AND t.cdcode = i.typecd
+                          WHERE 1 = 1
+                            AND g.divcd = '20'
+                            AND g.useyn = 'Y'
+                            AND g.gdcd IN (SELECT gdcd FROM gd_set WHERE gdsetyn='Y')
+                          <if test='strMEMGRPCD == "" OR strMEMGRPCD.indexOf("219") lte 0'>
+                            AND g.gdcd NOT IN (#{isensExceptProduct})
+                          </if>
+                       ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+</mapper>

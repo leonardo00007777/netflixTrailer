@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmSkHpnoConf">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - SK구성원 가입 - 이름, 사번, 이메일 확인.-->
+<!--    'File          : jm_skauth_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : sykim-->
+<!--    'Date Started  : 20190222-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20190222   sykim   0.9     처음 작성-->
+<!--    '20200514   sykim   0.9.1   SK고객사는 신규 입사자의 사번으로 된 이메일로 정보르 주는데 당사자가 한 번 변경할 수 있음, 변경된 이메일은 알 수 없음.-->
+<!--    '                           텔레콤에서 이슈제기를 해 입사시 등록된 휴대전화로 이름, 사번, 휴대전화로 구성원인증을 할 수 있도록 추가함.-->
+<!--    '20200611   sykim   0.9.2   인증정보가 부정확할 경우 경고내용을 jm_sk_emp_m.asp 에서 나타나도록 수정.-->
+
+    <select id="searchSkEmployee" statementType="CALLABLE">
+         /* searchSkEmployee SK 임직원 여부 조회*/
+       {CALL encryptionOpen
+        SELECT grpcd
+             , gradecd
+        FROM mb_grpemp
+         WHERE empnum = #{strEmpNum}
+           AND empname = #{strEmpName}
+           AND CONVERT(VARCHAR(14),DECRYPTBYKEY(hpno_enc)) = #{strHpNo}
+        CALL encryptionClose}
+    </select>
+
+</mapper>

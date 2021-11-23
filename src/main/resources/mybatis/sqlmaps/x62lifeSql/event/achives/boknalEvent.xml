@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boknalEvent">
+<!--
+    기존 파라미터
+    boknalEventCommonOne
+    strBoknalRelGd1 = "'43050020','Q58','Q57','99701215'"
+    strBoknalRelGd2 = "'62090017','71590003','81350001','84040001'"
+    strBoknalRelGd3 = "'99010283','99010279','06030034','06040029'"
+
+     boknalEventCommonTwo
+    'strBoknalRelGd1 = "'41210001','41210301','41210313','43050017'"
+    'strBoknalRelGd2 = "'06010082','TEST00001','12050005','10430206'"
+    'strBoknalRelGd3 = "'91092403','91092103','91090033',''"
+ -->
+    <sql id="boknalEventCommonOne">
+        /*boknalEventCommonOne 복날 이벤트 공통1*/
+        SELECT '11' odtype
+             , '01' odtype2
+             , g.gdcd
+             , g.gdname
+             , g.unit
+             , g.price1
+             , dbo.getMasterPrice(g.gdcd) saleprice
+             , dbo.getProductPrice(${strMEMGRPCD}, ${strGroupSalePolicy},g.gdcd) groupsaleprice
+             , dbo.getIsGroupSaleGoods(${strMEMGRPCD}, ${strGroupSalePolicy}, g.gdcd) isgroupsale
+             , g.gdimg
+             , g.divcd
+             , g.div1
+             , c.cdcode
+             , c.cdname
+             , CASE WHEN ISNULL(g.deliverydtyn,'')=''
+                        THEN 'N'
+                    ELSE g.deliverydtyn
+            END deliverydtyn
+             , CASE WHEN ISNULL(g.soldoutyn,'')=''
+                        THEN 'N'
+                    ELSE g.soldoutyn
+            END soldoutyn, ISNULL(s.gdcnt,99999) gdcnt
+             , g.mgdimg1
+             , g.thedaysyn
+             , g.shortdesc
+             , g.priceyn
+             , ISNULL(t.cdname,'미지정') AS gradedesc
+        FROM gd_master g
+                 JOIN cd_master c
+                      ON c.cdtype = '20'
+                          AND c.cdcode = div1
+                 LEFT JOIN gd_cnt s
+                           ON g.gdcd = s.gdcd
+                 LEFT JOIN gd_item i
+                           ON i.gdcd = g.gdcd
+                 LEFT JOIN cd_master t
+                           ON t.cdtype = '09'
+                               AND t.cdcode = i.typecd
+                 LEFT JOIN wmsl_wssupp ws
+                           ON ws.susuno = i.scode
+        WHERE 1 = 1
+          AND ((g.divcd = '30' AND g.useyn = 'Y')
+            OR (g.divcd = '20' AND g.useyn = 'Y' AND g.gdcd IN (SELECT gdcd FROM gd_set WHERE gdsetyn='Y')))
+    </sql>
+    <sql id="boknalEventCommonTwo">
+        /*boknalEventCommonTwo 복날 이벤트 공통2*/
+        SELECT '12' odtype
+             , r.type odtype2
+             , r.gdcd
+             , r.gdnm gdname
+             , g.unit
+             , g.price1, dbo.getMasterPrice(g.gdcd) saleprice
+             , dbo.getProductPrice(${strMEMGRPCD}, ${strGroupSalePolicy}, g.gdcd) groupsaleprice
+             , dbo.getIsGroupSaleGoods(${strMEMGRPCD}, ${strGroupSalePolicy}, g.gdcd) isgroupsale
+             , g.gdimg
+             , g.divcd
+             , g.div1
+             , c.cdcode
+             , c.cdname
+             , CASE WHEN ISNULL(g.deliverydtyn,'')=''
+                        THEN 'N'
+                    ELSE g.deliverydtyn
+            END deliverydtyn
+             , CASE WHEN ISNULL(g.soldoutyn,'')=''
+                        THEN 'N'
+                    ELSE g.soldoutyn
+            END soldoutyn, ISNULL(s.gdcnt,99999) gdcnt
+             , g.mgdimg1
+             , g.thedaysyn
+             , g.shortdesc
+             , g.priceyn
+             , ISNULL(t.cdname,'미지정') AS gradedesc
+        FROM od_reservegoods r
+                 JOIN gd_master g
+                      ON g.gdcd = r.gdcd
+                 JOIN cd_master c
+                      ON c.cdtype = '20'
+                          AND c.cdcode = div1
+                 LEFT JOIN gd_cnt s
+                           ON g.gdcd = s.gdcd
+                 LEFT JOIN gd_item i
+                           ON i.gdcd = g.gdcd
+                 LEFT JOIN cd_master t
+                           ON t.cdtype = '09'
+                               AND t.cdcode = i.typecd
+                 LEFT JOIN wmsl_wssupp ws
+                           ON ws.susuno = i.scode
+        WHERE 1 = 1
+          AND r.useyn='Y'
+          <![CDATA[
+          AND r.od_from <= CONVERT(CHAR(10), GETDATE(), 121)
+          AND r.od_to >= CONVERT(CHAR(10), GETDATE(), 121)
+          ]]>
+    </sql>
+    <select id="boknalEventGd1">
+        /*boknalEventGd1 복날 이벤트 상품1*/
+        SELECT *
+          FROM (
+                   <include refid="boknalEventCommonOne">
+                       <property name="strMEMGRPCD" value="strMEMGRPCD"/>
+                       <property name="strGroupSalePolicy" value="strGroupSalePolicy"/>
+                   </include>
+                    AND g.gdcd IN (#{strBoknalRelGd1_1})
+                    UNION ALL
+                   <include refid="boknalEventCommonTwo">
+                       <property name="strMEMGRPCD" value="strMEMGRPCD"/>
+                       <property name="strGroupSalePolicy" value="strGroupSalePolicy"/>
+                   </include>
+                    AND r.gdcd IN (#{strBoknalRelGd1_2})
+               ) a
+           WHERE 1 = 1
+    </select>
+
+    <select id="boknalEventGd2">
+        /*boknalEventGd1 복날 이벤트 상품2*/
+        SELECT *
+          FROM (
+                   <include refid="boknalEventCommonOne">
+                       <property name="strMEMGRPCD" value="strMEMGRPCD"/>
+                       <property name="strGroupSalePolicy" value="strGroupSalePolicy"/>
+                   </include>
+                   AND g.gdcd IN (#{strBoknalRelGd2_1})
+                   UNION ALL
+                    <include refid="boknalEventCommonTwo">
+                       <property name="strMEMGRPCD" value="strMEMGRPCD"/>
+                       <property name="strGroupSalePolicy" value="strGroupSalePolicy"/>
+                   </include>
+                   AND r.gdcd IN (#{strBoknalRelGd2_2})
+               ) a
+           WHERE 1 = 1
+    </select>
+    <select id="boknalEventGd3">
+        /*boknalEventGd1 복날 이벤트 상품3*/
+        SELECT *
+          FROM (
+                   <include refid="boknalEventCommonOne">
+                       <property name="strMEMGRPCD" value="strMEMGRPCD"/>
+                       <property name="strGroupSalePolicy" value="strGroupSalePolicy"/>
+                   </include>
+                  AND g.gdcd IN (#{strBoknalRelGd3_1})
+                  UNION ALL
+                  <include refid="boknalEventCommonTwo">
+                       <property name="strMEMGRPCD" value="strMEMGRPCD"/>
+                       <property name="strGroupSalePolicy" value="strGroupSalePolicy"/>
+                  </include>
+                  AND r.gdcd IN (#{strBoknalRelGd3_2})
+               ) a
+           WHERE 1 = 1
+    </select>
+</mapper>

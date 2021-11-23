@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myOrderDetail">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 주문.배송조회 상세-->
+<!--    'File          : myorder02_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20130620-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+<!--    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    '20130620   hwkim   0.9     처음 작성-->
+<!--    '20150122   hwkim   0.9.5   레이아웃 조정 및 주문결제취소 기능 추가-->
+<!--    '20151022   sykim   0.9.6   고객결제의 취소와 환불시 환불내역 보이도록 수정.-->
+<!--    '20160426   hwkim   0.9.5   레이아웃, 내부조회 개선. 도시락 주문 조회 및 연기 적용-->
+<!--    '20160510   hyeok   -&#45;&#45;     현대택배 배송추적 표시 방식 변경-->
+<!--    '20160510   hwkim   0.9.6   택배 별 외부 화물 추적 처리 통합-->
+<!--    '20161201   hyeok   0.9.7   사이트 리뉴얼 layout적용-->
+<!--    '20161207   hwkim   0.9.8   표준 디자인 규칙 적용-->
+<!--    '20170515   hwkim   0.9.9   배송비 정보 추가-->
+<!--    '20171018   hwkim   -       주문일자를 주문일시로 확장 변경-->
+<!--    '20180307   hwkim   -       배송예정, 배송일자로 구분지어 표시 처리-->
+<!--    '20180326   hyeok   1.0     주문수취확인(상품평작성)기능 추가-->
+<!--    '20180704   hwkim   1.0.1   수취확인 및 상품평 작성 버튼 위치 조정 / 인지력 향상.-->
+<!--    '20191120   hyeok           상품평 작성가능 기한 변경(7->14)-->
+<!--    '20200205   hyeok           상품 수취확인 비활성 조건 추가(출고(outdt)당일 수취확인 불가)-->
+<!--    '20200210   sykim   -       배송지변경시 전화번호 배열구조로 변경.-->
+    <select id="getMyOrderInfo" statementType="CALLABLE">
+        /* getMyOrderInfo 주문내역 조회*/
+       {CALL encryptionOpen
+        SELECT a.paynum
+             , a.paycd
+             , a.pgcd
+             , g.cdname pgname
+             , a.payprice
+             , a.bntprice
+             , a.dpsprice
+             , a.ttlprice
+             , ISNULL(a.pntprice,0) pntprice
+             , ISNULL(a.accprice,0) accprice
+             , ISNULL(a.dlvprice,0) dlvprice
+             , a.paystcd
+             , b.memname
+             , CONVERT(VARCHAR(19), a.paydt,21) paydt
+             , CONVERT(VARCHAR(14), DECRYPTBYKEY(b.telno_enc)) telno
+             , CONVERT(VARCHAR(14), DECRYPTBYKEY(b.hpno_enc)) hpno
+             , CONVERT(VARCHAR(40), DECRYPTBYKEY(b.email_enc)) email
+             , c.cdname payname
+             , d.cdname paystname
+             , e.autoidx
+             , f.tid
+             , f.resultcode
+             , f.vactnum
+             , f.vactbankcode
+             , f.vactname
+             , f.vactinputname
+             , f.vactdate
+             , f.applynum
+             , a.prepaynum
+             , sp.ocTransAuthId
+             , r.cash
+             , f.cshrresultcode
+        FROM od_pay a
+          JOIN od_member b 
+            ON a.paynum = b.paynum 
+           AND a.paynum = #{strPayNum}
+          LEFT JOIN cd_master c 
+                 ON a.paycd = c.cdcode 
+                AND c.cdtype = #{typePaycd}
+          LEFT JOIN cd_master d 
+                 ON a.paystcd = d.cdcode 
+                AND d.cdtype = #{typePayst}
+          LEFT JOIN od_autopay e 
+                 ON a.paynum = e.paynum
+          LEFT JOIN inicis_pay f 
+                 ON a.paynum = f.paynum
+          LEFT JOIN od_receipt r 
+                 ON a.paynum = r.paynum 
+                AND r.rcpstcd = #{rcpstRcpup}
+          LEFT JOIN cd_master g 
+                 ON a.pgcd IN (#{pgcdSyrupPay}, #{pgcdNaverPay})
+                AND a.pgcd = g.cdcode 
+                AND g.cdtype = #{typePgcd}
+          LEFT JOIN syrup_pay sp 
+                 ON a.paynum = sp.mctTransAuthId
+                <![CDATA[
+                AND ISNULL(sp.ocTransAuthId,'') <> ''
+                ]]>
+        CALL encryptionClose}
+    </select>
+    <select id="getOrderCompleteList" statementType="CALLABLE">
+        /*getOrderCompleteList 주문 완료 건 조회 */
+        {CALL [dbo].[sp_getOrderCompletList]
+                #{strPayNUM}
+              , #{strLoginMemCD}
+              , #{strSName}
+              , Replace(#{strSTelNO},"-","")
+        }
+    </select>
+
+    <select id="getRepayOrder">
+        /*getRepayOrder 해당 ordnum에 환불건이 있는지 확인*/
+        SELECT COUNT(DISTINCT gdcd) cnt
+        FROM claimheader h
+          JOIN claimline l
+            ON h.claimnum = l.claimnum
+         WHERE h.ordnum = #{strORDNUM}
+           AND h.claimgubun = '01'
+           <![CDATA[
+           AND h.claimstcd < '99'
+           ]]>
+           AND l.claimflag = 'Y'
+           AND l.useyn = 'Y'
+           AND l.redlvflag = 'N'
+    </select>
+
+    <select id="checkRepayOrderInfo">
+        /*
+           checkRepayOrderInfo
+           환불로 인한 결제취소인지 확인하기 위한 절차
+         , 그렇다면(쿼리결과 'Y' 라면) 해당주문은 환불내역만 나타내도록 한다
+        */
+        <![CDATA[
+        SELECT MIN(CASE WHEN ISNULL(a.gdcnt,0) - ISNULL(b.gdcnt,0) <= 0
+        ]]>
+                          THEN 'Y'
+                        ELSE 'N'
+                   END) repayall
+        FROM (
+               SELECT g.gdname
+                    , g.gdcnt
+                    , h.paystcd
+               FROM od_header h
+                 JOIN od_goods g
+                   ON h.ordnum = g.ordnum
+                WHERE h.paynum = g.paynum
+                  AND h.ordnum = #{strORDNUM}
+             ) a
+          FULL OUTER JOIN (
+                            SELECT g.gdname
+                                 , SUM(cl.gdcnt) gdcnt
+                            FROM claimheader ch
+                              JOIN claimline cl
+                                ON ch.claimnum = cl.claimnum
+                              JOIN gd_master g ON cl.gdcd = g.gdcd
+                             WHERE ch.ordnum = #{strORDNUM}
+                               AND ch.claimgubun = '01'
+                               AND ch.claimstcd = '30'
+                               AND cl.claimflag = 'Y'
+                               AND cl.useyn = 'Y'
+                               AND cl.redlvflag = 'N'
+                            GROUP BY g.gdname
+                          ) b
+                      ON a.gdname = b.gdname
+    </select>
+
+    <select id="repayOrderProd">
+        /* repayOrderProd 환불된 상품*/
+        SELECT g.gdcd
+             , g.gdname
+             , SUM(cl.gdcnt) gdcnt
+        FROM claimheader ch
+          JOIN claimline cl
+            ON ch.claimnum = cl.claimnum
+          JOIN gd_master g
+            ON cl.gdcd = g.gdcd
+         WHERE ch.ordnum = #{strORDNUM}
+           AND ch.claimgubun = '01'  /*'환불*/
+           AND ch.claimstcd < '99' /*'취소제외*/
+           AND cl.claimflag = 'Y'
+           AND cl.useyn = 'Y'
+           AND cl.redlvflag = 'N'
+        GROUP BY g.gdcd, g.gdname
+        ORDER BY g.gdcd
+    </select>
+
+    <select id="deliveryTracking">
+        /* deliveryTracking 배송추적*/
+        SELECT ISNULL(i.invoicenum,h.invoicenum) invoicenum
+        FROM invoices i
+          JOIN od_header h
+            ON i.ordnum = h.ordnum
+         WHERE i.ordnum = #{strORDNUM}
+        ORDER BY invoicenum
+    </select>
+
+    <select id="payInfo">
+        /* payInfo 결제정보*/
+        SELECT ordnum
+             , COUNT(1) rcnt
+        FROM productreview
+         WHERE ordnum = #{strORDNUM}
+        GROUP BY ordnum
+    </select>
+</mapper>

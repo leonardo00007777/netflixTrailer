@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fsurvey03">
+    <!--설문조사 결과 저장 페이지-->
+    <update id="updateExistQuestion">
+        /* updateExistQuestion 기존 답변 업데이트*/
+        UPDATE questionline 
+        SET indt = GETDATE() 
+          , qa01 = #{radio1} 
+          , qa02 = #{radio2} 
+          , qa03 = #{radio3} 
+          , qa04 = #{radio4} 
+          , qa05 = #{radio5} 
+          , qa06 = #{radio6} 
+          , qa07 = #{radio7} 
+          , qa08 = #{radio8} 
+          , qa09 = #{radio9} 
+          , qa10 = #{radio0} 
+          , qa11 = #{text2} 
+          , qa12 = #{text4} 
+          , qa13 = #{text10} 
+          , qa14 = #{text11} 
+          , qa15 = '' 
+          , qa16 = '' 
+          , qa17 = '' 
+          , qa18 = '' 
+          , qa19 = '' 
+         WHERE qaid = '3'
+           AND memcd = #{usercd}
+           AND memid = #{userid}
+    </update>
+    
+    <insert id="insertQuestion">
+        /* insertQuestion 기존 답변이 없을 경우 새로 insert*/
+        INSERT INTO questionline (
+                                   qaid
+                                 , memcd
+                                 , memid
+                                 , indt
+                                 , qa01
+                                 , qa02
+                                 , qa03
+                                 , qa04
+                                 , qa05
+                                 , qa06
+                                 , qa07
+                                 , qa08
+                                 , qa09
+                                 , qa10
+                                 , qa11
+                                 , qa12
+                                 , qa13
+                                 , qa14
+                                 , qa15
+                                 , qa16
+                                 , qa17
+                                 , qa18
+                                 , qa19
+                                 ) 
+         VALUES (
+                 '3'
+               , #{usercd}
+               , #{userid}
+               , GETDATE()
+               , #{radio1}
+               , #{radio2}
+               , #{radio3}
+               , #{radio4}
+               , #{radio5}
+               , #{radio6}
+               , #{radio7}
+               , #{radio8}
+               , #{radio9}
+               , #{radio0}
+               , #{text2}
+               , #{text4}
+               , #{text10}
+               , #{text11}
+               , ''
+               , ''
+               , ''
+               , ''
+               ,''
+               )
+    </insert>
+</mapper>

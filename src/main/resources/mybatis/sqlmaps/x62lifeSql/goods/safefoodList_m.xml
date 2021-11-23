@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefoodList_m">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 안전맛집(모바일)-->
+<!--    'File          : safefood_list_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : chhyeon-->
+<!--    'Date Started  : 20200515-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20200515   chhyeon   0.9     초안작성-->
+    <select id="safefoodList">
+/* safefoodList*/
+        SELECT * FROM (
+                          SELECT a.gdcd
+                               , a.gdname
+                               , a.unit
+                               , a.price1
+                               , a.gdimg
+                               , a.mgdimg1
+                               , a.divcd
+                               , a.div1
+                               , a.indt
+                               , a.updt
+                               , a.shortdesc
+                               , ISNULL(z.gdcnt,99999) gdcnt
+                               , ISNULL(a.soldoutyn,'N') soldoutyn
+                               , ISNULL(a.newyn,'N') newyn
+                               , ISNULL(a.qtysaleyn,'N') qtysaleyn
+                               , ISNULL(a.recommendyn,'N') recommendyn
+                               , dbo.getMasterPrice(a.gdcd) saleprice
+                               , a.priceyn
+                               , a.exdiv1
+                               , e.catdesc
+                               , i.origin
+                               , i.producer
+                               , i.address
+                               , ISNULL(t.cdname,'미지정') AS gradedesc
+                               , ISNULL(r.od_from,'') od_from
+                               , ISNULL(r.od_to,'') od_to
+                               , ISNULL(r.dlv_from,'') dlv_from
+                               , ISNULL(r.dlv_to,'') dlv_to
+                               , a.thedaysyn
+                               , x.slcat
+                               , CASE a.dispatchtype WHEN 'I' THEN '11' WHEN 'O' THEN '15' END odtype
+                               , ISNULL(a.deliverydtyn,'N') deliverydtyn
+                               , ISNULL(a.reserveyn,'N') reserveyn
+                          FROM gd_master a
+                            JOIN specialsellingl x ON x.slgdcd = a.gdcd
+                            LEFT JOIN od_reservegoods r ON a.gdcd = r.gdcd
+                                                       AND r.useyn = 'Y'
+                                                       <![CDATA[
+                                                       AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                                                       AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                                                       ]]>
+                            LEFT JOIN gd_cnt z ON z.gdcd = a.gdcd
+                            LEFT JOIN gd_item i ON i.gdcd = a.gdcd
+                            LEFT JOIN cd_master t ON t.cdtype = '09' AND t.cdcode = i.typecd
+                            LEFT JOIN exmenu e ON a.exdiv1 = e.cat1
+                           WHERE 1 = 1
+                             AND a.useyn = 'Y'
+                             AND (a.reserveyn = 'N' OR (a.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                             AND a.divcd IN ('30','20')
+                             AND x.slidx = #{sidx}
+                      ) AS x
+                      LEFT JOIN (SELECT gdcd bgdcd, SUM(gdcnt) bestcnt FROM od_goods WHERE indt >= CONVERT(DATETIME, #{Date} - 1 , 21) GROUP BY gdcd) b ON x.gdcd = b.bgdcd
+                WHERE 1 = 1
+        ORDER BY x.slcat, bestcnt, gdcd
+    </select>
+</mapper>

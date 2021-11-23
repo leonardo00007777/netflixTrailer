@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="layerPopupTwo">
+<!--    ' 레이어 팝업 표시-->
+<!--    '-->
+<!--    ' 사용법: 설정한 팝업을 표시할 페이지 하단에 포함시킨다-->
+<!--    '       &lt;!&ndash;#include virtual="/m/include/layerpopup.asp"&ndash;&gt;-->
+<!--    '-->
+<!--    ' 20200429 chhyeon v2버전 생성-->
+    <select id="layerPopVersionTwo">
+        SELECT seq_no
+             , size_width
+             , size_height
+             , position_top
+             , position_left
+             , content
+             , link_url
+             , m_url
+             , ISNULL(showgroup,'') showgroup
+             , poptype
+             , incenter
+        FROM AD_popConfig
+         WHERE 1 = 1
+           <![CDATA[
+           AND startdt <= GETDATE()
+           AND enddt > GETDATE()
+           ]]>
+           AND time_cancel IS NULL
+        ORDER BY ISNULL(foreground,'N') ASC, seq_no DESC
+    </select>
+</mapper>

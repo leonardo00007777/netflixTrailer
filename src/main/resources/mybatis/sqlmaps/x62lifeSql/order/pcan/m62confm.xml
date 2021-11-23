@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="m62confm">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 관리자 설정 페이지
+    'File          : m62confm010.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20151029
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20151029   hwkim   0.9     처음 작성
+    '20161215   hwkim   0.9.1   리뉴얼 디자인에 맞춤-->
+    <select id="getCurrentProdAdmin">
+        SELECT gcm.memcd
+             , m.MEMNAME,COUNT(1) EQUIPMENT
+        FROM GCM_62LIFE gcm
+          JOIN MB_MASTER m ON m.memcd=gcm.memcd
+         WHERE gcm.groupx='SF'
+        GROUP BY gcm.memcd,m.MEMNAME
+        ORDER BY gcm.memcd
+    </select>
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 관리자 설정 페이지 처리
+    'File          : m62confm011.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20151029
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20151029   hwkim   0.9     처음 작성
+    '20161215   hwkim   0.9.1   리뉴얼 디자인에 맞춤-->
+    <update id="authorizationPermission">
+        UPDATE gcm_62life
+        SET groupx = 'SF'
+        WHERE memcd = #{memcdz}
+    </update>
+
+    <update id="revokePermission">
+        UPDATE gcm_62life
+        SET  groupx = ''
+        WHERE memcd = #{memcdy}
+    </update>
+</mapper>

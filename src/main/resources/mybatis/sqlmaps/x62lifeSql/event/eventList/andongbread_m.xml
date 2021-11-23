@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="andongbread">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 2019년 안동 시월애단팥빵/월영교달빵 팝업스토어(모바일)
+    'File          : andongbread_main_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hyeok
+    'Date Started  : 20191112
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20191112   hyeok   0.9     초안작성-->
+    <select id="andongbreadProdList">
+        /* andongbread 상품 리스트*/
+        SELECT g.gdcd
+             , gdname
+             , g.unit
+             , g.price1
+             , g.gdimg
+             , g.divcd
+             , g.div1
+             , g.div2
+             , g.indt
+             , g.updt
+             , g.shortdesc 
+             , dbo.getMasterPrice(g.gdcd) saleprice 
+             , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) groupsaleprice
+             , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) isgroupsale
+             , CASE WHEN ISNULL(g.soldoutyn,'N')='N' THEN 'N'
+                    ELSE g.soldoutyn
+               END soldoutyn
+             , ISNULL(g.newyn,'N') newyn, ISNULL(g.qtysaleyn,'N') qtysaleyn
+             , g.recommendyn, g.plandate
+             , ISNULL(c.gdcnt,99999) gdcnt
+             , g.thedaysyn
+             , g.optionp
+             , ISNULL(t6.cdname,'미정') AS typename
+             , g.priceyn
+             , g.mgdimg1
+             , g.dispatchtype
+             , ISNULL(r.od_from,'') od_from
+             , ISNULL(r.od_to,'') od_to
+             , ISNULL(r.dlv_from,'') dlv_from
+             , ISNULL(r.dlv_to,'') dlv_to
+             , ISNULL(r.alltimesale,'-') alltimesale
+             , i.origin
+             , i.producer
+             , i.address
+             , m.smenucd
+             , m.smenudesc
+             , CASE g.dispatchtype WHEN 'I' THEN '11'
+                                   WHEN 'O' THEN '15'
+               END odtype
+             , ISNULL(g.deliverydtyn,'N') deliverydtyn
+             , ISNULL(g.reserveyn,'N') reserveyn
+             , ISNULL(t6.cdname,'미지정') AS gradedesc
+             , t6.cdcode, t6.cdname
+        FROM gd_master g
+           LEFT JOIN gd_cnt c
+                  ON c.gdcd = g.gdcd
+           LEFT JOIN gd_item i
+                  ON i.gdcd = g.gdcd
+           LEFT JOIN cd_master t6
+                  ON t6.cdtype = '09'
+                 AND t6.cdcode = i.typecd
+           LEFT JOIN submenu m
+                  ON m.category = g.div1
+                 AND sub_category
+                LIKE '%'+ g.div2 + '%'
+           LEFT JOIN od_reservegoods r
+                  ON g.gdcd = r.gdcd
+                 AND r.useyn = 'Y'
+                 <![CDATA[
+                 AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                 AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                 ]]>
+         WHERE 1=1
+           AND g.useyn = 'Y'
+           AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+           AND (g.divcd = '30' OR (g.divcd = '20'
+                                   AND deliverydtyn = 'N'
+                                   AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')
+                                  )
+               )
+           AND g.gdcd IN (#{strMjroadGoods})
+           <if test='strMjroadGoodsOrder1 != "" And strMjroadGoodsOrder2 != ""'>
+               ORDER BY CASE WHEN g.gdcd IN (#{strMjroadGoodsOrder1}) THEN 1
+                             WHEN g.gdcd IN (#{strMjroadGoodsOrder2}) THEN 2
+                        END, g.gdcd
+           </if>
+    </select>
+</mapper>

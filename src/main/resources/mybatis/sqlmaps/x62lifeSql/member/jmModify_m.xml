@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmModify">
+<!--    '프로젝트: 자연이랑 모바일 웹-->
+<!--    '프로그램: 회원정보 수정-->
+
+<!--    '20190307   hyeok   처음작성(member_modify_m.asp 복사, 신규가입프로세스에따른 변경)-->
+
+    <select id="getMemberInfo" statementType="CALLABLE">
+        {CALL encryptionOpen
+        SELECT a.memcd
+             , a.memid
+             , a.memname
+             , a.grpcd
+             , a.gradecd
+             , a.empnum
+             , a.memstcd
+             , a.upgradedt
+             , a.gender
+             , a.emailyn
+             , a.zipcd
+             , a.retiremsg
+             , a.indt
+             , a.updt
+             , a.smsyn
+             , b.grpname
+             , CONVERT(VARCHAR(24),DECRYPTBYKEY(a.residentno1_enc)) residentno1
+             , CONVERT(VARCHAR(40),DECRYPTBYKEY(a.email_enc)) email
+             , CONVERT(NVARCHAR(50),DECRYPTBYKEY(a.addr1_enc)) addr1
+             , CONVERT(NVARCHAR(50),DECRYPTBYKEY(a.addr2_enc)) addr2
+             , CONVERT(VARCHAR(14),DECRYPTBYKEY(a.telno_enc)) telno
+             , CONVERT(VARCHAR(14),DECRYPTBYKEY(a.hpno_enc)) hpno
+             , ISNULL(a.telyn,'N') telyn
+        FROM mb_master a
+          LEFT JOIN mb_group b ON a.grpcd = b.grpcd
+         WHERE a.memcd = #{strLoginMemCD}
+        CALL encryptionClose}
+    </select>
+</mapper>

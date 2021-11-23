@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="eventHomeParty">
+    <select id="personnelInspection">
+        SELECT ISNULL(MAX(stampcnt),0) maxcnt
+        FROM temp_13annivstamp
+         WHERE 1 = 1
+           AND eventcode = 'HIFIVE2018'
+           <![CDATA[
+           AND indt >= CONVERT(DATETIME, #{DATE} , 21)
+           AND indt <  CONVERT(DATETIME, #{DATE}, 21) + 1
+           AND stamptype <> ''
+           ]]>
+    </select>
+</mapper>

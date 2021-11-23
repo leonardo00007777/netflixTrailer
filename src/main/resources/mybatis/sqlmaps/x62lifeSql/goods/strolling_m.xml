@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="strolling">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 상품 산책-->
+<!--    'File          : search_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20170223-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20170223   hwkim   0.9     처음 작성-->
+<!--    '20170329   hwkim   0.9.1   할인 가격 표시 변경-->
+<!--    '20170420   hwkim   0.9.2   당일발송 주문 담기 처리 추가. / thedaysyn-->
+<!--    '20170613   hwkim   0.9.5   당일발송 주문 담기 처리 제외 (1차범위)-->
+    <select id="strollingProd">
+        /* strollingProd 상품 산책*/
+        SELECT TOP 1 g.gdcd
+             , g.gdname
+             , g.unit
+             , g.priceyn
+             , g.explain
+             , g.newyn
+             , g.recommendyn
+             , g.qtysaleyn
+             , g.price1
+             , dbo.getMasterPrice(g.gdcd) saleprice
+             , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy},g.gdcd) groupsaleprice
+             , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy} ,g.gdcd) isgroupsale
+             , g.gdimg
+             , g.divcd
+             , g.div1
+             , g.gdimg2
+             , g.gdimg3
+             , g.gdimg4
+             , g.subgdcd1
+             , g.subgdcd2
+             , g.subgdcd3
+             , g.subgdcd4
+             , g.subgdcd5
+             , g.shortdesc
+             , g.expdt
+             , g.vat
+             , c.cdcode
+             , c.cdname
+             , CASE WHEN ISNULL(g.deliverydtyn,'')='' THEN 'N' ELSE g.deliverydtyn END deliverydtyn
+             , CASE WHEN ISNULL(g.recommendyn,'')='' THEN 'N' ELSE g.recommendyn END recommendyn
+             , CASE WHEN ISNULL(g.soldoutyn,'')='' THEN 'N' ELSE g.soldoutyn END soldoutyn
+             , ISNULL(s.gdcnt,99999) gdcnt
+             , i.origin
+             , i.producer
+             , i.address
+             , ISNULL(t.cdname,'미지정') AS gradedesc
+             , m.smenucd
+             , m.smenudesc
+             , i.typecd AS gdtype
+             , t.cdname AS gdtypename
+             , t.cdname AS typename
+             , '' packunit
+             , g.bestbeforedate
+             , g.packaging
+             , g.handling
+             , g.precaution1
+             , g.precaution2
+             , g.addinformation
+             , g.importnote
+             , g.testidx
+             , CONVERT(CHAR(10),g.PLANDATE,120) PLANDATE
+             , g.DISPATCHTYPE
+             , g.optionp
+             , g.mpcode
+             , g.thedaysyn
+        FROM gd_master g
+          JOIN cd_master c ON c.cdtype = '20'
+                          AND c.cdcode = div1
+          LEFT JOIN gd_cnt s ON g.gdcd = s.gdcd
+          LEFT JOIN gd_item i ON i.gdcd = g.gdcd
+          LEFT JOIN cd_master t ON t.cdtype = '09' AND t.cdcode = i.typecd
+          LEFT JOIN submenu m ON m.category = g.div1
+                             AND sub_category
+                            LIKE '%'+ g.div2 + '%'
+         WHERE 1 = 1
+           AND g.useyn = 'Y'
+           AND shortdesc IS NOT NULL
+           <![CDATA[
+           AND shortdesc <> ''
+           AND ISNULL(g.soldoutyn,'N') = 'N'
+           AND ISNULL(s.gdcnt,99999) > 0
+           ]]>
+    </select>
+</mapper>

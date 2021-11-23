@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberBeforeLeaveProc">
+<!--    '프로젝트: 자연이랑 모바일 웹-->
+<!--    '프로그램: 회원탈퇴 전 비밀번호 확인.-->
+
+<!--    '20170314   sykim   처음작성-->
+<!--    '20190916   sykim   비밀번호 SHA함수 변경(dbo.UBHASHFunc 대신 HASHBYTES('SHA2_256'.. 함수 사용).-->
+    <select id="getMemberPassword">
+        /* getMemberPassword 비밀번호 가져오기*/
+        SELECT CASE WHEN mempw_hash = CONVERT(VARCHAR(1000),HASHBYTES('SHA2_256',#{strConfPass}),2)
+                      Then 'Y'
+                    ELSE 'N'
+               END passyn
+        FROM mb_master
+        WHERE memcd = #{strLoginMemCD}
+    </select>
+</mapper>

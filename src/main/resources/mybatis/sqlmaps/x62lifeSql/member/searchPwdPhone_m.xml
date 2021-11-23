@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="searchPwdPhone">
+<!--    '프로젝트: 자연이랑 모바일 웹-->
+<!--    '프로그램: 비밀번호 찾기 - 휴대전화-->
+
+<!--    '20170309   sykim   처음작성-->
+<!--    '20170315   hwkim   레이아웃 표준화-->
+    <select id="getPhoneNumber" statementType="CALLABLE">
+        {CALL encryptionOpen
+        SELECT CONVERT(VARCHAR(14)
+             , DECRYPTBYKEY(hpno_enc)) hpno
+        FROM mb_master
+         WHERE memcd = #{strMemCd}
+        CALL encryptionClose}
+    </select>
+</mapper>

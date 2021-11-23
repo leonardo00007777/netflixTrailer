@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="traceability">
+    <select id="checkAutoOrderOrPackageOrder">
+        /*checkAutoOrderOrPackageOrder 조회되는 WMSL 주문번호가 자동주문인지 패키지주문인지 확인*/
+        SELECT h.paynum
+             , h.odgubun
+             , h.ordnum
+             , (SELECT MIN(dlvdt) FROM od_header
+                                   WHERE paystcd = #{paystPay}
+                                     AND paynum = (SELECT paynum
+                                                     FROM od_relation
+                                                      WHERE ordnum = h.ordnum)
+                                     <![CDATA[
+                                     AND dlvdt > h.dlvdt) AS packnext
+                                     ]]>
+             , a.enddt
+        FROM invoices i
+          JOIN od_header h
+            ON i.ordnum = h.ordnum
+          LEFT JOIN od_autopay p
+                 ON h.memcd = p.memcd
+                AND h.paynum = p.paynum
+          LEFT JOIN od_auto a
+                 ON a.memcd = p.memcd
+                AND a.autoidx = p.autoidx
+         WHERE i.wmsordnum = #{orderNo}
+    </select>
+
+    <select id="getPackageOrderNextSetInfo">
+         /* getPackageOrderNextSetInfo 패키지주문의 다음 받을 세트가 있다면 다음에 받을 세트내역 보여줌*/
+        SELECT g.gdcd
+             , d.sgdcd
+             , e.gdname
+             , d.gdqty 
+          FROM od_header h 
+            JOIN od_goods g 
+              ON h.ordnum = g.ordnum 
+             AND h.paynum = g.paynum 
+            LEFT JOIN cd_week c 
+                   ON h.dlvdt BETWEEN c.dlvsdt AND c.dlvedt 
+            LEFT JOIN gd_week d 
+                   ON c.gdyear = d.gdyear 
+                  AND c.gdweek = d.gdweek 
+                  AND g.gdcd = d.gdcd 
+            LEFT JOIN gd_master e 
+                   ON d.sgdcd = e.gdcd 
+          WHERE h.paystcd = '10' 
+            AND h.paynum = #{rsPayNum} 
+            AND h.dlvdt = #{rsNextPackDlvDt}
+            <![CDATA[
+            AND d.sgdcd <> '*'
+            ]]>
+        ORDER BY g.gdcd, d.sgdcd 
+    </select>
+
+    <select id="getAutoOrderNextDeliveryInfo" statementType="CALLABLE">
+        /* getAutoOrderNextDeliveryInfo 자동주문의 다음 배송정보를 가져옴*/
+        {CALL dbo.sp_getNextSetDlvdt #{orderNo} }
+    </select>
+    
+    <select id="checkAutoOrderPauseOrEndDate">
+        /* checkAutoOrderPauseOrEndDate 해당 자동주문의 일시정지나 자동주문 종료일자를 확인한다.*/
+        SELECT a.enddt
+             , t.startdt AS tempstopst
+             , t.enddt AS tempstoped 
+        FROM od_auto a 
+          LEFT JOIN od_autostop t 
+                 ON a.memcd = t.memcd 
+                AND a.autoidx = t.autoidx 
+                AND #{autoNextDlvDt} BETWEEN t.startdt AND t.enddt 
+                AND t.useyn = 'Y'
+         WHERE a.memcd = #{autoMemCd}
+           AND a.autoidx = #{autoIndex}
+    </select>
+    
+    <select id="nextDeliveryDateAndAutoOrderEndDate">
+        /*
+        nextDeliveryDateAndAutoOrderEndDate
+        다음 배송예정일과 자동주문 종료일자 확인
+        자동주문 종료일이 아직 지정되지 않았거나 지정되어 있더라도 기한이 되지 않았다면 내역을 보여줌.
+        */
+        SELECT a.gdcd
+             , d.sgdcd
+             , e.gdname
+             , d.gdqty 
+        FROM od_autogoods a 
+          LEFT JOIN cd_week c 
+                 ON #{autoNextDlvDt} BETWEEN c.dlvsdt AND c.dlvedt 
+          LEFT JOIN gd_week d
+                 ON c.gdyear = d.gdyear
+                AND c.gdweek = d.gdweek
+                AND a.gdcd = d.gdcd
+          LEFT JOIN gd_master e
+                 ON d.sgdcd = e.gdcd
+         WHERE a.memcd = #{autoMemCd}
+           AND a.autoidx = #{autoIndex}
+           AND a.ptnidx = #{nextPtnIndex}
+           <![CDATA[
+           AND d.sgdcd <> '*'
+           ]]>
+        ORDER BY a.gdcd, d.sgdcd
+    </select>
+</mapper>

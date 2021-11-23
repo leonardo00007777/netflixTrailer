@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="m62pqanam">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품문의 및 답변 관리
+    'File          : m62pqnam010.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20180308
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20180308   hwkim   0.9     처음 작성-->
+    <select id="getQnaCategory">
+       /*getQnaCategory 미답변 qna 카테고리 */
+        SELECT c.cdcode CATEGORY
+             , c.cdname CATEGORYN
+             , COUNT(i1.cseq) QCNT
+             , COUNT(i1.rseq) RCNT
+             , COUNT(i1.cseq) - COUNT(i1.rseq) NANS
+             , CONVERT(DECIMAL(5, 2), CONVERT(DECIMAL, COUNT(i1.rseq)) / CONVERT(DECIMAL, COUNT(i1.cseq)) * 100) ARATIO
+             , CONVERT(DECIMAL(5, 2), 100 - CONVERT(DECIMAL, COUNT(i1.rseq )) / CONVERT(DECIMAL, COUNT(i1.cseq)) * 100 ) NARATIO
+             , CASE WHEN COUNT(i1.rseq) = 0 THEN 999 ELSE CONVERT(DECIMAL(10, 2), CONVERT(DECIMAL, SUM(ISNULL(i1.latency, 0))) / CONVERT(DECIMAL, COUNT(i1.rseq))) END AVRAT
+        FROM (
+               SELECT b.div1 category
+                    , a.ridx gdcd
+                    , a.grade ctype
+                    , a.rseqno cseq
+                    , c.rseqno rseq
+                    , a.rdatex cdate
+                    , c.rdatex rdate
+                    , DATEDIFF(d, a.rdatex, c.rdatex) latency
+                    , a.rmemo cmemo
+                    , c.rmemo rmemo
+               FROM basicomments a
+                 LEFT JOIN gd_master b
+                        ON a.ridx = b.gdcd
+                 LEFT JOIN basicomments c
+                        ON c.grade IS NULL AND a.rseqno = c.rrseqno
+                WHERE a.rtype IN ('PR')
+                  <![CDATA[
+                  AND a.rdatex >= CONVERT(DATETIME, DATEADD(m, -6, GETDATE()), 21)
+                  AND a.rdatex <  CONVERT(DATETIME, GETDATE(), 21) + 1
+                  ]]>
+                  AND (a.grade IS NOT NULL)
+                  AND a.grade IN ('Q')
+             ) i1
+          LEFT JOIN cd_master c
+                 ON i1.category = c.cdcode
+                AND c.cdtype = '20'
+                AND c.useyn = 'Y'
+        GROUP BY c.cdcode , c.cdname
+        ORDER BY c.cdcode
+    </select>
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품문의 미답변 목록
+    'File          : m62pqnam011.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hyeok
+    'Date Started  : 20180308
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20180308   hyeok   0.9     처음 작성
+    '20180312   hwkim   -       디자인 일부수정-->
+    <select id="qnaUnansweredListPaging">
+        /* qnaUnansweredListPaging 미답변 qna 리스트 페이징*/
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPageSize}) maxpage
+        FROM basicomments a
+          JOIN mb_master mm
+            ON a.rwuid = mm.memid
+          LEFT JOIN gd_master b
+                 ON a.ridx = b.gdcd AND b.div1 = #{strCategory}
+          LEFT JOIN basicomments c
+                 ON c.grade IS NULL AND a.rseqno = c.rrseqno
+          LEFT JOIN memberprofile mp
+                 ON a.rwuid = mp.memid
+         WHERE a.rtype IN ('PR')
+           <![CDATA[
+           AND a.rdatex >= CONVERT(DATETIME, DATEADD(m, -6, GETDATE()), 21)
+           AND a.rdatex <  CONVERT(DATETIME, GETDATE(), 21) + 1
+           ]]>
+           AND (a.grade IS NOT NULL)
+           AND a.grade IN ('Q')
+           AND c.rseqno IS NULL
+           AND b.gdcd IS NOT NULL
+    </select>
+
+    <select id="qnaUnansweredList">
+       /* qnaUnansweredList 미답변 qna 리스트*/
+        SELECT a.rseqno
+             , a.ridx gdcd
+             , b.gdname
+             , mm.grpcd
+             , mm.memcd
+             , mp.nickn
+             , mm.memname
+             , a.rdatex cdate
+             , a.rmemo cmemo
+        FROM basicomments a
+          JOIN mb_master mm
+            ON a.rwuid = mm.memid
+          LEFT JOIN gd_master b
+                 ON a.ridx = b.gdcd AND b.div1 = #{strCategory}
+          LEFT JOIN basicomments c
+                 ON c.grade IS NULL AND a.rseqno = c.rrseqno
+          LEFT JOIN memberprofile mp
+                 ON a.rwuid = mp.memid
+         WHERE a.rtype IN ('PR')
+           <![CDATA[
+           AND a.rdatex >= CONVERT(DATETIME, DATEADD(m, -6, GETDATE()), 21)
+           AND a.rdatex <  CONVERT(DATETIME, GETDATE(), 21) + 1
+           ]]>
+           AND (a.grade IS NOT NULL)
+           AND a.grade IN ('Q')
+           AND c.rseqno IS NULL
+           AND b.gdcd IS NOT NULL
+        ORDER BY a.rdatex DESC
+        OFFSET #{offset} ROWS
+        FETCH NEXT  #{intPageSize} ROWS ONLY
+    </select>
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품문의 답변작성 처리
+    'File          : m62pqnam013.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hyeok
+    'Date Started  : 20180308
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20180308   hyeok   0.9     처음 작성
+    '20180314   hwkim   0.9.1   답변 작성 디바이스 정보 수집 추가.-->
+
+    <insert id="writeQnaAnswer">
+        /*writeQnaAnswer qna 답변 작성*/
+        INSERT INTO basicomments(
+                                  rtype
+                                , rid
+                                , ridx
+                                , rrseqno
+                                , rdepth
+                                , rmemo
+                                , rwip
+                                , rwuid
+                                , ragree
+                                , roppose
+                                , rblind
+                                , device
+                                )
+        SELECT rtype
+             , rid
+             , ridx
+             , #{strRSeqNo} 
+             , 1
+             , #{rmemo}
+             , #{writeIP}
+             , #{replyId}
+             , 0
+             , 0
+             , 'N'
+             ,'M'
+        FROM basicomments
+        WHERE rseqno = #{strRSeqNo}
+    </insert>
+</mapper>

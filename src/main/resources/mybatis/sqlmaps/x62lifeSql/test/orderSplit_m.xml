@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ordersplit">
+    <select id="readCartInfo">
+       /*readCartInfo 장바구니에 담긴 정보 읽기*/
+        SELECT odtype
+             , crtidx
+             , gdcd
+             , unit
+             , gdname
+             , price
+             , gdcnt
+             , price*gdcnt tsales
+             , limitgdcnt
+             , gdimg
+             , div1
+             , point1
+             , issale
+             , qtysaleyn
+             , soldoutyn
+             , vat
+             , memcd 
+             , DISPATCHTYPE, thedaysyn, scode 
+             , CASE WHEN vat = '1' THEN CEILING(price*gdcnt/1.1) 
+                    WHEN vat = '2' THEN 0 
+                    ELSE 0 
+               END AS tax 
+             , CASE WHEN vat = '1' THEN price*gdcnt-CEILING(price*gdcnt/1.1) 
+                    WHEN vat = '2' THEN 0 
+                    ELSE 0 
+               END AS vatx 
+        FROM ( 
+               SELECT CASE WHEN t2.divcd = '10' THEN 'PKG' 
+                           ELSE od_gubun 
+                      END AS odtype 
+                    , t.crtidx
+                    , t.gdcd 
+                    , t2.unit 
+                    , CASE WHEN od_gubun = '12' THEN t4.gdnm 
+                           ELSE t2.gdname 
+                      END AS gdname 
+                    , (CASE WHEN t2.qtysaleyn = 'Y' THEN dbo.getQtySalePrice(t.gdcd, t.gdcnt, dbo.getProductPrice(#{strMemGrpCd},#{strGroupSalePolicy},t.gdcd)) 
+                            ELSE dbo.getProductPrice(#{strMemGrpCd},#{strGroupSalePolicy},t.gdcd) 
+                       END) * ISNULL(t6.weekcnt, 1) AS price
+                    , t.gdcnt 
+                    , ISNULL(t5.gdcnt, 9999) limitgdcnt 
+                    , t2.gdimg
+                    , t2.div1
+                    , t2.point1
+                    , dbo.getIsGroupSaleGoods(#{strMemGrpCd},#{strGroupSalePolicy},t.gdcd) issale 
+                    , CASE WHEN ISNULL(t2.qtysaleyn,'') = '' THEN 'N'
+                           ELSE t2.qtysaleyn
+                      END qtysaleyn
+                    , t2.soldoutyn
+                    , t2.vat
+                    , t.memcd
+                    , t2.DISPATCHTYPE 
+                    , t2.thedaysyn
+                    , gi.scode
+               FROM shopping_basket t
+                 JOIN gd_master t2
+                   ON t2.gdcd = t.gdcd
+                 LEFT JOIN od_reservegoods t4
+                        ON t4.gdcd = t.gdcd
+                       AND t4.useyn = 'Y'
+                       <![CDATA[
+                       AND t4.od_from <= CONVERT(VARCHAR,GETDATE(),23)
+                       AND t4.od_to >= CONVERT(VARCHAR,GETDATE(),23)
+                       ]]>
+                 LEFT JOIN gd_cnt t5
+                        ON t2.gdcd = t5.gdcd
+                 LEFT JOIN gd_pack t6
+                        ON t6.gdcd = t2.gdcd
+                 LEFT JOIN gd_item gi
+                        ON gi.gdcd = t2.gdcd
+                WHERE t.memcd = #{strLoginMemCd} 
+              ) AS X 
+        ORDER BY odtype, thedaysyn DESC, scode, DISPATCHTYPE, gdcd 
+    </select>
+    
+    <insert id="deliveryPaymentInfoInsert">
+         /*deliveryPaymentInfoInsert 배송비정보 등록*/
+        INSERT INTO od_delivery_charge (
+                                         ordnum
+                                       , paynum
+                                       , charge_type
+                                       , delivery_charge
+                                       )
+               VALUES (
+                        #{strOrderNumber}
+                      , #{r_payNum}
+                      , '10'
+                      ,  #{DELIVERY_CHARGE}
+                      )
+    </insert>
+    
+    <insert id="paymentRelateInfoInsert">
+         /* paymentRelateInfoInsert 결제주문연관정보*/
+        INSERT INTO od_relation(
+                                 paynum
+                               , ordnum
+                               ) 
+               VALUES(
+                       #{rPayNum}
+                     , #{strOrderNumber}
+                     )
+    </insert>
+    
+    <insert id="orderHeaderInfoInsert">
+        /*orderHeaderInfoInsert 주문헤더정보생성*/
+        INSERT INTO od_header(
+                               ordnum
+                             , memcd
+                             , dlvdt
+                             , dlvstcd
+                             , orddt
+                             , sendyn
+                             , odgubun
+                             , paystcd
+                             , paynum
+                             )
+        VALUES(
+                #{strOrderNumber}
+              , #{strLoginMemCd}
+              , #{strDLVDT}
+              , #{strDlvStCd}
+              , GETDATE()
+              , N#{rOrderType}
+              , #{strPayStCd}
+              , #{rPayNum}
+              )
+    </insert>
+    
+    <insert id="orderDeliveryAddressInsert">
+        /*orderDeliveryAddressInsert 주문배송지정보 생성*/
+        INSERT INTO od_delivery(
+                                 ordnum
+                               , memcd
+                               , rcvname
+                               , zipcd
+                               , addr1 
+                               , addr2
+                               , telno
+                               , hpno
+                               , dlvmsg
+                               , rcvmsg 
+                               , addr1_enc
+                               , addr2_enc
+                               , telno_enc
+                               , hpno_enc
+                               , sndname
+                               ) 
+               SELECT #{strOrderNumber}
+                    , memcd
+                    , rcvname
+                    , zipcd
+                    , addr1
+                    , addr2
+                    , telno
+                    , hpno
+                    , dlvmsg
+                    , rcvmsg
+                    , addr1_enc
+                    , addr2_enc
+                    , telno_enc
+                    , hpno_enc
+                    , sndname
+               FROM od_delivery_temp
+                WHERE paynum = #{pPayNum}
+    </insert>
+    
+    <insert id="orderProdLineSave">
+        /* orderProdLineSave 주문상품 라인 저장*/
+        INSERT INTO od_goods(
+                              paynum
+                            , ordnum
+                            , gdcd
+                            , gdname
+                            , price
+                            , point
+                            , gdcnt
+                            , indt
+                            , tax
+                            , vat
+                            ) 
+               VALUES(
+                       #{rPayNum}
+                     , #{strOrderNumber}
+                     , #{rsGdcd}
+                     , #{rsgdname}
+                     , #{lngPrice}
+                     , #{rsPoint1}
+                     , #{intGdcnt}
+                     , GETDATE()
+                     , #{lngTax}
+                     , #{lngVat}
+                     )
+    </insert>
+</mapper>

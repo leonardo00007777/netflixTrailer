@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="basicCommentView">
+<!--    'System        : 자연이랑모바일-->
+<!--    'Program       :-->
+<!--    'Title         : 기본 댓글 보기-->
+<!--    'File          : basicommentsview_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        :-->
+<!--    'Date Started  :`-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author      V/M     Reason For Modification-->
+
+<!--    '20130618   hwkim       0.9     처음작성-->
+<!--    '20140806   hwkim       0.9.1   상품평가 기능 추가-->
+<!--    '20161130   hwkim       0.9.2   리뉴얼-->
+<!--    '20180614   hyeok               코드/쿼리 정리, 특정 아이디 댓글 표시이름 변경 조건 추가, 대댓글 활성화-->
+<!--    '20190403   hwkim       0.9.3   레이아웃 조정-->
+    <select id="basicCommentViewRecentSix">
+        /*
+
+        페이지 계산 (최근 6개월 안에 작성된 글만 표시)
+        */
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem} ) MAXPAGE
+             , COUNT(rseqno) CNT
+        FROM basicomments c
+          JOIN mb_master m ON c.rwuid = m.memid
+        WHERE 1 = 1
+          AND rblind = 'N'
+          AND rid = #{commentId}
+          AND ridx = #{commentIdx}
+          <![CDATA[
+          AND rdatex >= dateadd(M ,-6, getdate())
+          ]]>
+        <choose>
+            <when  test='commentType.equals("tagTypeBlog")'>
+                AND rtype IN (#{tagTypeBlog}, #{tagTypeTrackback})
+            </when>
+            <otherwise>
+                AND rtype = #{commentType}
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="basicCommentViewRecentSixList">
+        SELECT c.rseqno
+             , c.rtype
+             , ISNULL(c.rrseqno,c.rseqno) RRSEQNO
+             , c.rdepth
+             , c.rmemo
+             , c.rwip
+             , c.rwuid
+             , c.rdatex
+             , c.ragree
+             , c.roppose
+             , c.rblind
+             , c.device
+             , c.grade
+             , p.nickn
+             , p.ppath
+             , p.smemo
+             , p.isblogger
+             , m.memname
+             , p.memlevel
+             , l.orddt
+        FROM basicomments c
+                 JOIN mb_master m ON c.rwuid = m.memid
+                 LEFT JOIN memberprofile p ON c.rwuid = p.memid
+                 LEFT JOIN (
+                             <choose>
+                                 <when test='commentType.equals("tagTypeProduct")'>
+                                     SELECT memcd
+                                          , MAX(orddt) orddt
+                                     FROM od_header a
+                                       JOIN od_goods b ON a.ordnum = b.ordnum
+                                      WHERE a.paystcd IN ('10' )
+                                        <![CDATA[
+                                        AND a.orddt >= dateadd(M ,-6, getdate())
+                                        ]]>
+                                        AND gdcd = #{commentIdx}
+                                     GROUP BY memcd
+                                 </when>
+                                 <otherwise>
+                                     SELECT 'x' memcd
+                                          , '' orddt
+                                 </otherwise>
+                             </choose>
+                           ) l ON l.memcd = m.memcd
+         WHERE 1 = 1
+           AND c.rblind = 'N'
+           AND c.rid = #{commentId}
+           AND c.ridx = #{commentIdx}
+         <![CDATA[
+           AND c.rdatex >= dateadd(M ,-6, getdate())
+         ]]>
+        <choose>
+            <when test='commentType.equals("tagTypeBlog")'>
+                AND c.rtype IN (#{tagTypeBlog}, #{tagTypeTrackback})
+            </when>
+            <otherwise>
+                AND c.rtype = #{rType}
+            </otherwise>
+        </choose>
+        ORDER BY ISNULL(c.rrseqno,c.rseqno) DESC, c.rdepth, c.rseqno
+        OFFSET ((#{intPage} - 1) * #{intPagePerItem}) ROWS
+        FETCH NEXT ((#{intPage} - 1) * #{intPagePerItem}) ROWS ONLY
+    </select>
+</mapper>

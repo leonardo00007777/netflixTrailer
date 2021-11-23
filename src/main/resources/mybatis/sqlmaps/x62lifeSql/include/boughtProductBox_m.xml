@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boughtProductBox">
+<!--    '20121120 hwkim 처음 작성-->
+<!--    '20161026 hwkim 주문제외 상품 추가.-->
+
+<!--    FBT_VIEW_ITEMS = 12-->
+<!--    FBT_LIMIT_DAY = 180-->
+
+<!--    '의도적인 제외상품-->
+<!--    inExceptProduct = "'NF01','NF02','NF03'"-->
+<!--    '하나은행VIP(아이센스) 대상상품 필터링-->
+<!--    ISENS_EXCEPT_PRODUCT = "'B11','B12','B13','B14'"-->
+    <select id="boughtProductBoxList">
+       /*
+        boughtProductBoxList
+        FBT_VIEW_ITEMS = 12
+        FBT_LIMIT_DAY = 180
+       */
+        SELECT a.odtype
+             , a.odtype2
+             , a.gdcd
+             , g.gdname
+             , g.unit
+             , g.gdimg
+             , g.divcd
+             , g.div1
+             , g.price1
+             , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) saleprice
+             , a.CNT
+             , ISNULL(b.gdcnt,99999) gdcnt
+             , c.origin
+             , c.producer
+             , c.address
+             , ISNULL(d.cdname,'미지정') AS gradedesc
+             , CASE WHEN ISNULL(g.deliverydtyn,'')='' THEN 'N' ELSE g.deliverydtyn END deliverydtyn
+             , g.soldoutyn
+             , g.thedaysyn
+        FROM (
+               SELECT TOP #{fbtViewItems} *
+               FROM (
+                     SELECT b.gdcd
+                          , CASE WHEN r.gdcd IS NULL THEN '' ELSE '12' END odtype
+                          , ISNULL(r.type, '01') odtype2
+                          , COUNT(a.ordnum) CNT
+                     FROM od_header a
+                       JOIN od_goods b ON a.ordnum = b.ordnum
+                                      AND a.paynum = b.paynum
+                                      <![CDATA[
+                                      AND b.gdcd <> #{boughtProductCode}
+                                      AND b.indt >= DATEADD(d ,- #{fbrLimitDay} ,CONVERT(VARCHAR,GETDATE(),23))
+                                      ]]>
+                       JOIN gd_master c ON b.gdcd = c.gdcd
+                       LEFT JOIN od_reservegoods r ON r.gdcd = b.gdcd
+                                                  <![CDATA[
+                                                  AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                                                  AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                                                  ]]>
+                      WHERE a.memcd IN (
+                                         SELECT a.memcd
+                                         FROM od_header a
+                                           JOIN od_goods b ON a.ordnum = b.ordnum
+                                          WHERE 1=1
+                                          <![CDATA[
+                                            AND a.orddt >= DATEADD(d,- #{fbrLimitDay} ,CONVERT(VARCHAR,GETDATE(),23))
+                                          ]]>
+                                            AND b.gdcd = #{boughtProductCode}
+                                       )
+                        <![CDATA[
+                        AND a.orddt >= DATEADD(d,- #{fbrLimitDay},CONVERT(VARCHAR,GETDATE(),23))
+                        ]]>
+                        AND b.gdcd NOT IN (#{onlyAutoOrderSet})
+                        AND b.gdcd NOT IN ('A7','A8','B3','B4','C3','Z55')
+                        AND (c.useyn = 'Y' OR (c.useyn = 'N' AND r.useyn = 'Y'))
+                     GROUP BY b.gdcd, ISNULL(r.type, '01'), r.gdcd
+                    ) a
+        <if test='strMEMGRPCD == "" OR strMEMGRPCD.indexOf("219")'>
+            WHERE a.gdcd NOT IN (#{isensExceptProduct})
+        </if>
+             ORDER BY CNT DESC
+            ) a2
+          JOIN gd_master g ON g.gdcd = a2.gdcd
+          LEFT JOIN gd_cnt b ON b.gdcd = a2.gdcd
+          LEFT JOIN gd_item c ON c.gdcd = a2.gdcd
+          LEFT JOIN cd_master d ON d.cdtype = '09'
+                               AND d.cdcode = c.typecd
+        WHERE 1 = 1
+        <if test="inExceptProduct != '' ">
+            AND a.gdcd NOT IN (#{inExceptProduct})
+        </if>
+        AND ISNULL(g.optionp,'N') = 'N'
+        ORDER BY a.cnt DESC
+    </select>
+</mapper>

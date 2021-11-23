@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="malbok">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 2020년 복날-말복 이벤트(모바일)
+    'File          : malbok_main_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : chhyeon
+    'Date Started  : 20200805
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20200805   chhyeon   0.9     초안작성-->
+    <select id="attendanceStampChobok">
+        /*attendanceStampChobok 출석 스탬프 이벤트 초복*/
+        SELECT COUNT(1) cnt
+        FROM temp_13annivstamp
+         WHERE 1 = 1
+           AND memcd = #{strLoginMemCD}
+           AND eventcode = 'CHOBOK2020'
+    </select>
+
+    <select id="attendanceStampJungbok">
+        /*attendanceStampJungbok 출석 스탬프 이벤트 중복*/
+        SELECT COUNT(1) cnt
+        FROM temp_13annivstamp
+        WHERE 1 = 1
+          AND memcd = #{strLoginMemCD}
+          AND eventcode = 'JNGBOK2020'
+    </select>
+
+    <select id="attendanceStampMalbok">
+        /*attendanceStampJungbok 출석 스탬프 이벤트 말복*/
+        SELECT COUNT(1) cnt
+        FROM temp_13annivstamp
+        WHERE 1 = 1
+          AND memcd = #{strLoginMemCD}
+          AND eventcode = 'MALBOK2020'
+    </select>
+
+    <select id="attendanceStampAnother">
+        /*attendanceStampAnother 출석 스탬프 이벤트 그외*/
+        SELECT COUNT(1) cntall
+        FROM temp_13annivstamp
+         WHERE 1 = 1
+           AND memcd = #{strLoginMemCD}
+           AND eventcode IN ( #{strEventCodes} )
+    </select>
+
+    <select id="eventHeader">
+        /*eventHeader 이벤트 헤더*/
+        SELECT *
+        FROM specialsellingh
+         WHERE shidx = #{sidx}
+    </select>
+
+    <select id="jungbokProdList">
+        /* jungbokProdList 복날-중복 이벤트 상품 리스트*/
+        SELECT *
+        FROM (
+               SELECT a.gdcd
+                    , a.gdname
+                    , a.unit
+                    , a.price1
+                    , a.gdimg
+                    , a.divcd
+                    , a.div1
+                    , a.exdiv1
+                    , a.indt
+                    , a.updt
+                    , a.shortdesc
+                    , ISNULL(z.gdcnt,99999) stock_num
+                    , ISNULL(a.soldoutyn,'N') soldoutyn
+                    , ISNULL(a.newyn,'N') newyn
+                    , ISNULL(a.qtysaleyn,'N') qtysaleyn
+                    , dbo.getMasterPrice(a.gdcd) saleprice
+                    , CASE a.dispatchtype WHEN 'I' THEN '11'
+                                          WHEN 'O' THEN '15'
+                      END odtype
+                    , ISNULL(a.deliverydtyn,'N') deliverydtyn
+                    , ISNULL(a.reserveyn,'N') reserveyn
+                    <if test='strMEMGRPCD != "" AND strGroupSalePolicy != "N" '>
+                      , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy},a.gdcd) groupsaleprice
+                    </if>
+                    , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy},a.gdcd) isgroupsale
+                    , c.catdesc cdname
+                    , x.slcat
+                    , x.slnote
+                    , a.plandate
+                    , a.thedaysyn
+                    , ISNULL(t6.cdname,'미지정') AS gradedesc
+                    , '-' alltimesale
+                    , a.priceyn
+                    , a.mgdimg1
+                    , t6.cdcode
+               FROM gd_master a
+                 JOIN exmenu c
+                   ON a.exdiv1 = c.cat1
+                 JOIN specialsellingl x
+                   ON x.slgdcd = a.gdcd
+                 LEFT JOIN gd_cnt z
+                        ON z.gdcd = a.gdcd
+                 LEFT JOIN gd_item i
+                        ON i.gdcd = a.gdcd
+                 LEFT JOIN cd_master t6
+                        ON t6.cdtype = '09'
+                       AND t6.cdcode = i.typecd
+                 LEFT JOIN od_reservegoods r
+                        ON a.gdcd = r.gdcd
+                       AND r.useyn = 'Y'
+                       <![CDATA[
+                       AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                       AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                       ]]>
+                WHERE 1 = 1
+                  AND a.useyn = 'Y'
+                  AND (a.reserveyn = 'N' OR (a.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                  AND a.divcd IN ('30','20')
+                  AND x.slidx = #{sidx}
+                <if test="listingMode == 'OPT'">
+                   AND ISNULL(a.optionp,'N') = 'N'
+                </if>
+             ) x
+           WHERE 1 = 1
+           <choose>
+              <when test="shltoty == '12'">
+                  AND x.reserveyn = 'Y'
+              </when>
+              <when test="shltoty == '11'">
+                  AND x.reserveyn = 'N'
+              </when>
+           </choose>
+           <choose>
+              <when test="rsIsud == 'Y'">
+                  ORDER BY x.slcat, x.gdcd
+              </when>
+              <otherwise>
+                  ORDER BY x.exdiv1, x.gdcd
+              </otherwise>
+           </choose>
+    </select>
+</mapper>

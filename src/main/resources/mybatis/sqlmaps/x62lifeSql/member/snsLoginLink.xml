@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="snsLoginLink">
+<!--    '프로젝트: 자연이랑 모바일 웹-->
+<!--    '프로그램: 간편인증 연동-->
+
+<!--    '20190225   hyeok   처음작성-->
+<!--    '20190327   hwkim   레이아웃, 설명, 기타 조정/추가-->
+    <select id="getSnsLoginInfo">
+        SELECT a.*
+             , CONVERT(VARCHAR(50)
+             , DECRYPTBYKEY(sns_email_enc)) sns_email_d
+             , CASE WHEN LEFT(m.memid, 2) = 'N_' OR LEFT(m.memid, 2) = 'F_'
+                      THEN 'N'
+                    ELSE 'Y'
+               END snslink
+        FROM sns_login_master a
+          LEFT JOIN mb_master m ON a.sns_cmcd = m.memcd
+         WHERE 1=1
+           AND a.sns_conn = 'Y'
+           AND a.sns_cmcd = #{strLoginMEMCD}
+        ORDER BY (
+                  CASE WHEN a.sns_type = 'N'
+                         THEN 1
+                       WHEN a.sns_type = 'F'
+                         THEN 2
+                       ELSE 3
+                  END
+                  )
+    </select>
+</mapper>

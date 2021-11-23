@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="docart">
+<!--    '20121114 hwkim 새로 작성
+    '20150217 hwkim DELETE od_cart.freeze 추가
+    '20161222 hwkim order type 호환성 처리
+    '20170131 hwkim DELETE od_cart.freeze 제거-->
+    <select id="checkCategoryExistProdY">
+        /*
+         checkCategoryExistProdY
+         각 카테고리 별 존재하는 상품인지 검사
+         preOrderInfo = "Y"
+        */
+        SELECT r.gdcd 
+        FROM od_reservegoods r 
+          LEFT JOIN gd_cnt gc 
+                 ON gc.gdcd = r.gdcd 
+         WHERE r.gdcd = #{strGDCD}
+           AND #{date} BETWEEN r.od_from AND r.od_to
+           <![CDATA[
+           AND ISNULL(gc.gdcnt, 99999) >= #{strGDCNT}
+           ]]>
+           AND r.useyn = 'Y'
+    </select>
+    
+    <select id="checkCategoryExistProdN">
+     /*
+      checkCategoryExistProdN
+      각 카테고리 별 존재하는 상품인지 검사
+      preOrderInfo = "N"
+     */
+      SELECT m.gdcd 
+      FROM gd_master m 
+        LEFT JOIN gd_cnt c 
+               ON m.gdcd = c.gdcd 
+      WHERE m.gdcd = #{strGDCD} 
+        AND m.useyn = 'Y'
+        <![CDATA[
+        AND ISNULL(c.gdcnt,99999) >= #{strGDCNT}
+        ]]>
+    </select>
+
+    <select id="checkExistCart">
+        /*checkExistCart 장바구니에 담겨있는 상품인지 아닌지 검사*/
+        SELECT crtidx
+             , gdcnt 
+        FROM od_cart 
+         WHERE memcd = #{strLoginMemCd} 
+           AND gdcd = #{strGDCD} 
+           AND od_gubun = #{strODTYPE} 
+    </select>
+    
+    <insert id="addProdIntoCart">
+        /* addProdIntoCart 장바구니에 없는 상품 장바구니에 추가*/
+        INSERT INTO od_cart (
+                              memcd
+                            , crtidx
+                            , gdcd
+                            , gdcnt
+                            , indt
+                            , od_gubun
+                            )
+               SELECT #{strLoginMemCd}
+                    , ISNULL(MAX(CRTIDX),0)+1
+                    , #{strGDCD}
+                    , #{strGDCNT}
+                    , GETDATE()
+                    , #{strODTYPE}
+               FROM od_cart
+                WHERE memcd = #{strLoginMemCd} 
+    </insert>
+    
+    <select id="checkProdPreOrderInfoReserve">
+        /* checkProdPreOrderInfoReserve 장바구니 상품(예약)의 제한 재고량 체크 */
+        SELECT r.gdcd
+          FROM od_reservegoods r 
+            LEFT JOIN gd_cnt gc 
+                   ON gc.gdcd = r.gdcd 
+           WHERE r.gdcd = #{strGDCD}
+             AND #{Date()} BETWEEN r.od_from AND r.od_to
+              <![CDATA[
+             AND ISNULL(gc.gdcnt, 99999) >= (#{strCrtCnt} + #{strGDCNT}))
+             AND r.useyn = 'Y'
+             ]]>
+    </select>
+    
+    <select id="checkProdPreOrderInfoFast">
+        /* checkProdPreOrderInfoFast 장바구니 상품(신속)의 제한 재고량 체크 */
+        SELECT m.gdcd
+             , ISNULL(c.gdcnt,99999) gdcnt 
+          FROM gd_master m 
+            LEFT JOIN gd_cnt c 
+                   ON m.gdcd = c.gdcd 
+           WHERE m.gdcd = #{strGDCD} 
+             AND m.useyn = 'Y'
+             <![CDATA[
+             AND ISNULL(c.gdcnt,99999) >= (#{strCrtCnt} + #{strGDCNT}))
+             ]]>
+    </select>
+    
+    <update id="updateCartProdCnt">
+        /*updateCartProdCnt 장바구니 상품 개수 조정*/
+        UPDATE od_cart 
+           SET gdcnt = gdcnt +  #{strGDCNT}
+             , indt = GETDATE()
+         WHERE memcd = #{strLoginMemCd}
+           AND crtidx = #{strCRTIDX}
+    </update>
+
+    <select id="cartProdModifyPreOrderY">
+        /*
+          cartProdModifyPreOrderY
+          PreOrder == 'Y' 장바구니 수량 수정
+        */
+        SELECT a.gdcd
+             , a.gdcnt
+             , a.od_gubun
+             , ISNULL(gc.gdcnt, 99999) cnt
+        FROM od_cart a 
+          LEFT OUTER JOIN od_reservegoods c 
+                       ON a.gdcd = c.gdcd 
+                      AND CONVERT(CHAR(10), GETDATE(), 121) BETWEEN c.od_from AND c.od_to 
+                      AND c.useyn = 'Y' 
+          LEFT JOIN gd_cnt gc 
+                 ON gc.gdcd = a.gdcd 
+         WHERE a.memcd = #{strLoginMemCD} 
+           AND a.crtidx = #{strCRTIDX} 
+    </select>
+    
+    <select id="cartProdModifyPreOrderN">
+        /*
+          cartProdModifyPreOrderN
+          PreOrder == 'N' 장바구니 수량 수정
+        */
+        SELECT a.gdcd
+             , a.gdcnt
+             , a.od_gubun
+             , ISNULL(d.gdcnt, 99999) cnt
+        FROM od_cart a 
+          JOIN gd_master e 
+            ON a.gdcd = e.gdcd 
+          LEFT OUTER JOIN gd_cnt d 
+                       ON a.gdcd = d.gdcd 
+         WHERE a.memcd = #{strLoginMemCD} 
+           AND a.crtidx = #{strCRTIDX} 
+    </select>
+    
+    <update id="updateCartProd">
+        /*updateCartProd 장바구니 상품 추가*/
+        UPDATE od_cart 
+           SET gdcnt =  #{strGDCNT}
+         WHERE memcd = #{strLoginMemCd} 
+           AND crtidx = #{strCRTIDX} 
+    </update>
+    
+    <delete id="exceptProdFromCart">
+        /* exceptProdFromCart 장바구니에서 상품 제외*/
+        DELETE FROM od_cart 
+                WHERE memcd = #{strLoginMemCd}
+                  AND crtidx = #{strCRTIDX}
+    </delete>
+    <delete id="exceptAllProdFromCart">
+        /* exceptAllProdFromCart 장바구니 전부 비움*/
+        DELETE FROM od_cart
+                WHERE memcd = #{strLoginMemCd}
+    </delete>
+
+    <select id="returnCartProdInfo">
+        /*
+         returnCartProdInfo
+         장바구니에 담긴 정보 반환
+         '현재 장바구니에 담긴 목록의 품목 수와 총 결제 예상액을 반환한다.
+        */
+        SELECT ISNULL(COUNT(*), 0) AS totalcnt 
+             , ISNULL(SUM(CASE WHEN t2.qtysaleyn='Y' THEN dbo.getQtySalePrice(t.gdcd, t.gdcnt, dbo.getProductPrice(#{strMemGrpCd},#{strGroupSalePolicy},t.gdcd)) 
+                               ELSE dbo.getProductPrice(#{strMemGrpCd},#{strGroupSalePolicy},t.gdcd)
+                           END * ISNULL(t6.weekcnt, 1) * t.gdcnt), 0) totalprice
+        FROM od_cart t
+          JOIN gd_master t2
+            ON t2.gdcd = t.gdcd
+          LEFT JOIN od_reservegoods t4
+                 ON t4.gdcd = t.gdcd
+                AND t4.useyn = 'Y'
+                AND #{date} BETWEEN t4.od_from AND t4.od_to
+          LEFT JOIN gd_pack t6
+                 ON t6.gdcd = t2.gdcd
+         WHERE T.memcd = #{strLoginMemCd}
+    </select>
+</mapper>

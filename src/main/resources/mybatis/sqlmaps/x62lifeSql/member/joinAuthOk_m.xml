@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmSkHpnoConf">
+<!--    '프로젝트: 자연이랑 모바일 웹-->
+<!--    '프로그램: 회원가입 - SK회원인증-->
+<!--    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    '20170331   hyeok   처음작성-->
+<!--    '20180213   hyeok   SMS > 알림톡 변경 적용 (lib.database.asp 필수)-->
+    <select id="getSkEmployeeInfo" statementType="CALLABLE">
+        /*getSkEmployeeInfo SK 임직원 정보*/
+       {CALL encryptionOpen
+        SELECT e.grpcd
+             , g.grpname
+             , e.gradecd
+             , ISNULL(e.initpoint,0) initpoint
+             , ISNULL(e.nodeductpay,'N') nodeductpay
+             , ISNULL(e.joinyn,'N') joinyn
+             , e.retiredt /* '값이 있을 경우 소속사휴직 상태로 하기 위함.*/
+         FROM mb_grpemp e
+           JOIN mb_group g ON e.grpcd = g.grpcd
+         WHERE e.empnum =  #{strEMPNUM}
+           AND e.empname = #{strMEMName}
+           AND CONVERT(VARCHAR(40),DECRYPTBYKEY(e.email_enc)) = #{strMemEmail}
+           AND e.retiredt IS NULL  /*'20160909 sykim 휴직자도 인증이 가능하도록 수정.*/
+           AND (CASE WHEN ISNULL(e.joinyn,'')='' THEN 'N' ELSE e.joinyn END) = 'N'
+        CALL encryptionClose}
+    </select>
+
+    <select id="skEmployeeInfoNullCheck">
+         /* skEmployeeInfoNullCheck SK 임직원 여부 구함*/
+        SELECT memcd
+        FROM mb_master
+         WHERE empnum = #{strEmpNum}
+          AND memname = #{strMemName}
+    </select>
+
+    <update id="authLogicConfirm">
+         /* authLogicConfirm 자연이랑 가입 완료*/
+        UPDATE mb_master
+        SET grpcd = #{strGRPCD}
+          , gradecd = #{strGradeCD}
+          , empnum = #{strEmpNum}
+          <choose>
+              <when test="strLayOffTime != ''">
+                  , memstcd = #{memstUp}
+              </when>
+              <otherwise>
+                  , memstcd = #{memstLayoff}
+              </otherwise>
+          </choose>
+          , upgradedt = GETDATE()
+          , updid = #{strLoginMEMCD}
+        WHERE memcd = #{strLoginMEMCD}
+            , nodeductpay = #{strNoDeductPay}
+    </update>
+</mapper>

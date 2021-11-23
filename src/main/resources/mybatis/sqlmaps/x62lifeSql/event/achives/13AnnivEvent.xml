@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="13AnnivEvent">
+    <select id="specialSellingHeader">
+       /* specialSellingHeader 이벤트 기획전 헤더 정보*/
+        SELECT *
+        FROM specialsellingh
+         WHERE shidx = #{sidx}
+        <![CDATA[
+           AND shstartdt <= GETDATE() AND shenddt > GETDATE()
+        ]]>
+    </select>
+   <select id="specialSellingProduct">
+      /*specialSellingProduct 이벤트 기획전 포함 상품 정보*/
+       SELECT * FROM (
+                         SELECT a.gdcd
+                              , a.gdname
+                              , a.unit
+                              , a.price1
+                              , a.gdimg
+                              , a.divcd
+                              , a.div1
+                              , a.exdiv1
+                              , a.indt
+                              , a.updt
+                              , a.shortdesc
+                              , ISNULL(z.gdcnt,99999) gdcnt
+                              , ISNULL(a.soldoutyn,'N') soldoutyn
+                              , ISNULL(a.newyn,'N') newyn, ISNULL(a.qtysaleyn,'N') qtysaleyn
+                              , dbo.getMasterPrice(a.gdcd) saleprice
+                              , CASE a.dispatchtype WHEN 'I' THEN '11' WHEN 'O' THEN '15' END odtype
+                              , ISNULL(a.deliverydtyn,'N') deliverydtyn
+                              , ISNULL(a.reserveyn,'N') reserveyn, ISNULL(a.recommendyn,'N') recommendyn
+                         <if test="strMEMGRPCD == null or strMEMGRPCD == '' and strGroupSalePolicy == 'N">
+                              , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, a.gdcd) groupsaleprice
+                         </if>
+                              , c.catdesc
+                              , x.slcat
+                              , x.slnote
+                              , a.plandate
+                              , a.thedaysyn
+                              , ISNULL(c1.cdname,'미정') gradedesc
+                              , '-' alltimesale
+                              , c2.cdcode
+                              , c2.cdname
+                              , i.origin
+                              , a.priceyn
+                              , a.mgdimg1
+                              , i.producer
+                              , i.address
+                         FROM gd_master a
+                           JOIN exmenu c
+                             ON a.exdiv1 = c.cat1
+                           JOIN specialsellingl x
+                             ON x.slgdcd = a.gdcd
+                           LEFT JOIN gd_cnt z
+                                  ON z.gdcd = a.gdcd
+                           LEFT JOIN gd_item i
+                                  ON i.gdcd = a.gdcd
+                           LEFT JOIN cd_master c1
+                                  ON c1.cdtype = '09'
+                                 AND c1.cdcode = i.typecd
+                           LEFT JOIN cd_master c2
+                                  ON c2.cdtype = '20'
+                                 AND c2.cdcode = a.div1
+                         <![CDATA[
+                           LEFT JOIN od_reservegoods r
+                                  ON a.gdcd = r.gdcd
+                                 AND r.useyn = 'Y'
+                                 AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                                 AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                         ]]>
+                          WHERE 1 = 1
+                            AND a.useyn = 'Y'
+                            AND (a.reserveyn = 'N' OR (a.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                            AND a.divcd IN ('30','20')
+                            AND x.slidx = #{sidx}
+                          <if test="listingMode == 'OPT'">
+                            AND ISNULL(a.optionp,'N') = 'N'
+                          </if>
+                      ) x
+                      /*인기상품 정렬일 경우 하루전부터 현재까지 판매량 정보를 LEFT JOIN함*/
+               <if test="orderBy == ''">
+                  LEFT JOIN (SELECT gdcd bgdcd, SUM(gdcnt) bestcnt FROM od_goods WHERE indt >= CONVERT(DATETIME, #{DATE} - 1, 21) GROUP BY gdcd) b
+                         ON x.gdcd = b.bgdcd
+               </if>
+        WHERE 1 = 1
+          <choose>
+              <when test="shltoty == '12'">
+                AND x.reserveyn = 'Y'
+              </when>
+              <when test="shltoty == '11'">
+                  AND x.reserveyn = 'N'
+              </when>
+          </choose>
+          <choose>
+              <when test="rsIsud == 'Y'">
+                  ORDER BY x.slcat
+                  <choose>
+                      <when test="orderBy == 'PD">
+                          , x.saleprice DESC
+                      </when>
+                      <when test="orderBy == 'PU'">
+                          , x.saleprice
+                      </when>
+                      <when test="orderBy == 'PN'">
+                          ,  x.indt DESC
+                      </when>
+                      <otherwise>
+                          , b.bestcnt DESC, x.gdcd
+                      </otherwise>
+                  </choose>
+              </when>
+              <otherwise>
+                  ORDER BY x.exdiv1
+              </otherwise>
+          </choose>
+   </select>
+
+    <select id="specialSellingDefaultCategory">
+       /* specialSellingCatgory 상단 카테고리 메뉴(기본카테고리) */
+       SELECT c.cat1
+            , c.catdesc
+            , COUNT(x.slgdcd) CNT
+       FROM specialsellingl x
+         JOIN gd_master g
+           ON x.slgdcd = g.gdcd
+         JOIN exmenu c
+           ON g.exdiv1 = c.cat1
+         LEFT JOIN od_reservegoods r
+                ON g.gdcd = r.gdcd
+               AND r.useyn = 'Y'
+               <![CDATA[
+               AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+               AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+               AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+               ]]>
+        WHERE x.slidx = #{sidx}
+          AND g.useyn = 'Y'
+          AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+        <if test="listingMode == 'OPT'">
+          AND ISNULL(g.optionp,'N') = 'N'
+        </if>
+       GROUP BY c.cat1, c.catdesc
+       ORDER BY cat1
+    </select>
+
+    <select id="specialSellingUserCategory">
+       /*specialSellingUserCategory 사용자 정의 카테고리일 경우*/
+        SELECT x.slcat cdcode
+             , COUNT(x.slcat) CNT
+        FROM specialsellingl x
+          JOIN gd_master g
+            ON x.slgdcd = g.gdcd
+          LEFT JOIN od_reservegoods r
+                 ON g.gdcd = r.gdcd
+                AND r.useyn = 'Y'
+                AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+        <![CDATA[
+                AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+        ]]>
+         WHERE x.slidx = #{sidx}
+           AND g.useyn = 'Y'
+           AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+        <if test="listingMode == 'OPT'">
+            AND ISNULL(g.optionp,'N') = 'N'
+        </if>
+        GROUP BY x.slcat
+        ORDER BY x.slcat
+        <choose>
+            <when test="orderBy == 'PD">
+                , x.saleprice DESC
+            </when>
+            <when test="orderBy == 'PU'">
+                , x.saleprice
+            </when>
+            <when test="orderBy == 'PN'">
+                ,  x.indt DESC
+            </when>
+            <otherwise>
+                , b.bestcnt DESC, x.gdcd
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="xFlagTrueSellingCategory">
+        /* xFlagTrueSellingCategory xFlag가 true일 때*/
+        SELECT * FROM (
+                          SELECT a.gdcd
+                               , a.gdname
+                               , a.unit
+                               , a.price1
+                               , a.gdimg
+                               , a.divcd
+                               , a.div1
+                               , a.exdiv1
+                               , a.indt
+                               , a.updt
+                               , a.shortdesc
+                               , ISNULL(z.gdcnt,99999) stock_num
+                               , ISNULL(a.soldoutyn,'N') soldoutyn
+                               , ISNULL(a.newyn,'N') newyn, ISNULL(a.qtysaleyn,'N') qtysaleyn
+                               , CASE a.dispatchtype WHEN 'I' THEN '11' WHEN 'O' THEN '15' END odtype
+                               , ISNULL(a.deliverydtyn,'N') deliverydtyn
+                               , ISNULL(a.reserveyn,'N') reserveyn
+                               <choose>
+                                   <when test="strMEMGRPCD != '' or strMEMGRPCD != null and strGroupSalePolicy == 'N">
+                                       , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, a.gdcd) saleprice
+                                   </when>
+                                   <otherwise>
+                                       , dbo.getMasterPrice(a.gdcd) saleprice
+                                   </otherwise>
+                               </choose>
+                               , c.catdesc cdname
+                               , x.slcat
+                               , x.slnote
+                               , a.plandate
+                               , a.thedaysyn
+                               , ISNULL(t6.cdname,'미지정') AS gradedesc
+                               , '-' alltimesale
+                               , a.priceyn
+                               , a.mgdimg1
+                               , t6.cdcode
+                          FROM gd_master a
+                            JOIN exmenu c
+                              ON a.exdiv1 = c.cat1
+                            JOIN specialsellingl x
+                              ON x.slgdcd = a.gdcd
+                            LEFT JOIN gd_cnt z
+                                   ON z.gdcd = a.gdcd
+                            LEFT JOIN gd_item i
+                                   ON i.gdcd = a.gdcd
+                            LEFT JOIN cd_master t6
+                                   ON t6.cdtype = '09'
+                                  AND t6.cdcode = i.typecd
+                            LEFT JOIN od_reservegoods r
+                                   ON a.gdcd = r.gdcd
+                                  AND r.useyn = 'Y'
+                            <![CDATA[
+                                  AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                                  AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                            ]]>
+                           WHERE 1 = 1
+                             AND a.useyn = 'Y'
+                             AND (a.reserveyn = 'N' OR (a.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                             AND a.divcd IN ('30','20')
+                             AND x.slidx = #{sidx}
+                          <if test="extList != null and extList != ''">
+                              AND a.gdcd NOT IN (#{extList})
+                          </if>
+                          <if test="div1 != null and div1 != ''">
+                              <choose>
+                                  <when test="rsIsud == 'N'">
+                                      AND a.exdiv1 = #{div1}
+                                  </when>
+                                  <otherwise>
+                                      AND x.slcat =  #{div1}
+                                  </otherwise>
+                              </choose>
+                          </if>
+                          <if test="listingMode == 'OPT'">
+                              AND ISNULL(a.optionp,'N') = 'N'
+                          </if>
+                    ) x
+                   <if test="orderBy != ''">
+                       LEFT JOIN (SELECT gdcd bgdcd, SUM(gdcnt) bestcnt FROM od_goods WHERE indt >= CONVERT(DATETIME, #{DATE} - 1, 21) GROUP BY gdcd) b
+                              ON x.gdcd = b.bgdcd
+                   </if>
+               WHERE 1 = 1
+                   <choose>
+                       <when test="shltoty == '12'">
+                           AND x.reserveyn = 'Y'
+                       </when>
+                       <otherwise>
+                           AND x.reserveyn = 'N'
+                       </otherwise>
+                   </choose>
+                   <choose>
+                       <when test="rsIsud == 'Y'">
+                           ORDER BY x.slcat
+                       </when>
+                       <otherwise>
+                           ORDER BY x.exdiv1
+                       </otherwise>
+                   </choose>
+                   <choose>
+                       <when test="orderBy == 'PD">
+                           , x.saleprice DESC
+                       </when>
+                       <when test="orderBy == 'PU'">
+                           , x.saleprice
+                       </when>
+                       <when test="orderBy == 'PN'">
+                           ,  x.indt DESC
+                       </when>
+                       <otherwise>
+                           , b.bestcnt DESC, x.gdcd
+                       </otherwise>
+                   </choose>
+    </select>
+    
+    <select id="thirteenAnniversaryEvent">
+        /* thirteenAnniversaryEvent 13주년 이벤트*/
+        SELECT a.memcd
+             , a.stampcnt
+             , a.stamptype
+             , CASE WHEN stamptype = 'L' THEN RIGHT(CONVERT(CHAR(10), a.indt, 102), 5)
+                    WHEN stamptype = 'P' THEN RIGHT(CONVERT(CHAR(10), ISNULL(p.paydt, a.indt), 102), 5)
+               END cindt
+        FROM temp_13annivstamp a
+          LEFT JOIN od_pay p
+                 ON a.note = p.paynum
+                AND a.stamptype = 'P'
+         WHERE a.memcd = #{strLoginMemCd}
+         <![CDATA[
+           AND a.indt >= CONVERT(DATETIME, #{eventStartDt}, 21)
+           AND a.indt <  CONVERT(DATETIME, '" & eventEndDt & "', 21) + 1
+         ]]>
+        ORDER BY cindt, stamptype
+    </select>
+
+    <select id="thirteenAnniversaryBuy">
+       /*thirteenAnniversaryBuy 구매일 경우 결제일을 가져오도록 변경*/
+        SELECT a.*
+        FROM (
+                 SELECT '11' odtype
+                      , g.gdcd
+                      , g.gdname
+                      , g.unit
+                      , g.priceyn
+                      , g.newyn
+                      , g.recommendyn
+                      , g.qtysaleyn
+                      , g.price1
+                      , dbo.getMasterPrice(g.gdcd) saleprice
+                      , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) groupsaleprice
+                      , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) isgroupsale
+                      , g.gdimg
+                      , g.mgdimg1
+                      , g.divcd
+                      , g.div1
+                      , c.cdcode
+                      , c.cdname
+                      , CASE WHEN ISNULL(g.deliverydtyn,'')=''
+                               THEN 'N'
+                             ELSE g.deliverydtyn
+                        END deliverydtyn
+                      , CASE WHEN ISNULL(g.soldoutyn,'')=''
+                               THEN 'N'
+                             ELSE g.soldoutyn
+                        END soldoutyn
+                      , ISNULL(s.gdcnt,99999) gdcnt
+                      , '' od_from
+                      , '' od_to
+                      , '' dlv_from
+                      , '' dlv_to
+                      , '-' alltimesale
+                      , i.origin
+                      , i.producer
+                      , i.address
+                      , ISNULL(t.cdname,'미지정') AS gradedesc
+                      , m.smenucd
+                      , m.smenudesc
+                      , '01' odtype2
+                      , g.thedaysyn
+                      , g.shortdesc
+                      , ag.note
+                      , CONVERT(CHAR(10), ag.salesdt, 21) salesdt
+                      , CONVERT(CHAR(10), ag.salesdt, 102) dotsalesdt
+                      , CONVERT(CHAR(10), ag.saleedt, 21) saleedt
+                      , CONVERT(CHAR(10), ag.saleedt, 102) dotsaleedt
+                 FROM gd_master g
+                   JOIN temp_13annivgoods ag
+                     ON ag.gdcd = g.gdcd
+                   JOIN cd_master c
+                     ON c.cdtype = '20'
+                    AND c.cdcode = g.div1
+                   LEFT JOIN gd_cnt s
+                          ON g.gdcd = s.gdcd
+                   LEFT JOIN gd_item i
+                          ON i.gdcd = g.gdcd
+                   LEFT JOIN cd_master t
+                          ON t.cdtype = '09'
+                         AND t.cdcode = i.typecd
+                   LEFT JOIN submenu m
+                          ON m.category = g.div1
+                         AND sub_category LIKE '%'+ g.div2 + '%'
+                  WHERE 1 = 1
+                    AND g.useyn = 'Y'
+                    AND (divcd = '30' OR (divcd = '20' AND deliverydtyn = 'N' AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94') ) )
+                 UNION ALL
+                 SELECT '12' odtype
+                      , g.gdcd
+                      , g.gdname
+                      , g.unit
+                      , g.priceyn
+                      , g.newyn
+                      , g.recommendyn
+                      , g.qtysaleyn
+                      , g.price1
+                      , dbo.getMasterPrice(g.gdcd) saleprice
+                      , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) groupsaleprice
+                      , dbo.getIsGroupSaleGoods( #{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) isgroupsale
+                      , g.gdimg
+                      , g.mgdimg1
+                      , g.divcd
+                      , g.div1
+                      , c.cdcode
+                      , c.cdname
+                      , CASE WHEN ISNULL(g.deliverydtyn,'')=''
+                               THEN 'N'
+                             ELSE g.deliverydtyn
+                        END deliverydtyn
+                      , CASE WHEN ISNULL(g.soldoutyn,'')=''
+                               THEN 'N'
+                             ELSE g.soldoutyn
+                        END soldoutyn
+                      , ISNULL(s.gdcnt,99999) gdcnt
+                      , r.od_from
+                      , r.od_to
+                      , r.dlv_from
+                      , r.dlv_to
+                      , r.alltimesale
+                      , i.origin
+                      , i.producer
+                      , i.address
+                      , ISNULL(t.cdname,'미지정') AS gradedesc
+                      , m.smenucd
+                      , m.smenudesc
+                      , r.type odtype2
+                      , g.thedaysyn
+                      , g.shortdesc
+                      , ag.note
+                      , CONVERT(CHAR(10), ag.salesdt, 21) salesdt
+                      , CONVERT(CHAR(10), ag.salesdt, 102) dotsalesdt
+                      , CONVERT(CHAR(10), ag.saleedt, 21) saleedt
+                      , CONVERT(CHAR(10), ag.saleedt, 102) dotsaleedt
+                 FROM od_reservegoods r
+                   JOIN gd_master g
+                     ON r.gdcd = g.gdcd
+                   JOIN temp_13annivgoods ag
+                     ON ag.gdcd = g.gdcd
+                   JOIN cd_master c
+                     ON c.cdtype = '20'
+                    AND c.cdcode = g.div1
+                   LEFT JOIN gd_cnt s
+                          ON s.gdcd = r.gdcd
+                   LEFT JOIN gd_item i
+                          ON i.gdcd = g.gdcd
+                   LEFT JOIN cd_master t
+                          ON t.cdtype = '09'
+                         AND t.cdcode = i.typecd
+                   LEFT JOIN submenu m
+                          ON m.category = g.div1
+                         AND sub_category LIKE '%'+ g.div2 + '%'
+                  WHERE r.useyn = 'Y'
+        <![CDATA[
+                    AND r.od_from <= CONVERT(VARCHAR,GETDATE(),23)
+                    AND r.od_to >= CONVERT(VARCHAR,GETDATE(),23)
+
+             ) a
+         WHERE 1 = 1
+           AND CONVERT(DATETIME, '" & DATE & "', 21) >= CONVERT(DATETIME, a.salesdt, 21)
+           AND CONVERT(DATETIME, '" & DATE & "', 21) < CONVERT(DATETIME, a.saleedt, 21) + 1
+        ]]>
+    </select>
+
+    <select id="thirteenAnniversaryPdDesc">
+        SELECT a.gdcd
+             , a.note
+             , g.gdname
+             , g.gdimg
+             , g.mgdimg1
+             , g.price1
+             , g.unit
+             , g.divcd
+             , g.div1
+             , g.indt
+             , g.updt
+             , g.shortdesc
+             , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) saleprice
+             , CONVERT(CHAR(10), a.salesdt, 21) salesdt
+             , CONVERT(CHAR(10), a.salesdt, 102) dotsalesdt
+             , CONVERT(CHAR(10), a.saleedt, 21) saleedt
+             , CONVERT(CHAR(10), a.saleedt, 102) dotsaleedt
+        FROM temp_13annivgoods a
+          LEFT JOIN gd_master g
+                 ON a.gdcd = g.gdcd
+        ORDER BY a.salesdt
+    </select>
+
+    <select id="thirteenAnnivLoginStampCheck">
+       /*thirteenAnnivLoginStampCheck 로그인 스탬프 참여 여부*/
+        SELECT COUNT(1) alreadylogin
+        FROM temp_13annivstamp
+         WHERE stamptype = 'L'
+           <![CDATA[
+           AND indt >= CONVERT(DATETIME, '" & DATE & "', 21)
+           AND indt <  CONVERT(DATETIME, '" & DATE & "', 21) + 1
+           AND memcd = #{strLoginMemCd}
+           ]]>
+    </select>
+
+    <insert id="thirteenAnnivLoginStampInsert">
+        /*thirteenAnnivLoginStampInsert 13주년 이벤트 로그인 스탬프 적립*/
+        INSERT INTO temp_13annivstamp (
+                                       memcd
+                                     , stampcnt
+                                     , stamptype
+                                     , note
+                                     , indt
+                                     , usid
+                                     )
+        VALUES (
+                #{strLoginMemCd}
+                , 1
+                , 'L'
+                , ''
+                , GETDATE()
+                , #{strLoginMemCd}
+              )
+    </insert>
+
+    <insert id="thirteenAnnivBuyStampInsert">
+        /*thirteenAnnivBuyStampInsert 13주년 이벤트 구매 스탬프 적립*/
+        INSERT INTO temp_13annivstamp ( memcd
+                                      , stampcnt
+                                      , stamptype
+                                      , note
+                                      , indt
+                                      , usid)
+        SELECT #{strLoginMemCd}
+             , 3
+             , 'P'
+             , MAX(p.paynum)
+             , GETDATE()
+             , #{strLoginMemCd}
+        FROM od_pay p
+         WHERE p.paystcd = '10'
+           AND p.memcd = #{strLoginMemCd}
+           AND p.paynum IN (
+                            SELECT paynum
+                              FROM od_header
+                               WHERE paystcd = '10'
+                                 AND odgubun IN ('02', '05', '10', '11', '12', '15')
+                                 AND dlvstcd IN ('10', '20', '25', '30', '40')
+                                 AND memcd = #{strLoginMemCd}
+                            )
+          AND p.paynum NOT IN (SELECT note FROM temp_13annivstamp WHERE stamptype = 'P' AND memcd = #{strLoginMemCd})
+          <![CDATA[
+          AND p.paydt >= CONVERT(DATETIME, #{eventStartDt}, 21)
+          AND p.paydt < CONVERT(DATETIME, #{buyLimitDt}, 21)
+
+          AND CONVERT(CHAR (10), p.paydt, 21) NOT IN (
+                                                      SELECT CONVERT(CHAR (10), p.paydt, 21)
+                                                      FROM temp_13annivstamp a
+                                                        JOIN od_pay p
+                                                          ON a.stamptype = 'P'
+                                                         AND a.memcd = #{strLoginMemCd}
+                                                         AND a.note = p.paynum
+                                                      )
+          AND p.ttlprice >= 50000
+          ]]>
+        GROUP BY CONVERT(CHAR(10), p.paydt, 21)
+    </insert>
+</mapper>

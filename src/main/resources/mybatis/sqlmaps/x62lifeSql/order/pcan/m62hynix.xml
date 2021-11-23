@@ -1,0 +1,1088 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="m62hynix">
+    <!--    'System        : m.62life.com
+
+
+        'Program       :
+        'Title         : 자연이랑모바일 - (특집) SK하이닉스 판매 활동정보 보기
+        'File          : m62hynix010.asp
+        'Program Type  : asp
+        'Analyst       :
+        'Author        : hwkim
+        'Date Started  : 20150727
+        'Last Modified :
+        'Called By     :
+        'Parameters    :
+        'Purpose       :
+        'Version       :
+        '
+        'Modified   Author  V/M     Reason For Modification
+
+        '20150727   hwkim   0.9     처음 작성
+        '20150901   sykim   0.9.1   포인트 첫 사용자 및 사용포인트
+        '20161215   hwkim   0.9.2   리뉴얼 디자인에 맞춤-->
+    <sql id="hynix010cumulativeSalesCommon">
+        /*cumulativeSalesCommon 누적판매 Select 공통*/
+        SELECT ISNULL(SUM(ttlprice-tvat),0) ptotal
+        FROM od_pay p
+                 JOIN od_member m
+                      ON m.paynum = p.paynum
+        WHERE paystcd = ${paystPay}
+    </sql>
+
+    <sql id="hynix010commonCondition">
+        /* commonCondition 조건식 공통*/
+        <if test='groupcd != ""'>
+            <choose>
+                <when test='groupcd == "BIG6"'>
+                    AND m.grpcd IN (${groupcd})
+                </when>
+                <otherwise>
+                    AND m.grpcd=${groupcd}
+                </otherwise>
+            </choose>
+        </if>
+        <if test='sgrade != ""'>
+            AND m.gradecd = ${sgrade}
+        </if>
+    </sql>
+
+    <sql id="hynix010skPointPriceCommon">
+        /* skPointPriceCommon SK포인트 Select 공통*/
+        SELECT ISNULL(SUM(p.pntprice),0) SKPOINT
+        FROM od_pay p
+                 JOIN od_member m
+                      ON p.paynum = m.paynum
+                          AND m.grpcd =${groupcd}
+        WHERE p.paystcd =${paystPay}
+    </sql>
+
+    <sql id="hynix010searchTermNewJoinUserCommon">
+        /* hynix010searchTermNewJoinUserCommon 기간내 신규 가입(인증)유저 공통*/
+        SELECT ISNULL(SUM(ttlprice-tvat),0) joinSales
+             , COUNT(DISTINCT m.memcd) joinCount
+        FROM od_pay p
+                 JOIN od_member m
+                      ON m.paynum = p.paynum
+        WHERE paystcd =${paystPay}
+           <![CDATA[
+          AND paydt >= CONVERT(DATETIME,${startDate},21)
+          AND paydt < CONVERT(DATETIME,${endDate},21)+1
+        ]]>
+    </sql>
+
+    <sql id="hynix010EmployeeUpperCommon">
+        /* hynix010EmployeeUpperCommon 직원 조회 상단 공통*/
+        SELECT c.grpcd
+             , g.grpname
+             , COUNT(1) totalmember
+             , SUM(c.bntmax) availbntsum
+             , SUM(CASE WHEN c.paycnt = 0 THEN 0 ELSE 1 END) paymember
+             , SUM(c.bntsum) usedbntsum
+             , SUM(c.paycnt) totalpaycount
+             , SUM(c.ttlsum) totalpaysum
+             , SUM(c.bntmax)-SUM(c.bntsum) notusedbntsum
+             , ROUND(SUM(c.bntsum)/(CASE WHEN SUM(c.bntmax)=0 THEN 1 ELSE SUM(c.bntmax) END)*100,1) bntmb_count
+             , ISNULL(mc.wk_count,CASE WHEN ISNULL(g.workforce, 0)= 0 THEN COUNT ( DISTINCT c.memcd ) ELSE g.workforce END) workforce  /*'MonthlyClosing table에서 저장된 그 당시 직원수를 먼저 가져온다.*/
+        FROM (
+                 SELECT a.grpcd
+                      , a.memcd
+                      , a.gradecd
+                      , CASE WHEN ISNULL(b.ttlsum,0) = 0 THEN 0 ELSE a.bntmax END bntmax
+                      , ISNULL(b.paycnt,0) paycnt
+                      , ISNULL(b.bntsum,0) bntsum, ISNULL(b.ttlsum,0) ttlsum
+                 FROM (
+    </sql>
+
+
+    <sql id="hynix010EmployeeLowerCommon">
+        /* hynix010EmployeeLowerCommon 직원 조회 하단 공통*/
+        ) a
+        LEFT JOIN (
+                    SELECT p.memcd
+                         , b.grpcd
+                         , b.gradecd
+                         , COUNT(p.paynum) paycnt
+                         , SUM(p.bntprice) bntsum
+                         , SUM(p.ttlprice) ttlsum
+                    FROM od_pay p
+                      JOIN od_relation r
+                        ON p.paynum = r.paynum
+                      JOIN od_header h
+                        ON r.ordnum = h.ordnum
+                       AND r.paynum = h.paynum
+                      JOIN od_member b
+                        ON p.paynum = b.paynum
+                     WHERE p.paystcd =#{paystPay}
+                       <![CDATA[
+                       AND p.paydt >= CONVERT(DATETIME,${startDate},21)
+                       AND p.paydt <  CONVERT(DATETIME,${endDate},21)+1
+                       ]]>
+                       AND h.paystcd = ${paystPay}
+                       AND h.odgubun IN (${nSalesOrderType})
+                       AND b.grpcd = ${groupcd}
+                     <if test='sgrade != ""'>
+                       AND b.gradecd = ${sgrade}
+                     </if>
+                    GROUP BY p.memcd, b.grpcd, b.gradecd
+                  ) b
+              ON a.memcd = b.memcd
+             AND a.grpcd = b.grpcd
+        ) c
+        JOIN mb_group g
+          ON c.grpcd = g.grpcd
+        LEFT JOIN monthlyclosing mc
+               ON mc.yyyymm = ${yyyymm}
+              AND mc.grpcd = c.grpcd
+        GROUP BY c.grpcd, g.grpname, g.workforce, mc.wk_count
+        <![CDATA[
+        HAVING SUM(c.bntmax) > 0
+        ]]>
+        ORDER BY CASE WHEN ISNUMERIC(c.grpcd)=1 THEN 0 ELSE 1 END, dbo.LPAD(c.grpcd,5,'0')
+    </sql>
+
+    <sql id="hynix010ClaimUpperCommon">
+        /*hynix010ClaimUpperCommon 클래임 조회 공통부*/
+        SELECT x.creasondesc
+             , SUM(claimcnt) claimcnt
+             , SUM(gdcnt) gdcnt
+             , SUM(gdsum) gdsum
+             , SUM(gdprice) gdprice
+        FROM (
+                 SELECT cm.cdcode creasoncode
+                      , cm.cdname creasondesc
+                      , ISNULL(c.claimcnt,0) claimcnt
+                      , ISNULL(c.gdcnt,0) gdcnt
+                      , ISNULL(c.gdsum,0) gdsum
+                      , ISNULL(c.gdprice,0) gdprice
+                 FROM cd_master cm
+                          LEFT JOIN (
+                     SELECT ch.claimreason
+                          , COUNT(DISTINCT ch.claimnum) claimcnt
+                          , COUNT(DISTINCT cl.gdcd) gdcnt
+                          , SUM(cl.gdcnt) gdsum
+                          , SUM(cl.gdcnt*cl.price) gdprice
+                     FROM od_header h
+                              JOIN od_member om
+                                   ON h.paynum = om.paynum
+                              JOIN claimheader ch
+                                   ON h.ordnum = ch.ordnum
+                                       AND h.paynum = ch.paynum
+                              JOIN claimline cl
+                                   ON ch.claimnum = cl.claimnum
+                     <![CDATA[
+                     WHERE h.orddt >= CONVERT(DATETIME,${startDate},21)
+                       AND h.orddt < CONVERT(DATETIME,${endDate},21)+1
+                      ]]>
+    </sql>
+
+    <sql id="hynix010OrderSumCommon">
+        /*hynix010OrderSumCommon 주문건수 조회 공통*/
+        SELECT COUNT(DISTINCT h.ordnum) ordercnt
+             , COUNT(g.gdcd) gdcdcnt
+             , ISNULL(SUM(g.gdcnt),0) gdsum
+             , ISNULL(SUM(g.gdcnt*g.price),0) gdprice
+        FROM od_header h
+                 JOIN od_goods g
+                      ON h.ordnum = g.ordnum
+                 JOIN od_member m
+                      ON h.paynum = m.paynum
+        WHERE h.paystcd =#{paystPay}
+           <![CDATA[
+          AND h.orddt >= CONVERT(DATETIME,${startDate},21)
+          AND h.orddt < CONVERT(DATETIME,${endDate},21)+1
+           ]]>
+           AND h.odgubun IN (${nSalesOrderType})
+    </sql>
+
+    <sql id="hynix030ConditionCommon">
+        <choose>
+            <when test='groupcd != ""'>
+                AND m.grpcd IN ( ${skHynixes})
+            </when>
+            <otherwise>
+                AND m.grpcd = ${groupcd}
+            </otherwise>
+        </choose>
+        <if test='sgrade != ""'>
+            AND m.gradecd = ${sgrade}
+        </if>
+    </sql>
+
+    <sql id="hynix020selectCompanyCommon">
+        /*hynix020selectCompanyCommon 회사 조회 공통*/
+        SELECT grpcd
+             , grpname
+        FROM mb_group
+        WHERE useyn = 'Y'
+    </sql>
+
+    <sql id="hynix020FirstPointUsePersonCommon">
+        /* hynix020FirstPointUsePersonCommon 처음 포인트 사용 조회 공통*/
+        SELECT COUNT(1) cnt
+        , ISNULL(SUM(a.tmp),0) tmp
+        , ISNULL(SUM(a.tmt),0) tmt
+        FROM (
+        SELECT p.memcd
+        <choose>
+            <when test='strYYYY == "2015"'>
+                /*조회년월이 2015년 7월 이전이라면*/
+                <choose>
+                    <when test='searchYearMonth lte 201507'>
+                        /*그 이전의 포인트사용자는 0으로 간주.*/
+                        , 0 BM
+                    </when>
+                    <otherwise>
+                        /*조회년월인 2015년 8월 이후라면, 포인트 사용시작월인 2015년 7월부터 조회년월 이전까지 조회*/
+                        <![CDATA[
+                        , SUM(CASE WHEN p.paydt >= CONVERT(DATETIME,'2015-07-01',21) AND
+                                        p.paydt < CONVERT(DATETIME, ${startDate},21) THEN 1 ELSE 0 END) BM
+                        ]]>
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                      <![CDATA[
+                      , SUM(CASE WHEN p.paydt >= CONVERT(DATETIME, ${strYYYY} + '-01-01',21) AND
+                                      p.paydt < CONVERT(DATETIME, ${startDate}, 21) THEN 1 ELSE 0 END) BM
+                      ]]>
+            </otherwise>
+        </choose>
+        <![CDATA[
+        , SUM(CASE WHEN p.paydt >= CONVERT(DATETIME, ${startDate}, 21) AND
+                        p.paydt < CONVERT(DATETIME, ${endDate}, 21)+1 THEN 1 ELSE 0 END) TM
+        , SUM(CASE WHEN p.paydt >= CONVERT(DATETIME, ${startDate}, 21) AND
+                        p.paydt < CONVERT(DATETIME, ${endDate}, 21)+1 THEN ISNULL(p.pntprice,0) ELSE 0 END) TMP
+                    , SUM(CASE WHEN p.paydt >= CONVERT(DATETIME, ${startDate},21) AND
+                                    p.paydt < CONVERT(DATETIME, ${endDate}, 21)+1 THEN p.ttlprice ELSE 0 END) TMT
+                     ]]>
+        FROM od_pay p
+        JOIN od_member m
+        ON p.paynum = m.paynum
+        WHERE p.paystcd = ${paystPay}
+        <choose>
+            <when test='strYYYY = "2015"'>
+                <![CDATA[
+                  AND p.paydt >= CONVERT(DATETIME,'2015-07-01',21)
+                ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+                AND p.paydt >= CONVERT(DATETIME,${strYYYY} + '-01-01',21)
+                ]]>
+            </otherwise>
+        </choose>
+        <![CDATA[
+        AND p.paydt < CONVERT(DATETIME,${endDate},21)+1
+        AND ISNULL(p.pntprice,0) > 0
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+        WHERE paystcd = ${paystPay}
+        <choose>
+            <when test='strYYYY = "2015"'>
+                <![CDATA[
+                AND orddt >= CONVERT(DATETIME,'2015-07-01',21)
+                ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+                AND orddt >= CONVERT(DATETIME,${strYYYY} + '-01-01',21)
+                ]]>
+            </otherwise>
+        </choose>
+        <![CDATA[
+        AND orddt < CONVERT(DATETIME, ${endDate}, 21)+1
+        ]]>
+        AND odgubun IN (${nSaleOrderType})
+        )
+    </sql>
+
+    <sql id="hynix020totalUsePointAmountCommon">
+        /*hynix020totalUsePointAmountCommon 총 포인트 사용액 조회 공통*/
+        SELECT COUNT(DISTINCT p.memcd) memcount
+             , ISNULL(SUM(p.pntprice),0) pnttotal
+             , ISNULL(SUM(p.ttlprice),0) ttltotal
+        FROM od_pay p
+          JOIN od_member m
+            ON p.paynum = m.paynum
+        WHERE p.paystcd = ${paystPay}
+        <choose>
+            <when test='strYYYY = "2015"'>
+                <![CDATA[
+                    AND p.paydt >= CONVERT(DATETIME,'2015-07-01',21)
+                ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+                AND p.paydt >= CONVERT(DATETIME,${strYYYY} + '-01-01',21)
+            ]]>
+            </otherwise>
+        </choose>
+        <![CDATA[
+           AND p.paydt < CONVERT(DATETIME,${endDate},21)+1
+           AND ISNULL(p.pntprice,0) > 0
+           ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+        WHERE paystcd = ${paystPay}
+        <choose>
+            <when test='strYYYY = "2015"'>
+                <![CDATA[
+                AND orddt >= CONVERT(DATETIME,'2015-07-01',21)
+                ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+                AND orddt >= CONVERT(DATETIME,${strYYYY} + '-01-01',21)
+                ]]>
+            </otherwise>
+        </choose>
+        <![CDATA[
+          AND orddt < CONVERT(DATETIME, ${endDate}, 21)+1
+         ]]>
+        AND odgubun IN ( ${nSalesOrderType})
+        )
+    </sql>
+   <!-- ************************************   sqlCommon   ***************************************-->
+    <select id="hynix010dayCumulativeSales">
+        /* dayCumulativeSales 당일 매출*/
+       <include refid="hynix010cumulativeSalesCommon">
+            <property name="paystPay" value="paystPay"/>
+       </include>
+        <![CDATA[
+          AND fixdt >= #{datex}
+          AND fixdt <= #{datex}
+           ]]>
+          AND p.paynum IN (SELECT paynum
+                           FROM od_header
+                            WHERE odgubun IN (#{nSalesOrderType})
+                             <![CDATA[
+                             AND orddt >= CONVERT(DATETIME,#{datex},21)
+                             AND orddt < CONVERT(DATETIME,#{datex},21)+1
+                             ]]>
+                           )
+       <include refid="hynix010commonCondition">
+           <property name="groupcd" value="groupcd"/>
+           <property name="sgrade" value="sgrade"/>
+       </include>
+    </select>
+
+    <select id="yesterdayCumulativeSales">
+        /* yesterdayCumulativeSales 전일 매출*/
+        <include refid="hynix010cumulativeSalesCommon">
+            <property name="paystPay" value="paystPay"/>
+        </include>
+        <![CDATA[
+          AND fixdt >=#{beforedatex}
+          AND fixdt <=#{beforedatex}
+        ]]>
+        AND p.paynum IN (SELECT paynum
+                         FROM od_header
+                          WHERE odgubun IN (#{nSalesOrderType})
+                           <![CDATA[
+                             AND orddt >= CONVERT(DATETIME,#{beforedatex},21)
+                             AND orddt < CONVERT(DATETIME,#{beforedatex},21)+1
+                            ]]>
+                        )
+        <include refid="hynix010commonCondition">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="monthCumulativeSales">
+        /* monthCumulativeSales 당월 매출*/
+        <include refid="hynix010cumulativeSalesCommon">
+            <property name="paystPay" value="paystPay"/>
+        </include>
+           <![CDATA[
+           AND fixdt >= Left(#{datex},7) -01
+           AND fixdt <=#{datex}
+           ]]>
+           AND p.paynum IN (SELECT paynum
+                            FROM od_header
+                             WHERE odgubun IN (#{nSalesOrderType})
+                            <![CDATA[
+                             AND orddt >= CONVERT(DATETIME,(#{datex},7) -01,21)
+                             AND orddt < CONVERT(DATETIME,#{datex},21)+1
+                            ]]>
+        <include refid="hynix010commonCondition">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+    <select id="monthCalculateCumulativeSales">
+        /* monthCalculateCumulativeSales 당월정산매출*/
+        SELECT ISNULL(SUM((CASE WHEN m.grpcd='96' THEN payprice ELSE ttlprice END)-tvat),0) ptotal
+        FROM od_pay p
+          JOIN od_member m
+            ON m.paynum = p.paynum
+         WHERE paystcd = #{paystPay}
+           <![CDATA[
+           AND paydt >= CONVERT(DATETIME,#{afdate},21)
+           AND paydt < CONVERT(DATETIME,#{atdate},21)+1
+           ]]>
+           AND p.paynum IN (SELECT paynum
+                            FROM od_header
+                             WHERE odgubun IN (#{nSalesOrderType})
+                             <![CDATA[
+                             AND orddt >= CONVERT(DATETIME,#{atdate}, 21)
+                             AND orddt < CONVERT(DATETIME,#{atdate}, 21)+1
+                             ]]>
+                           )
+        <include refid="hynix010commonCondition">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="yearCumulativeSales">
+        /* yearCumulativeSales 연 매출*/
+        <include refid="hynix010cumulativeSalesCommon">
+            <property name="paystPay" value="paystPay"/>
+        </include>
+        <![CDATA[
+         AND fixdt >= Left(#{datex},4)
+         AND fixdt <=#{datex}
+         ]]>
+         AND p.paynum IN (SELECT paynum
+                          FROM od_header
+                           WHERE odgubun IN (#{nSalesOrderType})
+                             <![CDATA[
+                             AND orddt >= CONVERT(DATETIME,Left(#{datex},4))
+                             AND orddt < CONVERT(DATETIME,#{datex},21)+1
+                             ]]>
+                          )
+        <include refid="hynix010commonCondition">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+
+
+    <select id="useSkPointPriceMonth">
+         /*useSkPointPriceMonth '당월 SK포인트 사용액*/
+        <include refid="hynix010skPointPriceCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="paystPay" value="paystPay"/>
+        </include>
+           <![CDATA[
+           AND p.paydt >= CONVERT(DATETIME,#{startDate},21)
+           AND p.paydt < CONVERT(DATETIME,#{endDate},21)+1
+           ]]>
+           AND p.paynum IN (SELECT paynum
+                              FROM od_header
+                               WHERE paystcd =#{paystPay}
+                                 AND odgubun IN (#{nSalesOrderType})
+                           )
+           <if test='sgrade != "" '>
+               AND m.gradecd =#{sgrade}
+           </if>
+    </select>
+
+    <select id="accumulateSkPointUsePrice">
+        /*accumulateSkPointUsePrice '누적 SK포인트 사용액*/
+        <include refid="hynix010skPointPriceCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="paystPay" value="paystPay"/>
+        </include>
+        <![CDATA[
+          AND p.paydt >= CONVERT(DATETIME,'2015-07-01',21)
+         ]]>
+          AND p.paynum IN (SELECT paynum
+                           FROM od_header
+                            WHERE paystcd =#{paystPay}
+                              AND odgubun IN (#{nSalesOrderType})
+                          )
+        <if test='sgrade != "" '>
+            AND m.gradecd =#{sgrade}
+        </if>
+    </select>
+
+    <select id="hynix010allSkPointPrice">
+        /* '전체 부여 SK포인트 총액 allSkPointPrice */
+        SELECT ISNULL(SUM(INITPOINT),0) SKPOINT
+             , COUNT(empnum) CNT
+        FROM MB_GRPEMP
+         WHERE grpcd =#{groupcd}
+           <![CDATA[
+           AND ISNULL(initpoint,0) > 0
+           ]]>
+         <if test='sgrade != "" '>
+            AND m.gradecd =#{sgrade}
+         </if>
+    </select>
+
+    <select id="hynix010searchTermNewJoinUserBuyAmount">
+        /* hynix010searchTermNewJoinUserBuyAmount 조회기간중 신규 가입한 유저 매출 총액*/
+        <include refid="hynix010searchTermNewJoinUserCommon">
+            <property name="paystPay" value="paystPay"/>
+            <property name="startDate" value="startDate"/>
+            <property name="endDate" value="endDate"/>
+        </include>
+           AND p.paynum IN (SELECT paynum
+                            FROM od_header
+                             WHERE odgubun IN (#{nSalesOrderType})
+                               <![CDATA[
+                               AND orddt >= CONVERT(DATETIME,#{startDate},21)
+                               AND orddt < CONVERT(DATETIME,#{endDate},21)+1
+                               ]]>
+                           )
+           AND p.memcd IN (SELECT memcd
+                           FROM mb_master
+                            WHERE memstcd='10'
+                              <![CDATA[
+                              AND upgradedt >= CONVERT(DATETIME,#{startDate},21)
+                              AND upgradedt < CONVERT(DATETIME,#{endDate},21)+1
+                              ]]>
+                           )
+        <include refid="hynix010commonCondition">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+    <select id="searchTermNewJoinUserInfohynix010">
+         /* searchTermNewJoinUserInfo 조회기간 중 가입한 신규 유저 정보 m62hynix010.asp*/
+         <include refid="hynix010EmployeeUpperCommon"/>
+                       SELECT m.memcd
+                            , m.grpcd
+                            , m.gradecd
+                            , CASE WHEN m.gradecd =#{gradeC} THEN ISNULL(g.bntc +}strMM} ,g.bntmax +}gradeC} )
+                                   WHEN m.gradecd =#{gradeB} THEN ISNULL(g.bntb +}strMM} ,g.bntmax +}gradeB})
+                                   WHEN m.gradecd =#{gradeA} THEN ISNULL(g.bnta +}strMM} ,g.bntmax +}gradeA})
+                                   ELSE 0
+                              END bntmax
+                       FROM mb_master m
+                         JOIN mb_group g
+                           ON m.grpcd = g.grpcd
+                        WHERE m.memstcd IN (#{memstJoin},#{memstUp})
+                          AND m.grpcd=#{groupcd}
+                        <if test='sgrade != ""'>
+                              AND m.gradecd =#{sgrade}
+                        </if>
+                        <![CDATA[
+                         AND DATEDIFF(D,m.indt,#{endDate}) >= 0  /*'해당 연월까지 가입한 사람들만.*/
+                        ]]>
+        <include refid="hynix010EmployeeLowerCommon">
+            <property name="startDate" value="startDate"/>
+            <property name="endDate" value="endDate"/>
+            <property name="paystPay" value="paystPay"/>
+            <property name="nSalesOrderType" value="nSalesOrderType"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+            <property name="yyyymm" value="yyyymm"/>
+        </include>
+    </select>
+
+    <select id="hynix010employeeGradeAll">
+       /*employeeGradeAll 직원등급 전체*/
+        SELECT cdcode
+             , cdname
+             , useyn
+        FROM cd_master
+         WHERE cdtype =#{typeGrade}
+           AND useyn = 'Y'
+         ORDER BY CDCODE DESC
+    </select>
+    
+    <select id="hynix010claimStatus">
+       /*hynix010claimStatus 클레임 건수*/
+        SELECT COUNT(1) cnt
+        FROM cd_master
+         WHERE cdtype = '60'
+           AND ISNULL(useyn,'N') = 'Y'
+    </select>
+
+
+
+    <select id="hynix010claimReason">
+        /* claimReason 클레임 사유, 클레임 건수, 주문건수, 상품건수, 판매금액*/
+                                AND om.grpcd =#{groupcd}
+                              <if test='sgrade != "" '>
+                                   AND om.gradecd =#{sgrade}
+                              </if>
+                                <![CDATA[
+                                AND ch.claimstcd <> '99'
+                                ]]>
+                                AND cl.claimflag = 'Y'
+                                AND cl.useyn = 'Y'
+                            GROUP BY ch.claimreason
+                           ) c
+                        ON cm.cdcode = c.claimreason
+                WHERE cm.cdtype = '60'
+             ) AS x
+        GROUP BY x.creasondesc
+        ORDER BY x.creasondesc DESC
+    </select>
+
+
+
+    <select id="hynix010orderSumCount">
+        <include refid="hynix010OrderSumCommon">
+            <property name="startDate" value="startDate"/>
+            <property name="endDate" value="endDate"/>
+            <property name="nSalesOrderType" value="nSalesOrderType"/>
+        </include>
+        /* orderSumCount 주문량 합계*/
+           AND m.grpcd =#{groupcd}
+         <if test='sgrade != "" '>
+             AND m.gradecd =#{sgrade}
+         </if>
+    </select>
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - (특집) SK하이닉스 판매 활동정보 보기
+    'File          : m62hynix020.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20150727
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20150727   hwkim   0.9     처음 작성
+    '20150901   sykim   0.9.1   포인트 첫 사용자 및 사용포인트
+    '20150902   hwkim   0.9.2   수치 추가 및 디자인 일부변경 적용
+    '20160107   sykim   0.9.3   2015년이 아닌 이후의 SK포인트 누적일자 수정.
+    '20161215   hwkim   0.9.4   리뉴얼 디자인에 맞춤-->
+
+
+
+    <select id="hynix020searchTermNewJoinUserInfohynix020">
+        /* searchTermNewJoinUserInfo 조회기간 중 가입한 신규 유저 정보 m62hynix20.asp*/
+        <include refid="hynix010EmployeeUpperCommon"/>
+        SELECT m.memcd
+             , m.grpcd
+             , m.gradecd
+             , CASE WHEN m.gradecd = #{gradeC} THEN ISNULL(g.bntc + #{strMM},g.bntmax +#{gradeC}
+                    WHEN m.gradecd = #{gradeB} THEN ISNULL(g.bntb + #{strMM},g.bntmax + #{gradeB})
+                    WHEN m.gradecd = #{gradeA} THEN ISNULL(g.bnta + #{strMM},g.bntmax + #{gradeA})
+                    ELSE 0
+               END bntmax
+        FROM mb_master m
+          JOIN mb_group g
+            ON m.grpcd = g.grpcd
+         WHERE 1 = 1  /*'하이닉스는 포인트소진을 위해 휴직, 탈퇴신청까지 모두 포함.*/
+           AND m.grpcd = #{groupcd}
+        <if test='sgrade != ""'>
+            AND m.gradecd = #{sgrade}
+        </if>
+        <![CDATA[
+           AND DATEDIFF(D,m.indt,#{endDate}) >= 0  /*'해당 연월까지 가입한 사람들만.*/
+          ]]>
+        <include refid="hynix010EmployeeLowerCommon">
+            <property name="startDate" value="startDate"/>
+            <property name="endDate" value="endDate"/>
+            <property name="paystPay" value="paystPay"/>
+            <property name="nSalesOrderType" value="nSalesOrderType"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+            <property name="yyyymm" value="yyyymm"/>
+        </include>
+    </select>
+
+    
+    <select id="hynix020FirstPointUseUser">
+        /* hynix020FirstPointUseUser 처음 포인트 사용 유저 조회*/
+        <include refid="hynix020FirstPointUsePersonCommon">
+            <property name="startDate" value="startDate"/>
+            <property name="endDate" value="endDate"/>
+            <property name="strYYYY" value="strYYYY"/>
+            <property name="paystPay" value="paystPay"/>
+            <property name="nSaleOrderType" value="nSaleOrderType"/>
+        </include>
+        AND m.grpcd = #{groupcd}
+        <if test='sgrade != "" '>
+            AND m.gradecd = '#{sgrade#{'
+        </if>
+        GROUP BY p.memcd
+        ) a
+        <![CDATA[
+        WHERE a.bm = 0 AND a.tm > 0
+        ]]>
+    </select>
+
+
+    
+    <select id="hynix020totalUserAmount">
+         /* hynix020totalUserAmount 총 포인트 사용액 조회*/
+        <include refid="hynix020totalUsePointAmountCommon">
+            <property name="paystPay" value="paystPay"/>
+            <property name="strYYYY" value="strYYYY"/>
+            <property name="endDate" value="endDate"/>
+            <property name="nSalesOrderType" value="nSalesOrderType"/>
+        </include>
+        AND m.grpcd = #{groupcd}
+        <if test='sgrade != "" '>
+            AND m.gradecd = #{sgrade}
+        </if>
+    </select>
+
+
+    <select id="hynix020SelectCompany">
+        /*hynix020SelectCompany 회사 선택*/
+        <include refid="hynix020selectCompanyCommon"/>
+          AND grpname IN ('')
+        ORDER BY grpname
+    </select>
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - (특집) SK하이닉스 판매 활동정보 보기
+    'File          : m62hynix030.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : sykim
+    'Date Started  : 20171108
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20171108   sykim   0.9     처음 작성
+    '20190116   sykim   0.9.1   당일매출, 전일매출, 당월누적 을 매출에서 판매액으로,
+    '                           정산누적(매출) 을 전년동기(판매) 로 변경.-->
+
+
+    <sql id="hynix030SalesUpperCommon">
+        /* hynix030SalesUpperCommon 판매금액 조회 상단 공통*/
+        SELECT ISNULL(SUM(p.ttlprice),0) ptotal  /*'판매금액*/
+        FROM od_pay p
+                 JOIN od_member m
+                      ON m.paynum = p.paynum
+        WHERE p.paystcd = #{paystPay}
+    </sql>
+
+
+    <select id="hynix030todaySales">
+         <include refid="hynix030SalesUpperCommon"/>
+           <![CDATA[
+           AND p.paydt >= CONVERT(DATETIME,#{datex},21)
+           AND p.paydt < CONVERT(DATETIME,#{datex},21)+1
+           ]]>
+           AND p.paynum IN (SELECT paynum FROM od_header
+                                           WHERE paystcd = #{paystPay}
+                                             AND odgubun IN ( #{nSalesOrderType})
+                           )
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="hynix030yesterdaySales">
+        <include refid="hynix030SalesUpperCommon"/>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME, #{beforedatex}, 21)
+        AND p.paydt < CONVERT(DATETIME, #{beforedatex}, 21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN ( #{nSalesOrderType})
+        )
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="hynix030monthSales">
+        <include refid="hynix030SalesUpperCommon"/>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME,Left(#{datex},7) + '-01',21)
+        AND p.paydt < CONVERT(DATETIME, #{datex},21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN (  #{nSalesOrderType} )
+        )
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="hynix030accumulateSales">
+        <include refid="hynix030SalesUpperCommon"/>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME, Left(#{datexBeforeYear},7) + '-01',21)
+        AND p.paydt < CONVERT(DATETIME, #{datexBeforeYear},21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN ( #{nSalesOrderType} )
+        <![CDATA[
+        AND orddt >= CONVERT(DATETIME, Left(#{datexBeforeYear},7) + '-01',21)
+        AND orddt < CONVERT(DATETIME, #{datexBeforeYear},21)+1)
+        ]]>
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="hynix030yearSales">
+        <include refid="hynix030SalesUpperCommon"/>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME,(Left(#{datex},4))-1)  + '-12-26',21)
+        AND p.paydt < CONVERT(DATETIME, #{datex},21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN ( #{nSalesOrderType})
+        )
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+
+    
+    <select id="hynix030monthSkPointUse">
+        <include refid="hynix010skPointPriceCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="paystPay" value="paystPay"/>
+        </include>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME,#{startDate},21)
+        AND p.paydt < CONVERT(DATETIME,#{endDate},21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN ( #{nSalesOrderType} )
+        )
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="hynix030AccumulateUseSkPoint">
+        <include refid="hynix010skPointPriceCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="paystPay" value="paystPay"/>
+        </include>
+        <choose>
+            <when test='strYYYY != "2015"'>
+                <![CDATA[
+                AND p.paydt >= CONVERT(DATETIME,'2015-07-01',21)
+                ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+                AND p.paydt >= CONVERT(DATETIME, #{strYYYY} + '-01-01',21)
+                ]]>
+            </otherwise>
+        </choose>
+        <![CDATA[
+        AND p.paydt < CONVERT(DATETIME, #{strYYYY} + '-12-31',21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                         WHERE paystcd = #{paystPay}
+                                           AND odgubun IN (#{nSalesOrderType})
+                         )
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="hynix030AllGiveSkPointAmount">
+        SELECT ISNULL(SUM(INITPOINT),0) SKPOINT
+             , COUNT(empnum) CNT
+        FROM mb_grpemp
+         WHERE 1 = 1
+                <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+    
+    <select id="hynix030searchTermNewJoinUserAmount">
+        <include refid="hynix010searchTermNewJoinUserCommon">
+            <property name="paystPay" value="paystPay"/>
+            <property name="startDate" value="startDate"/>
+            <property name="endDate" value="endDate"/>
+        </include>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN (#{nSalesOrderType})
+                        )
+        AND p.memcd IN (SELECT memcd FROM mb_master
+                                      WHERE memstcd = #{memstUp}
+                                      <![CDATA[
+                                        AND upgradedt >= CONVERT(DATETIME, #{startDate}, 21)
+                                        AND upgradedt < CONVERT(DATETIME,#{endDate}, 21)+1
+                                      ]]>
+                        )
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="hynix030searchTermNewJoinUserCnt">
+        SELECT ISNULL(SUM(d.totalmember),0) totalmember, ISNULL(SUM(d.availbntsum),0) availbntsum
+             , ISNULL(SUM(d.paymember),0) paymember, ISNULL(SUM(d.usedbntsum),0) usedbntsum
+             , ISNULL(SUM(d.totalpaycount),0) totalpaycount, ISNULL(SUM(d.totalpaysum),0) totalpaysum
+             , ISNULL(SUM(d.notusedbntsum),0) notusedbntsum, ISNULL(SUM(d.bntmb_count),0) bntmb_count
+             , ISNULL(SUM(ISNULL(mc.wk_count,CASE WHEN ISNULL(g.workforce, 0)= 0 THEN d.memcnt ELSE g.workforce END)),0) workforce
+        FROM (
+                 SELECT c.grpcd, COUNT(DISTINCT c.memcd) memcnt
+                      , COUNT(1) totalmember, SUM(c.bntmax) availbntsum
+                      , SUM(CASE WHEN c.paycnt = 0 THEN 0 ELSE 1 END) paymember
+                      , SUM(c.bntsum) usedbntsum, SUM(c.paycnt) totalpaycount
+                      , SUM(c.ttlsum) totalpaysum, SUM(c.bntmax)-SUM(c.bntsum) notusedbntsum
+                      , ROUND(SUM(c.bntsum)/(CASE WHEN SUM(c.bntmax)=0 THEN 1 ELSE SUM(c.bntmax) END)*100,1) bntmb_count
+                 FROM (
+                          SELECT a.grpcd, a.memcd, a.gradecd
+                               , CASE WHEN ISNULL(b.ttlsum,0) = 0 THEN 0 ELSE a.bntmax END bntmax
+                               , ISNULL(b.paycnt,0) paycnt, ISNULL(b.bntsum,0) bntsum, ISNULL(b.ttlsum,0) ttlsum
+                          FROM (SELECT m.memcd, m.grpcd, m.gradecd
+                                     , CASE WHEN m.gradecd = #{gradeC} THEN ISNULL(g.bntc + #{strMM},g.bntmax + #{gradeC} )
+                                            WHEN m.gradecd = #{gradeB} THEN ISNULL(g.bntb + #{strMM} ,g.bntmax + #{gradeB} )
+                                            WHEN m.gradecd = #{gradeA} THEN ISNULL(g.bnta + #{strMM} ,g.bntmax + #{gradeA} )
+                                            ELSE 0 END bntmax
+                                FROM mb_master m
+                                         JOIN mb_group g ON m.grpcd = g.grpcd
+                                 WHERE 1 = 1
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+                                  <![CDATA[
+                                  AND DATEDIFF(D,m.indt, #{endDate}) >= 0
+                                  ]]>
+                                ) a
+                            LEFT JOIN (SELECT p.memcd
+                                            , b.grpcd
+                                            , b.gradecd
+                                            , COUNT(p.paynum) paycnt
+                                            , SUM(p.bntprice) bntsum
+                                            , SUM(p.ttlprice) ttlsum
+                                       FROM od_pay p
+                                         JOIN od_member b
+                                           ON p.paynum = b.paynum
+                                        WHERE p.paystcd = #{paystPay}
+                                        <![CDATA[
+                                          AND p.paydt >= CONVERT(DATETIME, #{startDate},21)
+                                          AND p.paydt < CONVERT(DATETIME, #{endDate},21)+1
+                                        ]]>
+                                          AND p.paynum IN ( SELECT paynum FROM od_header
+                                                                           WHERE paystcd = #{paystPay}
+                                                                             AND odgubun IN ( #{nSalesOrderType})
+                                                           )
+                                                <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+                                        GROUP BY p.memcd, b.grpcd, b.gradecd
+                                      ) b ON a.memcd = b.memcd
+                                         AND a.grpcd = b.grpcd
+                         ) c
+                 GROUP BY c.grpcd
+              ) d
+          JOIN mb_group g
+            ON d.grpcd = g.grpcd
+          LEFT JOIN monthlyclosing mc
+                 ON mc.yyyymm = #{yyyymm}
+                AND mc.grpcd = d.grpcd
+    </select>
+    <select id="hynix030FirstUsePointUser">
+        <include refid="hynix020FirstPointUsePersonCommon">
+            <property name="startDate" value="startDate"/>
+            <property name="endDate" value="endDate"/>
+            <property name="strYYYY" value="strYYYY"/>
+            <property name="paystPay" value="paystPay"/>
+            <property name="nSaleOrderType" value="nSaleOrderType"/>
+        </include>
+
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="hynix030TotalUsePointAmount">
+        <include refid="hynix020totalUsePointAmountCommon"/>
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="hynix030SelectCompany">
+        <include refid="hynix020selectCompanyCommon"/>
+          AND grpname IN (#{skHynixes})
+        ORDER BY grpname
+    </select>
+
+    <select id="hynix030EmployeeAll">
+        SELECT cdcode
+             , cdname
+             , useyn
+        FROM cd_master
+        WHERE cdtype =#{typeGrade}
+          AND useyn = 'Y'
+        ORDER BY CDCODE DESC
+    </select>
+
+    <select id="hynix030Claim">
+        <include refid="hynix010ClaimUpperCommon">
+            <property name="startDate" value="startDate"/>
+            <property name="endDate" value="endDate"/>
+        </include>
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+                               <![CDATA[
+                                AND ch.claimstcd <> '99'
+                                ]]>
+                                AND cl.claimflag = 'Y'
+                                AND cl.useyn = 'Y'
+                              GROUP BY ch.claimreason
+                          ) c
+            ON cm.cdcode = c.claimreason
+          WHERE cm.cdtype = '60'
+        ) AS x
+        GROUP BY x.creasondesc
+        ORDER BY x.creasondesc DESC
+    </select>
+
+    <select id="hynix030OrderSumCnt">
+        <include refid="hynix010OrderSumCommon">
+            <property name="startDate" value="startDate"/>
+            <property name="endDate" value="endDate"/>
+            <property name="nSalesOrderType" value="nSalesOrderType"/>
+        </include>
+        <include refid="hynix030ConditionCommon">
+            <property name="skHynixes" value="skHynixes"/>
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+</mapper>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="snsLoginProcess">
+<!--    '프로젝트: 자연이랑 모바일 웹-->
+<!--    '프로그램: 회원가입 - 간편가입 프로필정보 수신 및 분기처리-->
+
+<!--    '20190222   hyeok   처음작성-->
+<!--    '20190515   hwkim   T-walk 연동정보 등록 처리 추가-->
+<!--    '20190916   sykim   비밀번호 SHA함수 변경(dbo.UBHASHFunc 대신 HASHBYTES('SHA2_256'.. 함수 사용).-->
+    <select id="">
+        SELECT a.memcd
+             , a.memid
+             , a.memname
+             , a.memstcd
+             , b.nickn
+             , b.idurl
+             , ISNULL(b.memlevel,'0') memlevel
+             , b.jobtype
+             , b.jobname
+             , CASE WHEN ISNULL(b.isblogger,'')='' THEN 'N' ELSE 'Y' END isblogger
+             , ISNULL(c.islocked,0) islocked
+             , ISNULL(login_failed_count,0) login_failed_count
+        FROM mb_master a
+          LEFT JOIN memberprofile b ON a.memid = b.memid
+          LEFT JOIN logininfo c ON a.memcd = c.memcd
+         WHERE a.memstcd NOT IN (#{memstOut})
+           AND a.memcd = (SELECT sns_cmcd FROM sns_login_master WHERE sns_type = #{strSnsType}
+                                                                  AND sns_id = #{strSnsId}
+                                                                  AND sns_conn = 'Y')
+
+    </select>
+
+    <delete id="deleteOdCart">
+        /*deleteOdCart 장바구니 정리*/
+        DELETE FROM od_cart
+        WHERE memcd = #{strRSMEMCD}
+    </delete>
+    <delete id="deleteShoppingBasket">
+        /* deleteShoppingBasket 담은지 7일이 넘었거나 판매중지인 상품 정리 */
+        DELETE FROM shopping_basket
+        WHERE memcd = #{strRSMEMCD}
+          AND od_gubun NOT IN ('10','12','15')
+          AND gdcd IN (SELECT c.gdcd
+                       FROM shopping_basket c
+                                JOIN gd_master g ON g.gdcd = c.gdcd
+                       WHERE memcd = #{strRSMEMCD}
+                        <![CDATA[
+                         AND (DATEDIFF(d,c.indt,GETDATE()) > 7 OR g.useyn = 'N') )
+                        ]]>
+    </delete>
+
+    <delete id="deleteReserveProd">
+        DELETE FROM shopping_basket
+        WHERE memcd = #{strRSMEMCD}
+          AND od_gubun IN ('10','12','15')
+          AND gdcd NOT IN ( SELECT gdcd
+                            FROM od_reservegoods
+                             <![CDATA[
+                             WHERE DATEDIFF(d,od_from,GETDATE()) >= 0 AND DATEDIFF(d,GETDATE(),od_to) >= 0 )
+                              ]]>
+    </delete>
+
+    <update id="unlockShoppingCartProd">
+        UPDATE shopping_basket
+           SET freeze = '0'
+         WHERE memcd = #{strRSMEMCD}
+           AND freeze = '1'
+    </update>
+
+    <update id="saveAndResetLoginInfo">
+        /*saveAndResetLoginInfo 회원 로그인 정보 저장, 로그인 실패 정보 초기화*/
+        UPDATE logininfo
+           SET last_login = GETDATE()
+             , islogin = 1
+             , login_count = login_count + 1
+             , login_failed_count = 0
+             , islocked = 0
+         WHERE memcd = #{strRSMEMCD}
+    </update>
+
+    <insert id="newLoginInfoInsert">
+       /* newLoginInfoInsert 로그인 정보 저장*/
+        INSERT INTO logininfo(
+                               memcd
+                             , last_login
+                             , last_logout
+                             , islogin
+                             , login_count
+                             , login_failed_count
+                             , islocked
+                             )
+               VALUES(
+                       #{strRSMEMCD}
+                     , GETDATE()
+                     , ''
+                     , 1
+                     , 1
+                     , 0
+                     , 0
+                     )
+    </insert>
+
+    <insert id="saveLoginHistory">
+        /* saveLoginHistory 로그인 History 테이블 저장*/
+        INSERT INTO logininfo2(
+                                memcd
+                              , ipx
+                              , refererx
+                              , device
+                              , user_agent
+                              )
+               VALUES (
+                        #{strRSMEMCD}
+                      , #{ipx}
+                      , #{refererx}
+                      , 'M'
+                      , #{userAgent}
+                      )
+    </insert>
+
+    <select id="TWalkSelect">
+       /* TWalkSelect 외부 연계접속(T-walk) 조회*/
+        SELECT COUNT(1) RCNT
+          FROM TWALK_MEMBER
+           WHERE tw_memcd = #{strRSMEMCD}
+             AND tw_pid = #{pid}
+    </select>
+
+    <insert id="TWalkInsert">
+        /* TWalkInsert rCount = 0  '외부 연계접속(T-walk)이 있을 경우 연동정보 등록*/
+        INSERT INTO TWALK_MEMBER(
+                                  tw_memcd
+                                , tw_pid
+                                , tw_indt
+                                )
+               VALUES (
+                        #{strRSMEMCD}
+                      , #{pid}
+                      , getdate()
+                      )
+    </insert>
+
+    <select id="loginAutoPoint">
+        /* loginAutoPoint 로그인 자동 포인트 조회*/
+        SELECT TOP 1 idx
+             , ISNULL(points,0) points
+             , memo
+        FROM book_accpoint
+         WHERE used = 'N'
+           AND memcd = #{strRSMEMCD}
+           <![CDATA[
+           AND ISNULL(apydt,getdate()) >= CONVERT(VARCHAR,GETDATE(),23)
+           ]]>
+        ORDER BY apydt DESC
+    </select>
+    
+    <select id="authorityPointAccumulate">
+        /* authorityPointAccumulate 포인트 권한적립*/
+        UPDATE book_accpoint
+        SET used = 'Y', usedt = getdate()
+        WHERE idx = #{rsIdx}
+    </select>
+
+    <select id="snsLogin">
+        /* snsLogin sns 로그인 회원정보 조회*/
+        SELECT a.memcd
+             , a.memid
+             , CASE WHEN mempw_hash = CONVERT(VARCHAR(1000),HASHBYTES('SHA2_256',#{strWithNaturePw}),2)
+                      Then 'Y'
+                    ELSE 'N'
+               END passyn
+        FROM mb_master a
+        WHERE a.memstcd NOT IN (#{memstOut})
+          AND a.memid = #{strWithNatureId}
+
+    </select>
+
+    <insert id="isAlreadyLink" statementType="CALLABLE">
+        /*isAlreadyLink sns 링크가 되지 않은 계정 sns 정보 추가*/
+       {CALL encryptionOpen
+        INSERT INTO sns_login_master (
+                                       sns_type
+                                     , sns_id
+                                     , sns_email_enc
+                                     , sns_cmcd
+                                     , sns_conn
+                                     , sns_conn_dt
+                                     , sns_info_01
+                                     , sns_info_02
+                                     , sns_info_03
+                                     , sns_info_04
+                                    ) 
+               VALUES (
+                        #{strSnsType}
+                      , #{strSnsId}
+                      , ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), #{strSnsEmail})
+                      , #{strRSMEMCD}
+                      , 'Y'
+                      , GETDATE()
+                      , #{strSnsName}
+                      , #{strSnsGender}
+                      , #{strSnsBirthday}
+                      , #{strSnsAgeRange}
+                      )
+        CALL encryptionClose}
+    </insert>
+
+    <update id="snsInfoUpdate" statementType="CALLABLE">
+        /* snsInfoUpdate sns정보 업데이트*/
+       {CALL encryptionOpen
+        UPDATE sns_login_master
+        SET sns_email_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strSnsEmail})
+          , sns_cmcd = #{strRSMEMCD}
+          , sns_conn = 'Y'
+          , sns_conn_dt = GETDATE()
+          , sns_info_01 = #{strSnsName}
+          , sns_info_02 = #{strSnsGender}
+          , sns_info_03 = #{strSnsBirthday}
+          , sns_info_04 = #{strSnsAgeRange}
+         WHERE sns_type = #{strSnsType}
+           AND sns_id = #{strSnsId}
+        CALL encryptionClose}
+    </update>
+
+    <update id="unlinkSns">
+        /*unlinkSns sns연결 해제*/
+        UPDATE sns_login_master
+        SET sns_conn = 'N'
+         WHERE sns_conn = 'Y'
+           AND sns_type = #{strSnsType}
+           AND sns_cmcd = #{strLoginMemCd}
+    </update>
+</mapper>

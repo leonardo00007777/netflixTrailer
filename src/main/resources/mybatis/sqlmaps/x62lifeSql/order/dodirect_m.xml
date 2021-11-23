@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dodirect">
+<!--    '20170331 hwkim 새로작성
+    '
+    '20200324 sykim 상품정보 단일화(gd_master & od_reservegoods > gd_master) 적용.-->
+    <select id="checkExistCategoryProd">
+       /*  checkExistCategoryProd 각 카테고리 별 존재하는 상품인지 검사*/
+        SELECT m.gdcd 
+         FROM gd_master m 
+           LEFT JOIN gd_cnt c 
+                  ON m.gdcd = c.gdcd 
+          WHERE m.gdcd = #{strGDCD}
+            AND m.useyn = 'Y'
+            <![CDATA[
+            AND ISNULL(c.gdcnt,99999) >= #{strGDCNT}
+            ]]>
+    </select>
+
+    <update id="updateCartProd">
+        /*updateCartProd 상품 정보 업데이트 */
+        UPDATE od_cart 
+           SET gdcnt = gdcnt +  #{strGDCNT}
+             , indt = GETDATE() 
+         WHERE memcd = #{strLoginMemCd} 
+           AND gdcd = #{strGDCD} 
+    </update>
+    
+    <insert id="insertCartProd">
+          /*insertCartProd 상품 정보 없으면 추가*/
+        INSERT INTO od_cart (
+                              memcd
+                            , crtidx
+                            , gdcd
+                            , gdcnt
+                            , indt
+                            , od_gubun 
+                            ) 
+       SELECT #{strLoginMemCd}
+            , ISNULL(MAX(CRTIDX),0)+1
+            , #{strGDCD}
+            , #{strGDCNT}
+            , GETDATE()
+            , #{strCartODTYPE}
+       FROM od_cart
+        WHERE memcd = #{strLoginMemCd}
+    </insert>
+</mapper>

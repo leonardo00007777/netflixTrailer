@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myOrderDlvEdit">
+<!--    'System        : 62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 주문배송조회상세 - 배송지변경 프로세스-->
+<!--    'File          : myorder_dlvedit_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hyeok-->
+<!--    'Date Started  : 20200123-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+<!--    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    '20200123   hyeok   1.0     처음작성(pc_DeliveryEdit_Process.asp복사)-->
+<!--    '20200210   sykim   -       전화번호, 휴대전화 배열구조로 정보를 받도록 수정.-->
+<!--    '                           윤석희 팀장의 요청으로 238-에스케이렌터카 주식회사 제주지역 주문가능 추가.-->
+    <update id="updateHeader">
+        /* updateHeader 배송 헤더 업데이트*/
+        UPDATE od_header
+        SET updt = GETDATE()
+          , sendyn = 'N'
+         WHERE ordnum = #{strORDNUM}
+    </update>
+    <update id="updateDeliveryAddress" statementType="CALLABLE">
+         /*updateDeliveryAddress 배송지 주소 변경*/
+       {CALL encryptionOpen
+        UPDATE od_delivery
+        SET rcvname = #{strRCVName}
+          , zipcd = #{strZIPCD}
+          , addr1_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),N#{strADDR1})
+          , addr2_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),N#{strADDR2})
+          , telno_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strTELNO})
+          , hpno_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strHPNO})
+          , dlvmsg = #{strDLVMSG}
+          , rcvmsg = #{strRCVMSG}
+          , sndname = #{strSNDName}
+         WHERE ordnum = #{strORDNUM}
+        CALL encryptionClose}
+    </update>
+</mapper>

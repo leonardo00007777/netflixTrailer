@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="custSetList">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 고객이 직접 만드는 묶음상품-->
+<!--    'File          : custsetlist_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20151107-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+<!--    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    '20151107   hwkim   0.9     처음 작성-->
+<!--    '20161205   hyeok   0.9.1   사이트 리뉴얼 layout적용-->
+<!--    '20161212   hwkim   0.9.2   레이아웃 표준 규칙 수정-->
+    <select id="custSetListPaging">
+        /*custSetListPaging 고객이 직접 만드는 묶음상품 List 페이징*/
+        SELECT CEILING(CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem}) maxpage
+             , COUNT(hseqno) CNT
+        FROM CART_RECIPE_HEADER
+         WHERE 1=1
+           AND share='Y'
+         <if test="searchValue != ''">
+           AND titlex like '%' + #{searchValue} + '%'
+         </if>
+         <if test="tagName != '' ">
+             AND hseqno IN ( SELECT bidx
+                               FROM basictagmap
+                                WHERE btype = #{tagTypeCartrecipe}
+                                  AND btidx IN ( SELECT btidx
+                                                   FROM basictag
+                                                    WHERE btname = #{tagName}
+                                              )
+                            )
+         </if>
+    </select>
+
+    <select id="custSetProdList">
+        /*custSetProdList 고객이 직접 만드는 묶음상품 List*/
+        SELECT * FROM (
+                          SELECT t.hseqno
+                               , t.titlex
+                               , t.memcd
+                               , t.pic1
+                               , t2.memname
+                               , t.hmemo
+                               , t.rcount
+                               , t.icount
+                               , ROUND(((t.scount*0.7)+(t.rcount*0.2)+(t.icount*0.1)),1) AS popscore
+                               , REPLACE(CONVERT(VARCHAR(20),t.indt,111),'/','-') AS indt
+                               , FLOOR( (ROW_NUMBER() OVER ( ORDER BY hseqno DESC, t.scount DESC, t.rcount ) - 1 ) / #{intPagePerItem} + 1) AS page
+                               , ( SELECT COUNT(rseqno)
+                                   FROM basicomments
+                                    WHERE rtype=#{tagTypeCartrecipe}
+                                      AND rid=t2.MEMID
+                                      AND ridx=t.hseqno
+                                 ) AS rcnt
+                          FROM CART_RECIPE_HEADER t
+                            JOIN MB_MASTER t2 ON t.memcd=t2.memcd
+                           WHERE 1=1
+                             AND share='Y'
+                          <if test="searchValue != ''">
+                             AND titlex like '%' + #{searchValue} + '%'
+                          </if>
+                          <if test="tagName != '' ">
+                             AND hseqno IN ( SELECT bidx
+                                               FROM basictagmap
+                                                WHERE btype = #{tagTypeCartrecipe}
+                                                  AND btidx IN ( SELECT btidx
+                                                                   FROM basictag
+                                                                    WHERE btname = #{tagName}
+                                                               )
+                                           )
+                          </if>
+                       ) AS pl
+
+    </select>
+
+    <select id="custSetGoodsList">
+        /*custSetGoodsList 상품 리스트*/
+        SELECT cl.gdcd
+             , g.gdname
+             , cl.gdqty
+        FROM CART_RECIPE_LINE cl
+          JOIN GD_MASTER g ON g.gdcd = cl.gdcd
+         WHERE cl.lseqno = #{rs_hseqno}
+    </select>
+</mapper>

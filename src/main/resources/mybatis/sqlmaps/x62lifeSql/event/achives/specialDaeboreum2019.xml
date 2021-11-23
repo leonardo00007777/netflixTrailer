@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="specialDaeboreum2019">
+    <!--
+        '지정된 사용자는 무조건 볼 수 있도록
+        'I0006074: 임혜정, I0007404: 윤석희, I1000675: 박성희, I1008121: 김흥완, I1008267: 정왕재, I1032425: 하상돈
+        'I1048759: 양희정, I1049552: 김태훈, I1052177: 이영실, I1014111: 박윤정, I1056159: 오진선, I1056660: 유하라
+        'I1061924: 박유영, I0007558: 김상연, I1062276: 김기령
+         If strLoginMemCd = "I0006074" Or strLoginMemCd = "I0007404" Or strLoginMemCd = "I1000675" Or _
+            strLoginMemCd = "I1008121" Or strLoginMemCd = "I1008267" Or strLoginMemCd = "I1032425" Or _
+            strLoginMemCd = "I1048759" Or strLoginMemCd = "I1049552" Or strLoginMemCd = "I1052177" Or _
+            strLoginMemCd = "I1014111" Or strLoginMemCd = "I1056159" Or strLoginMemCd = "I1056660" Or _
+            strLoginMemCd = "I1061924" Or strLoginMemCd = "I0007558" Or strLoginMemCd = "I1062276" Then
+        xflag = True
+     -->
+   <select id="specialDaeboreum2019Header">
+       SELECT *
+       FROM specialsellingh
+        WHERE shidx = #{sidx}
+          <![CDATA[
+          AND shstartdt <= GETDATE()
+          AND shenddt > GETDATE()
+          ]]>
+   </select>
+   <select id="specialDaeboreum2019DefaultCategory">
+        /* specialDaeboreum2019DefaultCategory 상품 카테고리 조회*/
+       SELECT cdcode
+            , cdname
+            , COUNT(x.slgdcd) CNT
+       FROM specialsellingl x
+         JOIN gd_master g
+           ON x.slgdcd = g.gdcd
+         JOIN cd_master c
+           ON c.cdtype = '20'
+          AND c.cdcode = g.div1
+         LEFT JOIN od_reservegoods r
+                ON x.slgdcd = r.gdcd
+               AND g.useyn = 'N'
+        WHERE x.slidx = ${sidx}
+          <![CDATA[
+          AND (g.useyn = 'Y' OR (g.useyn = 'N' AND r.useyn = 'Y'
+                                               AND GETDATE() >= CONVERT(DATETIME, od_from, 21)
+                                               AND GETDATE() < CONVERT(DATETIME, od_to, 21) + 1)
+              )
+          ]]>
+       <if test="listingMode == 'OPT'">
+           AND ISNULL(g.optionp,'N') = 'N'
+       </if>
+       GROUP BY cdcode,cdname
+       ORDER BY cdcode
+   </select>
+
+    <select id="specialDaeboreum2019UserCategory">
+        /*specialDaeboreum2019UserCategory 사용자 지정 카테고리*/
+        SELECT x.slcat cdcode
+             , COUNT(x.slcat) CNT
+        FROM specialsellingl x
+          JOIN gd_master g
+            ON x.slgdcd = g.gdcd
+          LEFT JOIN od_reservegoods r
+                 ON x.slgdcd = r.gdcd
+                AND g.useyn = 'N'
+         WHERE x.slidx = #{sidx}
+         <![CDATA[
+           AND (g.useyn = 'Y' OR (g.useyn = 'N' AND r.useyn = 'Y'
+                                                AND GETDATE() >= CONVERT(DATETIME, od_from, 21)
+                                                AND GETDATE() < CONVERT(DATETIME, od_to, 21) + 1
+                                 )
+        ]]>
+        <if test="listingMode == 'OPT'">
+            AND ISNULL(g.optionp,'N') = 'N'
+        </if>
+    </select>
+
+    <select id="specialDaeboreum2019TopTenProd">
+        /* specialDaeboreum2019TopTenProd top10 상품*/
+        SELECT TOP 10 shidx
+             , shtitle
+             , grpcd
+        FROM specialsellingh
+         WHERE 1 = 1
+           AND shrtype = #{shrtype}
+           <![CDATA[
+           AND shstartdt <= GETDATE()
+           AND shenddt >= GETDATE()
+           ]]>
+        <choose>
+            <when test="rsshlevel == '1'">
+                AND shlevel = #{rsshlevel}
+            </when>
+            <otherwise>
+                AND shlevel = #{rsshlevel}
+                AND shrelidx = #{rsshrelidx}
+            </otherwise>
+        </choose>
+            <![CDATA[
+            AND ISNULL(shhideyn, 'N') <> 'Y'
+            ]]>
+        ORDER BY ISNULL(grpcd,''), shidx DESC
+    </select>
+    <sql id="specialDaeboreum2019Common">
+        SELECT '11' odtype
+             , a.gdcd
+             , a.gdname
+             , a.unit
+             , a.price1
+             , a.gdimg
+             , a.mgdimg1
+             , a.divcd
+             , a.div1
+             , a.indt
+             , a.updt
+             , a.shortdesc
+             , ISNULL(z.gdcnt,99999) gdcnt
+             , CASE WHEN ISNULL(a.soldoutyn,'N')='N'
+                      THEN 'N'
+                    ELSE a.soldoutyn
+               END soldoutyn
+             , CASE WHEN ISNULL(a.deliverydtyn,'') = ''
+                      THEN 'N'
+                    ELSE a.deliverydtyn
+               END deliverydtyn
+             , ISNULL(a.newyn,'N') newyn
+             , ISNULL(a.qtysaleyn,'N') qtysaleyn
+             , dbo.getMasterPrice(a.gdcd) saleprice
+             , a.thedaysyn
+             , c.cdcode
+             , c.cdname
+             , a.priceyn
+             , i.origin
+             , i.producer
+             , i.address
+             , ISNULL(t.cdname,'미지정') AS gradedesc
+             , '' odtype2
+        FROM gd_master a
+          JOIN cd_master c
+            ON c.cdtype = '20'
+           AND c.cdcode = a.div1
+        JOIN specialsellingl x
+          ON x.slgdcd = a.gdcd
+        LEFT JOIN gd_cnt z
+               ON z.gdcd = a.gdcd
+        LEFT JOIN gd_item i
+               ON i.gdcd = a.gdcd
+        LEFT JOIN cd_master t
+               ON t.cdtype = '09'
+              AND t.cdcode = i.typecd
+        WHERE 1 = 1
+          AND a.useyn = 'Y'
+          AND a.divcd IN ('30','20')
+          AND x.slidx = #{sidx}
+          AND x.sltop = 'Y'
+        <if test="listingMode == 'OPT'">
+            AND ISNULL(a.optionp,'N') = 'N'
+        </if>
+        UNION ALL
+        SELECT '12' odtype
+             , r.gdcd
+             , r.gdnm gdname
+             , r.unit
+             , m.price1
+             , m.gdimg
+             , m.mgdimg1
+             , r.divcd
+             , r.divcd1 div1
+             , r.indt
+             , r.updt
+             , m.shortdesc
+             , ISNULL(gc.gdcnt,99999) gdcnt
+             , CASE WHEN ISNULL(soldoutyn,'N')='N'
+                      THEN 'N'
+                    ELSE soldoutyn
+               END soldoutyn
+             , CASE WHEN ISNULL(m.deliverydtyn,'')=''
+                      THEN 'N'
+                    ELSE m.deliverydtyn
+               END deliverydtyn
+             , ISNULL(m.newyn,'N') newyn
+             , 'N' qtysaleyn
+             , dbo.getMasterPrice(r.gdcd) saleprice
+             , m.thedaysyn
+             , c.cdcode
+             , c.cdname
+             , 'N' AS priceyn
+             , i.origin
+             , i.producer
+             , i.address
+             , ISNULL(t.cdname,'미지정') AS gradedesc
+             , r.type odtype2
+        FROM od_reservegoods r
+          JOIN gd_master m
+            ON r.gdcd = m.gdcd
+          JOIN cd_master c
+            ON c.cdtype = '20'
+           AND c.cdcode = m.div1
+          JOIN specialsellingl x
+            ON x.slgdcd = r.gdcd
+          LEFT JOIN gd_cnt gc
+                 ON gc.gdcd = r.gdcd
+          LEFT JOIN gd_item i
+                 ON i.gdcd = r.gdcd
+          LEFT JOIN cd_master t
+                 ON t.cdtype = '09'
+                AND t.cdcode = i.typecd
+         WHERE 1 = 1
+           AND r.useyn = 'Y'
+           <![CDATA[
+           AND r.od_from <= CONVERT(VARCHAR,GETDATE(),23)
+           AND r.od_to >= CONVERT(VARCHAR,GETDATE(),23)
+           ]]>
+           AND x.slidx = #{sidx}
+           AND x.sltop = 'Y'
+        <if test="listingMode == 'OPT'">
+            AND ISNULL(m.optionp,'N') = 'N'
+        </if>
+    </sql>
+    <select id="specialDaeboreum2019SuggestionProd">
+        /* specialDaeboreum2019SuggestionProd 기획전 추천 상품*/
+        SELECT *
+          FROM (
+                   <include refid="specialDaeboreum2019Common"/>
+                ) x
+        WHERE 1 = 1
+        <if test="shltoty != ''">
+            AND x.odtype = #{shltoty}
+        </if>
+        ORDER BY gdcd
+    </select>
+
+    <select id="specialDaeboreum2019AllPaging">
+       /*specialDaeboreum2019AllPaging 기획전 포함 상품 총 페이지 수*/
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem} ) MAXPAGE
+             , COUNT(gdcd) CNT
+        FROM (
+               <include refid="specialDaeboreum2019Common"/>
+             ) x
+        WHERE 1 = 1
+        <if test="shltoty != ''">
+            AND x.odtype = #{shltoty}
+        </if>
+        ORDER BY gdcd
+    </select>
+
+    <select id="specialDaeboreum2019AllProdInfo">
+        /* specialDaeboreum2019AllProdInfo 기획전 포함 상품 정보 구하기 */
+        SELECT * FROM (
+                       SELECT FLOOR( (ROW_NUMBER() OVER ( #{strListOrderBy} ) - 1 ) / #{intPagePerItem} + 1) AS PAGE
+                            , x.*
+                       FROM (
+                              <include refid="common"/>
+                            ) AS x
+                        WHERE 1 = 1
+                        <if test="shltoty != ''">
+                          AND x.odtype = #{shltoty}
+                        </if>
+                       ) AS pl
+                  WHERE PAGE = #{intPage}
+    </select>
+</mapper>

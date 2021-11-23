@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderstart">
+<!--
+    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 주문결제 첫화면
+    'File          : orderstart_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20130624
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20130624   hwkim   0.9     처음 작성
+    '20130930   sykim   -       후불정산제 지원금표시부분 표시 및
+    '                           현금영수증카드번호 입력 및 체크프로세스 추가.
+    '20131219   hwkim   0.9.1   도로명 주소 검색 기능 추가
+    '20140625   sykim   -       회원별 급여공제불가 옵션 추가.
+    '20140730   hwkim   0.9.2   도로명, 지번주소 검색 기능 향상. 필터링 범위 추가
+    '20150630   sykim   0.9.3   지원금으로만 결제가 가능한 경우 결제수단 안보이게 처리,
+    '                           SK포인트 항목은 소속사정보의 등급별 사용여부에 따라 보이도록.
+    '20160419   hwkim   1.0.1   외부배송 제3자동의 처리 및 등록 과정 추가
+    '20161006   sykim   1.0.2   이니시스결제에서 부가세와 면세금액 입력 추가.
+    '20161019   hwkim   1.1     우편번호 다음검색API로 변경
+    '20161128   hwkim   1.2     리뉴얼
+    '20170208   sykim   1.2.1   예약상품의 재고를 gd_cnt 참조하도록 변경.
+    '20170306   hwkim   1.3     SHOPPING_BASKET 방식으로 변경
+    '20170406   hwkim   1.3.1   보내는사람 정보 변경 기능 추가
+    '20170418   hwkim   1.3.2   주문유형별 분리 표시
+    '20170502   hwkim   1.3.3   OOOO원 미만 배송비 부과 표시.
+    '20170425   sykim   1.4.3   시럽페이 간편결제 추가.
+    '20170623   hwkim   -       바로구매 버그 수정 (장바구니가 비었을때)
+    '20170707   sykim   -       pgcd 추가.
+    '20170712   hyeok   -&#45;&#45;     네이버페이 간편결제 추가
+    '20171121   hwkim   -       판매중단, 품절 상품 선택 메시지 처리 버그 수정
+    '20180601   sykim   -       26 에스케이케미칼(생명과학) 제주도근무자 사유로 제주도 배송가능하도록 추가.
+    '20180627   sykim   -       08 SK네트웍스 제주도 배송가능하도록 추가.
+    '20180704   hwkim   -       지원금 사용 옵션 여부를 특정인에게만 허용 처리
+    '20180830   hwkim   1.4.4   배송제한지역 처리 추가
+    '20180904   sykim   1.4.5   배송비무료회원일 경우 배송비가 부과되지 않도록 적용. > strNoDeliveryChargeMember
+    '20180918   sykim   1.4.6   이니시스 Fake Check 기능 추가.(금액변조방지, 테스트환경은 지원안함.)
+    '20181214   hwkim   1.4.7   iOS WKWebview 결제 시 되돌아오기 위한 scheme 추가
+    '                           &apprun_check=Y&app_scheme=withnature://&mall_app_name=withnature
+    '20190107   sykim   -       이니시스 인증/승인결과 CharacterSet P_CHARSET 항목추가.
+    '20190508   sykim   -       개인결제 금액이 있는 상태에서 기타결제 사항이 나타나(P19040593380), doPayment() 초입에 검사를 추가함.
+    '20190529   hwkim   -       모바일 친화적 레이아웃 간격 조정함.
+    '20190513   sykim   1.4.8   고객사혜택(지원금, SK포인트, 급여공제, 건설의 복리후생포인트) 제한기능 추가.(T건강걷기 서비스시작)
+    '20190613   hwkim   -       포인트 사용 버튼, 레이아웃 변경
+    '20190620   sykim   -       11Pay > SKpay 변경.
+    '20200302   hwkim   1.5     공급자별 배송비 적용
+    '20200327   sykim   -       자동주문자가 아닐 경우 지원금체크사항 제외처리.
+    '20200414   sykim   1.5.1   실시간계좌이체 결제방법 추가.
+    '20200416   chhyeon         삼겹살 특가 중복구매 체크
+    '20200423   chhyeon         가정의달 특가상품 중복구매 체크 (1일 1개씩)
+    '20200521   chhyeon         참외 판매 이벤트 중복구매 체크(1일 1개씩)
+    '20200608   chhyeon         하겐다즈 특가상품 중복구매 체크
+    '20200618   chhyeon         쭈꾸미사령부 특가상품 중복구매 체크
+    '20200720   chhyeon         농협쌀밥 특가상품 중복구매 체크
+    '20200814   chhyeon         15주년 특가상품 중복구매 체크
+    '20200820   chhyeon         15주년 특가상품 중복구매 -> 순서변경요청 처리 -->
+    <sql id="checkEventCommonUpper">
+        /*checkEventCommonUpper 이벤트 체크 공통 상단부*/
+        SELECT COUNT(1) cnt
+        FROM od_cart
+        WHERE 1=1
+    </sql>
+    <sql id="checkEventCommonLower">
+        /*checkEventCommonLower 이벤트 체크 공통 하단부*/
+        AND memcd = ${strLoginMemCD}
+        AND gdcd = ${strEventItemCode}
+        AND EXISTS (SELECT p.paynum
+        FROM od_pay p
+        JOIN od_goods g
+        ON p.paynum = g.paynum
+        WHERE p.paystcd =  #{paystPay}
+         <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME, ${strEventStartDt}, 21)
+         ]]>
+           AND p.memcd = ${strLoginMemCD}
+        AND g.gdcd = ${strEventItemCode} )
+    </sql>
+
+    <select id="currentPointMoneySkPoint">
+        /* currentPointMoneySkPoint 현재 적립포인트,예치금,SK포인트 정보 산출함*/
+        SELECT ISNULL(c.accpoint,0) accpoint 
+              , ISNULL(c.skpoint,0) skpoint 
+              , ISNULL(c.deposit,0) deposit 
+        FROM mb_master m
+          LEFT JOIN mb_currency c
+                 ON m.memcd = c.memcd
+           WHERE m.memcd = #{strLoginMEMCD}
+    </select>
+
+    <select id="recentlyDeliveryAdrressTopFive" statementType="CALLABLE">
+          /*
+          recentlyDeliveryAdrressTopFive
+          최근배송지 Top5 정보 구함
+          20170613 신우편번호만 조회되도록 변경
+          주문일자 판단은 고려는 속도로 제외
+          sykim 20180404 주소와 수취인명으로 그룹핑되어 구분되는 배송지 5개까지만 나타나도록 함.
+          */
+         {CALL encryptionOpen
+         SELECT a.maxordnum
+              , a.rcvname
+              , a.addr1
+              , a.addr2
+              , b.zipcd
+              , b.sndname
+              , CONVERT(VARCHAR(14),DECRYPTBYKEY(b.telno_enc)) telno 
+              , CONVERT(VARCHAR(14),DECRYPTBYKEY(b.hpno_enc)) hpno 
+           FROM ( 
+                 SELECT TOP 5 MAX(od.ordnum) maxordnum, rcvname 
+                      , CONVERT(NVARCHAR(80),DECRYPTBYKEY(addr1_enc)) addr1 
+                      , CONVERT(NVARCHAR(80),DECRYPTBYKEY(addr2_enc)) addr2 
+                   FROM od_delivery od 
+                        JOIN od_header oh
+                          ON oh.ordnum = od.ordnum
+                         AND oh.paystcd IN (#{paystPay})
+                    WHERE od.memcd = #{strLoginMemCd}
+                      AND (CASE WHEN ISNULL(od.hideyn,'') = '' THEN 'N'
+                                ELSE od.hideyn
+                           END) = 'N'
+                      AND LEN(od.zipcd) = 5
+                 GROUP BY rcvname
+                        , CONVERT(NVARCHAR(80),DECRYPTBYKEY(addr1_enc))
+                        , CONVERT(NVARCHAR(80),DECRYPTBYKEY(addr2_enc))
+                 ORDER BY maxordnum DESC
+                ) a 
+                JOIN od_delivery b
+                  ON a.maxordnum = b.ordnum
+         EXEC encryptionClose}
+    </select>
+    
+    <select id="getDefaultInfo" statementType="CALLABLE">
+         /*getDefaultInfo 기본정보 구함*/
+        {CALL encryptionOpen
+        SELECT memname 
+             , CONVERT(VARCHAR(14),DECRYPTBYKEY(telno_enc)) telno 
+             , CONVERT(VARCHAR(14),DECRYPTBYKEY(hpno_enc)) hpno 
+             , CONVERT(VARCHAR(40),DECRYPTBYKEY(email_enc)) email 
+             , CONVERT(NVARCHAR(50),DECRYPTBYKEY(addr1_enc)) addr1 
+             , CONVERT(NVARCHAR(50),DECRYPTBYKEY(addr2_enc)) addr2 
+             , zipcd 
+        FROM mb_master
+         WHERE memcd = #{strLoginMemCd}
+        EXEC encryptionClose}
+    </select>
+    
+    <select id="orderInfoList">
+        /*orderInfoList 주문상품 정보*/
+        SELECT odtype
+             , crtidx
+             , gdcd
+             , unit
+             , gdname
+             , price
+             , gdcnt
+             , (price*gdcnt) AS tsales
+             , limitgdcnt
+             , gdimg, div1
+             , issale
+             , qtysaleyn
+             , soldoutyn
+             , thedaysyn
+             , limitdelivery
+             , CASE WHEN vat = '1' THEN (price*gdcnt/1.1)
+                    WHEN vat = '2' THEN 0
+                    ELSE 0
+               END AS tax
+             , CASE WHEN vat = '1' THEN price*gdcnt-(price*gdcnt/1.1)
+                    WHEN vat = '2' THEN 0
+                    ELSE 0
+               END AS vat
+             , x.scode
+             , x.sname
+             , x.delpol
+             , x.limamt
+             , x.delcharge
+           FROM ( 
+                 SELECT CASE t2.divcd WHEN '10' THEN 'PKG'
+                                      ELSE od_gubun
+                        END AS odtype
+                      , t.crtidx
+                      , t.gdcd
+                      , t2.unit
+                      , t2.gdname 
+                      , CASE WHEN t2.qtysaleyn='Y' THEN dbo.getQtySalePrice(t.gdcd, t.gdcnt, dbo.getProductPrice(#{strMemGrpCd},#{strGroupSalePolicy},t.gdcd)) 
+                             ELSE dbo.getProductPrice(#{strMemGrpCd}, #{strGroupSalePolicy}, t.gdcd)
+                        END * ISNULL(t6.weekcnt, 1) AS price
+                      , CASE WHEN od_gubun = '15' THEN t3.scode
+                             ELSE ''
+                        END scode
+                      , CASE WHEN od_gubun = '15' THEN t7.sunasu
+                             ELSE ''
+                        END sname
+                      , t.gdcnt 
+                      , ISNULL(t5.gdcnt, 9999) limitgdcnt 
+                      , t2.gdimg
+                      , t2.vat
+                      , t2.div1
+                      , dbo.getIsGroupSaleGoods(#{strMemGrpCd}, #{strGroupSalePolicy}, t.gdcd) issale
+                      , CASE WHEN ISNULL(t2.qtysaleyn,'')='' THEN 'N'
+                             ELSE t2.qtysaleyn
+                        END qtysaleyn
+                      , t2.soldoutyn
+                      , t2.thedaysyn
+                      , t2.limitdelivery
+                      , ISNULL(t8.delpol,'01') delpol
+                      , ISNULL(t8.limamt,0) limamt
+                      , ISNULL(t8.delcharge,0) delcharge
+                 FROM od_cart t
+                   JOIN gd_master t2
+                     ON t2.gdcd = t.gdcd
+                   LEFT JOIN gd_item t3
+                          ON t2.gdcd = t3.gdcd
+                   LEFT JOIN gd_cnt t5
+                          ON t5.gdcd = t.gdcd
+                   LEFT JOIN gd_pack t6
+                          ON t6.gdcd = t2.gdcd
+                   LEFT JOIN wmsl_wssupp t7
+                          ON t3.scode = t7.susuno
+                   LEFT JOIN supplus t8
+                          ON t3.scode = t8.suno
+                  WHERE t.memcd = #{strLoginMemCd}
+               ) x 
+          ORDER BY odtype, thedaysyn DESC, scode, crtidx 
+    </select>
+
+    <select id="getResiduumJoinPoint">
+        /* getResiduumJoinPoint 잔여 가입축하포인트 조회*/
+        SELECT ISNULL(SUM(remain), 0) remain 
+        FROM mb_accpoint
+         WHERE 1=1
+           AND memcd = #{strLoginMEMCD}
+           AND useyn = 'Y'
+           AND acctype = 'E'
+           AND rscd = '01'
+           <![CDATA[
+           AND expdt >= GETDATE()
+           ]]>
+          AND rsnote LIKE '%가입%'
+    </select>
+
+    <select id="cashReceipt">
+         /*cashReceipt 현금영수증*/
+        SELECT cdcode
+             , cdname
+             , useyn 
+          FROM cd_master 
+           WHERE cdtype = #{typeRcpcd}
+             AND useyn = 'Y' 
+          ORDER BY CASE WHEN cdcode = #{rcpcpHp} THEN 1
+                        ELSE 2
+                   END
+                 , cdcode
+    </select>
+
+    <select id="checkOutDeliverySupplier">
+        /*checkOutDeliverySupplier 개인정보의 제3자 제공에 대한 외부배송 주문 공급자 여부 파악*/
+        SELECT supp.sunasu 
+        FROM od_cart oc
+          JOIN gd_master gm
+            ON gm.gdcd = oc.gdcd
+          JOIN wmsl_wssart sart
+            ON sart.saartc = oc.gdcd
+          JOIN wmsl_wssupp supp
+            ON supp.susuno = sart.sasuno
+        <![CDATA[
+         WHERE supp.susuno <> 'S00000'
+        ]]>
+           AND gm.dispatchtype = 'O'
+           AND oc.memcd = #{strLoginMEMCD}
+        GROUP BY supp.sunasu
+    </select>
+    
+    <select id="reCheckCartHistory">
+        /* reCheckCartHistory 장바구니 내역을 재확인*/
+        SELECT MAX(CASE total WHEN 'A' THEN '합계' WHEN 'B' THEN '소계' ELSE gubun END) AS gubun 
+             , MAX(CASE total WHEN 'C' THEN crtidx ELSE '' END) AS crtidx
+             , MAX(CASE total WHEN 'C' THEN gdcd ELSE '' END) AS gdcd
+             , MAX(CASE total WHEN 'C' THEN gdname ELSE '' END) AS gdname
+             , MAX(CASE total WHEN 'B' THEN scode WHEN 'C' THEN scode ELSE '' END) AS scode
+             , MAX(CASE total WHEN 'C' THEN unit ELSE '' END) AS unit
+             , ISNULL(MAX(CASE total WHEN 'C' THEN gdcnt ELSE '' END),0) AS gdcnt
+             , ISNULL(MAX(CASE total WHEN 'C' THEN limitgdcnt ELSE '' END),0) AS limitgdcnt
+             , ISNULL(MAX(CASE total WHEN 'C' THEN minqty ELSE '' END),1) AS minqty
+             , ISNULL(MAX(CASE total WHEN 'C' THEN maxqty ELSE '' END),999) AS maxqty
+             , ISNULL(MAX(CASE total WHEN 'C' THEN price ELSE 0 END),0) AS price
+             , ISNULL(SUM(price * gdcnt),0) AS totalprice
+             , MAX(CASE total WHEN 'C' THEN dlvdt ELSE '' END) AS dlvdt
+             , MAX(CASE total WHEN 'A' THEN 90
+                               WHEN 'B' THEN CASE sort WHEN 60 THEN 60 ELSE sort + 5 END
+                               ELSE sort
+                    END) AS sort
+             , MAX(t1.gdimg) AS gdimg
+             , MAX(CASE WHEN t1.div1='80' AND t1.issale=1 THEN 'Y' ELSE 'N' END) issetsale
+             , MAX(qtysaleyn) qtysaleyn
+             , MAX(t1.div1) AS div1
+             , MAX(t1.od_gubun) AS od_gubun
+             , MAX(t1.soldoutyn) AS soldoutyn
+             , MAX(t1.thedaysyn) AS thedaysyn
+             , MAX(t1.useyn) AS useyn
+        FROM (
+               SELECT DISTINCT CASE od_gubun WHEN '11' THEN '신속'
+                                             WHEN '12' THEN '예약'
+                                             WHEN '15' THEN '업체'
+                                             ELSE CASE t2.divcd WHEN '10' THEN '패키지' ELSE (CASE t2.thedaysyn WHEN 'Y' THEN '지정일*' ELSE '지정일' END) END
+                               END AS gubun
+                    , t.crtidx
+                    , t.gdcd
+                    , t2.gdname
+                    , CASE WHEN od_gubun = '15' THEN t3.scode ELSE '' END scode
+                    , t2.unit
+                    , CASE WHEN t2.qtysaleyn='Y' THEN dbo.getQtySalePrice(t.gdcd, t.gdcnt, dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},t.gdcd))
+                           ELSE dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},t.gdcd)
+                      END * ISNULL(t6.weekcnt, 1) price
+                      <![CDATA[
+                    , CASE WHEN t.gdcnt < 0 THEN 0 ELSE t.gdcnt END gdcnt
+                      ]]>
+                    , ISNULL(t5.gdcnt, 999) limitgdcnt
+                    , CASE od_gubun WHEN '11' THEN ''
+                                    WHEN '12' THEN ''
+                                    WHEN '15' THEN ''
+                                    ELSE CAST(ISNULL(t6.weekcnt,1) AS VARCHAR(20))
+                      END AS dlvdt
+                    , CASE od_gubun WHEN '11' THEN 20
+                                    WHEN '12' THEN 30
+                                    WHEN '15' THEN 60
+                                    ELSE CASE t2.divcd WHEN '10' THEN 10 ELSE (CASE t2.thedaysyn WHEN 'Y' THEN 40 ELSE 50 END) END
+                      END AS sort
+                    , t2.gdimg
+                    , t2.div1
+                    , dbo.getIsGroupSaleGoods(#{strMEMGRPCD},#{strGroupSalePolicy},t.gdcd) issale
+                    , CASE WHEN ISNULL(t2.qtysaleyn,'')='' THEN 'N' ELSE t2.qtysaleyn END qtysaleyn
+                    , od_gubun
+                    , t2.soldoutyn
+                    , t2.thedaysyn
+                    , CASE WHEN t4.gdcd IS NOT NULL THEN ISNULL(t4.useyn,'N') ELSE t2.useyn END useyn
+                    , t2.minqty
+                    , t2.maxqty
+               FROM od_cart t
+                 JOIN gd_master t2
+                   ON t2.gdcd = t.gdcd
+                 LEFT JOIN gd_item t3
+                        ON t2.gdcd = t3.gdcd
+                 LEFT JOIN od_reservegoods t4
+                        ON t4.gdcd = t.gdcd
+                       AND t4.useyn = 'Y'
+                       <![CDATA[
+                       AND t4.od_from <= CONVERT(CHAR(10), GETDATE(), 121)
+                       AND t4.od_to >= CONVERT(CHAR(10), GETDATE(), 121)
+                       ]]>
+                 LEFT JOIN gd_cnt t5
+                        ON t5.gdcd = t.gdcd
+                 LEFT JOIN gd_pack t6
+                        ON t6.gdcd = t2.gdcd
+                WHERE t.memcd = #{strLoginMemCD}
+           ) t1
+          CROSS JOIN (SELECT 'A' AS total UNION ALL SELECT 'B' UNION ALL SELECT 'C') t2
+        GROUP BY CASE WHEN total = 'B' THEN gubun END
+               , CASE WHEN total = 'B' THEN scode END
+               , CASE WHEN total = 'C' THEN gubun END
+               , CASE WHEN total = 'C' THEN gdcd END
+        ORDER BY sort, scode, crtidx DESC, thedaysyn DESC
+    </select>
+    
+    <select id="checkAutoOrderThisUser">
+        /*checkAutoOrderThisUser '로그인한 회원이 현재 자동주문중인지 확인 */
+        SELECT a.memcd 
+        FROM od_auto a  /*'자동주문*/
+          JOIN mb_master m
+            ON a.memcd = m.memcd  /*고객마스터*/
+          JOIN mb_group g
+            ON m.grpcd = g.grpcd  /*'소속사정보*/
+          LEFT JOIN od_autostop s
+                 ON a.memcd = s.memcd  /*'자동주문 일시정지 정보*/
+                AND a.autoidx = s.autoidx
+                AND s.useyn = 'Y'
+                <![CDATA[
+                AND DATEDIFF(WW,s.startdt,GETDATE()) >= 0
+                AND DATEDIFF(WW,GETDATE(),ISNULL(s.enddt,'2999-12-31')) >= 0
+                ]]>
+          WHERE a.payyn = 'Y'
+            <![CDATA[
+            AND DATEDIFF(WW,GETDATE(),ISNULL(a.enddt,'2999-12-31')) > 1
+            AND DATEDIFF(WW,a.startdt,ISNULL(a.enddt,'2999-12-31')) > 0
+            AND m.memstcd <> '99'
+            ]]>
+            AND (CASE WHEN m.gradecd = #{gradeC} THEN g.dctyn01
+                      WHEN m.gradecd = #{gradeB} THEN g.dctyn02
+                      WHEN m.gradecd = #{gradeA} THEN g.dctyn03
+                      WHEN m.gradecd = #{gradeS} THEN g.dctyn04
+                      ELSE 'N'
+                 END) = 'Y'  /*'소속사가 급여공제가 가능한지 여부.*/
+            AND s.stpidx IS NULL  /*'자동주문 일시중지가 아닌.*/
+            AND a.memcd = #{strLoginMemCd}
+    </select>
+    <select id="moveToCartFromBasket">
+        /*moveToCartFromBasket 결제카트를 초기화 한 후, 장바구니에서 원래결제카트로 이전 처리*/
+        INSERT INTO od_cart
+        SELECT * FROM shopping_basket
+        WHERE 1 = 1
+          AND memcd = #{strLoginMemCd}
+          AND crtidx IN ( #{ckp} )
+    </select>
+
+    <select id="check2020MarchEggEvent">
+        /*check2020MarchEggEvent 봄 계란 이벤트 체크*/
+        <include refid="checkEventCommonUpper"/>
+
+        <include refid="checkEventCommonLower">
+            <property name="strLoginMemCD" value="strLoginMemCD"/>
+            <property name="strEventItemCode" value="strEventItemCode"/>
+            <property name="paystPay" value="paystPay"/>
+            <property name="strEventStartDt" value="strEventStartDt"/>
+            <property name="strLoginMemCD" value="strLoginMemCD"/>
+            <property name="strEventItemCode" value="strEventItemCode"/>
+        </include>
+    </select>
+
+    <select id="check2020AprilPorkbelly">
+        <include refid="checkEventCommonUpper"/>
+
+        <include refid="checkEventCommonLower">
+            <property name="strLoginMemCD" value="strLoginMemCD"/>
+            <property name="strEventItemCode" value="strEventItemCode"/>
+            <property name="paystPay" value="paystPay"/>
+            <property name="strEventStartDt" value="strEventStartDt"/>
+            <property name="strLoginMemCD" value="strLoginMemCD"/>
+            <property name="strEventItemCode" value="strEventItemCode"/>
+        </include>
+    </select>
+
+    <select id="check2020FamilymHotdeal">
+        <include refid="checkEventCommonUpper"/>
+
+        <include refid="checkEventCommonLower">
+            <property name="strLoginMemCD" value="strLoginMemCD"/>
+            <property name="strEventItemCode" value="strEventItemCode"/>
+            <property name="paystPay" value="paystPay"/>
+            <property name="strEventStartDt" value="strEventStartDt"/>
+            <property name="strLoginMemCD" value="strLoginMemCD"/>
+            <property name="strEventItemCode" value="strEventItemCode"/>
+        </include>
+    </select>
+
+    <sql id="checkEventCommonTwo">
+        /*checkEventCommonTwo 이벤트 체크 공통2*/
+        SELECT ISNULL(gdcnt,0) cartcnt
+             , ISNULL( (SELECT g.gdcnt
+                        FROM od_pay p
+                                 JOIN od_goods g
+                                      ON p.paynum = g.paynum
+                        WHERE p.paystcd = #{paystPay}
+                           <![CDATA[
+                          AND p.paydt > CONVERT(DATETIME, #{strEventStartDt}, 21)
+                          AND p.paydt < CONVERT(DATETIME, #{strEventEndDt}, 21)+1
+                           ]]>
+                           AND p.memcd = #{strLoginMemCD}
+    </sql>
+    <select id="check2020KorMelon">
+        /* check2020KorMelon 멜론 이벤트 체크*/
+        <include refid="checkEventCommonTwo">
+            <property name="paystPay" value="paystPay"/>
+            <property name="strEventStartDt" value="strEventStartDt"/>
+            <property name="strEventEndDt" value="strEventEndDt"/>
+            <property name="strLoginMemCD" value="strLoginMemCD"/>
+        </include>
+        AND g.gdcd = #{strEventItemCode} ) ,0
+        ) buycnt
+        FROM od_cart
+        WHERE 1=1
+        AND memcd =  #{strLoginMemCD}
+        AND gdcd =  #{strEventItemCode}
+    </select>
+
+    <select id="check2020Haagendazs">
+        /*
+        check2020Haagendazs 하겐다즈 이벤트 체크
+        ID당 1개 구입 검사 조건 -> 장바구니에 이벤트 상품 포함, 이벤트상품 구매 이력X
+        */
+        <include refid="checkEventCommonTwo">
+            <property name="paystPay" value="paystPay"/>
+            <property name="strEventStartDt" value="strEventStartDt"/>
+            <property name="strEventEndDt" value="strEventEndDt"/>
+            <property name="strLoginMemCD" value="strLoginMemCD"/>
+        </include>
+        <foreach collection="strEventItemCode" item="strEventItemCode">
+            AND g.gdcd = #{strEventItemCode} ) ,0
+        </foreach>
+        ) buycnt
+        FROM od_cart
+        WHERE 1=1
+        AND memcd =  #{strLoginMemCD}
+        <foreach collection="strEventItemCode" item="strEventItemCode">
+            AND g.gdcd = #{strEventItemCode} ) ,0
+        </foreach>
+    </select>
+
+    <select id="check2020Jjuggumi">
+        /* check2020Jjuggumi 쭈꾸미 이벤트 체크*/
+        <include refid="checkEventCommonTwo">
+            <property name="paystPay" value="paystPay"/>
+            <property name="strEventStartDt" value="strEventStartDt"/>
+            <property name="strEventEndDt" value="strEventEndDt"/>
+            <property name="strLoginMemCD" value="strLoginMemCD"/>
+        </include>
+        AND g.gdcd = #{strEventItemCode} ) ,0
+        ) buycnt
+        FROM od_cart
+        WHERE 1=1
+        AND memcd =  #{strLoginMemCD}
+        AND gdcd =  #{strEventItemCode}
+    </select>
+
+    <select id="checkMultiVitaminEventTarget">
+        /* checkMultiVitaminEventTargetTwo 멀티 비타민 이벤트 체크*/
+        SELECT COUNT(1) gdcnt
+             , ISNULL(SUM(dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},c.gdcd)*c.gdcnt), 0) gdsum
+        FROM od_cart c
+        WHERE 1=1
+          AND c.memcd = #{strLoginMemCd}
+          AND c.gdcd IN (SELECT slgdcd FROM specialsellingl WHERE slidx = #{strMultiVitaminSlidx})
+    </select>
+
+    <select id="checkMultiVitaminEventTargetTwo">
+        /* checkMultiVitaminEventTargetTwo 멀티 비타민 이벤트 체크2*/
+        SELECT g.soldoutyn
+             , ISNULL(c.gdcnt, 0) gdcnt
+             , ISNULL(p.cnt, 0) alreadycnt
+        FROM gd_master g
+                 LEFT JOIN gd_cnt c
+                           ON g.gdcd = c.gdcd
+                 LEFT JOIN (SELECT g.gdcd
+                                 , COUNT(1) cnt
+                            FROM od_pay p
+                                     JOIN od_goods g
+                                          ON p.paynum = g.paynum
+                            WHERE 1=1
+                              AND p.memcd = #{strLoginMemCd}
+                              AND p.paystcd = #{paystPay}
+                        <![CDATA[
+                              AND p.paydt >= CONVERT(DATETIME, #{strEventStartDt}, 21)
+                              AND p.paydt <  CONVERT(DATETIME, #{strEventEndDt}, 21) + 1
+                        ]]>
+                        AND g.gdcd = #{strMultiVitaminCd}
+                            GROUP BY g.gdcd
+        ) p
+                           ON g.gdcd = p.gdcd
+        WHERE 1=1
+          AND g.gdcd = #{strMultiVitaminCd}
+    </select>
+
+</mapper>

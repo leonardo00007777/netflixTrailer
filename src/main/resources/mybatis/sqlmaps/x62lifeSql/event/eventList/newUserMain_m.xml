@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="newUser">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 201904 신규회원 10,000원이상 구입 선물증정 이벤트(모바일)
+    'File          : newusergift_main_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hyeok
+    'Date Started  : 20190329
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    
+    '20190329   hyeok   0.9     처음작성
+    '20200717   sykim   0.9.1   선물대상 변경.-->
+    
+    <select id="getEventTarget">
+       /* getEventTarget 이벤트 대상 검사*/
+        SELECT g.gdcd 
+        FROM gd_master g
+          LEFT JOIN od_reservegoods r
+                 ON g.gdcd = r.gdcd
+                AND r.useyn = 'Y'
+                <![CDATA[
+                AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                ]]>
+          LEFT JOIN gd_cnt c
+                 ON g.gdcd = c.gdcd
+         WHERE g.gdcd IN (#{dictGift.Keys})
+                     AND g.useyn = 'Y'
+                     AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                     AND g.soldoutyn = 'N'
+                     <![CDATA[
+                     AND ISNULL(c.gdcnt, 99999) > 0
+                     ]]>
+    </select>
+<!--
+    'System        : m.62life.com
+    'Program       :
+    'Title         : 201904 신규회원 10,000원이상 구입 선물증정 이벤트(모바일) - 처리 페이지
+    'File          : newusergift_proc_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hyeok
+    'Date Started  : 20190401
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '20190401   hyeok   0.9     처음작성
+    '20191118   sykim   -       od_goods에 sprice(공급단가), oprice(원 판매단가) 추가.
+    '20191216   hyeok   0.9.1   첫구매선물 선택 시 판매재고(gd_cnt)차감 쿼리 추가
+    '20200717   sykim   0.9.2   선물대상 변경, 주문유형을 증정으로 변경, od_delivery 작성 간략화.-->
+    <select id="prodCodeClassification">
+        /* prodCodeClassification 상품코드에 따른 주문유형 분류*/
+        SELECT CASE WHEN g.dispatchtype = 'I'
+                      THEN '27'
+                    ELSE '28'
+               END odgubun
+             , g.gdname  /*'추가증정 or 추가증정(직)*/
+             , CASE WHEN g.dispatchtype = 'O'
+                      THEN g.scode
+                    ELSE NULL
+               END scode  /*'업체직송 상품일 경우 공급자코드*/
+        FROM gd_master g
+          LEFT JOIN od_reservegoods r
+                 ON g.gdcd = r.gdcd
+                AND r.useyn = 'Y'
+                <![CDATA[
+                AND DATEDIFF(D,r.od_from,GETDATE()) >= 0
+                AND DATEDIFF(D,GETDATE(),r.od_to) >= 0
+                ]]>
+          LEFT JOIN gd_cnt c
+                 ON g.gdcd = c.gdcd
+         WHERE 1=1
+           AND g.gdcd = #{strGdcd}
+           AND g.useyn = 'Y'
+           AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+           AND g.soldoutyn = 'N'
+           <![CDATA[
+           AND ISNULL(c.gdcnt, 99999) > 0
+           ]]>
+    </select>
+
+    <insert id="odRelationRecord">
+        /* odRelationRecord od_relation 레코드 추가*/
+        INSERT INTO od_relation(
+                                 paynum
+                               , ordnum
+                               )
+               VALUES (
+                        #{strPayNum}
+                      , #{strNextORDNUM}
+                      )
+    </insert>
+    
+    <insert id="odHeaderRecord">
+        /* od_header 레코드 추가 odHeaderRecord*/
+        INSERT INTO od_header(
+                               ordnum
+                             , memcd
+                             , dlvdt
+                             , dlvstcd
+                             , orddt
+                             , sendyn
+                             , odgubun
+                             , paystcd
+                             , paynum
+                             , odsuno
+                             ) 
+               VALUES (
+                        #{strNextORDNUM}
+                      , #{strLoginMemCd}
+                      , #{IIf(rs_strOdGubun=27,getDLVDTbyHolidayGeneral(Date+2),"")}
+                      , #{dlvstReserve} 
+                      , GETDATE() 
+                      , 'N'
+                      , #{rsStrOdGubun} 
+                      , #{paystPay} 
+                      , #{strPayNum} 
+                      , #{rsStrSCode} 
+                     ) 
+    </insert>
+    
+    <insert id="odDeliveryRecord">
+        /* odDeliveryRecord od_delivery 레코드 추가 - 20200717 sykim 수정.(암호화된 정보를 복호화해서 다시 그 값을 암호화해서 od_delivery에 INSERT하는 방식을 간소화)*/
+        INSERT INTO od_delivery (
+                                  ordnum
+                                , memcd
+                                , rcvname
+                                , zipcd 
+                                , addr1
+                                , addr1_enc
+                                , addr2
+                                , addr2_enc 
+                                , telno
+                                , telno_enc
+                                , hpno_enc
+                                , dlvmsg
+                                , rcvmsg
+                                , sndname
+                                ) 
+        SELECT #{strNextORDNUM}
+             , #{strLoginMemCd}
+             , #{strMEMName}
+             , zipcd 
+             , ''
+             , addr1_enc
+             , ''
+             , addr2_enc 
+             , ''
+             , telno_enc
+             , hpno_enc
+             , ''
+             , ''
+             , '자연이랑' 
+        FROM od_delivery 
+         WHERE ordnum = (SELECT MIN(ordnum) FROM od_header WHERE memcd = #{strLoginMemCd} AND paynum = #{strPayNum}) 
+    </insert>
+    
+    <insert id="odGoodsRecord">
+        /* odGoodsRecord od_goods 레코드 추가, 선물이므로 가격은 0원.*/
+        INSERT INTO od_goods(
+                              paynum
+                            , ordnum
+                            , gdcd
+                            , gdname
+                            , price
+                            , point
+                            , gdcnt
+                            , indt
+                            , vos
+                            , tax
+                            , vat
+                            , sprice
+                            , oprice
+                            ) 
+               VALUES (
+                        #{strPayNum}
+                      , #{strNextORDNUM}
+                      , #{strGdcd}
+                      , #{rsStrGdName}
+                      , 0
+                      , 0
+                      , #{ntGiftCnt}
+                      , GETDATE()
+                      , 0
+                      , 0
+                      , 0
+                      , (SELECT ISNULL(suprice,0) FROM gd_master WHERE gdcd = #{strGdcd})
+                      , 0
+            ) 
+    </insert>
+
+    <update id="sellingStockDeduction">
+       /* sellingStockDeduction gd_cnt 판매재고 차감*/
+        UPDATE gd_cnt 
+           SET gdcnt = gdcnt - #{intGiftCnt}
+         WHERE gdcd = #{strGDCD}
+    </update>
+    
+    <insert id="giftProdInfoAdd">
+         /*giftProdInfoAdd 증정상품 등록 정보 추가*/
+        INSERT INTO temp_13annivstamp (
+                                        memcd
+                                      , eventcode
+                                      , stamptype
+                                      , note
+                                      , indt
+                                      ) 
+               VALUES (
+                        #{strLoginMemCd}
+                     , 'NEWGIFT19'
+                     , 'Y'
+                     , #{strNextORDNUM}
+                     , GETDATE()
+                     )
+    </insert>
+</mapper>

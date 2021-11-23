@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="checkUser">
+<!--    '20170523 hyeok 처음 초안작성 시작-->
+<!--    '20200907 sykim 본인인증값 비교시 SK구성원이었다가 일반으로 되는 경우 다시 SK인증시 저장된 DI값으로 인해 인증이 불가,-->
+<!--    '               일반소속 외 DI값 일치하는 것이 있는지 비교하는 것으로 변경.-->
+    <insert id="insertTempMember">
+        INSERT INTO temp_table
+                            (
+                              f3
+                            , f4
+                            , f5
+                            , f6
+                            , f7
+                            , f8
+                            )
+               VALUES
+                    (
+                       'M'
+                      , CONVERT(VARCHAR,GETDATE(),21)
+                      , #{strMemName}
+                      , #{strResidentNo1}
+                      , #{strGender}
+                      , #{strPidNo}
+                    )
+    </insert>
+    <select id="checkOverlap" statementType="CALLABLE">
+       {CALL encryptionOpen
+             SELECT memcd
+             FROM mb_master
+              WHERE memname = #{strMemName}
+                AND pcert_di = #{strPidNo}
+                <![CDATA[
+                AND grpcd <> #{groupNormal}
+                ]]>
+        CALL encryptionClose}
+    </select>
+</mapper>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myOrder">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 주문.배송조회-->
+<!--    'File          : myorder01_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20130619-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20130619   hwkim   0.9     처음 작성-->
+<!--    '20151022   sykim   0.9.1   고객결제의 취소내역 보이도록 수정.-->
+<!--    '20160426   hwkim   0.9.5   레이아웃, 내부조회 개선. 도시락 주문 조회 적용-->
+<!--    '20160510   hyeok   -&#45;&#45;     현대택배 배송추적 표시 방식 변경-->
+<!--    '20160510   hwkim   0.9.6   택배 별 외부 화물 추적 처리 통합-->
+<!--    '20161201   hyeok   0.9.7   사이트 리뉴얼 layout적용-->
+<!--    '20161207   hwkim   0.9.8   표준 디자인 규칙 적용-->
+<!--    '20161228   hwkim   0.9.9   롯데택배로 변경 후, 검색페이지 변경-->
+<!--    '20170712   hwkim   1.0.0   주문유형별 표시 순서 변경 및 업체직송(10) 추가.-->
+<!--    '20170928   sykim   -       결제내역 리스트에서 cancelyn 부분 sp_getOrderCompletList와 동일하게 구성.-->
+<!--    '20180704   hwkim   1.0.1   수취확인 버튼 추가, 다시담기 버튼 제외-->
+<!--    '20191120   hyeok           상품평 작성가능 기한 변경(7->14)-->
+<!--    '20200205   hyeok           상품 수취확인 비활성 조건 추가(출고(outdt)당일 수취확인 불가)-->
+    <select id="myOrderPaging">
+       /* myOrderPaging 주문상품 리스트 페이징*/
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem}) MAXPAGE
+             , COUNT(p.paynum) CNT
+        FROM od_pay p
+          JOIN od_member b 
+            ON p.paynum = b.paynum
+         WHERE 1 = 1
+           AND p.paystcd IN (#{paystPay}, #{paystCancel})
+           <![CDATA[
+           AND p.paydt >= CONVERT(DATETIME,#{dteSDate},21)
+           AND p.paydt < CONVERT(DATETIME,#{dteEDate},21)+1
+           ]]>
+           AND (CASE WHEN ISNULL(p.hideyn,'') = '' THEN 'N' ELSE p.hideyn END) = 'N'
+           AND p.memcd = #{strLoginMemCd}
+           <choose>
+               <when test='odtype == ""'>
+                  <![CDATA[
+                   AND p.paynum IN (SELECT paynum FROM od_header WHERE odgubun IN (#{nSalesOrderType}) AND orddt >= CONVERT(DATETIME ,#{dteSDate},21) AND orddt < CONVERT(DATETIME,#{dteEDate},21 )+1)
+                  ]]>
+               </when>
+               <otherwise>
+                   <![CDATA[
+                   AND p.paynum IN (SELECT paynum FROM od_header WHERE odgubun = #{odtype} AND orddt >= CONVERT(DATETIME ,'#{dteSDate}',21) AND orddt < CONVERT(DATETIME,#{dteEDate},21 )+1)
+                   ]]>
+               </otherwise>
+           </choose>
+           <if test='strSGdName != ""'>
+               <![CDATA[
+               AND p.paynum IN (SELECT paynum FROM od_goods WHERE gdname LIKE #{strSGdName} AND indt >= CONVERT(DATETIME ,'#{dteSDate}',21) AND indt < CONVERT(DATETIME,#{dteEDate},21 )+1)
+               ]]>
+           </if>
+    </select>
+
+    <select id="myOrderList">
+        /* myOrderList 주문상품 리스트*/
+        SELECT * FROM (
+                        SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY p.paynum DESC ) - 1 ) /  #{intPagePerItem} + 1) AS PAGE
+                             , p.paynum
+                             , p.paycd
+                             , a9.cdname pgname
+                             , p.payprice
+                             , p.ttlprice
+                             , p.paystcd
+                             , CONVERT(CHAR(10),p.paydt,111) paydt
+                             , a5.cdname payname
+                             , a6.cdname paystname
+                             , a7.autoidx
+                             , ISNULL(MIN(a8.gdname),'상품없음') gdname
+                             , ISNULL(COUNT(DISTINCT a8.gdcd),0) cntgdcd
+                             , MIN(CASE WHEN h.paystcd IN (#{paystCancelReq},#{paystCancel})
+                                          THEN 'N' WHEN h.dlvstcd = #{dvlstReserve} AND h.sendyn = 'N'
+                                                     THEN 'Y'
+                                          ELSE 'N'
+                                   END
+                                  ) cancelyn
+                        FROM od_pay p
+                          JOIN od_header h 
+                            ON p.paynum = h.paynum
+                          JOIN od_member m 
+                            ON p.paynum = m.paynum
+                          JOIN od_goods a8 
+                            ON p.paynum = a8.paynum
+                          LEFT JOIN cd_master a5 
+                                 ON p.paycd = a5.cdcode 
+                                AND a5.cdtype = #{typePaycd}
+                          LEFT JOIN cd_master a6 
+                                 ON p.paystcd = a6.cdcode 
+                                AND a6.cdtype = #{typePayst}
+                          LEFT JOIN od_autopay a7 
+                                 ON p.paynum = a7.paynum
+                          LEFT JOIN cd_master a9 
+                                 ON p.pgcd IN (#{pgcdSyrupPay}, #{pgcdNaverPay})
+                                AND p.pgcd = a9.cdcode AND a9.cdtype = #{typePgcd}
+                         WHERE 1 = 1
+                           AND p.paystcd IN (#{paystPay}, #{paystCancel})
+                           <![CDATA[
+                           AND p.paydt >= CONVERT(DATETIME,#{dteSDate},21)
+                           AND p.paydt < CONVERT(DATETIME,#{dteEDate},21)+1
+                           ]]>
+                           AND (CASE WHEN ISNULL(p.hideyn,'') = '' THEN 'N' ELSE p.hideyn END) = 'N'
+                           AND p.memcd = #{strLoginMemCd}
+                          AND h.odgubun IN ( #{nSalesOrderType})
+                          <choose>
+                              <when test='odtype == "" '>
+                                  AND h.odgubun IN (#{nSalesOrderType})
+                              </when>
+                              <otherwise>
+                                  AND h.odgubun = #{odtype}
+                              </otherwise>
+                          </choose>
+                          <if test='strSGdName != ""'>
+                              <![CDATA[
+                              AND p.paynum IN (SELECT paynum FROM od_goods WHERE gdname LIKE '%#{strSGdName}%' AND indt >= CONVERT(DATETIME ,'#{dteSDate}',21) AND indt < CONVERT(DATETIME,'#{dteEDate}',21 )+1)
+                              ]]>
+                          </if>
+                        GROUP BY p.paynum, p.paycd, a9.cdname, p.payprice, p.ttlprice, p.paystcd
+                               , CONVERT(CHAR(10),p.paydt,111), a5.cdname, a6.cdname, a7.autoidx
+                       ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+
+    <select id="myOrderDetailView">
+        /*myOrderDetailView 상세보기*/
+        SELECT h.ordnum
+             , h.odgubun odtype
+             , c1.cdname odgubun
+             , h.dlvdt
+             , h.dlvstcd
+             , c2.cdname dlvstdesc
+             , h.invoicenum
+             , h.wmsordnum
+             , ISNULL(pr.rcnt, 0) rcnt
+             , CONVERT(CHAR(10), h.outdt, 21) outdt
+        FROM od_header h
+          JOIN cd_master c1
+            ON h.odgubun = c1.cdcode
+           AND c1.cdtype = '21'
+          JOIN cd_master c2
+            ON h.dlvstcd = c2.cdcode
+           AND c2.cdtype = #{typeDlvst}
+          LEFT JOIN (SELECT ordnum, COUNT(1) rcnt FROM productreview GROUP BY ordnum) pr
+                 ON pr.ordnum = h.ordnum
+         WHERE h.paynum = #{strRSPAYNUM}
+        ORDER BY h.odgubun, h.dlvdt
+
+    </select>
+</mapper>

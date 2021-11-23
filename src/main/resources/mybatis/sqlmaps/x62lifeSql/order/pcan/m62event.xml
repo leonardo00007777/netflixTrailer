@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="m62event">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 이벤트 참여현황
+    'File          : m62event010.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20141104
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20141104   hwkim   0.9     처음 작성
+    '20161215   hwkim   0.9.1   리뉴얼 디자인에 맞춤-->
+    <select id="">
+        SELECT grpcd
+             , grpname
+             , COUNT(memcd) CNT
+        FROM (
+               SELECT p.memcd
+                    , m.memname
+                    , g.grpcd
+                    , g.grpname
+                    , SUM(p.ttlprice) ttlprice, SUM(p.ttlprice+ISNULL(p.accprice,0)) totalprice
+                    , CASE WHEN m.gradecd='01' 
+                             THEN 'C' 
+                           WHEN m.gradecd='02' 
+                             THEN 'B' 
+                           WHEN m.gradecd='03' 
+                             THEN 'A' 
+                           ELSE '-' 
+                      END gradecd
+               FROM od_pay p
+                 JOIN od_member m 
+                   ON m.paynum = p.paynum
+                 JOIN mb_group g 
+                   ON g.grpcd = m.grpcd
+                WHERE p.paystcd = #{paystPay}
+                  <![CDATA[
+                  AND p.paydt >= CONVERT(DATETIME,#{startDate},21)
+                  AND p.paydt < CONVERT(DATETIME,#{endDate},21) + 1
+                  ]]>
+                  AND p.paynum IN (SELECT paynum
+                                   FROM od_header
+                                    WHERE paystcd = #{paystPay}
+                                      AND odgubun IN ('02','10','11','12')
+                                  <![CDATA[
+                                      AND orddt >= CONVERT(DATETIME,#{startDate},21)
+                                      AND orddt < CONVERT(DATETIME,#{endDate},21)+1 )
+                                  GROUP BY p.memcd, m.memname,g.grpcd, g.grpname, m.gradecd
+                                  HAVING SUM(p.ttlprice+ISNULL(p.accprice,0)) >= 140000
+                                  ]]>
+             ) x
+        GROUP BY grpcd, grpname
+        ORDER BY CNT DESC
+    </select>
+</mapper>

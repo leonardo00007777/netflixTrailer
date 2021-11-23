@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gourmettour">
+    <sql id="gourmettourReciepeCommonHead">
+     /* gourmettourReciepeCommonHead 레시피 상품 조회 공통 상단부*/
+        SELECT TOP 4 a.odtype
+             , a.odtype2
+             , a.useyn
+             , a.ruseyn
+             , a.gdcd
+             , b.gdname
+             , b.unit
+             , b.gdimg
+             , b.divcd
+             , b.div1
+             , b.price1
+             , ISNULL(s.gdcnt, 99999) gdcnt
+             , i.origin
+             , i.producer
+             , i.address
+             , ISNULL(c1.cdname,'미지정') AS gradedesc
+             , CASE WHEN ISNULL(b.deliverydtyn,'')='' THEN 'N' ELSE b.deliverydtyn END deliverydtyn
+             , b.soldoutyn
+             , b.thedaysyn
+             , dbo.getMasterPrice(b.gdcd) saleprice
+        FROM (
+                 SELECT CASE WHEN ISNULL(c.gdcd, d.gdcd) IS NULL THEN '' ELSE '12' END odtype
+                      , ISNULL(ISNULL(c.type, d.rtype), '01') odtype2
+                      , l.slgdcd gdcd
+                      , b.useyn
+                      , ISNULL(c.useyn, 'N') ruseyn
+                 FROM specialsellingl l
+                          LEFT JOIN gd_master b
+                                    ON l.slgdcd = b.gdcd
+                          LEFT JOIN od_reservegoods c
+                        <![CDATA[
+                                    ON l.slgdcd = c.gdcd
+                                        AND DATEDIFF(d, CONVERT(DATETIME, c.od_from, 120), GETDATE()) >= 0
+                                        AND DATEDIFF(d, GETDATE(), CONVERT(DATETIME, c.od_to, 120)) >= 0
+                                        AND ISNULL(c.useyn, 'N') <> 'N'
+                        ]]>
+                   LEFT JOIN (SELECT gdcd, MAX(type) rtype, MAX(useyn) useyn FROM od_reservegoods GROUP BY gdcd) d ON l.slgdcd = d.gdcd
+    </sql>
+
+    <sql id="gourmettourReciepeCommonFooter">
+        /* gourmettourReciepeCommonHead 레시피 상품 조회 공통 하단부*/
+        ) a
+          JOIN gd_master b ON a.gdcd = b.gdcd
+          LEFT JOIN gd_cnt s ON a.gdcd = s.gdcd
+          LEFT JOIN gd_item i ON a.gdcd = i.gdcd
+          LEFT JOIN cd_master c1 ON c1.cdtype = '09' AND i.typecd = c1.cdcode
+         WHERE (a.useyn = 'Y' OR a.ruseyn = 'Y')
+        <![CDATA[
+        ORDER BY CASE WHEN a.useyn <> 'Y' AND a.ruseyn <> 'Y' THEN 0 ELSE 1 END DESC
+               , CASE WHEN ISNULL(s.gdcnt, 99999) <= 0 OR b.soldoutyn = 'Y' THEN 0 ELSE 1 END DESC
+               , a.gdcd
+        ]]>
+    </sql>
+
+
+    <select id="gourmettourHeader">
+        /*gimjangHeader 세계미식여행 헤더 */
+        SELECT *
+        FROM specialsellingh
+        WHERE shidx = #{sidx}
+          <![CDATA[
+          AND shstartdt <= GETDATE()
+          AND shenddt > GETDATE()
+        ]]>
+    </select>
+
+    <select id="gourmettourEventCategory">
+        /*gimjangEventCategory 김장 기획전 카테고리 */
+        SELECT x.slcat cdcode
+        , COUNT(x.slcat) CNT
+        FROM specialsellingl x
+        JOIN gd_master g ON x.slgdcd = g.gdcd
+        LEFT JOIN od_reservegoods r ON x.slgdcd = r.gdcd AND g.useyn = 'N'
+        WHERE x.slidx = #{sidx}
+        <![CDATA[
+           AND (g.useyn = 'Y' OR (g.useyn = 'N' AND r.useyn = 'Y'
+                                                AND GETDATE() >= CONVERT(DATETIME, od_from, 21)
+                                                AND GETDATE() < CONVERT(DATETIME, od_to, 21) + 1
+                                 )
+               )
+           ]]>
+        <if test="listingMode == 'OPT'">
+            AND ISNULL(g.optionp,'N') = 'N'
+        </if>
+        GROUP BY x.slcat
+        ORDER BY x.slcat
+    </select>
+
+    <select id="gourmettourReciepeProd">
+        /*gourmettourReciepeProd 레시피 상품*/
+        <include refid="gourmettourReciepeCommonHead"/>
+          <foreach collection="java.util.List" item="slidxRecipeList">
+               WHERE l.slidx = #{slidxRecipeList}
+          </foreach>
+        <include refid="gourmettourReciepeCommonFooter"/>
+    </select>
+
+</mapper>

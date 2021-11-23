@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="m62prodm">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품 판매현황
+    'File          : m62prodm010.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20140315
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20140315   hwkim   0.9     처음 작성
+    '20161215   hwkim   0.9.1   리뉴얼 디자인에 맞춤
+    '20170119   hwkim   0.9.2   주문유형 조건 추가.
+    '20170901   hwkim   0.9.3   상품순위 Query 수정.
+    '20171222   hwkim   0.9.4   현재 판매상품 수 예약상품 포함 / 품절률 조정.
+    '20180907   hwkim   0.9.5   공급자명/코드 검색조건 대체 (기존 생산자에서)-->
+    <sql id="getRangeConditionCommon">
+        <if test='skux == on'>
+            AND m.divcd = '30'
+        </if>
+        <if test='strSCategory != ""'>
+            AND m.div1 = #{strSCategory}
+        </if>
+        <if test="strSSubCategory != ''">
+            AND m.div2 = #{strSSubCategory}
+        </if>
+        <if test='groupcd != ""'>
+            <choose>
+                <when test='groupcd == "BIG6"'>
+                    AND mb.grpcd IN (#{groupcd})
+                </when>
+                <otherwise>
+                    AND mb.grpcd=#{groupcd}
+                </otherwise>
+            </choose>
+        </if>
+        <if test='sgrade != ""'>
+            AND mb.gradecd = #{sgrade}
+        </if>
+        <if test='prodName != "" '>
+            AND m.gdname LIKE '%' + #{prodName} + '%'
+        </if>
+        <if test='producername != "" '>
+            AND d.producer LIKE #{producername} + '%'
+        </if>
+        <if test='suppname != "" '>
+            AND ws.sunasu LIKE '%' + #{suppname} + '%'
+        </if>
+        <if test='otype != ""'>
+            AND h.odgubun = #{otype}
+        </if>
+        GROUP BY g.gdname, g.gdcd
+    </sql>
+
+    <sql id="claimStatusJoinCommon">
+        JOIN claimline cl
+          ON ch.claimnum = cl.claimnum
+        JOIN gd_master gm
+          ON cl.gdcd = gm.gdcd
+        JOIN mb_master mm
+          ON mm.memcd = ch.memcd
+        JOIN od_header oh
+          ON ch.ordnum = oh.ordnum
+         AND ch.paynum = oh.paynum
+        LEFT JOIN gd_item gi
+               ON gm.gdcd = gi.gdcd
+      <![CDATA[
+      WHERE ch.claimstcd <> '99'
+      ]]>
+        AND ((ch.claimtype IN ('10','50','51'))
+                           OR (ch.claimtype = '20' AND ch.claimreason IN ('21'))
+                           OR (ch.claimtype = '40' AND ch.claimreason IN ('42'))
+            )
+        AND cl.claimflag = 'Y'
+        AND cl.useyn = 'Y'
+        <![CDATA[
+        AND cl.gdcd <> '99999999'
+        AND oh.orddt >= CONVERT(DATETIME,#{startDate},21)
+        AND oh.orddt < CONVERT(DATETIME,#{endDate},21)+1
+        ]]>
+    </sql>
+    <select id="prodCategoryAllCommon">
+        /* prodCategoryAll 상품 전체 카테고리*/
+        SELECT cdcode
+             , cdname
+             , useyn
+        FROM cd_master
+         WHERE cdtype = '20'
+           AND useyn = 'Y'
+    </select>
+
+    <select id="SalesStatusGetGroupName">
+         /*SalesStatusGetGroupName 그룹 Name*/
+        SELECT grpcd
+             , grpname
+        FROM mb_group
+         WHERE useyn = 'Y'
+        ORDER BY grpname
+    </select>
+
+    <select id="SalesStatusGetCodeByGrade">
+       /* SalesStatusGetCodeByGrade 상품코드 by 등급*/
+        SELECT cdcode
+             , cdname
+             , useyn
+        FROM cd_master
+        WHERE cdtype = #{typeGrade}
+          AND useyn = 'Y'
+        ORDER BY CDCODE DESC
+    </select>
+    
+    <select id="SalesStatusTopSalesProd">
+        /* SalesStatusTopSalesProd 상품판매 범위*/
+        SELECT TOP #{ranking} g.gdname
+             , g.gdcd
+             , SUM(g.gdcnt) gdcnt
+             , SUM(g.price*g.gdcnt) cntprice
+        FROM od_header h
+          JOIN od_goods g
+            ON h.ordnum = g.ordnum
+          JOIN gd_master m
+            ON m.gdcd = g.gdcd
+          JOIN mb_master mb
+            ON mb.memcd = h.memcd
+          LEFT JOIN gd_item d
+                 ON d.gdcd = m.gdcd
+          LEFT JOIN WMSL_WSSUPP ws
+                 ON ws.susuno = d.scode
+         WHERE h.paystcd = #{paystPay}
+         <![CDATA[
+           AND h.orddt >= CONVERT(DATETIME, #{startDate},21)
+           AND h.orddt < CONVERT(DATETIME, #{endDate},21)+1
+         ]]>
+           AND h.paystcd = #{paystPay}
+           AND h.odgubun IN (#{nSalesOrderType})
+         <include refid="getRangeConditionCommon"/>
+         <if test="sort == 'S'">
+             ORDER BY cntprice DESC
+         </if>
+         <if test="sort == 'Q'">
+             ORDER BY gdcnt DESC
+         </if>
+    </select>
+
+    <select id="SalesStatusGetAllSalesPrice">
+        /* SalesStatusGetAllSalesPrice 전체 상품 판매 가격*/
+        SELECT SUM(ttlprice) totalx
+        FROM od_pay
+         WHERE 1=1
+          AND paystcd = #{paystPay}
+          <![CDATA[
+          AND fixdt >= #{startDate} AND fixdt <= #{endDate}
+          AND paydt >= CONVERT(DATETIME, #{startDate}, 21)
+          AND paydt < CONVERT(DATETIME, #{endDate}, 21) + 1
+          ]]>
+          AND paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN ( #{nSalesOrderType} )
+                                          <![CDATA[
+                                          AND orddt >= CONVERT(DATETIME,#{startDate}, 21)
+                                          AND orddt < CONVERT(DATETIME,#{endDate}, 21) + 1
+                                          ]]>
+                         )
+    </select>
+    
+    <select id="SalesStatusGetCurrentSalesProdCnt">
+         /* 현재 상품판매 개수*/
+        SELECT COUNT(g.gdcd) CNT
+             , SUM(CASE WHEN ISNULL(dispatchtype, 'I') = 'I' THEN 1 ELSE 0 END) interndlv
+             , SUM(CASE WHEN ISNULL(dispatchtype, 'I') = 'O' THEN 1 ELSE 0 END) externdlv
+        FROM gd_master g
+          LEFT JOIN od_reservegoods r
+                 ON r.gdcd = g.gdcd
+                AND r.useyn = 'Y'
+                <![CDATA[
+                AND r.od_from <= CONVERT(VARCHAR,GETDATE(),23)
+                AND r.od_to >= CONVERT(VARCHAR,GETDATE(),23)
+                ]]>
+         WHERE g.useyn='Y'
+            OR r.gdcd IS NOT NULL
+    </select>
+    
+    <select id="SalesStatusCurrentSoldoutProd">
+        /*SalesStatusCurrentSoldoutProd 현재 일시품절 상품*/
+        SELECT p.GDCD
+             , p.GDNAME
+        FROM GD_MASTER p
+          LEFT JOIN GD_CNT s
+                 ON p.GDCD=s.GDCD
+         WHERE p.USEYN = 'Y'
+           <![CDATA[
+           AND (p.SOLDOUTYN='Y' OR s.GDCNT < 1)
+           ]]>
+    </select>
+
+    <select id="SalesStatusCurrentSoldoutProdList">
+        /*SalesStatusCurrentSoldoutProdList 현재 일시품절 상품 리스트*/
+        SELECT c.cdcode
+             , c.cdname
+             , p.gdcd
+             , p.gdname
+        FROM GD_MASTER p
+          LEFT JOIN GD_CNT s
+                 ON p.GDCD=s.GDCD
+          LEFT JOIN cd_master c
+                 ON p.div1 = c.cdcode
+                AND c.cdtype = '20'
+                AND c.useyn = 'Y'
+        WHERE p.USEYN='Y'
+          <![CDATA[
+          AND (p.SOLDOUTYN='Y' OR s.GDCNT < 1)
+          ]]>
+        ORDER BY cdcode,p.gdcd
+    </select>
+
+  <!--  'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품 클레임 현황
+    'File          : m62prodm010.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20141202
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20141202   hwkim   0.9     처음 작성
+    '20161215   hwkim   0.9.1   리뉴얼 디자인에 맞춤
+    '20181018   sykim   0.9.2   od_header 중심에서 claimheader 중심으로 쿼리 변경.(취소된 수량은 제외되는 오류수정)-->
+
+    <select id="claimStatusAllCategory">
+        /* claimStatusAllCategory 클레임 상품 카테고ㅓ리*/
+        SELECT cdcode
+             , cdname
+             , useyn
+        FROM cd_master
+         WHERE cdtype = '20'
+           AND useyn = 'Y'
+    </select>
+
+    <select id="claimStatusGetGroupName">
+       /* claimStatusGetGroupName 클레임 현황 그룹 이름*/
+        SELECT grpcd
+             , grpname
+        FROM mb_group
+         WHERE useyn = 'Y'
+        ORDER BY grpname
+    </select>
+
+    <select id="claimStatusGetCdByGrade">
+        /* claimStatusGetCdByGrade 클레임 현황 코드 by 등급 */
+        SELECT cdcode
+             , cdname
+             , useyn
+        FROM cd_master
+         WHERE cdtype = #{typeGrade}
+           AND useyn = 'Y'
+        ORDER BY CDCODE DESC
+    </select>
+    
+    <select id="getClaimRange">
+        /*  getClaimRange 클레임 범위 지정*/
+        SELECT TOP #{ranking} a.gdcd
+             , b.gdname
+             , SUM(a.gdcnt) gdsum, SUM(a.cgdsum) cgdsum
+             , ROUND((SUM(CONVERT(FLOAT,ISNULL(a.cgdsum,0)))/SUM(a.gdcnt))*100,2) cratio
+        FROM (
+               SELECT g.gdcd
+                    , 0 cgdsum
+                    , SUM(g.gdcnt) gdcnt
+               FROM od_header h
+                 JOIN od_goods g
+                   ON h.paynum = g.paynum
+                  AND h.ordnum = g.ordnum
+                 JOIN gd_master m
+                   ON m.gdcd = g.gdcd
+                 JOIN mb_master mb
+                   ON mb.memcd = h.memcd
+                 LEFT JOIN gd_item d
+                        ON d.gdcd = m.gdcd
+                WHERE h.paystcd = #{paystPay}
+                <![CDATA[
+                  AND h.orddt >= CONVERT(DATETIME,#{startDate},21)
+                  AND h.orddt < CONVERT(DATETIME,#{endDate},21)+1
+                ]]>
+                  AND h.odgubun IN (#{nSalesOrderType} )
+                <include refid="getRangeConditionCommon"/>
+               UNION ALL
+               SELECT cl.gdcd
+                    , SUM(cl.gdcnt) cgdsum
+                    , SUM(CASE WHEN ch.claimgubun='01' THEN cl.gdcnt ELSE 0 END) gdcnt  /*'환불시에는 주문수량이 줄어드므로 총 주문수량을 구하려면 환불클레임수량을 더하고 교환은 더할 필요 없음.*/
+               FROM claimheader ch
+               <include refid="claimStatusJoinCommon"/>
+               <include refid="getRangeConditionCommon"/>
+              ) a
+          JOIN gd_master b
+            ON a.gdcd = b.gdcd
+        GROUP BY a.gdcd, b.gdname
+        ORDER BY cratio DESC
+    </select>
+
+   <!-- 'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품 클레임 현황 상세
+    'File          : m62prodm010.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20141205
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20141205   hwkim   0.9     처음 작성
+    '20161215   hwkim   0.9.1   리뉴얼 디자인에 맞춤
+    '20181018   sykim   0.9.2   od_header 중심에서 claimheader 중심으로 쿼리 변경.(취소된 수량은 제외되는 오류수정)-->
+    <select id="getCurrentProdClaimDetail">
+        /* getCurrentProdClaimDetail 상품 클레임 현황 상세 */
+        SELECT CONVERT(VARCHAR(10),oh.dlvdt,120) dlvdt
+             , ch.ordnum
+             , cl.gdcd
+             , gm.gdname
+             , cl.gdcnt
+             , ch.claimtype
+             , ct.cdname typename
+             , ch.claimreason
+             , cr.cdname reasonname
+             , cl.claimnote
+             , cl.rtnimg1
+             , cl.rtnimg2
+        FROM claimheader ch
+        <include refid="claimStatusJoinCommon"/>
+        <include refid="getRangeConditionCommon"/>
+    </select>
+
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품 가격정보 관리
+    'File          : m62prodm030.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20150706
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20150706   hwkim   0.9     처음 작성
+    '20161215   hwkim   0.9.1   리뉴얼 디자인에 맞춤-->
+
+    <select id="searchProductTopThirty">
+        /* searchProductTopThirty 최대 30개의 상품 조회*/
+        SELECT TOP 30 m.GDCD
+             , m.GDNAME
+             , m.unit
+             , m.price1
+        FROM GD_MASTER m
+          LEFT JOIN GD_CNT s
+                 ON m.GDCD=s.GDCD
+          LEFT JOIN gd_item d
+                 ON d.gdcd = m.gdcd
+        WHERE 1=1
+        <if test='outofstock == "on"'>
+            AND (m.SOLDOUTYN='Y' OR s.GDCNT < 1)
+            AND m.USEYN = 'Y'
+        </if>
+        <if test='prodName != "" '>
+            AND m.gdname LIKE '%' + #{prodName} + '%'
+        </if>
+        <if test='producername != "" '>
+            AND d.producer LIKE #{producername} + '%'
+        </if>
+        <if test='strSCategory != ""'>
+            AND m.div1 = #{strSCategory}
+        </if>
+        <if test='strSSubCategory != ""'>
+            AND m.div2 = #{strSSubCategory}
+        </if>
+    </select>
+
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품 가격정보 관리
+    'File          : m62prodm031.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20150706
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20150706   hwkim   0.9     처음 작성
+    '20151118   hwkim   0.9.2   입고(예상)일자 추가, 외부배송상품 추가
+    '20161215   hwkim   0.9.3   리뉴얼 디자인에 맞춤
+    '20180131   sykim   0.9.4   사용자테이블 cs_사원마스터 > cs_user 변경적용.-->
+
+    <select id="getProdDetailInfo">
+        /*getProdDetailInfo 상품 상세 정보 get*/
+        SELECT a.gdcd
+             , a.gdname
+             , a.unit
+             , a.divcd
+             , a.div1
+             , a.price1
+             , a.point1
+             , a.gdimg
+             , a.explain
+             , a.priceyn
+             , a.useyn
+             , a.indt
+             , a.updt
+             , b.weekcnt
+             , b.weekgap
+             , c.gdsetyn
+             , c.gdatoyn
+             , c.gdtckyn
+             , d.typecd
+             , d.origin
+             , d.producer
+             , d.address
+             , e.gdcnt
+             , a.newyn
+             , a.recommendyn
+             , a.vat
+             , a.div2
+             , a.updid
+             , a.deliverydtyn
+             , a.saleprice
+             , a.saleflag
+             , a.salepercent
+             , a.soldoutyn
+             , a.gdimg2
+             , a.gdimg3
+             , a.gdimg4
+             , a.subgdcd1
+             , m1.gdname subname1
+             , a.subgdcd2
+             , m2.gdname subname2
+             , a.subgdcd3
+             , m3.gdname subname3
+             , a.subgdcd4
+             , m4.gdname subname4
+             , a.subgdcd5
+             , m5.gdname subname5
+             , a.shortdesc
+             , CASE WHEN (a.updid='SCHEDULJOB' OR a.updid='INTERFACE') THEN a.updid ELSE f.usname END updidname
+             , CASE WHEN ISNULL(a.qtysaleyn,'')='' THEN 'N' ELSE a.qtysaleyn END qtysaleyn
+             , CASE WHEN ISNULL(a.favoriteyn,'')='' Then 'N' ELSE a.favoriteyn END favoriteyn
+             , a.expdt
+             , a.bestbeforedate, a.packaging, a.handling, a.precaution1, a.precaution2, a.addinformation, a.importnote
+             , a.plandate, a.dispatchtype
+        FROM gd_master a
+          LEFT JOIN gd_pack b
+                 ON a.gdcd = b.gdcd
+          LEFT JOIN gd_set c
+                 ON a.gdcd = c.gdcd
+          LEFT JOIN gd_item d
+                 ON a.gdcd = d.gdcd
+          LEFT JOIN gd_cnt e
+                 ON a.gdcd = e.gdcd
+          LEFT JOIN cs_user f
+                 ON a.updid = f.uscode
+          LEFT JOIN gd_master m1
+                 ON a.subgdcd1 = m1.gdcd
+          LEFT JOIN gd_master m2
+                 ON a.subgdcd2 = m2.gdcd
+          LEFT JOIN gd_master m3
+                 ON a.subgdcd3 = m3.gdcd
+          LEFT JOIN gd_master m4
+                 ON a.subgdcd4 = m4.gdcd
+          LEFT JOIN gd_master m5
+                 ON a.subgdcd5 = m5.gdcd
+        WHERE a.gdcd = #{gdcd}
+    </select>
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품 가격정보 관리 저장 처리
+    'File          : m62prodm032.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20150707
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20150707   hwkim   0.9     처음 작성
+    '20151118   hwkim   0.9.2   입고(예상)일자 추가, 외부배송상품 추가
+    '20161215   hwkim   0.9.3   리뉴얼 디자인에 맞춤-->
+    <update id="updateProdPrice">
+        /* updateProdPrice 상품가격 변경 저장*/
+        UPDATE gd_master
+        SET price1 =  #{strPrice1}
+          , priceyn = #{strPriceYN}
+          , useyn = #{strUseYN}
+          , updt = GETDATE()
+          , updid = #{strLoginMemCD}
+          , newyn = #{strNewYn}
+          , recommendyn = #{strRecommendYN}
+          , saleprice =  #{strSalePrice}
+          , saleflag = #{strSaleFlag}
+          , salepercent =  #{strSalePercent}
+          , soldoutyn = #{strSoldOutYN}
+          <choose>
+              <when test='strPlanDate != ""'>
+                  , plandate = #{strPlanDate}
+              </when>
+              <otherwise>
+                  , plandate = NULL
+              </otherwise>
+          </choose>
+        WHERE gdcd = #{gdcd}
+    </update>
+
+    <select id="selectGdcd">
+        /* selectGdcd 상품코드 Select*/
+        SELECT gdcd
+        FROM gd_cnt
+         WHERE gdcd = #{gdcd}
+    </select>
+
+    <update id="updateGdCnt">
+        /*updateGdCnt 상품개수 업데이트*/
+        UPDATE gd_cnt
+        SET gdcnt =  #{strGDCNT}
+         WHERE gdcd = #{gdcd}
+    </update>
+
+    <delete id="deleteGdCnt">
+        /* deleteGdCnt 상품 개수 삭제*/
+        DELETE gd_cnt
+        WHERE gdcd =  #{gdcd}
+    </delete>
+
+    <insert id="insertGdCnt">
+        /* insertGdCnt상품 개수 Insert*/
+        INSERT INTO gd_cnt (gdcd, gdcnt)
+        VALUES (#{gdcd}, #{strGDCNT})
+    </insert>
+</mapper>

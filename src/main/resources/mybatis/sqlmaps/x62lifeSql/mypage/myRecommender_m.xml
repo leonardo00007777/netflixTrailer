@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myRecommender">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 추천인 주문현황-->
+<!--    'File          : myrecommender_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : sykim-->
+<!--    'Date Started  : 20190308-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+<!--    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    '20190308   sykim   0.9     처음 작성-->
+
+    <select id="getRecommenderBuyHistory">
+        /* getRecommenderBuyHistory 내 추천인 주문현황 */
+        SELECT r.memcd
+             , m.memname
+             , m.memid
+             , COUNT(p.paynum) paycnt
+             , CONVERT(VARCHAR,MAX(p.paydt),23) paydt
+             , SUM(p.ttlprice) ttlsum
+        FROM recommender_table r
+          JOIN mb_master m
+            ON r.memcd = m.memcd
+          JOIN od_pay p
+            ON m.memcd = p.memcd
+         WHERE r.rmemcd = 'I1059036'
+           AND p.paystcd = #{paystPay}
+           <![CDATA[
+           AND p.paydt >= CONVERT(DATETIME,#{dteSDate},21)
+           AND p.paydt < CONVERT(DATETIME,#{dteEDate},21)+1
+           ]]>
+           AND p.paynum IN (SELECT paynum
+                            FROM od_header
+                             WHERE paystcd = #{PAYST_PAY}
+                               AND odgubun IN ( #{nSalesOrderType}))
+        GROUP BY r.memcd, m.memname, m.memid
+        ORDER BY memname
+    </select>
+</mapper>

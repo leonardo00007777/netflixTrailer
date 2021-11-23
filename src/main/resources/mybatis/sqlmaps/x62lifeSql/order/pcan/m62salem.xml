@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="m62salem">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 모바일매출, 로그인현황
+    'File          : m62salem010.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20130907
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20130907   hwkim   0.9     처음 작성
+    '20150114	hwkim	0.9.4	총액, 비중만 보기
+    '20161215   hwkim   0.9.5   리뉴얼 디자인에 맞춤-->
+    <sql id="mobileSalesConditionCommon">
+        /* mobileSalesConditionCommon 조건 공통부*/
+        WHERE 1=1
+          AND a.device = 'M'
+          AND a.paystcd = #{paystPay}
+        <![CDATA[
+          AND a.paydt >= CONVERT(DATETIME, #{startDate}, 21)
+          AND a.paydt < CONVERT(DATETIME, #{endDate}, 21)+1
+        ]]>
+          AND a.paynum IN (SELECT paynum FROM od_header
+                                          WHERE paystcd = #{paystPay}
+                                            AND odgubun IN (#{nSalesOrderType})
+                                          <![CDATA[
+                                             AND orddt >= CONVERT(DATETIME, #{startDate}, 21)
+                                             AND orddt < CONVERT(DATETIME, #{endDate}, 21)+1
+                                          ]]>
+        )
+        <if test='groupcd != ""'>
+            AND b.grpcd = #{groupcd}
+        </if>
+        <if test='custname != "" '>
+            AND b.memname LIKE '%' + #{custname} + '%'
+        </if>
+    </sql>
+
+    <select id="getPaymentDetail">
+       /*  getPaymentDetail 결제내역 Detail*/
+        SELECT a.paynum
+             , a.paydt
+             , b.grpcd
+             , a.memcd
+             , b.memname
+             , a.ttlprice
+             , a.paycd
+        FROM od_pay a
+          JOIN mb_master b 
+            ON a.memcd = b.memcd
+        <include refid="mobileSalesCommon"/>
+    </select>
+
+    <select id="getAllSales">
+        /* getAllSales 전체 매출*/
+        SELECT  SUM(a.ttlprice) totalx
+        FROM od_pay a
+          JOIN mb_master b
+            ON a.memcd = b.memcd
+        <include refid="mobileSalesCommon"/>
+    </select>
+
+    <select id="getCustomerInfo">
+         /* getCustomerInfo 고객 정보*/
+        SELECT a.nox
+             , a.memcd
+             , a.datex
+             , b.memname
+             , b.grpcd
+        FROM logininfo2 a
+          JOIN mb_master b
+            ON a.memcd = b.memcd
+        WHERE 1=1
+          AND a.device='M'
+          <![CDATA[
+          AND a.datex >= CONVERT(DATETIME,'&startDate&',21)
+          AND a.datex < CONVERT(DATETIME,'&endDate&',21)+1
+          ]]>
+        <if test='groupcd != ""'>
+            AND b.grpcd = #{groupcd}
+        </if>
+        <if test='custname != "" '>
+            AND b.memname LIKE '%' + #{custname} + '%'
+        </if>
+        ORDER BY datex DESC
+    </select>
+</mapper>

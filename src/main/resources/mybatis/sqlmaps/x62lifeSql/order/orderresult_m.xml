@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderprocess">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 주문결제 결과
+    'File          : orderresult_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20130725
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+   
+    '20130725   hwkim   0.9     처음 작성
+    '20161130   hwkim   0.9.1   리뉴얼
+    '20170406   hwkim   0.9.2   보내는사람 정보 변경 기능 추가
+    '20180716   hwkim   -       레코픽 시범적용
+    '20180809   hwkim   -       레코픽 추천위젯 시범적용
+    '20200302   hyeok   -       기간한정 이벤트 검사 함수(processHandCleanerEvent)추가.
+    '20200716   sykim   -       방학 간식 대전 증정(멀티비타민) 주석처리.-->
+    
+    <select id="orderInfo" statementType="CALLABLE">
+       /* orderInfo 주문 정보*/
+       {CALL encryptionOpen
+       SELECT a.paynum
+            , a.paycd
+            , a.pgcd
+            , g.cdname pgname 
+            , ISNULL(a.payprice,0) payprice
+            , ISNULL(a.bntprice,0) bntprice
+            , ISNULL(a.dpsprice,0) dpsprice 
+            , ISNULL(a.ttlprice,0) ttlprice
+            , ISNULL(a.pntprice,0) pntprice
+            , ISNULL(a.accprice,0) accprice 
+            , ISNULL(a.dlvprice,0) dlvprice 
+            , a.paystcd, CONVERT(CHAR(10),a.paydt,111) paydt
+            , b.memname 
+            , CONVERT(VARCHAR(14),DECRYPTBYKEY(b.telno_enc)) telno 
+            , CONVERT(VARCHAR(14),DECRYPTBYKEY(b.hpno_enc)) hpno 
+            , CONVERT(VARCHAR(40),DECRYPTBYKEY(b.email_enc)) email 
+            , c.cdname payname
+            , d.cdname paystname
+            , e.autoidx 
+            , f.tid
+            , f.resultcode
+            , f.vactnum
+            , f.vactbankcode
+            , f.vactname
+            , f.vactinputname
+            , f.vactdate 
+            , sp.ocTransAuthId 
+         FROM od_pay a 
+           JOIN od_member b 
+             ON a.paynum = b.paynum
+            AND a.prepaynum = #{strPaynum_temp}
+           LEFT JOIN cd_master c
+                  ON a.paycd = c.cdcode
+                 AND c.cdtype = #{TYPE_PAYCD}
+           LEFT JOIN cd_master d
+                  ON a.paystcd = d.cdcode
+                 AND d.cdtype = #{TYPE_PAYST}
+           LEFT JOIN od_autopay e
+                  ON a.paynum = e.paynum
+           LEFT JOIN inicis_pay f
+                  ON a.paynum = f.paynum
+           LEFT JOIN cd_master g
+                  ON a.pgcd IN (#{pgcdSyruppay}, #{pgcdNaverpay})
+                 AND a.pgcd = g.cdcode
+                 AND g.cdtype = #{typePgcd}
+           LEFT JOIN syrup_pay sp
+                  ON a.paynum = sp.mctTransAuthId
+                 <![CDATA[
+                 AND ISNULL(sp.ocTransAuthId,'') <> ''
+                 ]]>
+       CALL encryptionClose}
+    </select>
+    
+    <select id="getOrderCompletList" statementType="CALLABLE">
+        /*getOrderCompletList 주문상품 정보 테이블*/
+        {CALL [dbo].[sp_getOrderCompletList]
+              #{strRSPAYNUM}
+            , #{strLoginMemCd}
+            , #{strSName}
+            , Replace(#{strSTelNO},"-","")
+        }
+    </select>
+
+    <select id="checkFirstBuyEvent">
+        /*checkFirstBuyEvent 첫구매 선물증정 이벤트 대상 검사*/
+        SELECT CONVERT(VARCHAR(10),indt,23) indt
+        FROM mb_master
+         WHERE memcd = #{strLoginMemCD}
+    </select>
+</mapper>

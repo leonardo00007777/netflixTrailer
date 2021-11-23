@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="syruppay">
+<!--    'System        : 62life.com
+    'Program       :
+    'Title         : 시럽페이 거래인증 정보 Return 및 결제/주문정보 생성.
+    'File          : syruppay_rtn_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : sykim
+    'Date Started  : 20170425
+    'Last Modified :
+    'Called With     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author      V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;      &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20170425   sykim       0.9     처음작성
+    '20170707   sykim       -       시럽페이에서 선택한 결제방법 update 추가.
+    '20180214   hyeok       -&#45;&#45;     SMS > 알림톡 변경 적용 (lib.database.asp 필수)
+    '20190610   sykim       0.9.1   고객사혜택 제한코드, T건강걷기 관련 세션관련 코드 추가.
+    '20190830   sykim       -       g_vos 추가.-->
+    <insert id="saveCancelSuccessResponseResult">
+        INSERT INTO syrup_pay (
+                                apiDt
+                              , apiId
+                              , apiType
+                              , mctTransAuthId
+                              , mctRequestId
+                              , mctRequestTime
+                              , paymentAmt
+                              , ocTransApproveNo
+                              , ocTransApproveTime
+                              , paymentMethod
+                              , exceptValue
+                              )
+               VALUES (
+                        GETDATE()
+                      , #{strLoginMemCd}
+                      , 'EXCEPT'
+                      , #{mctTransAuthId}
+                      , #{mctRequestId}
+                      , #{mctRequestTime}
+                      , #{paymentAmt}
+                      , #{ocTransApproveNo}
+                      , #{ocTransApproveTime}
+                      , #{paymentMethod}
+                      , 'N'
+                      )
+    </insert>
+
+    <insert id="saveCancelFailedResponseResult">
+        INSERT INTO syrup_pay (
+                                apiDt
+                              , apiId
+                              , apiType
+                              , mctTransAuthId
+                              , mctRequestId 
+                              , mctRequestTime
+                              , exceptValue
+                              , errorCode
+                              , errorMessage
+                              ) 
+               VALUES (
+                        GETDATE()
+                     , #{strLoginMemCd}
+                     , 'EXCEPT'
+                     , #{mctTransAuthId}
+                     , #{mctRequestId}
+                     , #{mctRequestTime}
+                     , 'Y'
+                     , #{errorCode}
+                     , N#{errorMessage}
+                     )
+    </insert>
+    
+    <insert id="saveTransactionFailedResult">
+        INSERT INTO syrup_pay (
+                                apiDt
+                              , apiId
+                              , apiType
+                              , mctTransAuthId
+                              , mctRequestId 
+                              , mctRequestTime
+                              , paymentAmt
+                              , taxFreeAmt 
+                              , exceptValue
+                              , errorCode
+                              , errorMessage
+                              ) 
+               VALUES (
+                        GETDATE()
+                        , #{strLoginMemCd}
+                        , 'APPROVAL'
+                        , #{mctTransAuthId}
+                        , #{mctRequestId}
+                        , #{mctRequestTime}
+                        , #{g_payPrice}
+                        , #{strTaxFree}
+                        , 'Y'
+                        , #{errorCode}
+                        , N#{errorMessage}
+                      )
+    </insert>
+
+    <insert id="saveSyrupPayHistoryWithCard">
+        INSERT INTO syrup_pay (
+                                apiDt
+                              , apiId
+                              , apiType
+                              , mctTransAuthId
+                              , mctRequestId
+                              , mctRequestTime 
+                              , paymentAmt
+                              , taxFreeAmt
+                              , ocTransAuthId
+                              , tranAuthValue 
+                              , ocTransApproveNo
+                              , ocTransApproveTime
+                              , paymentMethod
+                              , exceptValue 
+                              , cardNumber
+                              , cardName
+                              , cardType
+                              , cardApprovalNo
+                              , approvalTime
+                              ) 
+               VALUES (
+                        GETDATE()
+                      , #{strLoginMemCd}
+                      , 'APPROVAL'
+                      , #{realPayNum}
+                      , #{mctRequestId}
+                      , #{mctRequestTime}
+                      , #{paymentAmt}
+                      , #{strTaxFree}
+                      , #{ocTransAuthId}
+                      , #{tranAuthValue}
+                      , #{ocTransApproveNo}
+                      , #{ocTransApproveTime}
+                      , #{paymentMethod}
+                      , 'N'
+                      , #{cardNumber}
+                      , N#{cardName}
+                      , #{cardType}
+                      , #{cardApprovalNo}
+                      , #{cardApprovalTime}
+                      )
+    </insert>
+
+    <insert id="saveSyrupPayHistoryWithBank">
+        INSERT INTO syrup_pay (
+                                apiDt
+                              , apiId
+                              , apiType
+                              , mctTransAuthId
+                              , mctRequestId
+                              , mctRequestTime 
+                              , paymentAmt
+                              , taxFreeAmt
+                              , ocTransAuthId
+                              , tranAuthValue 
+                              , ocTransApproveNo
+                              , ocTransApproveTime
+                              , paymentMethod
+                              , exceptValue 
+                              , bankAccountNumber
+                              , bankName
+                              , bankApprovalNo
+                              , approvalTime
+                              ) 
+               VALUES (
+                        GETDATE()
+                      , #{strLoginMemCd}
+                      , 'APPROVAL'
+                      , #{realPayNum}
+                      , #{mctRequestId}
+                      , #{mctRequestTime}
+                      , #{paymentAmt}
+                      , #{strTaxFree}
+                      , #{ocTransAuthId}
+                      , #{tranAuthValue}
+                      , #{ocTransApproveNo}
+                      , #{ocTransApproveTime}
+                      , #{paymentMethod}
+                      , 'N'
+                      , #{bankAccountNumber}
+                      , N#{bankName}
+                      , #{bankApprovalNo}
+                      , #{bankApprovalTime}
+                      )
+    </insert>
+
+    <insert id="saveSyrupPayHistoryWithCellPhone">
+        INSERT INTO syrup_pay (
+                                apiDt
+                              , apiId
+                              , apiType
+                              , mctTransAuthId
+                              , mctRequestId
+                              , mctRequestTime 
+                              , paymentAmt
+                              , taxFreeAmt
+                              , ocTransAuthId
+                              , tranAuthValue 
+                              , ocTransApproveNo
+                              , ocTransApproveTime
+                              , paymentMethod
+                              , exceptValue 
+                              , phoneNumber
+                              , phoneMerchantNo
+                              , phoneApprovalNo
+                              , approvalTime) 
+               VALUES (
+                        GETDATE()
+                      , #{strLoginMemCd}
+                      , 'APPROVAL'
+                      , #{realPayNum}
+                      , #{mctRequestId}
+                      , #{mctRequestTime}
+                      , #{paymentAmt}
+                      , #{strTaxFree}
+                      , #{ocTransAuthId}
+                      , #{tranAuthValue}
+                      , #{ocTransApproveNo}
+                      , #{ocTransApproveTime}
+                      , #{paymentMethod}
+                      , 'N'
+                      , #{phoneNumber}
+                      , #{phoneMerchantNo}
+                      , #{phoneApprovalNo}
+                      , #{phoneApprovalTime}
+                      )
+    </insert>
+</mapper>

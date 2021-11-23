@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safefoodList_m">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 상품 검색결과 보기-->
+<!--    'File          : search_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20130513-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+<!--    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    '20130513   hwkim   0.9     처음 작성-->
+<!--    '20150706   hwkim   0.9.1   검색에 '예약 주문 상품' 추가-->
+<!--    '20151110   hwkim   0.9.2   상품 목록 디자인 공통 적용-->
+<!--    '20161118   hwkim   0.9.3   리뉴얼-->
+<!--    '20170202   hwkim   -       버그픽스 / 검색된 상품 갯수가 잘못 표시되는 문제-->
+<!--    '20170316   hwkim   -       장바구니 변경-->
+<!--    '20170329   hwkim   -       할인 가격 표시 변경-->
+<!--    '20170420   hwkim   0.9.4   당일발송 주문 담기 처리 추가. / thedaysyn-->
+<!--    '20170613   hwkim   0.9.5   당일발송 주문 담기 처리 제외 (1차범위)-->
+<!--    '20170615   hwkim   0.9.6   당일발송상품 검색 추가.-->
+<!--    '20180629   sykim   -       7시 > 8시 당일발송 변경.-->
+<!--    '20180710   hyeok   0.9.7   태그검색 결과 추가, 장바구니 담기 버그(수량)픽스-->
+<!--    '20180711   hyeok   -       검색결과 UI변경 (신속, 예약, 태그검색결과 통합표시)-->
+<!--    '20180803   hwkim   0.9.8   상품등급 라벨 표시, 할인율 사각형스티커 변경 등-->
+<!--    '20191122   hwkim   1.0     공백으로 분리된 다중 검색어 적용 처리-->
+<!--    '20200320   hwkim   1.1     다중 검색, 자동완성 기능으로 인한 상품코드 정렬 고려 추가-->
+<!--    '20200323   hwkim   1.1.1   검색 정확도를 높이기 위해 공백을 포함한 검색어 1순위 처리-->
+<!--    '20200324   sykim   1.1.2   상품정보 단일화(gd_master & od_reservegoods > gd_master) 적용.-->
+    <select id="todayDeliveryResult">
+        /* todayDeliveryResult 오늘발송' 상품  xflag = True */
+        SELECT g.gdcd
+             , g.gdname
+             , g.unit
+             , g.priceyn
+             , g.newyn
+             , g.recommendyn
+             , g.qtysaleyn
+             , g.price1
+             , dbo.getMasterPrice(g.gdcd) saleprice
+             , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) groupsaleprice
+             , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy},g.gdcd) isgroupsale
+             , g.gdimg
+             , g.mgdimg1
+             , g.divcd
+             , g.div1
+             , ISNULL(g.soldoutyn,'N') soldoutyn
+             , ISNULL(s.gdcnt,99999) gdcnt
+             , i.origin
+             , i.producer
+             , i.address
+             , ISNULL(t.cdname,'미지정') AS gradedesc
+             , g.thedaysyn
+             , g.shortdesc
+             , CASE g.dispatchtype WHEN 'I' THEN '11' WHEN 'O' THEN '15' END odtype
+             , ISNULL(g.deliverydtyn,'N') deliverydtyn
+             , ISNULL(g.reserveyn,'N') reserveyn
+        FROM gd_master g
+         LEFT JOIN gd_cnt s ON g.gdcd = s.gdcd
+         LEFT JOIN gd_item i ON i.gdcd = g.gdcd
+         LEFT JOIN cd_master t ON t.cdtype = '09'
+                              AND t.cdcode = i.typecd
+         LEFT JOIN wmsl_wssupp ws ON ws.susuno = i.scode
+         LEFT JOIN od_reservegoods r ON g.gdcd = r.gdcd
+                                    AND r.useyn = 'Y'
+                                    <![CDATA[
+                                    AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                                    AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                                     ]]>
+         WHERE 1 = 1
+           AND g.gdcd NOT IN (#{inExceptProduct})
+           AND g.useyn = 'Y'
+           AND g.thedaysyn = 'Y'
+           AND (g.gdname LIKE #{escapeWord} OR ws.sunasu LIKE #{escapeWord})
+           AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+         <if test='strMEMGRPCD == "" OR strMEMGRPCD.indexOf("219")'>
+             AND g.gdcd NOT IN (#{isensExceptProduct})
+         </if>
+         <if test="strMEMGRPCD == '' OR userDefinedTarget.indexOf(strMEMGRPCD) lte 0 ">
+             AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx=468)
+         </if>
+         <if test="strMEMGRPCD == '' OR userDefinedTarget2.indexOf(strMEMGRPCD) lte 0">
+             AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx = 641)
+         </if>
+         <if test=" 0 lte targetDate1 and targetDete2 lte 0">
+             <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0">
+                 AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 784)
+             </if>
+         </if>
+         <if test="0 lte targetDate3 and targetDate4 lte 0">
+             <if test="strMEMGRPCD == '' or userDefinedTarget3.indexOf(strMEMGRPCD) lte 0">
+                 AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 792)
+             </if>
+         </if>
+         <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0 ">
+             AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 836)
+         </if>
+    </select>
+    <select id="targetDate">
+        /*targetDate 특정 날짜
+            targetDate1 2020-06-18
+          , targetDate2 2020-06-27
+          , targetDate3 2020-06-26
+          , targetDate4 2020-07-06
+          */
+        SELECT DateDiff("D", #{targetDate}, SYSDATETIME())
+    </select>
+    <select id="alwaysSellProdMobile">
+        /*alwaysSellProdMobile 상시 판매 상품 상품목록표시 xflag = True */
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem} ) MAXPAGE
+             , COUNT(a.gdcd) CNT
+        FROM (
+                 SELECT g.gdcd
+                 FROM gd_master g
+                   LEFT JOIN gd_item i ON i.gdcd = g.gdcd
+                   LEFT JOIN wmsl_wssupp ws ON ws.susuno = i.scode
+                   LEFT JOIN od_reservegoods r ON g.gdcd = r.gdcd
+                                              AND r.useyn = 'Y'
+                                              <![CDATA[
+                                              AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                                              AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                                              ]]>
+                 WHERE 1 = 1
+                   AND ((g.divcd = '30' AND g.useyn = 'Y') OR (g.divcd = '20' AND g.useyn = 'Y' AND g.gdcd IN (SELECT gdcd FROM gd_set WHERE gdsetyn='Y')))
+                   AND g.useyn = 'Y'
+                   AND g.gdcd NOT IN ( #{onlyAutoOrderSet} )
+                   AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                 <choose>
+                     <when test="arrsWord.size lt 1">
+                         AND (( g.gdname LIKE #{escapeWord}
+                                OR ws.sunasu LIKE #{escapeWord}
+                              )
+                                OR ( g.divcd = '30' AND ( g.gdcd IN ( SELECT bidx FROM basictagmap WHERE btype = #{tagTypeProduct}
+                                                                                                     AND bid = #{tagIdProduct}
+                                                                                                     AND btidx IN (SELECT btidx FROM basictag WHERE btname LIKE #{escapeWord})
+                                                                    )
+                                                         )
+                                    )
+                              )
+                     </when>
+                     <otherwise>
+                       <foreach collection="java.util.List" item="arrWord">
+                         <if test="arrWord.sWord1 != ''">
+                             <choose>
+                                 <when test="arrWord.sWord3 != ''">
+                                     AND (g.gdname LIKE #{sWord}
+                                                     OR g.gdname LIKE #{sWord1}
+                                                     OR g.gdname LIKE #{sWord2}
+                                                     OR g.gdname LIKE #{sWord3}
+                                         )
+                                 </when>
+                                 <when test="sWord2 != ''">
+                                     AND (g.gdname LIKE #{sWord}
+                                                     OR g.gdname LIKE #{sWord1}
+                                                     OR g.gdname LIKE #{sWord2}
+                                         )
+                                 </when>
+                                 <otherwise>
+                                     AND (g.gdname LIKE #{sWord}
+                                                     OR g.gdname LIKE #{sWord1}
+                                         )
+                                 </otherwise>
+                             </choose>
+                         </if>
+                       </foreach>
+                     </otherwise>
+                 </choose>
+             ) a
+        WHERE 1 = 1
+        <if test="inExceptProduct != ''">
+            AND a.gdcd NOT IN (#{inExceptProduct})
+        </if>
+        <if test='strMEMGRPCD == "" OR spCustomerGroup.indexOf(strMEMGRPCD)'>
+            AND a.gdcd NOT IN (#{spProduct})
+        </if>
+        <if test='strMEMGRPCD == "" OR SK_EC.indexOf(strMEMGRPCD)'>
+            AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 226)
+        </if>
+        <if test='strMEMGRPCD == "" OR SK_CHEMICALS.indexOf(strMEMGRPCD)'>
+            AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 225)
+        </if>
+        <if test='strMEMGRPCD == "" OR SK_HYNIXES.indexOf(strMEMGRPCD)'>
+            AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 230)
+        </if>
+        <if test='strMEMGRPCD == "" OR SK_PLANET.indexOf(strMEMGRPCD)'>
+            AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 232)
+        </if>
+        <if test='strMEMGRPCD == "" OR userDefinedTarget.indexOf(strMEMGRPCD)'>
+            AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx=468)
+        </if>
+        <if test='strMEMGRPCD == "" OR userDefinedTarget2.indexOf(strMEMGRPCD)'>
+            AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 699)
+        </if>
+        <if test='strMEMGRPCD == "" OR strMEMGRPCD.indexOf("219")'>
+            AND a.gdcd NOT IN (#{isensExceptProduct})
+        </if>
+        <if test="customFilterProduct != ''">
+            AND a.gdcd NOT IN (#{customFilterProduct})
+        </if>
+        <if test=" 0 lte targetDate1 and targetDete2 lte 0">
+            <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0">
+                AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 784)
+            </if>
+        </if>
+        <if test="0 lte targetDate3 and targetDate4 lte 0">
+            <if test="strMEMGRPCD == '' or userDefinedTarget3.indexOf(strMEMGRPCD) lte 0">
+                AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 792)
+            </if>
+        </if>
+        <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0 ">
+            AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 836)
+        </if>
+    </select>
+
+    <select id="alwaysSellProdPC">
+        /* alwaysSellProdPC xflag = False xFlag = PC,MOB 여부 TRUE = 모바일*/
+        SELECT *
+        FROM (
+                 SELECT FLOOR( (ROW_NUMBER() OVER ( #{orderByString} ) - 1 ) /  #{intPagePerItem} + 1) AS PAGE
+                      , *
+                 FROM (
+                          SELECT g.gdcd
+                               , g.gdname
+                               , g.unit
+                               , g.price1
+                               , dbo.getMasterPrice(g.gdcd) saleprice
+                               , dbo.getProductPrice( #{strMEMGRPCD}, #{strGroupSalePolicy},g.gdcd) groupsaleprice
+                               , dbo.getIsGroupSaleGoods( #{strMEMGRPCD}, #{strGroupSalePolicy},g.gdcd) isgroupsale
+                               , g.gdimg
+                               , g.divcd
+                               , g.div1
+                               , ISNULL(g.soldoutyn,'N') soldoutyn
+                               , ISNULL(s.gdcnt,99999) gdcnt
+                               , g.mgdimg1
+                               , g.thedaysyn
+                               , g.shortdesc
+                               , g.priceyn
+                               , ISNULL(t.cdname,'미지정') AS gradedesc
+                               , ws.sunasu
+                               , CASE g.dispatchtype WHEN 'I' THEN '11' WHEN 'O' THEN '15' END odtype
+                               , ISNULL(g.deliverydtyn,'N') deliverydtyn
+                               , ISNULL(g.reserveyn,'N') reserveyn
+                          FROM gd_master g
+                                   LEFT JOIN gd_cnt s ON g.gdcd = s.gdcd
+                                   LEFT JOIN gd_item i ON i.gdcd = g.gdcd
+                                   LEFT JOIN cd_master t ON t.cdtype = '09'
+                                                        AND t.cdcode = i.typecd
+                                   LEFT JOIN wmsl_wssupp ws ON ws.susuno = i.scode
+                                   LEFT JOIN od_reservegoods r ON g.gdcd = r.gdcd
+                              AND r.useyn = 'Y'
+                              <![CDATA[
+                              AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                              AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                              ]]>
+                          WHERE 1 = 1
+                            AND ((g.divcd = '30' AND g.useyn = 'Y')
+                                  OR (g.divcd = '20'
+                                      AND g.useyn = 'Y'
+                                      AND g.gdcd IN (SELECT gdcd FROM gd_set WHERE gdsetyn='Y')
+                                      )
+                                )
+                            AND g.useyn = 'Y'
+                            AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                            AND g.gdcd NOT IN ( #{onlyAutoOrderSet} )
+                          <choose>
+                             <when test="arrsWord.size lt 1">
+                                   AND (( g.gdname LIKE #{escapeWord}
+                                                     OR ws.sunasu LIKE #{escapeWord}
+                                        )
+                                        OR ( g.divcd = '30' AND ( g.gdcd IN ( SELECT bidx FROM basictagmap WHERE btype = #{tagTypeProduct}
+                                                                                                             AND bid = #{tagIdProduct}
+                                                                                                             AND btidx IN (SELECT btidx FROM basictag WHERE btname LIKE #{escapeWord})
+                                                                            )
+                                                                 )
+                                           )
+                                       )
+                             </when>
+                             <otherwise>
+                                <foreach collection="java.util.List" item="arrWord">
+                                   <if test="arrWord.sWord1 != ''">
+                                       <choose>
+                                          <when test="arrWord.sWord3 != ''">
+                                                AND (g.gdname LIKE #{sWord}
+                                                                OR g.gdname LIKE #{sWord1}
+                                                                OR g.gdname LIKE #{sWord2}
+                                                                OR g.gdname LIKE #{sWord3}
+                                                     )
+                                          </when>
+                                          <when test="sWord2 != ''">
+                                                AND (g.gdname LIKE #{sWord}
+                                                                OR g.gdname LIKE #{sWord1}
+                                                                OR g.gdname LIKE #{sWord2}
+                                                    )
+                                          </when>
+                                          <otherwise>
+                                              AND (g.gdname LIKE #{sWord}
+                                                              OR g.gdname LIKE #{sWord1}
+                                                   )
+                                          </otherwise>
+                                       </choose>
+                                   </if>
+                                </foreach>
+                             </otherwise>
+                          </choose>
+                      ) a
+                  WHERE 1 = 1
+                  <if test="inExceptProduct != ''">
+                      AND a.gdcd NOT IN (#{inExceptProduct})
+                  </if>
+                  <if test='strMEMGRPCD == "" OR spCustomerGroup.indexOf(strMEMGRPCD) lte 0' >
+                      AND a.gdcd NOT IN (#{spCustomerGroup})
+                  </if>
+                  <if test='strMEMGRPCD == "" OR SK_EC.indexOf(strMEMGRPCD)'>
+                      AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 226)
+                  </if>
+                  <if test='strMEMGRPCD == "" OR SK_CHEMICALS.indexOf(strMEMGRPCD)'>
+                      AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 225)
+                  </if>
+                  <if test='strMEMGRPCD == "" OR SK_HYNIXES.indexOf(strMEMGRPCD)'>
+                      AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 230)
+                  </if>
+                  <if test='strMEMGRPCD == "" OR SK_PLANET.indexOf(strMEMGRPCD)'>
+                      AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 232)
+                  </if>
+                 <if test="strMEMGRPCD == '' OR userDefinedTarget.indexOf(strMEMGRPCD) lte 0 ">
+                     AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx=468)
+                 </if>
+                 <if test="strMEMGRPCD == '' OR userDefinedTarget2.indexOf(strMEMGRPCD) lte 0">
+                     AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx = 699)
+                 </if>
+                 <if test='strMEMGRPCD = "" OR strMEMGRPCD.indexOf("219") lte 0'>
+                     AND g.gdcd NOT IN (#{isensExceptProduct})
+                 </if>
+                 <if test="customFilterProduct != ''">
+                      AND a.gdcd NOT IN (#{customFilterProduct})
+                 </if>
+                 <if test="customFilterProduct != ''">
+                     AND g.gdcd NOT IN (#{customFilterProduct})
+                 </if>
+                 <if test=" 0 lte targetDate1 and targetDete2 lte 0">
+                     <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0">
+                         AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 784)
+                     </if>
+                 </if>
+                 <if test="0 lte targetDate3 and targetDate4 lte 0">
+                     <if test="strMEMGRPCD == '' or userDefinedTarget3.indexOf(strMEMGRPCD) lte 0">
+                         AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 792)
+                     </if>
+                 </if>
+                 <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0 ">
+                     AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 836)
+                 </if>
+              ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+    
+    <insert id="searchedWordAccumulate">
+        /*
+          searchedWordAccumulate
+          두단어 이상 searchword 저장, 검색 되지 못한 단어는 searchwordnohit table에 누적
+        , 고객이 원하는 상품 정보 수집
+          검색된 정보 누적, 모바일 디바이스 정보 태그 삽입
+          */
+        INSERT INTO searchword(
+                               datex
+                             , word
+                             , device
+                              )
+               VALUES (
+                       GETDATE()
+                     , REPLACE(REPLACE(#{sWord}, "'", ""),' ','')
+                     ,'M'
+                     )
+
+    </insert>
+
+    <insert id="notSearchedWordAccumulate">
+        /*
+         notSearchedWordAccumulate
+         검색되지 않은 정보 누적, 모바일 디바이스 정보 태그 삽입
+        */
+        INSERT INTO searchword(
+                                datex
+                              , word
+                              , device
+                              )
+                    VALUES (
+                            GETDATE()
+                          , REPLACE(REPLACE(#{sWord}, "'", ""),' ','')
+                          ,'M'
+                           )
+
+    </insert>
+</mapper>

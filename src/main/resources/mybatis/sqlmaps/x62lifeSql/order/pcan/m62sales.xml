@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="m62sales">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 매출현황
+    'File          : m62sales010.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20120525
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20120525   hwkim   0.9     처음 작성
+    '20130327   hwkim   0.9.1   정확한 자연이랑 매출 산출
+    '20130503   hwkim   0.9.2   전일 매출항목 추가
+    '20140422   hwkim   0.9.3   매출 정보보기 확장
+    '20150702   hwkim   0.9.4   각 매출정보에 고객그룹, 등급 필터링 적용
+    '20161215   hwkim   0.9.5   리뉴얼 디자인에 맞춤
+    '20180822   sykim   0.9.6   매출금액 > 판매금액으로 변경.
+    '20190116   sykim   0.9.7   전년동기누적 > 전년동기(판매) 로 변경.-->
+    <sql id="selectCommon">
+         /*selectCommon select부 공통*/
+        SELECT ISNULL(SUM(p.ttlprice),0) ptotal  /*'판매금액*/
+        FROM od_pay p
+          JOIN od_member m
+            ON m.paynum = p.paynum
+         WHERE paystcd = #{paystPay}
+    </sql>
+
+    <sql id="groupConditionCommon">
+        /*groupConditionCommon 조건부 공통*/
+        <if test='groupcd != ""'>
+            <choose>
+                <when test='groupcd == "BIG6"'>
+                    AND m.grpcd IN (${groupcd})
+                </when>
+                <otherwise>
+                    AND m.grpcd = ${groupcd}
+                </otherwise>
+            </choose>
+        </if>
+        <if test='sgrade != ""'>
+            AND m.gradecd = ${sgrade}
+        </if>
+    </sql>
+
+    <select id="salesTodaySales">
+        /*salesTodaySales 당일 매출 (다른 일반 보고서 수치를 맞추기 위해 유비케어 비용처리 부분을 제외하지 않음, 20140423)*/
+       <include refid="selectCommon"/>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME, #{datex}, 21)
+        AND p.paydt < CONVERT(DATETIME, #{datex}, 21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN (#{nSalesOrderType})
+                                          <![CDATA[
+                                          AND orddt >= CONVERT(DATETIME, #{datex}, 21)
+                                          AND orddt < CONVERT(DATETIME, #{datex}, 21)+1  )
+                                          ]]>
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="salesYesterdaySales">
+        /* salesYesterdaySales 전일 매출 */
+        <include refid="selectCommon"/>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME,#{beforedatex},21)
+        AND p.paydt < CONVERT(DATETIME,#{beforedatex},21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN (#{nSalesOrderType})
+                                           <![CDATA[
+                                          AND orddt >= CONVERT(DATETIME,#{beforedatex},21)
+                                          AND orddt < CONVERT(DATETIME,#{beforedatex},21)+1
+                                          ]]>
+                        )
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="salesMonthSales">
+         /* salesMonthSales 당월 매출 */
+        <include refid="selectCommon"/>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME,Left(#{datex},7)  +'-01',21)
+        AND p.paydt < CONVERT(DATETIME,#{datex},21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN (#{nSalesOrderType})
+                                          <![CDATA[
+                                          AND orddt >= CONVERT(DATETIME, Left(#{datex},7) + '-01',21)
+                                          AND orddt < CONVERT(DATETIME,#{datex},21)+1  )
+                                          ]]>
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="salesCumulativeYearOnYear">
+        /* salesCumulativeYearOnYear 전년동기누적(판매)*/
+        <include refid="selectCommon"/>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME, Left(#{datexBeforeYear},7) + '-01',21)
+        AND p.paydt < CONVERT(DATETIME, #{datexBeforeYear},21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN ( #{nSalesOrderType})
+                                          <![CDATA[
+                                          AND orddt >= CONVERT(DATETIME, Left(#{datexBeforeYear},7) + '-01',21)
+                                          AND orddt < CONVERT(DATETIME,#{datexBeforeYear}, 21)+1)
+                                          ]]>
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+
+    <select id="salesAnnualSales">
+         /* salesAnnualSales 연 매출*/
+        <include refid="selectCommon"/>
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME, Left(#{datex},4))-1) + '-12-26',21)
+        AND p.paydt < CONVERT(DATETIME, #{datex}, 21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN (#{nSalesOrderType})
+                                          <![CDATA[
+                                          AND orddt >= CONVERT(DATETIME,(Left(#{datex},4))-1) + '-01-01',21)
+                                          AND orddt < CONVERT(DATETIME,#{datex},21)+1  )
+                                          ]]>
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+    
+    <select id="loginUserByTime">
+        /* loginUserByTime 시간대별 로그인 방문자*/
+        SELECT ISNULL(SUM(x.dummy),0) dummy
+             , ISNULL(SUM(x.time + #{index}),0) time + #{index}
+        FROM (
+               SELECT CASE hourx WHEN '24' THEN COUNT(nox) ELSE 0 END dummy
+                    , CASE hourx WHEN #{index} THEN COUNT(nox) ELSE 0 END time + #{index}
+               FROM logininfo2 l
+                 JOIN mb_master m
+                   ON m.memcd = l.memcd
+                WHERE DATEDIFF(d, #{datex}, l.datex) = 0
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+                <if test='omobile == "on"'>
+                    AND l.device='M'
+                </if>
+               GROUP BY hourx
+             ) x
+    </select>
+    
+    <select id="orderByTimeCnt">
+        /* orderByTimeCnt 시간대별 주문(결제) 건수*/
+        SELECT ISNULL(MAX(x.dummy),0) dummy
+             , ISNULL(SUM(x.time + #{index}) , 0) time + #{index}
+        FROM (
+               SELECT CASE hourx WHEN '24' THEN orderCount ELSE 0 END dummy
+                    , CASE hourx WHEN #{index} THEN orderCount ELSE 0 END time + #{index}
+               FROM (
+                      SELECT DATEPART(hh,paydt) hourx, COUNT(DATEPART(hh,paydt)) orderCount
+                      FROM od_pay p
+                        JOIN od_member m 
+                          ON m.memcd=p.memcd 
+                         AND m.paynum = p.paynum
+                       WHERE p.paystcd = #{paystPay}
+                         <![CDATA[
+                         AND p.fixdt >= #{datex} 
+                         AND p.fixdt <= #{datex}
+                         AND p.paydt >= CONVERT(DATETIME,#{datex},21)
+                         AND p.paydt < CONVERT(DATETIME,#{datex},21)+1
+                         ]]>
+                         AND p.paynum IN (SELECT paynum FROM od_header
+                                                         WHERE paystcd = #{paystPay}
+                                                           AND odgubun IN (#{nSalesOrderType})
+                                                           <![CDATA[
+                                                           AND odgubun <> '05'      /*'자동주문은 유입률에서 제외*/
+                                                           AND orddt >= CONVERT(DATETIME,#{datex},21)
+                                                           AND orddt < CONVERT(DATETIME,#{datex},21)+1  )
+                                                           ]]>
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+                      <if test='omobile == "on"'>
+                            AND l.device='M'
+                      </if>
+                       GROUP BY DATEPART(hh,paydt)
+                    ) a
+             ) x
+    </select>
+
+    <select id="loginCntByDay">
+        /*loginCntByDay 일자별 로그인 수*/
+        SELECT ISNULL(SUM(x.date0),0) date0
+             , ISNULL(SUM(x.time + #{index}) , 0) time + #{index}
+        FROM (
+               <foreach collection="dateArr" index="index + 1" item="dateArr">
+               SELECT CASE RIGHT(CONVERT(CHAR(10),datex,120),5) WHEN #{dateArr[0]} THEN COUNT(nox) END date0
+                    , CASE RIGHT(CONVERT(CHAR(10),datex,120),5) WHEN #{dateArr} THEN COUNT(nox) END date + #{index}
+               </foreach>
+               FROM logininfo2 l
+                 JOIN mb_master m
+                   ON m.memcd=l.memcd
+                <![CDATA[
+                WHERE DATEDIFF(d, #{datex}, l.datex) >= #{displayDay -1}
+                  AND DATEDIFF(d, #{datex}, l.datex) <= 0
+                ]]>
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+                <if test='omobile == "on"'>
+                     AND l.device='M'
+                </if>
+               GROUP BY RIGHT(CONVERT(CHAR(10),l.datex,120),5)
+             ) x
+    </select>
+
+    <select id="orderCntByDay">
+        /* orderCntByDay 일자별 주문 건수*/
+        SELECT ISNULL(MAX(x.date0),0) date0
+             <foreach collection="displayDay" index="index+1" item="displayDay">
+             , ISNULL(MAX(x.date + #{index} ),0) date + #{index}
+             </foreach>
+        FROM (
+               <foreach collection="dateArr" item="dateArr" index="index + 1">
+                 SELECT CASE datex WHEN #{dateArr[0]} THEN orderCount END date0
+                      , CASE datex WHEN #{dateArr} THEN orderCount END date +  #{index}
+               </foreach>
+                 FROM (
+                          SELECT RIGHT(CONVERT(CHAR(10),paydt,120),5) datex, COUNT(RIGHT(CONVERT(CHAR(10),paydt,120),5)) orderCount
+                          FROM od_pay p
+                            JOIN od_member m
+                              ON m.memcd=p.memcd
+                             AND m.paynum = p.paynum
+                           WHERE p.paystcd = #{paystPay}
+                             <![CDATA[
+                             AND DATEDIFF(d,#{datex},p.fixdt) >= #{displayDay-1}
+                             AND DATEDIFF(d,#{datex},p.fixdt) <= 0
+                             ]]>
+                             AND p.paynum IN ( SELECT paynum FROM od_header
+                                                              WHERE paystcd = #{paystPay}
+                                                                AND odgubun IN ( #{nSlaesOOrderType})
+                                                                <![CDATA[
+                                                                AND odgubun <> '05'      /*자동주문은 유입률에서 제외*/
+                                                                AND DATEDIFF(d,#{datex},a.orddt) >= #{displayDay-1}
+                                                                AND DATEDIFF(d,#{datex},a.orddt) <= 0
+                                                                ]]>
+                                             )
+
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+                           <if test='omobile == "on"'>
+                                AND l.device='M'
+                           </if>
+                          GROUP BY RIGHT(CONVERT(CHAR(10),p.paydt,120),5)
+                      ) a
+             ) x
+    </select>
+    
+    <select id="getTransactPrice">
+        /*getTransactPrice transact구하기*/
+        SELECT ISNULL(ROUND(SUM(p.ttlprice)/(CASE WHEN COUNT(p.paynum)=0 THEN 1 ELSE COUNT(p.paynum) END),0),0) transact
+        FROM od_pay p
+          JOIN od_member m 
+            ON m.memcd = p.memcd 
+           AND m.paynum = p.paynum
+         WHERE p.paystcd = #{paystPay}
+           <![CDATA[
+           AND DATEDIFF(d,#{datex},p.fixdt) >= #{displayDay-1}
+           AND DATEDIFF(d,#{datex},p.fixdt) <= 0
+           ]]>
+           AND p.paynum IN ( SELECT paynum FROM od_header
+                                            WHERE paystcd = #{paystPay}
+                                              AND odgubun IN ( #{nSlaesOOrderType})
+                                              <![CDATA[
+                                              AND odgubun <> '05'      /*'자동주문은 유입률에서 제외*/
+                                              AND DATEDIFF(d,#{datex},a.orddt) >= #{displayDay-1}
+                                              AND DATEDIFF(d,#{datex},a.orddt) <= 0
+                                              ]]>
+                           )
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+         <if test='omobile == "on"'>
+             AND l.device='M'
+         </if>
+    </select>
+
+    <select id="mobileSalesPayment">
+        /*mobileSalesPayment 모바일 매출*/
+        SELECT  SUM(p.ttlprice) mtotal  /*'판매금액*/
+        FROM od_pay p
+          JOIN od_member m 
+            ON m.paynum=p.paynum
+         WHERE 1=1
+           AND p.paystcd = #{paystPay}
+           AND p.device = 'M'
+           <![CDATA[
+           AND p.paydt >= CONVERT(DATETIME,#{datex},21)
+           AND p.paydt < CONVERT(DATETIME,#{datex},21)+1
+           ]]>
+           AND p.paynum IN (SELECT paynum FROM od_header
+                                           WHERE paystcd = #{paystPay}
+                                             AND odgubun IN (#{nSlaesOOrderType})
+                                             <![CDATA[
+                                             AND orddt >= CONVERT(DATETIME,#{datex},21)
+                                             AND orddt < CONVERT(DATETIME,#{datex},21)+1
+                                             ]]>
+                           )
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+    
+    <select id="AllSalesPaymentDistribution">
+        /* AllSalesPaymentDistribution 전체 매출*/
+        SELECT  SUM(p.ttlprice) totalx  /*'판매금액*/
+        FROM od_pay p
+          JOIN od_member m 
+            ON m.paynum=p.paynum
+         WHERE 1=1
+           AND p.paystcd = #{paystPay}
+           <![CDATA[
+           AND p.paydt >= CONVERT(DATETIME,#{datex},21)
+           AND p.paydt < CONVERT(DATETIME,#{datex},21)+1
+           ]]>
+           AND p.paynum IN (SELECT paynum FROM od_header
+                                           WHERE paystcd = #{paystPay}
+                                             AND odgubun IN (#{nSlaesOOrderType})
+                                             <![CDATA[
+                                             AND orddt >= CONVERT(DATETIME,#{datex},21)
+                                             AND orddt < CONVERT(DATETIME,#{datex},21)+1
+                                             ]]>
+                           )
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+    </select>
+    
+    <select id="mobilePaymentWayDistribution">
+        /* mobilePaymentWayDistribution 모바일 결제 방법별 분포*/
+        SELECT p.paycd
+             , c.cdname
+             , COUNT(1) CNT
+        FROM od_pay p
+          JOIN mb_master m 
+            ON p.memcd = m.memcd
+          JOIN cd_master c 
+            ON c.cdtype='06' 
+           AND useyn='Y' 
+           AND p.paycd=c.cdcode
+         WHERE 1 = 1
+           AND p.device = 'M'
+           AND p.paystcd = #{paystPay}
+           <![CDATA[
+           AND p.paydt >= CONVERT(DATETIME,#{datex},21)
+           AND p.paydt < CONVERT(DATETIME,#{datex},21)+1
+           ]]>
+           AND p.paynum IN (SELECT paynum FROM od_header
+                                           WHERE paystcd = #{paystPay}
+                                             AND odgubun IN (#{nSlaesOOrderType})
+                                             <![CDATA[
+                                             AND orddt >= CONVERT(DATETIME,#{datex},21)
+                                             AND orddt < CONVERT(DATETIME,#{datex},21)+1  )
+                                            ]]>
+        <include refid="groupConditionCommon">
+            <property name="groupcd" value="groupcd"/>
+            <property name="sgrade" value="sgrade"/>
+        </include>
+        GROUP BY p.paycd, c.cdname
+        ORDER BY CNT DESC
+    </select>
+
+    <select id="pcPaymentWayDistribution">
+        /*pcPaymentWayDistribution PC 결제 방법별 분포*/
+        SELECT p.paycd
+             , c.cdname
+             , COUNT(1) CNT
+        FROM od_pay p
+          JOIN mb_master m 
+            ON p.memcd = m.memcd
+          JOIN cd_master c 
+            ON c.cdtype = '06' 
+           AND useyn = 'Y' 
+          AND p.paycd = c.cdcode
+        WHERE 1 = 1
+        AND p.device IS NULL
+        AND p.paystcd = #{paystPay}
+        <![CDATA[
+        AND p.paydt >= CONVERT(DATETIME,#{datex},21)
+        AND p.paydt < CONVERT(DATETIME,#{datex},21)+1
+        ]]>
+        AND p.paynum IN (SELECT paynum FROM od_header
+                                        WHERE paystcd = #{paystPay}
+                                          AND odgubun IN (#{nSlaesOOrderType})
+                                          <![CDATA[
+                                          AND orddt >= CONVERT(DATETIME,#{datex},21)
+                                          AND orddt < CONVERT(DATETIME,#{datex},21)+1
+                                          ]]>
+                        )
+        GROUP BY p.paycd, c.cdname
+        ORDER BY CNT DESC
+    </select>
+
+    <select id="searchGroupcd">
+        /*searchGroupcd 고객사 조회*/
+        SELECT grpcd
+             , grpname
+        FROM mb_group
+         WHERE useyn = 'Y'
+        ORDER BY grpname
+    </select>
+
+    <select id="searchSgradeAll">
+        /*searchSgradeAll 등급 전체*/
+        SELECT grpcd
+             , grpname
+        FROM mb_group
+        WHERE cdtype = #{typeGrade}
+          AND useyn = 'Y'
+        ORDER BY CDCODE DESC
+    </select>
+</mapper>

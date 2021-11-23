@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mainContactChangeProcess">
+<!--    'System        : 62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 실 사용자 연락처 업데이트 처리(모바일)-->
+<!--    'File          : main_contact_change_process_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hyeok-->
+<!--    'Date Started  : 20180115-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20180115   hyeok   1.0     처음작성-->
+    <select id="updatePersonalInfo" statementType="CALLABLE">
+        /* updatePersonalInfo 사용자 개인정보 업데이트*/
+       {CALL encryptionOpen
+        UPDATE mb_master
+           SET email_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strEmail})
+             , telno_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strHPNO_Orig})  /*' 기존 HPNO를 TELNO로 업데이트*/
+             , hpno_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strHPNO})
+             , hpno = 'E'  /*' 실 사용자 연락처 업데이트 이벤트 참여 여부 구분을 위해 hpno필드의 값 E로 업데이트*/
+             , smsyn = #{strSMSYN}
+             , emailyn = #{strEmailYN}
+             , telyn = #{strTelYn}
+             , updt = GETDATE()
+             , updid = #{strLoginMemCD}
+             <if test="strEmailYnOrig != strEmailYN">
+                 , emailynupdt = GETDATE()
+             </if>
+             <if test="strSmsYnOrig != strSMSYN">
+                 , smsynupdt = GETDATE()
+             </if>
+        WHERE memcd = #{strLoginMemCD}
+        CALL encryptionClose}
+    </select>
+
+    <insert id="memberInfoChangeInsert">
+         /* memberInfoChangeInsert 사용자 개인정보 변경 로그 적재*/
+        INSERT INTO WWW62LIFE_CUSTINFO_LOG 
+                                          (
+                                            ubwebsitecode
+                                          , accessdatetime
+                                          , fullurlpath
+                                          , custidx
+                                          , accessgubuncode
+                                          , accessoripaddr
+                                          , accessdesc
+                                          )
+               VALUES (
+                        '62LIFEMN'
+                       , GETDATE()
+                       ,'/member/member_modify.jsp'
+                       , #{strLoginMemCD}
+                       , 'U'
+                       , #{ipx}
+                       , '2018연락처업데이트이벤트'
+                      )
+    </insert>
+</mapper>

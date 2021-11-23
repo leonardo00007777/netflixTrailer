@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmProc">
+<!--    '프로젝트: 자연이랑 모바일 웹-->
+<!--    '프로그램: 회원가입 - 가입처리-->
+
+<!--    '20190225   hwkim   처음작성-->
+<!--    '20190410 hwkim membership_history.memcd .memid 추가-->
+<!--    '20190426 hwkim membership_history.withdraw .wddt 추가 /탈퇴 여부, 일시, isPreviousWithdraw(3) 탈퇴이력이 있는지 파악-->
+<!--    '20190621 sykim 가입시 멤버십 씨앗등급 정보 insert 추가.-->
+<!--    '20190916 sykim  비밀번호 SHA함수 변경(dbo.UBHASHFunc 대신 HASHBYTES('SHA2_256'.. 함수 사용).-->
+<!--    '20200729 sykim 변조 및 Request가 재사용되지 않도록 세션을 이용하여 Server-side에서 검증하도록 추가.-->
+<!--    '20200819 sykim 2020-08-19 ~ 2020-08-31 한시적 가입자 3,000포인트 지급.-->
+    <select id="cellPhoneNumberCheck" statementType="CALLABLE">
+       /*
+        cellPhoneNumberCheck
+        가입자 대상 동일 휴대전화번호 존재여부 검증
+         blnBeing = IIf(objRS.EOF, False, True)
+       */
+       {CALL encryptionOpen
+        SELECT TOP 1 memcd
+        FROM mb_master
+         WHERE 1=1
+           AND CONVERT(VARCHAR(14),DECRYPTBYKEY(hpno_enc)) = #{strHpNo}
+        CALL encryptionClose}
+    </select>
+
+    <select id="getSubscriptionHistory">
+           /*getSubscriptionHistory 가입내역 확인*/
+        SELECT TOP 1 idx
+        FROM membership_history
+         WHERE hpno_hash = CONVERT(VARCHAR(1000),HASHBYTES('SHA2_256', #{strHpNo}),2)
+          <![CDATA[
+           AND ISNULL(wddt,GETDATE()) >= DATEADD(DD,-30,GETDATE()) /* 탈퇴 30일 이후 가입 허용 */
+           ]]>
+    </select>
+
+    <select id="overlapIdCheck">
+        /*overlapIdCheck 동일 아이디 존재여부 검증 (이 부분에서 이전 사용아이디 허용 여부를 검사할 수 있다)*/
+        SELECT memid
+        FROM mb_master
+         WHERE memid = #{strMemId}
+    </select>
+
+    <select id="employeeCheck" statementType="CALLABLE">
+        /* employeeCheck 임직원 여부 체크 */
+       {CALL encryptionOpen
+        SELECT e.grpcd
+             , g.grpname
+             , e.gradecd
+             , ISNULL(e.initpoint,0) initpoint
+             , ISNULL(e.nodeductpay,'N') nodeductpay
+             , ISNULL(e.joinyn,'N') joinyn
+             , e.retiredt /*'값이 있을 경우 소속사휴직 상태로 하기 위함.*/
+        FROM mb_grpemp e
+          JOIN mb_group g ON e.grpcd = g.grpcd
+         WHERE e.empnum = #{strEmpNum}
+           AND (CONVERT(VARCHAR(40),DECRYPTBYKEY(e.email_enc)) = #{strEmail}
+                OR CONVERT(VARCHAR(14),DECRYPTBYKEY(e.hpno_enc)) = #{strHpNo})
+        CALL encryptionClose}
+    </select>
+
+    <insert id="jmProcJoinMember" statementType="CALLABLE">
+        /* jmProcJoinMember 회원가입 처리*/
+       {CALL encryptionOpen
+        INSERT INTO mb_master (
+                                memcd
+                              , memid
+                              , mempw
+                              , memname
+                              , grpcd
+                              , gradecd
+                              , empnum
+                              , memstcd
+                              , residentno1
+                              , gender
+                              , email
+                              , emailyn
+                              , zipcd
+                              , upgradedt
+                              , addr1
+                              , addr2
+                              , telno
+                              , indt
+                              , smsyn
+                              , telyn
+                              , updid
+                              , residentno1_enc
+                              , email_enc
+                              , addr1_enc
+                              , addr2_enc
+                              , telno_enc
+                              , hpno_enc
+                              , mempw_hash
+                              , contract_agree
+                              , policy_agree
+                              , entrust_agree
+                              , pcert_reqno
+                              , pcert_di
+                              , nodeductpay
+                              , emailynupdt
+                              , smsynupdt
+                            )
+                     VALUES (
+                              #{strMemCd}
+                            , #{strMemId}
+                            , ' '
+                            , #{strMemName}
+                            , #{insertGroupCode}
+                            , #{insertGradeCode}
+                            , #{strEmpNum}
+                            , #{insertMemStatus}
+                            , ' '
+                            , #{strGender}
+                            , ' '
+                            , #{strEmailYn}
+                            , IIf(#{strZipCd} = "", " ", strZipCd)
+                            , IIf(#{strJoinType} = "SK", "GETDATE()", NULL)
+                            , ' '
+                            , ' '
+                            , ' '
+                            , GETDATE()
+                            , #{strSmsYn}
+                            , #{strTelYn}
+                            , #{strMemCd}
+                            , ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), #{strResidentNo1})
+                            , ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), #{strEmail})
+                            , IIf(#{strAddr1}="", NULL, ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),N#{strAddr1}))
+                            , IIf(#{strAddr2}="", NULL, ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),N#{strAddr2}))
+                            , IIf(#{strTelNo}="", NULL, ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),N#{strTelNo}))
+                            , ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), #{strHpNo})
+                            , dbo.UBHASHFunc('SHA256', #{strMemPw})
+                            , CONVERT(VARCHAR(1000),HASHBYTES('SHA2_256', #{strMemPw}),2)
+                            , 'Y'
+                            , 'Y'
+                            , #{strPolicy2}
+                            , #{strReqNo}
+                            , #{strPidNo}
+                            , #{strNoDeductPay}
+                            , GETDATE()
+                            )
+        CALL encryptionClose}
+    </insert>
+
+    <insert id="firstJoinChangePasswordInsert">
+        /* firsetJoinChangePasswordInsert 첫 회원 가입 시 비밀번호 변경정보 기록*/
+        INSERT INTO changefieldhistory(
+                                        memcd
+                                      , memid
+                                      , date_mempw
+                                      )
+                VALUES (
+                         #{strMemCd}
+                       , #{strMemId}
+                       , GETDATE()
+                       )
+    </insert>
+
+    <insert id="pointInfoInsert">
+        /* pointInfoInsert 적립포인트, SK포인트, 예치금 테이블 INSERT*/
+        INSERT INTO mb_currency (
+                                  memcd
+                                )
+                        VALUES (
+                                  #{strMemCd}
+                               )
+    </insert>
+
+    <update id="confirmLog" statementType="CALLABLE">
+        /*
+        strJoinType = "SK"
+         rCount = 0
+         confirmLog '인증 후 소속사사원 정보도 승인된 자료를 남김.
+        */
+       {CALL encryptionOpen
+        UPDATE mb_grpemp
+           SET joinyn = 'Y'
+         WHERE grpcd =  #{insertGroupCode}
+           AND gradecd = #{insertGradeCode}
+           AND empnum = #{strEmpNum}
+           AND (CONVERT(VARCHAR(40),DECRYPTBYKEY(email_enc)) = #[strEmail}
+                OR CONVERT(VARCHAR(14),DECRYPTBYKEY(hpno_enc)) = #{strHpNo})
+           AND (CASE WHEN ISNULL(joinyn,'')='' THEN 'N' ELSE joinyn END) = 'N'
+        CALL encryptionClose}
+    </update>
+
+    <select id="getFirstAuthPoint">
+        /*
+          '개인별 부여 포인트가 존재하면 개인별 포인트를 처음 부여함.
+            If lngInitPoint > 0
+         getFirstAuthPoint '초기인증 포인트적립은 해당연도에 1번만 부여받도록 재검증처리 후 포인트 부여(20101228
+        */
+        SELECT COUNT(1) xCount
+        FROM mb_point
+        WHERE YEAR(indt) = YEAR(GETDATE())
+          AND rscd = '01'
+          AND memcd = #{strMemCd}
+    </select>
+
+    <select id="getGroupPoint">
+        /*getGroupPoint 해당그룹의 포인트 부여여부정보를 획득*/
+        SELECT CASE WHEN a.gradecd = #{gradeC} THEN ISNULL(b.pntmax01,0)
+                    WHEN a.gradecd = #{gradeB} THEN ISNULL(b.pntmax02,0)
+                    WHEN a.gradecd = #{gradeA} THEN ISNULL(b.pntmax03,0)
+                    ELSE 0
+               END pntmax
+             , CASE WHEN a.gradecd = #{gradeC} THEN b.pntyn01
+                    WHEN a.gradecd = #{gradeB} THEN b.pntyn02
+                    WHEN a.gradecd = #{gradeA} THEN b.pntyn03
+                    ELSE 'N'
+               END pntyn
+        FROM mb_master a
+          LEFT JOIN mb_group b ON b.grpcd = a.grpcd
+         WHERE a.memcd = #{strMemCd}
+    </select>
+
+    <select id="snsMemberLogin" statementType="CALLABLE">
+       /*
+        snsMemberLogin 최초 sns 회원 연동
+        isAlreadyLink <= 0
+       */
+       {CALL encryptionOpen
+        INSERT INTO sns_login_master (
+                                       sns_type
+                                     , sns_id
+                                     , sns_email_enc
+                                     , sns_cmcd
+                                     , sns_conn
+                                     , sns_conn_dt
+                                     , sns_info_01
+                                     , sns_info_02
+                                     , sns_info_03
+                                     , sns_info_04
+                                    )
+               VALUES (
+                        #{strJoinType}
+                      , #{strSnsId}
+                      , ENCRYPTBYKEY(KEY_GUID(#{encKyeName}), #{strSnsEmail})
+                      , #{strMemCD}
+                      , 'Y'
+                      , GETDATE()
+                      , #{strSnsName}
+                      , #{strSnsGender}
+                      , #{strSnsBirthday}
+                      , #{strSnsAgeRange}
+                      )
+        CALL encryptionClose}
+    </select>
+
+    <update id="updateSnsMember" statementType="CALLABLE">
+        /*updateSnsMember SNS회원 연동 기록 update*/
+       {CALL encryptionOpen
+        UPDATE sns_login_master
+           SET sns_email_enc = ENCRYPTBYKEY(KEY_GUID(#{encKyeName}), #{strSnsEmail})
+             , sns_cmcd = #{strMemCD}
+             , sns_conn = 'Y'
+             , sns_conn_dt = GETDATE()
+             , sns_info_01 = #{strSnsName}
+             , sns_info_02 = #{strSnsGender}
+             , sns_info_03 = #{strSnsBirthday}
+             , sns_info_04 = #{strSnsAgeRange}
+         WHERE sns_type = #{strJoinType}
+           AND sns_id = #{strSnsId}
+        CALL encryptionClose}
+    </update>
+
+    <update id="updateRecommenderPoint">
+        /* updateRecommenderPoint 재 가입 등 처리 시 기존 정보를 지우지 않을 것을 고려하여 UPDATE 과정을 넣음*/
+        UPDATE recommender_table
+           SET rmemid = #{strRmemid}
+             , rmemcd = #{strRmemcd}
+         WHERE memcd = #{strMemCd}
+    </update>
+
+    <insert id="addRecommender">
+        /* addRecommender 최초 가입 승인일 경우, 추천인정보 추가*/
+        INSERT INTO recommender_table (
+                                        memcd
+                                      , rmemid
+                                      , rmemcd
+                                      , grpcd
+                                      , indt
+                                      , rreward
+                                      )
+               VALUES (
+                        #{strMemCd}
+                      , #{strRmemid}
+                      , #{strRmemcd}
+                      , #{groupNormal}
+                      , GETDATE()
+                      , 'N'
+                      )
+    </insert>
+    
+    <insert id="pastJoinYn">
+        /* pastJoinYn 과거 가입여부 식별정보에 입력*/
+        INSERT INTO membership_history (
+                                         hpno_hash
+                                       , email_hash
+                                       , indt
+                                       , memcd
+                                       , memid
+                                       , withdraw
+                                       )
+               VALUES (
+                       CONVERT(VARCHAR(1000),HASHBYTES('SHA2_256', #{strHpNo}),2)
+                      , CONVERT(VARCHAR(1000),HASHBYTES('SHA2_256', #{strEmail}),2)
+                      , GETDATE()
+                      , #{strMemCd}
+                      , #{strMemId}
+                      , 'N'
+                      )
+    </insert>
+
+    <insert id="membershipSeedGrad">
+        /* membershipSeedGrad 멤버십 씨앗 등급 INSERT*/
+        INSERT INTO member_level (
+                                   yyyymm
+                                 , memcd
+                                 , mlevel
+                                 , mupdt
+                                 )
+               VALUES (
+                        CONVERT(CHAR(4)
+                      , DATEPART(YY,GETDATE())) + RIGHT('0'+CONVERT(VARCHAR(2),DATEPART(M,GETDATE())),2)
+                      , #{strMemCd}
+                      , '01'  /* 씨앗 등급*/
+                      , GETDATE()
+                      )
+    </insert>
+</mapper>

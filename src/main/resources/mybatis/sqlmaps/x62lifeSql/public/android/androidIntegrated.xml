@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="androidIntegrated">
+<!--    'System        : 62life.com
+    'Program       :
+    'Title         : FCM 기기 등록 처리
+    'File          : agreepush.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20171215
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20171215   hwkim   1.0     처음작성
+    '20180320   hwkim   1.0.1   로그인 시 해당 토큰이 없다면 등록 처리 함.
+    '20200428	hwkim	1.1		동의여부 정보가 NULL일경우 'Y'로 처리함. (사용자가 추후 직접 설정하도록)-->
+   <update id="tokenDataUpdate">
+       /*agreeInfoUpdate token은 유일한 속성으로 업데이트 처리*/
+       UPDATE fcm_62life
+       SET agree = #{agree}
+         , agreedt = getdate()
+        WHERE regid = #{token}
+   </update>
+
+    <insert id="addAgreeInfo">
+        /*addAgreeInfo 동의정보 Insert*/
+        INSERT INTO fcm_62life(
+                                regid
+                              , memcd
+                              , indt
+                              , agree
+                              , agreedt
+                              , version
+                              ) 
+               VALUES(
+                       #{token}
+                     , ''
+                     , getdate()
+                     , #{agree}
+                     , getdate()
+                     , #{ver}
+                     )
+    </insert>
+
+    <!--    'System        : 62life.com
+    'Program       :
+    'Title         : FCM 기기 등록 처리
+    'File          : matchfcmtoken.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20171208
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20171208   hwkim   1.0     처음작성
+    '20180320   hwkim   1.0.1   로그인 시 해당 토큰이 없다면 등록 처리 함.
+    '20180524   hwkim   1.0.2   version 필드 추가. 두 개의 자연이랑 앱 대응-->
+    <update id="agreeDataUpdate">
+        /*agreeDataUpdate 동의 정보 업데이트*/
+        UPDATE fcm_62life
+        SET memcd = #{memcd}
+          , agree = ISNULL(agree,'Y')
+          , agreedt = ISNULL(agreedt,getdate())
+        WHERE regid = #{token}
+    </update>
+
+    <insert id="agreeDataAdd">
+        /*agreeDataAdd 동의정보가 없을 경우 Add */
+        INSERT INTO fcm_62life(
+                                regid
+                              , memcd
+                              , indt
+                              , agree
+                              , agreedt
+                              , version
+        )
+        VALUES(
+                  #{token}
+              , #{memcd}
+              , getdate()
+              , 'Y'
+              , getdate()
+              , #{ver}
+              )
+    </insert>
+
+    <!--    'System        : 62life.com
+        'Program       :
+        'Title         : FCM 기기 등록 처리
+        'File          : setfcmtoken.asp
+        'Program Type  : asp
+        'Analyst       :
+        'Author        : hwkim
+        'Date Started  : 20171205
+        'Last Modified :
+        'Called By     :
+        'Parameters    :
+        'Purpose       :
+        'Version       :
+        '
+        'Modified   Author  V/M     Reason For Modification
+
+        '20171205   hwkim   1.0     처음작성
+        '20180524   hwkim   1.0.1   version 필드 추가. 두 개의 자연이랑 앱 대응-->
+
+    <insert id="fcmDeviceAdd">
+        /* fcmDeviceAdd FCM 기기 등록 처리*/
+        INSERT INTO fcm_62life(
+                                regid
+                              , memcd
+                              , indt
+                              , agree
+                              , agreedt
+                              , version
+        )
+        VALUES (
+                   #{token}
+               , #{memcd}
+               , getdate()
+               , 'Y'
+               , getdate()
+               , #{ver}
+               )
+    </insert>
+</mapper>

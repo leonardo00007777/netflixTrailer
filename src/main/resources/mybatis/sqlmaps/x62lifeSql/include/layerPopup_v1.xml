@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="layerPopup">
+<!--    ' 레이어 팝업 표시-->
+<!--    '-->
+<!--    ' 사용법: 설정한 팝업을 표시할 페이지 하단에 포함시킨다-->
+<!--    '       &lt;!&ndash;#include virtual="/m/include/layerpopup.asp"&ndash;&gt;-->
+<!--    '-->
+<!--    ' 20130908 hwkim-->
+<!--    ' 20161215 hwkim 리뉴얼-->
+<!--    ' 20170608 hwkim 맨 앞으로 속성이 체크 되어 있으면 우선 표시한다.-->
+<!--    ' 20170724 hwkim 화면크기에 따라 축소 시 비율체크하여 위치 재계산-->
+<!--    ' 20180326 hwkim 다시보지않기에서 이틀간 반복게시(2일간)로 변경.-->
+<!--    ' 20180413 hwkim 다시보지않기로 변경. 실제는 7일간 유효.-->
+<!--    ' 20180726 hwkim 화면이 작을 경우 그림을 디바이스 80%로 축소하고 팝업표시.-->
+    <select id="layerPopVersionOne">
+        SELECT seq_no
+             , size_width
+             , size_height
+             , position_top
+             , position_left
+             , content
+             , link_url
+             , m_url
+             , ISNULL(showgroup,'') showgroup
+             , poptype
+             , incenter
+        FROM AD_popConfig
+         WHERE 1 = 1
+         <![CDATA[
+         AND startdt <= GETDATE()
+         AND enddt > GETDATE()
+         ]]>
+         AND time_cancel IS NULL
+        ORDER BY ISNULL(foreground,'N') DESC, seq_no DESC
+
+    </select>
+</mapper>

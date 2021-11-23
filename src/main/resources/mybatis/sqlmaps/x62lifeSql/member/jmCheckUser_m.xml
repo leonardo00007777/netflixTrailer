@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmCheckUser">
+<!--    System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 본인인증 후 고객중복검사-->
+<!--    'File          : jm_checkuser_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : sykim-->
+<!--    'Date Started  : 20190222-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20190222   sykim   0.9     처음 작성-->
+<!--    '20200907   sykim   -       본인인증값 비교시 SK구성원이었다가 일반으로 되는 경우 다시 SK인증시 저장된 DI값으로 인해 인증이 불가,-->
+<!--    '                           일반소속 외 DI값 일치하는 것이 있는지 비교하는 것으로 변경.-->
+    <select id="checkMemberOverlap">
+        /*checkMemberOverlap 고객마스터에 성명과 생년월일로 중복검사 */
+        SELECT memcd
+        FROM mb_master
+         WHERE memname = #{strMemName}
+           AND pcert_di = #{strPidNo}
+           <![CDATA[
+           AND grpcd <> #{groupNormal}
+           AND memstcd <> '99'
+           ]]>
+    </select>
+
+    <select id="getAge">
+        SELECT dbo.UF_GET_AGE(GETDATE(), #{strResidentNo1} + #{strGender}) WAGE
+    </select>
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cart">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 장바구니
+    'File          : cart_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20130522
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20130522   hwkim   0.9     처음 작성
+    '20170126   sykim   -       업체주문유형 추가.
+    '20170306   hwkim   0.9.1   쇼핑카트를 SHOPPING_BASKET 으로 변경, 선택담기 기능 추가.
+    '20170418   hwkim   0.9.2   배송일지정(오늘발송) 상품 처리 추가.
+    '20170502   hwkim   0.9.3   OOOO원 미만 배송비 부과 표시.
+    '20171121   hwkim   -       판매중단, 품절 상품 선택 메시지 처리 버그 수정
+    '20171122   hwkim   -       선택 시 배송비 표시 버그 수정
+    '20180716   hwkim   -       레코픽 시범적용
+    '20180809   hwkim   -       레코픽 추천위젯 시범적용
+    '20180904   sykim   0.9.4   배송비무료회원일 경우 배송비가 부과되지 않도록 적용. > strNoDeliveryChargeMember
+    '20190329   hwkim   0.9.5   '이렇게 살까?' 카카오톡링크 v2적용, iOS보내기 업데이트
+    '20200227   hwkim   0.9.6   공급자별 배송비 적용
+    '20200324   hwkim   -       공급자 주문금액 소계 표시 버그 수정-->
+
+    <select id="deleteSelectProd">
+        /*deleteSelectProd 선택한상품삭제*/
+        SELECT x.odtype
+             , x.crtidx
+             , x.gdcd
+             , x.unit
+             , x.gdname
+             , x.price
+             , x.gdcnt
+             , x.price*x.gdcnt tsales
+             , x.limitgdcnt
+             , x.gdimg
+             , x.div1
+             , x.issale
+             , x.qtysaleyn
+             , x.soldoutyn
+             , x.thedaysyn
+             , x.origin
+             , x.producer
+             , x.address
+             , x.useyn
+             , x.limitdelivery
+             , x.minqty
+             , x.maxqty
+             , x.scode
+             , x.sname
+             , x.origprice
+             , x.origprice*x.gdcnt origtotal
+             , x.delpol
+             , x.limamt
+             , x.delcharge
+        FROM (
+                SELECT CASE WHEN t2.divcd = '10' THEN 'PKG' ELSE od_gubun END AS odtype
+                     , t.crtidx, t.gdcd, t2.unit
+                     , CASE WHEN od_gubun = '12' THEN t4.gdnm ELSE t2.gdname END AS gdname
+                     , (CASE WHEN t2.qtysaleyn = 'Y' THEN dbo.getQtySalePrice(t.gdcd, t.gdcnt, dbo.getProductPrice(#{strMemGrpCd}, #{strGroupSalePolicy},t.gdcd))
+                             ELSE dbo.getProductPrice(#{strMemGrpCd}, #{strGroupSalePolicy}, t.gdcd)
+                        END) * ISNULL(t6.weekcnt, 1) AS price
+                     , CASE WHEN od_gubun = '15' THEN t3.scode ELSE '' END scode
+                     , CASE WHEN od_gubun = '15' THEN t7.sunasu ELSE '' END sname
+                     , t2.price1 origprice
+                     <![CDATA[
+                     , CASE WHEN t.gdcnt < 0 THEN 0 ELSE t.gdcnt END gdcnt
+                     ]]>
+                     , ISNULL(t5.gdcnt, 9999) limitgdcnt
+                     , t2.gdimg
+                     , t2.div1
+                     , dbo.getIsGroupSaleGoods(#{strMemGrpCd}, #{strGroupSalePolicy}, t.gdcd) issale
+                     , CASE WHEN ISNULL(t2.qtysaleyn,'') = '' THEN 'N' ELSE t2.qtysaleyn END qtysaleyn
+                     , t2.soldoutyn
+                     , t2.thedaysyn
+                     , t3.origin
+                     , t3.producer
+                     , t3.address
+                     , CASE WHEN t4.gdcd IS NOT NULL THEN ISNULL(t4.useyn,'N') ELSE t2.useyn END useyn
+                     , t2.limitdelivery
+                     , t2.minqty
+                     , t2.maxqty
+                     , ISNULL(t8.delpol,'01') delpol, ISNULL(t8.limamt,0) limamt, ISNULL(t8.delcharge,0) delcharge
+                FROM shopping_basket t
+                  JOIN gd_master t2
+                    ON t2.gdcd = t.gdcd
+                  LEFT JOIN gd_item t3
+                         ON t2.gdcd = t3.gdcd
+                  LEFT JOIN od_reservegoods t4
+                         ON t4.gdcd = t.gdcd
+                        AND t4.useyn = 'Y'
+                        <![CDATA[
+                        AND t4.od_from <= CONVERT(CHAR(10), GETDATE(), 121)
+                        AND t4.od_to >= CONVERT(CHAR(10), GETDATE(), 121)
+                        ]]>
+                  LEFT JOIN gd_cnt t5
+                         ON t5.gdcd = t.gdcd
+                  LEFT JOIN gd_pack t6
+                         ON t6.gdcd = t2.gdcd
+                  LEFT JOIN wmsl_wssupp t7
+                         ON t3.scode = t7.susuno
+                  LEFT JOIN supplus t8
+                         ON t3.scode = t8.suno
+                 WHERE t.memcd = #{strLoginMemCd}
+             ) x
+        ORDER BY odtype, scode, thedaysyn DESC, crtidx
+    </select>
+    <select id="checkAutoOrderThisUser">
+        /* checkAutoOrderThisUser 로그인한 회원이 현재 자동주문중인지 확인*/
+        SELECT a.memcd
+        FROM od_auto a  /*'자동주문*/
+                 JOIN mb_master m
+                      ON a.memcd = m.memcd  /*'고객마스터*/
+                 JOIN mb_group g
+                      ON m.grpcd = g.grpcd  /*'소속사정보*/
+                 LEFT JOIN od_autostop s
+                           ON a.memcd = s.memcd  /*'자동주문 일시정지 정보*/
+                               AND a.autoidx = s.autoidx
+                               AND s.useyn = 'Y'
+                <![CDATA[
+                               AND DATEDIFF(WW,s.startdt,GETDATE()) >= 0
+                               AND DATEDIFF(WW,GETDATE(),ISNULL(s.enddt,'2999-12-31')) >= 0
+                ]]>
+         WHERE a.payyn = 'Y'
+           <![CDATA[
+          AND DATEDIFF(WW,GETDATE(),ISNULL(a.enddt,'2999-12-31')) > 1
+          AND DATEDIFF(WW,a.startdt,ISNULL(a.enddt,'2999-12-31')) > 0
+          AND m.memstcd <> '99'
+           ]]>
+           AND (CASE WHEN m.gradecd = '  GRADE_C  ' THEN g.dctyn01
+                    WHEN m.gradecd = '  GRADE_B  ' THEN g.dctyn02
+                    WHEN m.gradecd = '  GRADE_A  ' THEN g.dctyn03
+                    WHEN m.gradecd = '  GRADE_S  ' THEN g.dctyn04
+                    ELSE 'N'
+            END) = 'Y'  /*'소속사가 급여공제가 가능한지 여부.*/
+          AND s.stpidx IS NULL  /*'자동주문 일시중지가 아닌.*/
+          AND a.memcd = #{strLoginMemCd}
+    </select>
+</mapper>

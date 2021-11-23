@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmAuthSnsProc">
+<!--    '20190211 sykim 처음 초안작성 - 간편회원의 SK구성원 인증-->
+<!--    '20190916 sykim 비밀번호 SHA함수 변경(dbo.UBHASHFunc 대신 HASHBYTES('SHA2_256'.. 함수 사용).-->
+    <select id="checkOverlapId">
+        SELECT memid
+        FROM mb_master
+         WHERE memid = #{strMemId}
+    </select>
+
+    <select id="jmAuthSnsProcEmployee" statementType="CALLABLE">
+       {CALL encryptionOpen
+          SELECT e.grpcd
+               , g.grpname
+               , e.gradecd
+               , ISNULL(e.initpoint,0) initpoint
+               , ISNULL(e.nodeductpay,'N') nodeductpay
+               , ISNULL(e.joinyn,'N') joinyn
+              , e.retiredt  /*'값이 있을 경우 소속사휴직 상태로 하기 위함.*/
+          FROM mb_grpemp e
+            JOIN mb_group g ON e.grpcd = g.grpcd
+           WHERE e.empnum = #{strEmpNum}
+             AND CONVERT(VARCHAR(40),DECRYPTBYKEY(e.email_enc)) = #{strEmail}
+             AND (CONVERT(VARCHAR(40),DECRYPTBYKEY(e.email_enc)) = #{strEmail}
+                  OR CONVERT(VARCHAR(14),DECRYPTBYKEY(e.hpno_enc)) = #{strHpNo})
+        CALL encryptionClose}
+    </select>
+
+    <update id="jmAuthSnsJoinMember" statementType="CALLABLE">
+       {CALL encryptionOpen
+             UPDATE mb_master
+                SET memid = #{strMemId}
+                  , memname = #{strMemName}
+                  , grpcd = #{strGrpCd}
+                  , gradecd = #{strGradeCd}
+                  , empnum = #{strEmpNum}
+                  , memstcd = IIf(#{strLayOffTime} = "", #{memstUp}, #{memstLayoff})
+                  , upgradedt = GETDATE()
+                  , gender = #{strGender}
+                  , emailyn = #{strEmailYn}
+                  , zipcd = IIf(#{strZipCd} = ""," ", #{strZipCd})
+                  , updt = GETDATE()
+                  , smsyn = #{strSmsYn}
+                  , telyn = #{strTelYn}
+                  , updid = #{strLoginMEMCD}
+                  , residentno1_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), #{strResidentNo1})
+                  , email_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), #{strEmail})
+                  , addr1_enc = IIf(#{strAddr1}="", NULL, ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), N#{strAddr1}))
+                  , addr2_enc = IIf(#{strAddr2}="", NULL, ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), N#{strAddr2}))
+                  , telno_enc = IIf(strTelNo="", NULL, ENCRYPTBYKEY(KEY_GUID(#{encKeyName}), #{strTelNo}))
+                  , hpno_enc = ENCRYPTBYKEY(KEY_GUID(#{encKeyName}),#{strHpNo})
+                  , mempw_hash = dbo.UBHASHFunc('SHA256', #{strMemPw})
+                  , mempw_hash = CONVERT(VARCHAR(1000),HASHBYTES('SHA2_256', #{strMemPw}) ,2)
+                  , contract_agree = 'Y'
+                  , policy_agree = 'Y'
+                  , entrust_agree = #{strPolicy2}
+                  , pcert_reqno = #{strReqNo}
+                  , pcert_di = #{strPidNo}
+                  , nodeductpay = #{strNoDeductPay}
+                  , emailynupdt = GETDATE()
+                  , smsynupdt = GETDATE()
+              WHERE memcd = #{strLoginMEMCD}
+        CALL encryptionClose}
+    </update>
+
+    <update id="jmAuthUpdateMbGroup" statementType="CALLABLE">
+       {CALL encryptionOpen
+             UPDATE mb_grpemp
+                SET joinyn = 'Y'
+              WHERE grpcd = #{strGrpCd}
+                AND gradecd = #{strGradeCd}
+                AND empnum = #{strEmpNum}
+                AND CONVERT(VARCHAR(40),DECRYPTBYKEY(email_enc)) = #{strEmail}
+                AND (CONVERT(VARCHAR(40),DECRYPTBYKEY(email_enc)) = #{strEmail}
+                     OR CONVERT(VARCHAR(14),DECRYPTBYKEY(hpno_enc)) = #{strHpNo})
+                AND retiredt IS NULL /*20160909 sykim 휴직자도 가능하도록.*/
+                AND (CASE WHEN ISNULL(joinyn,'')='' THEN 'N' ELSE joinyn END) = 'N'
+        CALL encryptionClose}
+    </update>
+
+    <select id="getGroupPoint">
+        SELECT CASE WHEN a.gradecd = #{gradeC} THEN ISNULL(b.pntmax01,0)
+                    WHEN a.gradecd = #{gradeB} THEN ISNULL(b.pntmax02,0)
+                    WHEN a.gradecd = #{gradeA} THEN ISNULL(b.pntmax03,0)
+                    ELSE 0
+               END pntmax
+             , CASE WHEN a.gradecd = #{gradeC} THEN b.pntyn01
+                    WHEN a.gradecd = #{gradeB} THEN b.pntyn02
+                    WHEN a.gradecd = #{gradeA} THEN b.pntyn03
+                    ELSE 'N'
+               END pntyn
+        FROM mb_master a
+                 LEFT JOIN mb_group b ON b.grpcd = a.grpcd
+         WHERE a.memcd = #{strLoginMEMCD}
+        SELECT CASE WHEN a.gradecd = #{gradeC} THEN ISNULL(b.pntmax01,0)
+                    WHEN a.gradecd = #{gradeB} THEN ISNULL(b.pntmax02,0)
+                    WHEN a.gradecd = #{gradeA} THEN ISNULL(b.pntmax03,0)
+                    ELSE 0
+            END pntmax
+             , CASE WHEN a.gradecd = #{gradeC} THEN b.pntyn01
+                    WHEN a.gradecd = #{gradeB} THEN b.pntyn02
+                    WHEN a.gradecd = #{gradeA} THEN b.pntyn03
+                    ELSE 'N'
+            END pntyn
+        FROM mb_master a
+                 LEFT JOIN mb_group b ON b.grpcd = a.grpcd
+        WHERE a.memcd = #{strLoginMEMCD}
+    </select>
+
+    <select id="checkYear">
+        SELECT COUNT(1) xCount
+        FROM mb_point
+         WHERE YEAR(indt) = YEAR(GETDATE())
+          AND rscd = '01'
+          AND memcd = #{strLoginMEMCD}
+    </select>
+
+    <update id="passwordChangeDate">
+        /*
+        '비밀번호 변경정보 기록
+         rCount = 0
+        */
+        UPDATE changefieldhistory
+           SET date_mempw = GETDATE()
+         WHERE memcd = #{strLoginMemCD}
+    </update>
+
+    <insert id="passwordChangeDateInsert">
+        /*
+        '비밀번호 변경정보 기록
+        <![CDATA[
+        rCount < 1
+        ]]>
+        */
+        INSERT INTO changefieldhistory(
+                                        memcd
+                                      , memid
+                                      , date_mempw
+                                      )
+               VALUES (
+                        #{strLoginMemCD}
+                      , #{strMemId}
+                      , GETDATE()
+                      )
+    </insert>
+
+    <update id="updateLoginInfo">
+        /* '로그아웃처리하여 다시 로그인하도록 유도. */
+        UPDATE logininfo
+           SET last_logout = GETDATE()
+             , islogin = 0
+         WHERE memcd = #{strLoginMEMCD}
+    </update>
+    <insert id="insertLoginInfo">
+        INSERT INTO logininfo(
+                               memcd
+                             , last_login
+                             , last_logout
+                             , islogin
+                             , login_count
+                             )
+               VALUES (
+                        #{strLoginMEMCD}
+                      , ''
+                      , GETDATE()
+                      , 0
+                      , 1
+                      )
+    </insert>
+</mapper>

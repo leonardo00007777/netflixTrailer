@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="menu">
+<!--    '20150318 hwkim 메뉴 읽어오기 루틴 리팩토링-->
+<!--    '20190111 hwkim 관리자 메뉴 조회 권한 레벨 제한 추가.-->
+    <select id="basicSetProd">
+        SELECT c2.cat1
+             , c1.catdesc cat1desc
+             , c2.cat2
+             , c2.subcatdesc cat2desc
+             , CASE WHEN c2.cat1 IN ('73','76') THEN '71' ELSE c2.cat1 END oldcat1
+        FROM exsubmenu c2
+          LEFT JOIN exmenu c1 ON c1.useyn = 'Y'
+                             AND c1.cat1 = c2.cat1
+         WHERE c2.useyn = 'Y'
+           AND c2.cat1 NOT IN ('85')
+           AND (c2.cat1 NOT IN ('90') OR (c2.cat1 IN ('90') AND c2.cat2 NOT IN ('01')))
+        ORDER BY c2.cat1, c2.cat2
+    </select>
+</mapper>

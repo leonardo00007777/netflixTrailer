@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mySkPoint">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - SK포인트 적립, 사용 이력 보기 - myaccpoint_m.asp 발췌
+    'File          : myskpoint_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : sykim
+    'Date Started  : 20180116
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20180116   sykim   0.9     처음 작성-->
+    <select id="myCurrentSkPoint">
+        /* myCurrentSkPoint 현재 sk 포인트*/
+        SELECT ISNULL(skpoint,0) skpoint
+        FROM mb_currency
+         WHERE 1 = 1
+           AND memcd = #{strLoginMemCd}
+    </select>
+
+    <select id="mySkPointPaging">
+          /* mySkPointPaging 내 sk 포인트 페이징*/
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem}) MAXPAGE
+             , COUNT(a.nox) CNT
+        FROM mb_point a
+          JOIN cd_master b
+            ON a.rscd = b.cdcode
+           AND b.cdtype = #{typePntcd}
+         WHERE 1 = 1
+           AND a.memcd = #{strLoginMemCd}
+           AND a.expdt >= GETDATE()
+           AND a.useyn = 'Y'
+           <![CDATA[
+           AND a.indt >= CONVERT(DATETIME,#{dteSDate},21)
+           AND a.indt < CONVERT(DATETIME,#{dteEDate},21)+1
+           ]]>
+    </select>
+
+    <select id="mySkPointList">
+         /*mySkPointList skpoint리스트*/
+        SELECT * FROM (
+                         SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY a.nox DESC ) - 1 ) /  #{intPagePerItem}  + 1) AS PAGE
+                              , a.nox
+                              , a.memcd
+                              , a.expdt
+                              , CONVERT(varchar(10),a.indt,120) indt
+                              , a.withdraw
+                              , a.deposit
+                              , a.cpoint
+                              , a.memid
+                              , a.rscd
+                              , a.rsnote
+                              , a.paynum
+                              , a.updt
+                              , a.upid
+                              , a.useyn
+                              , b.cdname pntdesc
+                         FROM mb_point a
+                           JOIN cd_master b
+                             ON a.rscd = b.cdcode
+                            AND b.cdtype  =#{typePntcd}
+                          WHERE a.memcd = #{strLoginMemCd}
+                            AND a.expdt >= GETDATE()
+                            AND a.useyn = 'Y'
+                            <![CDATA[
+                            AND a.indt >= CONVERT(DATETIME,#{dteSDate},21)
+                            AND a.indt < CONVERT(DATETIME,#{dteEDate},21)+1
+                            ]]>
+                      ) AS pl
+        WHERE PAGE = #{intPage}
+
+    </select>
+</mapper>

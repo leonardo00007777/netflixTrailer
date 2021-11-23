@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="basicCommentsview_folder">
+<!--    'System        : 62life.com Main-->
+<!--    'Program       :-->
+<!--    'Title         : 기본 댓글 보기 처리-->
+<!--    'File          : basicommentsview2_folder_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        :-->
+<!--    'Date Started  :-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author      V/M     Reason For Modification-->
+
+<!--    '20130618   hwkim       0.9     처음작성-->
+    <insert id="newCommentInsert">
+        /*
+          newCommentInsert 신규 댓글 Insert
+          mode = "I"
+        */
+        INSERT INTO basicomments
+                    (
+                      rtype
+                    , rid
+                    , ridx
+                    , rrseqno
+                    , rdepth
+                    , rmemo
+                    , rwip
+                    , rwuid
+                    , ragree
+                    , roppose
+                    , rblind
+                    , device
+                    )
+               VALUES
+                    (
+                      #{commentType}
+                    , #{commentId}
+                    , #{commentIdx}
+                    , NULL
+                    , 0
+                    , #{rmemo}
+                    , #{writeIP}
+                    , #{strLoginMemID}
+                    , 0
+                    , 0
+                    , 'N'
+                    , 'M'
+                    )
+    </insert>
+
+    <update id="commentUpdate">
+        /*
+         commentUpdate 댓글 수정
+         mode = "U"
+        */
+        UPDATE basicomments
+           SET rmemo = #{rmemo}
+             , rwip = #{writeIP}
+         WHERE rseqno = #{rseqNo}
+    </update>
+
+    <delete id="commentDelete>">
+        /*
+         commentDelete 댓글 삭제
+         mode = "D" Or mode = "TD"
+         */
+        DELETE FROM basicomments WHERE rseqno = #{rseqNo}
+    </delete>
+
+    <insert id="replyComment">
+        /*
+         replyComment
+         댓글 답변처리: 1계층 답변 처리만 하기때문에 depth를 1로 고정. 2계층 이상일 경우 파라미터로 처리해야함
+         mode="R"
+        */
+        INSERT INTO basicomments
+                    (
+                      rtype
+                    , rid
+                    , ridx
+                    , rrseqno
+                    , rdepth
+                    , rmemo
+                    , rwip
+                    , rwuid
+                    , ragree
+                    , roppose
+                    , rblind
+                    )
+             VALUES (
+                      #{commentType}
+                    , #{commentId}
+                    , #{commentIdx}
+                    , #{rseqNo}
+                    , 1
+                    , #{rmemo}
+                    , #{writeIP}
+                    , #{strLoginMemID}
+                    , 0
+                    , 0
+                    , 'N'
+                    )
+    </insert>
+
+    <update id="boardCommentCntIncrease">
+        /*
+         boardCommentCntIncrease
+         댓글 수 증가
+         mode = "I"
+        */
+        UPDATE _board_#{commentId}
+           SET memoNum = ISNULL(memoNum,0)+1
+        WHERE idx = #{commentIdx}
+    </update>
+
+    <update id="boardCommentCntDecrease">
+        /*
+         boardCommentCntAdd
+         댓글 수 감소
+         mode = "D"
+        */
+        UPDATE _board_#{commentId}
+           SET memoNum = memoNum - 1
+         WHERE idx = #{commentIdx}
+    </update>
+
+    <update id="blogCommentCntIncrease">
+        /*
+          blogCommentCntIncrease
+          블로그 댓글 수 증가
+          '증가
+          mode = "I"
+        */
+        UPDATE blog
+           SET breplies = ISNULL(breplies,0)+1
+         WHERE memid = #{commentId}
+           AND idx=#{commentIdx}
+    </update>
+
+    <update id="blogCommentCntDecrease">
+        /*
+          blogCommentCntIncrease
+          블로그 댓글 수 감소
+          '증가
+          mode = "D"
+        */
+        UPDATE blog
+           SET breplies = breplies-1
+         WHERE memid = #{commentId}
+           AND idx = #{commentIdx}
+    </update>
+
+    <update id="blogTrackbackIncrease">
+        /*
+          blogCommentCntIncrease
+          블로그 트랙백 증가
+          '증가
+          mode = "TD"
+        */
+        UPDATE blog
+           SET btrackback = btrackback-1
+         WHERE memid = #{commentId}
+           AND idx = #{commentIdx}
+    </update>
+
+    <select id="basicCommentPaging">
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ & intPagePerItem &  ) MAXPAGE
+             , COUNT(rseqno) CNT
+        FROM basicomments
+         WHERE 1 = 1
+           AND rblind = 'N'
+           AND rid = #{commentId}
+           AND ridx = #{commentIdx}
+           <choose>
+               <when test='commentType.equals("tagTypeBlog")'>
+                   AND rtype IN (#{tagTypeBlog}, #{tagTypeTrackBack})
+               </when>
+               <otherwise>
+                   AND rtype = #{commentType}
+               </otherwise>
+           </choose>
+    </select>
+
+    <select id="basicCommentList">
+        /**/
+        SELECT * FROM (
+                          SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY ISNULL(c.rrseqno,c.rseqno) DESC, c.rdepth, c.rseqno ) - 1 ) /  #{intPagePerItem}  + 1) AS PAGE
+                               , c.rseqno
+                               , c.rtype
+                               , ISNULL(c.rrseqno,c.rseqno) RRSEQNO
+                               , c.rdepth
+                               , c.rmemo
+                               , c.rwip
+                               , c.rwuid
+                               , c.rdatex
+                               , c.ragree
+                               , c.roppose
+                               , c.rblind
+                               , c.device
+                               , p.nickn
+                               , p.ppath
+                               , p.smemo
+                               , p.isblogger
+                               , m.memname
+                               , p.memlevel
+                          FROM basicomments c
+                            LEFT OUTER JOIN memberprofile p ON c.rwuid = p.memid
+                            LEFT OUTER JOIN mb_master m ON c.rwuid = m.memid
+                           WHERE 1 = 1
+                             AND c.rblind = 'N'
+                             AND c.rid =  #{commentId}
+                             AND c.ridx = #{commentIdx}
+                           <choose>
+                              <when test='commentType.equals("tagTypeBlog")'>
+                                   AND c.rtype IN (#{tagTypeBlog}, #{tagTypeTrackback})
+                              </when>
+                              <otherwise>
+                                   c.rtype = #{rType}
+                              </otherwise>
+                           </choose>
+                      ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+</mapper>
