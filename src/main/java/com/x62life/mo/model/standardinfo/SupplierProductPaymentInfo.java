@@ -1,4 +1,4 @@
-package com.x62life.mo.model.StandardInformation;
+package com.x62life.mo.model.standardinfo;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

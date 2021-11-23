@@ -1,4 +1,4 @@
-package com.x62life.mo.model.Sms;
+package com.x62life.mo.model.sms;
 //카카오 문자전송
 public class EmTranKaKao {
     private int kkoSeq; //순번

@@ -1,4 +1,4 @@
-package com.x62life.mo.model.Sms;
+package com.x62life.mo.model.sms;
 
 //sms 전송 대상
 public class SmsSendLine {

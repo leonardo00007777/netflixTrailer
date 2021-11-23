@@ -1,4 +1,4 @@
-package com.x62life.mo.model.BoardContents;
+package com.x62life.mo.model.boardcontents;
 
 import java.sql.Timestamp;
 //게시판 컨텐츠

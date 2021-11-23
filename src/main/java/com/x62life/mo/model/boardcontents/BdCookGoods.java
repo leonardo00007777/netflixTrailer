@@ -1,4 +1,4 @@
-package com.x62life.mo.model.BoardContents;
+package com.x62life.mo.model.boardcontents;
 //요리연관상품
 public class BdCookGoods {
     private int ctsidx; //순번

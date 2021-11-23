@@ -1,4 +1,4 @@
-package com.x62life.mo.model.Exhibition;
+package com.x62life.mo.model.exhibition;
 
 import java.sql.Timestamp;
 //메인페이지 컨텐츠

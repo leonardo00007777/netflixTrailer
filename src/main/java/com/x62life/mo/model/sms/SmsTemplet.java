@@ -1,4 +1,4 @@
-package com.x62life.mo.model.Sms;
+package com.x62life.mo.model.sms;
 
 import java.sql.Timestamp;
 

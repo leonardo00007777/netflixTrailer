@@ -1,4 +1,4 @@
-package com.x62life.mo.model.StandardInformation;
+package com.x62life.mo.model.standardinfo;
 //공통코드
 public class CommonCode {
     private char cdtype; //코드유형
