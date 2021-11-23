@@ -7,7 +7,7 @@
              , word
              , COUNT(word) AS cnt
         FROM searchword
-         WHERE DATEDIFF(d,datex, getdate())  <![CDATA[ >= #{PERIOD_DAY}]]>
+         WHERE DATEDIFF(d,datex, getdate())  <![CDATA[ >= #{periodDay}]]>
          GROUP BY word
     </select>
 
