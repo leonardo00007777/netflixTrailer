@@ -3,7 +3,6 @@ package com.x62life.mo.model.exhibition;
 import java.sql.Timestamp;
 //메인페이지 컨텐츠
 public class MainPageSkin {
-
     private String csspath;
     private String title; 
     private String logopath; //하단고정배너1(좌) 이미지경로
