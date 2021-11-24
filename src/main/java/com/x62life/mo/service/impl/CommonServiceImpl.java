@@ -14,8 +14,8 @@ public class CommonServiceImpl implements CommonService {
     CommonDao commonDao;
 
     @Override
-    public List<Map<String, Object>> commonList(Map<String, Object> commonMap) {
-        commonDao.getSearchRank(commonMap);
-        return null;
+    public List<String> commonList() {
+        List<String> testList = commonDao.getSearchRank();
+        return testList;
     }
 }
