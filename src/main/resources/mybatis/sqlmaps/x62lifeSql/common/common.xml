@@ -16,49 +16,46 @@
         <![CDATA[
         SELECT *
         FROM(
-            SELECT '11' AS odttype
-                (
-                    SELECT CASE g.dispatchtype WHEN 'I' THEN '11'
-                                               WHEN '0' THEN '15'
-                           END AS odttype
-                         , g.gdcd
-                         , g.gdname
-                         , g.unit
-                         , g.price1
-                         , dbo.getMasterPrice(g.gdcd) saleprice
-                         , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy}, g.gdcd) AS groupsaleprice
-                         , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy},g.gdcd) AS isgroupsale
-                         , g.gdimg
-                         , g.div1
-                         , ISNULL(g.deliverydtyn,'N') deliverydtyn
-                         , ISNULL(g.soldoutyn,'N') soldoutyn
-                         , ISNULL(s.gdcnt,99999) gdcnt
-                         , g.newyn
-                         , g.qtysaleyn
-                         , g.recommendyn
-                         , ISNULL(t.cdname,'미지정') gradedesc
-                         , '01' odtype2
-                         , g.divcd
-                         , ISNULL(g.reserveyn,'N') reserveyn
-                    FROM gd_master g
-                      LEFT JOIN gd_cnt s
-                             ON g.gdcd = s.gdcd
-                      LEFT JOIN gd_item i
-                             ON i.gdcd = g.gdcd
-                      LEFT JOIN cd_master t
-                             ON t.cdtype = '09'
-                            AND t.cdcode = i.typecd
-                      LEFT JOIN od_reservegoods r
-                             ON g.gdcd = r.gdcd
-                            AND r.useyn = 'Y'
-                            AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
-                            AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
-                     WHERE g.useyn = 'Y'
-                       AND ( g.divcd = '30' OR (g.divcd = '20' AND g.deliverydtyn = 'N' AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')))
-                       AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
-                       AND g.gdcd IN (#{strInCase})
-                ) g
-            )
+                SELECT CASE g.dispatchtype WHEN 'I' THEN '11'
+                                           WHEN '0' THEN '15'
+                       END AS odttype
+                     , g.gdcd
+                     , g.gdname
+                     , g.unit
+                     , g.price1
+                     , dbo.getMasterPrice(g.gdcd) saleprice
+                     , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy}, g.gdcd) AS groupsaleprice
+                     , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy},g.gdcd) AS isgroupsale
+                     , g.gdimg
+                     , g.div1
+                     , ISNULL(g.deliverydtyn,'N') deliverydtyn
+                     , ISNULL(g.soldoutyn,'N') soldoutyn
+                     , ISNULL(s.gdcnt,99999) gdcnt
+                     , g.newyn
+                     , g.qtysaleyn
+                     , g.recommendyn
+                     , ISNULL(t.cdname,'미지정') gradedesc
+                     , '01' odtype2
+                     , g.divcd
+                     , ISNULL(g.reserveyn,'N') reserveyn
+                FROM gd_master g
+                  LEFT JOIN gd_cnt s
+                         ON g.gdcd = s.gdcd
+                  LEFT JOIN gd_item i
+                         ON i.gdcd = g.gdcd
+                  LEFT JOIN cd_master t
+                         ON t.cdtype = '09'
+                        AND t.cdcode = i.typecd
+                  LEFT JOIN od_reservegoods r
+                         ON g.gdcd = r.gdcd
+                        AND r.useyn = 'Y'
+                        AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                        AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                 WHERE g.useyn = 'Y'
+                   AND ( g.divcd = '30' OR (g.divcd = '20' AND g.deliverydtyn = 'N' AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')))
+                   AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                   AND g.gdcd IN (#{strInCase})
+            ) g
         ]]>
     </select>
 
