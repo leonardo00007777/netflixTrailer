@@ -775,6 +775,10 @@ xs:5, s:10, m:15, l:30, ml:40, xl:50
   padding: 15px;
 }
 
+.pa-0 {
+  padding: 0px !important;
+}
+
 .mt-sp-4 {
   margin-top: 16px;
 }
@@ -1177,6 +1181,10 @@ hr {
   white-space: nowrap;
 }
 
+.text-nowrap {
+  white-space: nowrap;
+}
+
 /* margin-left right 추가 */
 .ml-10 {
   margin-left: 10px !important;
@@ -1223,6 +1231,15 @@ hr {
 }
 .grid-2n.row-gutter-30 .cell {
   margin-bottom: 30px;
+}
+
+/* line-top , line-bottom */
+.line-top {
+  border-top: 1px solid #eeeeee;
+}
+
+.line-bot {
+  border-bottom: 1px solid #eeeeee;
 }
 
 /* Global Header */
@@ -1303,14 +1320,15 @@ hr {
 .global-top-menu .menu-item .num-badge {
   position: absolute;
   top: 0;
-  right: -3px;
+  right: 3px;
+  transform: translateX(50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 12px;
-  height: 12px;
+  padding: 1px 3px 0;
+  line-height: 12px;
   background-color: #066b4c;
-  border-radius: 50%;
+  border-radius: 50px;
   color: #fff;
   font-size: 8px;
   text-align: center;
@@ -1372,6 +1390,9 @@ hr {
   height: 3px;
   background-color: #066b4c;
   content: ' ';
+}
+.global-nav-menu .menu-item:first-child {
+  display: none;
 }
 
 /* Local Navigation Bar */
@@ -1999,6 +2020,12 @@ hr {
   body.has-bnb .quick-menu {
     bottom: 15px;
   }
+  body.has-bnb .main-content .global-nav {
+    padding-left: 0;
+  }
+  body.has-bnb .main-content .global-nav.sticky {
+    padding-left: 60px;
+  }
 
   body.gnb .global-bottom {
     height: 100%;
@@ -2407,6 +2434,22 @@ button {
   background-color: #066b4c;
   border-color: #066b4c;
   color: #fff;
+}
+
+.bt-select-group.green-pri.zero-line .button {
+  font-size: 16px;
+  height: 40px;
+  line-height: 23px;
+  background-color: #fff;
+  border: 0;
+  color: #888;
+  font-weight: normal;
+}
+.bt-select-group.green-pri.zero-line .button.active {
+  background-color: #fff;
+  border-color: #fff;
+  color: #066b4c;
+  font-weight: bold;
 }
 
 /* 더보기 버튼 */
@@ -7106,6 +7149,7 @@ Swiper Styles
   width: 10px;
   height: 100%;
   background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff);
+  z-index: 1;
 }
 .prd-list-tags .tags-wrapper {
   margin-bottom: -20px;
@@ -7128,6 +7172,7 @@ Swiper Styles
   align-items: center;
   padding: 1px 8px 0;
   height: 24px;
+  width: auto;
   background-color: #fff;
   border: 1px solid #d5d5d5;
   border-radius: 3px;

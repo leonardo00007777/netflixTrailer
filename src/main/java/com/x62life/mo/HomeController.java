@@ -1,7 +1,5 @@
 package com.x62life.mo;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -39,7 +37,7 @@ public class HomeController {
 	public ModelAndView home(Locale locale, Model model) {
 		 ModelAndView mv = new ModelAndView();
 		 
-		 mv.setViewName("home");
+		 mv.setViewName("main/main");
 		
 		return mv;
 	}	

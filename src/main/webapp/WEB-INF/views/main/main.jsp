@@ -98,7 +98,6 @@
           </div>
         </section>
 
-
         <div class="swiper-container" id="globalNavSwiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
@@ -996,15 +995,14 @@
 
                <hr class="spacer-m">
             </div>
-            
-              <div class="spacer-bottom"></div>
-           
-          </div>
-        </div><!-- /.swiper-container -->
-
-
-
-      </div><!-- /.main-content -->
+            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/newPrdList.jsp" %></div>
+            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/dcPrdList.jsp" %></div>
+            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/bestPrdList.jsp" %></div>
+            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/proPrdList.jsp" %></div>
+            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/eventPrdList.jsp" %></div>
+         </div><!-- /.swiper-container -->
+      	</div><!-- /.main-content -->
+      
       <footer class="global-footer">
         <section class="footer-bt">
           <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-apple"></i>App Store</a>
@@ -1052,46 +1050,6 @@
         <section class="footer-copyright">Copyright(C) 2017 WithNature All rights reserved.</section>
       </footer>
     </main>
-
-    <div class="quick-menu" id="quick-menu">
-      <a href="#" class="quick-menu-button btn-chat"><i class="wn-icon wni-message-square">채팅상담</i></a>
-      <a href="#" class="quick-menu-button" id="page-top-button"><i class="wn-icon wni-chevron-v">Top</i></a>
-    </div>
-    <div class="global-bottom">
-      <ul class="global-bottom-menu">
-        <li class="gbm-item active">
-          <a href="review_home.html">
-            <i class="wn-icon wni-home"></i>
-            <!-- <span class="tit">홈</span> -->
-          </a>
-        </li>
-        <li class="gbm-item">
-          <a href="WN_PB_MO_COM_030501.html">
-            <i class="wn-icon wni-history"></i>
-            <!-- <span class="tit">타임라인</span> -->
-          </a>
-        </li>
-        <li class="gbm-item">
-          <a href="WN_PB_MO_COM_030503.html">
-            <i class="wn-icon wni-menu"></i>
-            <!-- <span class="tit">카테고리</span> -->
-          </a>
-        </li>
-        <li class="gbm-item">
-          <a href="WN_PB_MO_SCH_010101.html">
-            <i class="wn-icon wni-search"></i>
-            <!-- <span class="tit">검색</span> -->
-          </a>
-        </li>
-        <li class="gbm-item">
-          <a href="WN_PB_MO_MYP_000100.html">
-            <i class="wn-icon wni-user"></i>
-            <span class="tit">마이자연</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
 
 
   <!-- Bottom Sheet Modal Code -->
@@ -1435,40 +1393,10 @@
   </div>
 
 
-  <!-- Modal - Buy Option -->
-  <div class="modal fade wn-modal-bottom modal-buy-option" id="modalBuyOption">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <button class="btn-close" data-dismiss="modal">닫기</button>
-        <div class="overflow-auto">
-          <div class="wn-modal-body">
-            <div class="buy-options">
-              <div class="buy-option-item">
-                <div class="label">맛있는 아이스 홍시 1개입</div>
-                <div class="content">
-                  <div class="input-number">
-                    <button class="dec"></button>
-                    <input class="num" type="text" value="1" readonly>
-                    <button class="inc"></button>
-                  </div>
-                  <div class="price-format">1,900<small>원</small></div>
-                </div>
-              </div>
-              <div class="buy-option-total">
-                <span class="label">합계</span>
-                <span class="price-format">10,900<small>원</small></span>
-              </div>
-            </div>
-          </div>
-          <footer class="wn-modal-footer">
-            <button class="button bt-l bt-gray bt-rect">바로구매</button>
-            <button class="button bt-l bt-green bt-rect">장바구니</button>
-          </footer>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Footer.jsp 소스참조  -->
+  <!-- Footer.jsp 소스참조 Modal - Buy Option -->
 
   <script src="<%=_libUrl %>swiper/swiper-bundle.min.js"></script>
   <script src="<%=_jsUrl %>main/main.js"></script>
+  <script src="<%=_jsUrl %>main/mainEvent.js"></script>
   

@@ -25,11 +25,11 @@ public class MainController {
 	
 	/**
 	 * <pre>
-	 * 1. MethodName : Main / MD ÃßÃµ
+	 * 1. MethodName : Main / MD ì¶”ì²œ
 	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : MDÃßÃµ ÆäÀÌÁö·Î ÀÌµ¿ÇÑ´Ù.
-	 * 4. ÀÛ¼ºÀÚ       : jckim
-	 * 5. ÀÛ¼ºÀÏ       : 2021. 10. 11.
+	 * 3. Comment    : MDì¶”ì²œ í˜ì´ì§€ë¡œ ì´ë™í•œë‹¤.
+	 * 4. ì‘ì„±ì       : jckim
+	 * 5. ì‘ì„±ì¼       : 2021. 10. 11.
 	 * </pre>
 	 *
 	 * @param request
@@ -55,11 +55,11 @@ public class MainController {
 	
 	/**
 	 * <pre>
-	 * 1. MethodName : Main / ½Å»óÇ°
+	 * 1. MethodName : Main / ì‹ ìƒí’ˆ
 	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : ½Å»óÇ° ÆäÀÌÁö·Î ÀÌµ¿ÇÑ´Ù.
-	 * 4. ÀÛ¼ºÀÚ       : jckim
-	 * 5. ÀÛ¼ºÀÏ       : 2021. 10. 11.
+	 * 3. Comment    : ì‹ ìƒí’ˆ í˜ì´ì§€ë¡œ ì´ë™í•œë‹¤.
+	 * 4. ì‘ì„±ì       : jckim
+	 * 5. ì‘ì„±ì¼       : 2021. 10. 11.
 	 * </pre>
 	 *
 	 * @param request
@@ -87,11 +87,11 @@ public class MainController {
 	
 	/**
 	 * <pre>
-	 * 1. MethodName : Main / º£½ºÆ®
+	 * 1. MethodName : Main / ë² ìŠ¤íŠ¸
 	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : º£½ºÆ® ÆäÀÌÁö·Î ÀÌµ¿ÇÑ´Ù.
-	 * 4. ÀÛ¼ºÀÚ       : jckim
-	 * 5. ÀÛ¼ºÀÏ       : 2021. 10. 11.
+	 * 3. Comment    : ë² ìŠ¤íŠ¸ í˜ì´ì§€ë¡œ ì´ë™í•œë‹¤.
+	 * 4. ì‘ì„±ì       : jckim
+	 * 5. ì‘ì„±ì¼       : 2021. 10. 11.
 	 * </pre>
 	 *
 	 * @param request
@@ -114,11 +114,11 @@ public class MainController {
 	
 	/**
 	 * <pre>
-	 * 1. MethodName : Main / ÇÒÀÎ°ü
+	 * 1. MethodName : Main / í• ì¸ê´€
 	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : ÇÒÀÎ°ü ÆäÀÌÁö·Î ÀÌµ¿ÇÑ´Ù.
-	 * 4. ÀÛ¼ºÀÚ       : jckim
-	 * 5. ÀÛ¼ºÀÏ       : 2021. 10. 11.
+	 * 3. Comment    : í• ì¸ê´€ í˜ì´ì§€ë¡œ ì´ë™í•œë‹¤.
+	 * 4. ì‘ì„±ì       : jckim
+	 * 5. ì‘ì„±ì¼       : 2021. 10. 11.
 	 * </pre>
 	 *
 	 * @param request
@@ -141,11 +141,11 @@ public class MainController {
 	
 	/**
 	 * <pre>
-	 * 1. MethodName : Main / Àü¹®°ü
+	 * 1. MethodName : Main / ì „ë¬¸ê´€
 	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : Àü¹®°ü ÆäÀÌÁö·Î ÀÌµ¿ÇÑ´Ù.
-	 * 4. ÀÛ¼ºÀÚ       : jckim
-	 * 5. ÀÛ¼ºÀÏ       : 2021. 10. 11.
+	 * 3. Comment    : ì „ë¬¸ê´€ í˜ì´ì§€ë¡œ ì´ë™í•œë‹¤.
+	 * 4. ì‘ì„±ì       : jckim
+	 * 5. ì‘ì„±ì¼       : 2021. 10. 11.
 	 * </pre>
 	 *
 	 * @param request
@@ -168,11 +168,11 @@ public class MainController {
 	
 	/**
 	 * <pre>
-	 * 1. MethodName : Main / ÀÌº¥Æ®
+	 * 1. MethodName : Main / ì´ë²¤íŠ¸
 	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : ÀÌº¥Æ® ÆäÀÌÁö·Î ÀÌµ¿ÇÑ´Ù.
-	 * 4. ÀÛ¼ºÀÚ       : jckim
-	 * 5. ÀÛ¼ºÀÏ       : 2021. 10. 11.
+	 * 3. Comment    : ì´ë²¤íŠ¸ í˜ì´ì§€ë¡œ ì´ë™í•œë‹¤.
+	 * 4. ì‘ì„±ì       : jckim
+	 * 5. ì‘ì„±ì¼       : 2021. 10. 11.
 	 * </pre>
 	 *
 	 * @param request
