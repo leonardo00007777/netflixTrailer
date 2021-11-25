@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface CommonService {
-   List<Map<String, Object>> commonList();
+   List<Map<String, Object>> getSearchRank(String periodDay);
 
-   List<Map<String, Object>> cList();
 }
