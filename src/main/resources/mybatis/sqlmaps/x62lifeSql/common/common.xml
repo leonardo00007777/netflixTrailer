@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.x62life.mo.dao.CommonDao">
-    <select id="getSearchRank" resultType="java.util.List">
+    <select id="getCategoryList" resultType="java.util.Map" parameterType="java.util.HashMap">
+        SELECT
+            c2.cat1 as  id ,
+            c1.catdesc  as subject
+        FROM
+            exsubmenu c2
+                LEFT JOIN exmenu c1 ON
+                        c1.useyn = 'Y'
+                    AND c1.cat1 = c2.cat1
+        WHERE
+            c2.useyn = 'Y'
+          AND c2.cat1 NOT IN (' 85 ')
+          AND (c2.cat1 NOT IN ('90')
+            OR (c2.cat1 IN ('90')
+                AND c2.cat2 NOT IN ('01')))
+        group BY
+            c2.cat1,
+            c1.catdesc
+    </select>
+
+    <select id="getSearchRank" resultType="java.util.Map">
        /*getSearchRank 랭크 가져오기*/
         SELECT TOP 10 RANK() OVER (ORDER BY COUNT(word) DESC) AS rank
              , word

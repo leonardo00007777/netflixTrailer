@@ -1,6 +1,7 @@
 package com.x62life.mo.service.impl;
 
 import com.x62life.mo.dao.CommonDao;
+import com.x62life.mo.model.category.Category;
 import com.x62life.mo.service.CommonService;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,13 @@ public class CommonServiceImpl implements CommonService {
     CommonDao commonDao;
 
     @Override
-    public List<String> commonList() {
-        List<String> testList = commonDao.getSearchRank();
+    public List<Map<String, Object>> commonList() {
+        List<Map<String, Object>> testList = commonDao.getSearchRank();
         return testList;
+    }
+    @Override
+    public List<Map<String, Object>> cList() {
+        List<Map<String, Object>> categoryList = commonDao.getCategoryList();
+        return categoryList;
     }
 }
