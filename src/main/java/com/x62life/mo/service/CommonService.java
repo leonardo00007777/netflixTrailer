@@ -1,11 +1,12 @@
 package com.x62life.mo.service;
 
 import com.x62life.mo.model.category.Category;
+import com.x62life.mo.model.member.MbMaster;
 
 import java.util.List;
 import java.util.Map;
 
 public interface CommonService {
-   List<Map<String, Object>> getSearchRank(String periodDay);
+   public List<Map<String, Object>> getSearchRank(String periodDay);
 
 }
