@@ -6,7 +6,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface CommonDao {
-    List<Map<String, Object>> getSearchRank();
-
-    List<Map<String, Object>> getCategoryList();
+    List<Map<String, Object>> getSearchRank(String periodDay);
 }
