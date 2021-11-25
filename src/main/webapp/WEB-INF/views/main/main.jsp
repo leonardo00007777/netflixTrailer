@@ -221,7 +221,7 @@
                             <div class="today-price-circle-bar"></div>
                           </div>
                           <div class="img-container">
-                            <div class="prd-img" style="background-image: url('/images/uploads/prd-img-07.jpg');"
+                            <div class="prd-img" style="background-image: url('<%=_imgUrl %>/images/uploads/prd-img-07.jpg');"
                               title="[채움] 유기농 노니 30입">
                             </div>
                             <div class="remain">
