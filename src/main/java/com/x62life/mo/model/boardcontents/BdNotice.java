@@ -8,7 +8,7 @@ public class BdNotice {
     private String content; //내용
     private int hitcnt; //조회수
     private short important; //게시순위
-    private Timestamp indt; //등록일시
+    private String indt; //등록일시
     private Timestamp updt; //수정일시
     private char useyn; //사용여부
     private String grpcd; //그룹코드
@@ -20,7 +20,6 @@ public class BdNotice {
     public void setNtcidx(int ntcidx) {
         this.ntcidx = ntcidx;
     }
-
     public String getTitle() {
         return title;
     }
@@ -53,11 +52,11 @@ public class BdNotice {
         this.important = important;
     }
 
-    public Timestamp getIndt() {
+    public String getIndt() {
         return indt;
     }
 
-    public void setIndt(Timestamp indt) {
+    public void setIndt(String indt) {
         this.indt = indt;
     }
 

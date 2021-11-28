@@ -1,4 +1,4 @@
-package com.x62life.mo.dao;
+package com.x62life.mo.dao.login;
 
 import com.x62life.mo.model.login.LoginProcess;
 import com.x62life.mo.model.member.MbMaster;

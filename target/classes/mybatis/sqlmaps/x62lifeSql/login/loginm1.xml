@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.x62life.mo.dao.LoginDao">
+<mapper namespace="com.x62life.mo.dao.login.LoginDao">
 <!--    '프로젝트: 자연이랑 모바일 웹
     '프로그램: 로그인 화면
    

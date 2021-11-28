@@ -6,17 +6,20 @@ public class BdFaq {
     private int faqidx; //순번
     private char divcd; //구분
     private String title; //질문내용
-    private String content; //답변내용
+    private byte[] content; //답변내용
     private char useyn; //사용여부
     private int rcount; //조회수
     private int marks; //만족도
     private int totalmarks; //만족도합계
     private int markscount; //만족도건수
-    private Timestamp indt; //등록일시
+    private String indt; //등록일시
     private Timestamp updt; //수정일시
     private String memcd; //등록자코드
     private char storyon; //faq story 게시
     private char start; //첫화면게시
+    private int page;
+    private int maxpage;
+    private int cnt;
 
     public int getFaqidx() {
         return faqidx;
@@ -42,11 +45,11 @@ public class BdFaq {
         this.title = title;
     }
 
-    public String getContent() {
+    public byte[] getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(byte[] content) {
         this.content = content;
     }
 
@@ -90,11 +93,11 @@ public class BdFaq {
         this.markscount = markscount;
     }
 
-    public Timestamp getIndt() {
+    public String getIndt() {
         return indt;
     }
 
-    public void setIndt(Timestamp indt) {
+    public void setIndt(String indt) {
         this.indt = indt;
     }
 
@@ -128,5 +131,29 @@ public class BdFaq {
 
     public void setStart(char start) {
         this.start = start;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getMaxpage() {
+        return maxpage;
+    }
+
+    public void setMaxpage(int maxpage) {
+        this.maxpage = maxpage;
+    }
+
+    public int getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(int cnt) {
+        this.cnt = cnt;
     }
 }
