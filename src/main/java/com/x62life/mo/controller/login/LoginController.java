@@ -1,7 +1,7 @@
-package com.x62life.mo.controller.main;
+package com.x62life.mo.controller.login;
 
 import com.x62life.mo.model.login.LoginProcess;
-import com.x62life.mo.service.LoginService;
+import com.x62life.mo.service.login.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

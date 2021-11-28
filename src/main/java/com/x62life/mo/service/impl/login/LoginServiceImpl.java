@@ -1,10 +1,8 @@
-package com.x62life.mo.service.impl;
+package com.x62life.mo.service.impl.login;
 
-import com.x62life.mo.dao.LoginDao;
+import com.x62life.mo.dao.login.LoginDao;
 import com.x62life.mo.model.login.LoginProcess;
-import com.x62life.mo.model.member.MbMaster;
-import com.x62life.mo.service.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.x62life.mo.service.login.LoginService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

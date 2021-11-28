@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x62life.mo.dao.cscenter.CsCenterDao">
+    <select id="recentNoticeFive" parameterType="com.x62life.mo.model.boardcontents.BdNotice" resultType="com.x62life.mo.model.boardcontents.BdNotice">
+    /*recentNoticeFive 최근 공지사항 5개*/
+        SELECT TOP 5 ISNULL(important,9) important
+             , ntcidx
+             , title
+             , CONVERT(CHAR(10),indt,111) indt
+        FROM bd_notice
+         WHERE useyn = 'Y'
+        ORDER BY ISNULL(important,9) ASC
+               , ntcidx DESC
+    </select>
+
+    <select id="recentNoticeTen" parameterType="com.x62life.mo.model.boardcontents.BdNoticeEx" resultType="com.x62life.mo.model.boardcontents.BdNoticeEx">
+        /*recentNoticeTen 최근 공지사항 10개*/
+        SELECT TOP 10 f.faqidx
+             , f.title
+             , c.cdname
+             , f.rcount
+             , f.marks
+        FROM bd_faq f
+          JOIN cd_master c
+            ON f.divcd = c.cdcode
+            AND c.cdtype = #{typeFaq}
+         WHERE f.useyn = 'Y'
+        ORDER BY f.rcount DESC
+    </select>
+
+    <select id="faqPaging" parameterType="java.util.Map" resultType="com.x62life.mo.model.boardcontents.BdFaq">
+        /*faqPaging 자연이랑모바일 - 자주하는 질문 Paging*/
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/#{intPagePerItem}) MAXPAGE
+             , COUNT(faqidx) CNT
+        FROM bd_faq
+         WHERE 1 = 1
+           AND useyn = 'Y'
+         <if test="win != null and win != ''">
+             AND divcd IN
+             <foreach collection="win" item="win" open="(" close=")" separator=",">
+                 #{win}
+             </foreach>
+         </if>
+         <if test="sfaq != null and sfaq != ''">
+             AND title like #{sfaq}
+         </if>
+    </select>
+
+    <select id="faqList" parameterType="java.util.Map" resultType="com.x62life.mo.model.boardcontents.BdFaq">
+        /*faqList 자연이랑모바일 - 자주하는 질문 List*/
+        SELECT * FROM (
+                        SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY rcount DESC ) - 1 ) / #{intPagePerItem} + 1) AS PAGE
+                             , faqidx
+                             , divcd
+                             , title
+                             , rcount
+                             , marks
+                             , totalmarks
+                             , markscount
+                             , CONVERT(VARCHAR(20),indt,111) AS indt
+                        FROM bd_faq
+                         WHERE 1 = 1
+                           AND useyn = 'Y'
+                         <if test="win != null and win != ''">
+                           AND divcd IN
+                           <foreach collection="win" item="win" open="(" close=")" separator=",">
+                               #{win}
+                           </foreach>
+                         </if>
+                        <if test="sfaq != null and sfaq != ''">
+                            AND title like #{sfaq}
+                        </if>
+                      ) AS pl
+                   WHERE PAGE = #{page}
+    </select>
+    <resultMap id="queryMap" type="java.util.HashMap">
+        <result property="content" column="content" jdbcType="BLOB" javaType="java.lang.String" />
+    </resultMap>
+<!--    <select id="faqDetail" resultMap="faqContent">
+        /*faqDetail 자연이랑모바일 - 자주하는 질문 상세*/
+        SELECT TOP 1
+               title
+             , content
+             , CONVERT(VARCHAR(20),indt,111) AS indt
+        FROM bd_faq
+         WHERE useyn = 'Y'
+           AND faqidx = #{faqidx}
+    </select>-->
+    <select id="faqDetail" resultType="java.util.Map">
+        /*faqDetail 자연이랑모바일 - 자주하는 질문 상세*/
+        SELECT TOP 1
+               content
+        FROM bd_faq
+        WHERE useyn = 'Y'
+    </select>
+
+    <select id="faqStoryContentsList">
+        /*faqStoryContentsList 자연이랑모바일 - FAQ Story Contents List*/
+        SELECT * FROM (
+                          SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY (CASE WHEN start='Y' THEN '0' ELSE '1' END), ISNULL(updt,indt) DESC ) - 1 ) / #{intPagePerItem} + 1) AS PAGE
+                               , faqidx
+                               , divcd
+                               , title
+                               , content
+                               , rcount
+                               , marks
+                               , totalmarks
+                               , markscount
+                               , CONVERT(VARCHAR(20),indt,111) AS indt
+                               , CONVERT(VARCHAR(20),updt,111) AS updt
+                          FROM bd_faq
+                           WHERE useyn = 'Y'
+                             AND storyon = 'Y'
+                      ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+
+    <select id="faqStoryCnt">
+        /*faqStoryCnt 자연이랑모바일 - FAQ Story Cnt*/
+        SELECT COUNT(faqidx) AS faqcount
+        FROM bd_faq
+         WHERE useyn = 'Y'
+           AND storyon = 'Y'
+    </select>
+
+    <select id="certificationMember" statementType="CALLABLE">
+      /*certificationMember 임직원 인증정보확인*/
+      {CALL encryptionOpen
+        SELECT e.grpcd
+             , g.grpname
+             , e.gradecd
+             , ISNULL(e.initpoint,0) initpoint
+             , ISNULL(e.nodeductpay,'N') nodeductpay
+             , ISNULL(e.joinyn,'N') joinyn
+             , e.retiredt  /* '값이 있을 경우 소속사휴직 상태로 하기 위함 */
+        FROM mb_grpemp e
+          JOIN mb_group g
+            ON e.grpcd = g.grpcd
+         WHERE e.empnum = #{strEMPNUM}
+           AND e.empname = #{strMEMName}
+           AND CONVERT(VARCHAR(40),DECRYPTBYKEY(e.email_enc)) = #{strMemEmail}
+           AND e.retiredt IS NULL
+           AND (CASE WHEN ISNULL(e.joinyn, '') = '' THEN 'N' ELSE e.joinyn END) = 'N'
+        CALL encryptionClose}
+    </select>
+    
+    <select id="inquireEmployee">
+        /*inquireEmployee 임직원 사번 가져오기*/
+        SELECT memcd
+        FROM mb_master
+        WHERE empnum = #{strEmpNum}
+          AND memname = #{strMemName}
+    </select>
+
+    <update id="certificationProcessComplete">
+        /*certificationProcessComplete*/
+        /*인증 확인절차를 거친 후, 실제 인증 완료 처리*/
+        UPDATE mb_master
+        SET grpcd = #{strGRPCD}
+          , gradecd = #{strGradeCD}
+          , empnum = #{strEmpNum}
+          <choose>
+              <when test="strLayOffTime == null or strLayOffTime == ''">
+                  , memstcd = #{MEMST_UP}
+              </when>
+              <otherwise>
+                  , memstcd = #{MEMST_LAYOFF}
+              </otherwise>
+          </choose>
+          , upgradedt = GETDATE()
+          , updid = #{strLoginMEMCD}
+          , nodeductpay = #{strNoDeductPay}
+        WHERE memcd = #{strLoginMEMCD}
+    </update>
+
+    <update id="certificationProcessLog" statementType="CALLABLE">
+        /*certificationProcessLog*/
+        /*인증 후 소속사사원 정보도 승인된 자료를 남김.*/
+       {CALL encryptionOpen
+        UPDATE mb_grpemp
+        SET joinyn = 'Y'
+         WHERE grpcd = #{strGRPCD}
+           AND gradecd = #{strGradeCD}
+           AND empnum = #{strEMPNUM}
+           AND CONVERT(VARCHAR(40),DECRYPTBYKEY(email_enc)) = #{strMemEmail}
+           AND retiredt IS NULL
+           AND (CASE WHEN ISNULL(joinyn, '') = '' THEN 'N' ELSE joinyn END) = 'N'
+        CALL encryptionClose}
+    </update>
+
+    <select id="firstJoinPoint">
+    /*firstJoinPoint*/
+    /*초기인증 포인트적립은 해당연도에 1번만 부여받도록 재검증처리 후 포인트 부여(20101228 현재)*/
+        SELECT COUNT(1) xCount
+        FROM mb_point
+         WHERE YEAR(indt) = YEAR(GETDATE())
+           AND rscd = '01'
+           AND memcd = #{strLoginMEMCD}
+    </select>
+
+    <select id="searchGroupPointGrade">
+        /* searchCertifiactionPoint 해당그룹의 포인트 부여여부정보를 획득 */
+        SELECT a.memstcd
+             , CASE WHEN a.gradecd = #{GRADE_C} THEN ISNULL(b.pntmax01,0)
+                    WHEN a.gradecd = #{GRADE_B} THEN ISNULL(b.pntmax02,0)
+                    WHEN a.gradecd = #{GRADE_A} THEN ISNULL(b.pntmax03,0)
+                    ELSE 0
+               END pntmax
+             , CASE WHEN a.gradecd = #{GRADE_C} THEN b.pntyn01
+                    WHEN a.gradecd = #{GRADE_B} THEN b.pntyn02
+                    WHEN a.gradecd = #{GRADE_A} THEN b.pntyn03
+                    ELSE 'N'
+               END pntyn
+        FROM mb_master a
+          LEFT JOIN mb_group b
+                 ON b.grpcd = a.grpcd
+         WHERE a.memcd = #{strLoginMEMCD}
+    </select>
+
+    <select id="searchCertifiactionPoint">
+        /* searchCertifiactionPoint */
+        /*초기인증 포인트적립은 해당연도에 1번만 부여받도록 재검증처리 후 포인트 부여(20101228 현재) */
+        SELECT COUNT(1) xCount
+        FROM mb_point
+         WHERE YEAR(indt) = YEAR(GETDATE())
+           AND rscd = '01'
+           AND memcd = #{strLoginMEMCD}
+    </select>
+
+    <update id="suggestionPoint">
+        /* suggestionPoint 인증 확인절차를 거친 후, 추천인이 있다면 추천인 테이블에 정보 등록*/
+        UPDATE recommender_table
+        SET rmemid = #{strRmemid}
+          , rmemcd = #{strRmemcd}
+         WHERE memcd = #{strLoginMEMCD}
+    </update>
+    <insert id="firstJoinSuggestionPersonIns">
+        /* firstJoinSuggestionPersonIns 최초 가입 승인일 경우, 추천인정보 추가 */
+        INSERT INTO recommender_table
+                (
+                 memcd
+               , rmemid
+               , rmemcd
+               , grpcd
+               , indt
+                )
+        VALUES (
+                #{strLoginMEMCD}
+              , #{strRmemid}
+              , #{strRmemcd}
+              , #{strGRPCD}
+              , GETDATE()
+               )
+    </insert>
+
+    <select id="misAndTruthContents">
+        /* misAndTruthContents 자연이랑모바일 - 오해와 진실 쉽게 보기 상세 */
+        SELECT * FROM (
+                          SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY (CASE WHEN start='Y' THEN '0' ELSE '1' END), ISNULL(updt,indt) DESC ) - 1 ) / #{intPagePerItem} + 1) AS PAGE
+                               , faqidx
+                               , divcd
+                               , title
+                               , content
+                               , rcount
+                               , marks
+                               , totalmarks
+                               , markscount
+                               , CONVERT(VARCHAR(20),indt,111) AS indt
+                               , CONVERT(VARCHAR(20),updt,111) AS updt
+                          FROM bd_faq
+                           WHERE useyn = 'Y'
+                             AND storyon = 'Y'
+                      ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+    <select id="misAndTruthContentsThirty">
+        /* misAndTruthCnt 자연이랑모바일 - 오해와 진실 쉽게 보기 30개*/
+        SELECT TOP 30 * FROM (
+                                 SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY ctsidx DESC ) - 1 ) / #{intPagePerItem} + 1) AS PAGE
+                                      , ctsidx
+                                      , title
+                                      , content
+                                      , CONVERT(VARCHAR(20),indt,111) AS indt
+                                      ,(SELECT COUNT(rseqno) FROM basicomments WHERE rtype='WZ' AND rid='bd_contents' AND ridx = ctsidx) RCNT
+                                 FROM bd_contents
+                                 WHERE 1 = 1
+                                   AND useyn = 'Y'
+                                   AND ctscd = '05'
+                             ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+
+    <select id="misAndTruthCnt">
+        /* misAndTruthCnt 자연이랑모바일 - 오해와 진실 쉽게 보기 Cnt*/
+        SELECT TOP 30 COUNT(ctsidx) CNT
+        FROM bd_contents
+         WHERE 1 = 1
+           AND useyn = 'Y'
+           AND ctscd = '05'
+    </select>
+
+    <select id="noticeMainPaging">
+        /* noticeMainDetail 자연이랑모바일 - 공지사항 paging */
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/#{intPagePerItem}) MAXPAGE
+             , COUNT(ntcidx) CNT
+        FROM bd_notice
+         WHERE 1 = 1
+           AND useyn = 'Y'
+    </select>
+
+    <select id="noticeMainList">
+        /*noticeMainDetail 자연이랑모바일 - 공지사항 List*/
+        SELECT * FROM (
+                          SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY ntcidx DESC ) - 1 ) / #{intPagePerItem} + 1) AS PAGE
+                               , ntcidx
+                               , title
+                               , content
+                               , CONVERT(VARCHAR(20),indt,111) AS indt
+                          FROM bd_notice
+                           WHERE 1 = 1
+                             AND useyn = 'Y'
+                      ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+
+    <select id="noticeMainDetail">
+        /*noticeMainDetail 자연이랑모바일 - 공지사항 상세*/
+        SELECT title
+             , content
+             , CONVERT(VARCHAR(20),indt,111) AS indt
+        FROM bd_notice
+         WHERE useyn = 'Y'
+           AND ntcidx = #{ntcidx}
+    </select>
+
+    <select id="appNotification">
+        /*appNotificationPaging 자연이랑모바일 - 푸시 알림 보기*/
+        <choose>
+          <when test="strLoginMemCd == null  or strLoginMemCd == ''">
+           SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem} ) MAXPAGE
+                , COUNT(idx) CNT
+           FROM app_notification
+            WHERE 1 = 1
+            <![CDATA[
+              AND DATEDIFF(d,indt,getdate()) <= #{dRange}
+              AND memcd='*'
+            ]]>
+          </when>
+          <otherwise>
+              SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem} ) MAXPAGE
+                   , COUNT(idx) CNT
+              FROM app_notification
+               WHERE 1 = 1
+              <![CDATA[
+                 AND DATEDIFF(d,indt,getdate()) <= #{dRange}
+              ]]>
+                 AND (memcd = #{strLoginMemCd}
+                  OR memcd='*'
+                  OR memcd IN (SELECT groupx FROM gcm_62life WHERE memcd= #{strLoginMemCd}))
+          </otherwise>
+        </choose>
+    </select>
+
+    <select id="appNotificationPaging">
+    /*appNotificationPaging 자연이랑모바일 - 푸시 알림 보기Paging*/
+     <choose>
+        <when test="strLoginMemCd == null  or strLoginMemCd == ''">
+            SELECT * FROM (
+                              SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY idx DESC ) - 1 ) / #{intPagePerItem} + 1) AS PAGE
+                                   , idx
+                                   , typex
+                                   , ticker
+                                   , titlex
+                                   , CONVERT(CHAR(10),indt,111) indt
+                                   , messagex
+                                   , submessage
+                                   , urlx
+                              FROM app_notification
+                               WHERE 1 = 1
+                                 <![CDATA[
+                                 AND DATEDIFF(d,indt,getdate()) <= #{dRange}
+                                 ]]>
+                                 AND memcd='*'
+                          ) AS pl
+             WHERE PAGE = #{intPage}
+        </when>
+        <otherwise>
+            SELECT * FROM (
+                           SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY idx DESC ) - 1 ) / #{intPagePerItem} + 1) AS PAGE
+                         , idx
+                         , typex
+                         , ticker
+                         , titlex
+                         , CONVERT(CHAR(10),indt,111) indt
+                         , messagex
+                         , submessage
+                         , urlx
+                           FROM app_notification
+                            WHERE 1 = 1
+                           <![CDATA[
+                              AND DATEDIFF(d,indt,getdate()) <= #{dRange}
+                           ]]>
+                              AND (memcd = #{strLoginMemCd}
+                               OR memcd='*'
+                               OR memcd IN (SELECT groupx FROM gcm_62life WHERE memcd=#{strLoginMemCd))
+                        ) AS pl
+            WHERE PAGE = #{intPage}
+        </otherwise>
+     </choose>
+    </select>
+
+    <select id="qnaPaging">
+        /* myQnaList 자연이랑모바일 - 1대1문의Paging*/
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem} ) MAXPAGE
+             , COUNT(qnaidx) CNT
+        FROM bd_qna
+         WHERE 1 = 1
+           AND useyn = 'Y'
+           AND qnaidx = pidx
+           AND memcd = #{strLoginMemCd}
+    </select>
+
+    <select id="myQnaList">
+        /*myQnaList 자연이랑모바일 - 나의 문의목록 */
+        SELECT * FROM (
+                          SELECT FLOOR( (ROW_NUMBER() OVER ( ORDER BY a.qnaidx DESC ) - 1 ) / #{intPagePerItem} + 1) AS PAGE
+                               , a.qnaidx
+                               , a.pidx
+                               , a.relevel
+                               , a.title
+                               , CONVERT(CHAR(10),a.indt,111) indt
+                               , a.attachpath
+                               , ISNULL(b.qnaidx,0) rqidx
+                               , ISNULL(b.pidx,0) rpidx
+                               , ISNULL(b.relevel,0) rlvl
+                          FROM bd_qna a
+                          <![CDATA[
+                            LEFT JOIN bd_qna b
+                                   ON b.pidx = a.qnaidx
+                                  AND b.qnaidx <> a.qnaidx
+                          ]]>
+                           WHERE 1 = 1
+                             AND a.useyn = 'Y'
+                             AND a.qnaidx = a.pidx
+                             AND a.memcd = #{strLoginMemCd}
+                      ) AS pl
+        WHERE PAGE = #{intPage}
+    </select>
+
+    <select id="qnaDelSelect">
+       /* qnaDelSelect 삭제할 문의 조회*/
+        SELECT attachpath
+             , attachpath2
+             , attachpath3
+        FROM bd_qna
+         WHERE qnaidx = #{qnaidx}
+    </select>
+
+    <delete id="deleteQna">
+        /*deleteQna 문의 삭제*/
+        DELETE FROM bd_qna
+         WHERE 1=1
+           AND qnaidx = #{qnaidx}
+           AND memcd = #{strLoginMemCD}
+           AND pidx NOT IN (SELECT pidx FROM bd_qna WHERE relevel=1 AND memcd = #{strLoginMemCD})
+    </delete>
+
+    <select id="oneOnOneQnaView">
+        /* oneOnOneQnaView 1:1문의 상세보기 */
+        SELECT a.title origtitle
+             , a.content origcontent
+             , CONVERT(CHAR(10),a.indt,111) origindt
+             , b.title replytitle
+             , b.content replycontent, CONVERT(CHAR(10),b.indt,111) replyindt
+             , ISNULL(b.qnaidx,0) replyqnaidx
+             , ISNULL(b.pidx,0) replypidx
+             , a.memcd
+             , a.openyn
+             , a.paynum
+             , c.cname
+             , s.scname
+             , a.attachpath
+        FROM bd_qna a
+        <![CDATA[
+          LEFT JOIN bd_qna b
+                 ON b.pidx = a.qnaidx
+                 AND b.qnaidx <> a.qnaidx
+          LEFT JOIN cd_qna_category c
+                 ON a.category_code = c.qna_ccode
+          LEFT JOIN cd_qna_sub_category s
+                 ON a.category_code = s.qna_ccode
+                AND a.subcategory_code = s.qna_scode
+         WHERE a.useyn = 'Y'
+           AND a.qnaidx = #{strQNAIDX}
+        ]]>
+    </select>
+
+    <insert id="oneOnOneQnaInsert">
+        /*oneOnOneQnaInsert 1:1문의 등록*/
+        INSERT INTO bd_qna ( qnaidx
+                           , pidx
+                           , relevel
+                           , memcd
+                           , memname
+                           , title
+                           , content
+                           , indt
+                           , useyn
+                           , updid
+                           , openyn
+                           , category_code
+                           , subcategory_code
+                           , paynum
+                           , ordnum
+                           , attachpath
+                           , attachpath2
+                           , attachpath3)
+        SELECT ISNULL(MAX(qnaidx),0)+1
+             , ISNULL(MAX(qnaidx),0)+1
+             , 0
+             , #{strLoginMEMCD}
+             , #{strMEMName}
+             , #{strTitle}
+             , #{strContent}
+             , GETDATE()
+             , 'Y'
+             , #{strLoginMEMCD}
+             , #{strOpenyn}
+             , #{strCategory}
+             , #{strSubCategory}
+             , #{strPayNum}
+             , #{strOrdNum}
+             , #{saveFilePathName}
+             , #{saveFilePathName2}
+             , #{saveFilePathName3}
+        FROM bd_qna
+    </insert>
+    <select id="showBasicSetSingleProduct">
+        /* showBasicSetSingleProduct 기본세트 단품 상품 조회*/
+        SELECT T1.GDCD
+             , T1.GDNAME AS CDNAME
+             , '00' AS DIV1
+        FROM GD_MASTER T1
+          INNER JOIN GD_SET T2
+                  ON T2.GDSETYN = 'Y'
+                 AND T2.GDCD = T1.GDCD
+          INNER JOIN GD_WEEK T3
+                  ON T3.GDYEAR = #{strMenuGDYear}
+                 AND T3.GDWEEK = #{strMenuGDWeek}
+                 AND T3.SGDCD = '*'
+                 AND T3.GDCD = T1.GDCD
+         WHERE T1.GDCD IN ('A3','B2')
+           AND T1.USEYN = 'Y'
+           AND T1.DIV1 NOT IN ('81','82','83','84','85')
+        UNION
+        SELECT DISTINCT T1.DIV1 AS GDGRP
+                      , T2.CDNAME
+                      , COUNT(T1.gdcd) CNT
+        FROM GD_MASTER T1
+          INNER JOIN CD_MASTER T2
+                  ON T2.CDTYPE = '20'
+                 AND T2.USEYN = 'Y'
+                 AND T2.CDCODE = T1.DIV1
+          LEFT OUTER JOIN GD_SET T3
+                       ON T3.GDSETYN = 'Y'
+                      AND T3.GDCD = T1.GDCD
+          LEFT OUTER JOIN GD_WEEK T4
+                       ON T4.GDYEAR = #{strMenuGDYear}
+                       AND T4.GDWEEK = #{strMenuGDWeek}
+                       AND T4.SGDCD = '*'
+                       AND T4.GDCD = T3.GDCD
+         WHERE T1.USEYN = 'Y'
+           AND T1.GDCD NOT IN ('A3','B2')
+           AND 'Y' = CASE WHEN T1.[DIVCD] = '10'
+                            THEN 'N'
+                          WHEN T1.[DIVCD] = '20'
+                            THEN CASE WHEN T3.GDCD IS NULL AND T4.GDCD IS NULL
+                                        THEN 'N'
+                                      ELSE 'Y'
+                                 END
+                          ELSE 'Y'
+                     END
+           AND T1.DIV1 NOT IN ('80','81','82','83','84','85')
+        GROUP BY T1.div1,t2.cdname
+        ORDER BY T1.DIV1 ASC
+    </select>
+
+    <select id="showBasicSetSingleProductCategory">
+        /* showBasicSetSingleProductCategory 기본세트 단품 상품 카테고리 조회*/
+        SELECT category
+             , smenucd
+             , smenudesc
+        FROM submenu
+         WHERE category = #{arrMainCategory_sm}
+           AND useyn='Y'
+    </select>
+</mapper>
