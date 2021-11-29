@@ -3,6 +3,7 @@ package com.x62life.mo.dao.category;
 import java.util.List;
 import java.util.Map;
 
+import com.x62life.mo.model.exhibition.OneDaySpecialEx;
 import org.springframework.stereotype.Repository;
 
 import com.x62life.mo.model.category.Category;
@@ -12,6 +13,5 @@ public interface CategoryDao {
 
 	
 	List<Category> getCategoryList(Map<String, Object> paramMap);
-	
-	
+
 }

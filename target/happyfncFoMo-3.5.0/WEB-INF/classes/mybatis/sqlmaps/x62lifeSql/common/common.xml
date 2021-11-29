@@ -88,7 +88,7 @@
         <if test='strMEMGRPCD == "" OR spCustomerGroup.indexOf(strMEMGRPCD) lte 0'>
             AND g.gdcd NOT IN (#{spProduct})
         </if>
-        <if test='customFilterProduct != ""'>
+        <if test='customFilterProduct != "" customFilterProduct != null'>
             AND g.gdcd NOT IN (#{customFilterProduct})
         </if>
     </select>

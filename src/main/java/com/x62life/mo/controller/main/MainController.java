@@ -1,20 +1,31 @@
 package com.x62life.mo.controller.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import com.x62life.mo.model.boardcontents.BdContents;
+import com.x62life.mo.model.boardcontents.MagazineLEx;
+import com.x62life.mo.model.exhibition.AdMainMg;
+import com.x62life.mo.model.exhibition.OneDaySpecialEx;
+import com.x62life.mo.model.product.BestProduct;
+import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.SeasonalFoodHall;
+import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.x62life.mo.model.category.Category;
-import com.x62life.mo.service.CategoryService;
+import com.x62life.mo.service.category.CategoryService;
 
 @Controller
 @RequestMapping(value = "/main")
@@ -22,7 +33,9 @@ public class MainController {
 	
 	@Autowired
 	CategoryService categoryService;
-	
+
+	@Autowired
+	MainService mainService;
 	/**
 	 * <pre>
 	 * 1. MethodName : Main / MD 추천
@@ -40,12 +53,64 @@ public class MainController {
 	@RequestMapping(value = "/main")
 	public ModelAndView main(@RequestParam Map<String, Object> paramMap, Model model) {
 		ModelAndView mv = new ModelAndView();
-		
+
 		List<Category> categoryList = new ArrayList<Category>();
 		categoryList = categoryService.getCategoryList(paramMap);
-		
+
 		model.addAttribute("categoryList", categoryList);
+		//스와이퍼 배너 정보
+		List<AdMainMg> swiperBannerInfo = new ArrayList<>();
+
+		swiperBannerInfo = mainService.getSwiperBannerInfo();
+
+		model.addAttribute("swiperBannerInfo", swiperBannerInfo);
+
+		//스와이퍼 배너 정보 리뉴얼
+		List<AdMainMg> swiperBannerInfoRenewal = new ArrayList<>();
+
+		swiperBannerInfoRenewal = mainService.swiperBannerRenewal();
+
+		model.addAttribute("swiperBannerRenewal", swiperBannerInfoRenewal);
+
+		// strLoginMemCd, strGroupSalePolicy 가져오는 로직 필요
+		String strLoginMemCd = null;
+		String strGroupSalePolicy = "Y";
+		paramMap.put("strLoginMemCd", strLoginMemCd);
+		paramMap.put("strGroupSalePolicy", strGroupSalePolicy);
+
+		// 신규 상품 리스트 (strLoginMemCd, strGroupSalePolicy 가져오는 로직 필요)
+		List<GdMasterEx> newProdList = mainService.newProdList(paramMap);
+
+		model.addAttribute("newProdList", newProdList);
+
+		//계절 상품 리스트
+		List<SeasonalFoodHall> seasonalFoodHallList = mainService.seasonalFoodHallList(paramMap);
+
+		model.addAttribute("seasonalFoodHallList", seasonalFoodHallList);
+
+		//인기 상품 리스트
+		List<BestProduct> bestProductList = mainService.bestProductList(paramMap);
 		
+		model.addAttribute("bestProductList", bestProductList);
+
+		//할인 상품 리스트
+		String strMEMGRPCD = null;
+		List<GdMasterEx> discountProdList = mainService.discountProdList(strMEMGRPCD);
+
+		model.addAttribute("discountProdList", discountProdList);
+
+		//매거진 컨텐츠 idx
+		int magazineIdx = mainService.magazineIdx();
+		List<MagazineLEx> magazineDetailList = mainService.magazineDetailList();
+
+		model.addAttribute("magazineIdx",magazineIdx);
+		model.addAttribute("magazineDetailList", magazineDetailList);
+
+		//이벤트 리스트
+		String ctsctEvent = null;
+		paramMap.put("ctsctEvent",ctsctEvent);
+		List<BdContents> eventList = mainService.eventList(paramMap);
+		model.addAttribute(eventList);
 		mv.setViewName("/main/main");
 		
 		return mv;
@@ -192,5 +257,39 @@ public class MainController {
 		
 		return mv;
 	}
-		
+
+	@RequestMapping("/oneDaySpecial")
+	public ModelAndView oneDaySpecial(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		ModelAndView modelAndView = new ModelAndView();
+
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("strMEMGRPCD", null);
+		paramMap.put("strGroupSalePolicy","Y");
+
+		List<OneDaySpecialEx> oneDaySpecialList = mainService.oneDaySpecialList(paramMap);
+		model.addAttribute("oneDaySpecialList", oneDaySpecialList);
+		modelAndView.setViewName("/main/main");
+
+		return modelAndView;
+	}
+
+	/*첫구매 이벤트 대상자 체크*/
+	@ResponseBody
+	@RequestMapping(value = "/firstBuyEventCheck", method = { RequestMethod.POST })
+	public Map<String,Object> firstBuyEventCheck(@RequestParam("strLoginMemCd") String strLoginMemCd) throws Exception{
+
+		Map<String, Object> resultMap = mainService.checkEventTarget(strLoginMemCd);
+
+		return resultMap;
+	}
+
+	/*첫구매 이벤트 대상자 세일 금액 */
+	@ResponseBody
+	@RequestMapping(value = "/eventTargetPayment", method = { RequestMethod.POST })
+	public Map<String, Object> eventTargetPayment(@RequestParam Map<String,Object> paramMap) throws Exception {
+
+		Map<String, Object> resultMap = mainService.eventTargetPayment(paramMap);
+
+		return resultMap;
+	}
 }

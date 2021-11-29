@@ -79,16 +79,16 @@
         <if test='strMEMGRPCD = "" OR strMEMGRPCD.indexOf("219") lte 0'>
            AND g.gdcd NOT IN (#{isensExceptProduct})
         </if>
-        <if test='strMEMGRPCD == "" OR userDefinedTarget.indexOf(strMEMGRPCD) lte 0 '>
+        <if test='strMEMGRPCD == "" OR strMEMGRPCD == null OR userDefinedTarget.indexOf(strMEMGRPCD) lte 0 '>
            AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx=468)
         </if>
-        <if test='strMEMGRPCD == "" OR userDefinedTarget2.indexOf(strMEMGRPCD) lte 0'>
+        <if test='strMEMGRPCD == "" OR strMEMGRPCD == null OR userDefinedTarget2.indexOf(strMEMGRPCD) lte 0'>
            AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx = 641)
         </if>
-        <if test='strMEMGRPCD == "" OR spCustomerGroup.indexOf(strMEMGRPCD) lte 0'>
+        <if test='strMEMGRPCD == "" OR strMEMGRPCD == null OR spCustomerGroup.indexOf(strMEMGRPCD) lte 0'>
             AND g.gdcd NOT IN (#{spProduct})
         </if>
-        <if test='customFilterProduct != ""'>
+        <if test='customFilterProduct != "" customFilterProduct != null'>
             AND g.gdcd NOT IN (#{customFilterProduct})
         </if>
     </select>
