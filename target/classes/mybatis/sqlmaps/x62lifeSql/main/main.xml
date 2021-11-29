@@ -323,11 +323,11 @@
              , b.div1
              , b.price1
              <choose>
-                <when test = 'strMEMGRPCD !=  and strGroupSalePolicy != N'>
-                    , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                <when test = 'strMEMGRPCD != "" and strMEMGRPCD != null  and strGroupSalePolicy != N'>
+                    , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy}, b.gdcd) saleprice
                 </when>
                 <otherwise>
-                    , dbo.getMasterPrice(g.gdcd) saleprice
+                    , dbo.getMasterPrice(b.gdcd) saleprice
                 </otherwise>
              </choose>
              , ISNULL(b.deliverydtyn,'N') deliverydtyn
@@ -366,7 +366,7 @@
                                  AND r.useyn = 'Y'
                                  AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
                           <![CDATA[
-                          WHERE a.indt >= DATEADD(D,- #{basicDays} ,CONVERT(VARCHAR,GETDATE(),23))
+                          WHERE a.indt >= DATEADD(D, -7 ,CONVERT(VARCHAR,GETDATE(),23))
                           ]]>
                             AND (ISNULL(g.expgrcd, '') = '' OR EXISTS (SELECT cl.ulgrcd 
                                                                        FROM customgrp_l cl 
@@ -422,7 +422,7 @@
                                            , g.updt
                                            , g.shortdesc
                                            <choose>
-                                              <when test = 'strMEMGRPCD !=  and strGroupSalePolicy != N'>
+                                              <when test = 'strMEMGRPCD != ""  and strMEMGRPCD != null and  strGroupSalePolicy != N'>
                                                   , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
                                               </when>
                                               <otherwise>
@@ -611,7 +611,7 @@
         FROM bd_contents b
           WHERE useyn = 'Y' 
             AND ctscd = #{ctsctEvent}
-          <if test='strMEMGRPCD == "" OR strMEMGRPCD == null'>
+          <if test='strMEMGRPCD == "" or strMEMGRPCD == null'>
               AND ISNULL(grpcd, '') = ''
               <choose>
                   <when test='SK_CHEMICALS != null and SK_CHEMICALS != "" '>
