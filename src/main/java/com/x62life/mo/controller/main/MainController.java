@@ -111,6 +111,7 @@ public class MainController {
 		paramMap.put("ctsctEvent",ctsctEvent);
 		List<BdContents> eventList = mainService.eventList(paramMap);
 		model.addAttribute(eventList);
+
 		mv.setViewName("/main/main");
 		
 		return mv;
