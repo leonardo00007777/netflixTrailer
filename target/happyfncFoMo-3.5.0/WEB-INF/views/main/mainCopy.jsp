@@ -98,6 +98,8 @@
           </div>
         </section>
 
+<%@ include file="/WEB-INF/views/main/newPrdList.jsp" %>
+
         <div class="swiper-container" id="globalNavSwiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
@@ -221,7 +223,7 @@
                             <div class="today-price-circle-bar"></div>
                           </div>
                           <div class="img-container">
-                            <div class="prd-img" style="background-image: url('<%=_imgUrl %>/images/uploads/prd-img-07.jpg');"
+                            <div class="prd-img" style="background-image: url('/images/uploads/prd-img-07.jpg');"
                               title="[채움] 유기농 노니 30입">
                             </div>
                             <div class="remain">
@@ -995,14 +997,24 @@
 
                <hr class="spacer-m">
             </div>
-            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/newPrdList.jsp" %></div>
+<%--             <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/newPrdList.jsp" %></div>
             <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/dcPrdList.jsp" %></div>
             <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/bestPrdList.jsp" %></div>
             <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/proPrdList.jsp" %></div>
-            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/eventPrdList.jsp" %></div>
-         </div><!-- /.swiper-container -->
-      	</div><!-- /.main-content -->
-      
+            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/eventPrdList.jsp" %></div> --%>
+             <div class="swiper-slide">11</div>
+            <div class="swiper-slide">22</div>
+            <div class="swiper-slide">33</div>
+            <div class="swiper-slide">44</div>
+            <div class="swiper-slide">55</div> 
+              <div class="spacer-bottom"></div>
+           
+          </div>
+        </div><!-- /.swiper-container -->
+
+
+
+      </div><!-- /.main-content -->
       <footer class="global-footer">
         <section class="footer-bt">
           <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-apple"></i>App Store</a>
@@ -1394,7 +1406,9 @@
 
 
   <!-- Footer.jsp 소스참조  -->
+
   <!-- Footer.jsp 소스참조 Modal - Buy Option -->
+
 
   <script src="<%=_libUrl %>swiper/swiper-bundle.min.js"></script>
   <script src="<%=_jsUrl %>main/main.js"></script>
