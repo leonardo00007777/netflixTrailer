@@ -1,4 +1,4 @@
-package com.x62life.mo.controller.main;
+package com.x62life.mo.controller;
 
 import com.x62life.mo.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;

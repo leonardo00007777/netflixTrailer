@@ -69,10 +69,10 @@
     '                           불필요한 코드 간단하게 정리, 인라인 스타일 정리(추가정리필요)
     '20210906   hnjang  2.1     배송유형별(자연이랑,업체직송) 분류 기능 추가-->
     
-    <select id="getSwiperBannerInfo">
+    <select id="getSwiperBannerInfo" resultType="com.x62life.mo.model.exhibition.AdMainMg">
         /* getSwiperBannerInfo 스와이프 배너 정보*/
-        SELECT CASE WHEN ISNULL(urlm,'') = '' THEN url
-                    ELSE urlm
+        SELECT CASE WHEN ISNULL(url,'') = '' THEN url
+                    ELSE url
                END url
              , CASE WHEN ISNULL(img_src_m,'')='' THEN ISNULL(img_src,'')
                     ELSE img_src_m
@@ -86,7 +86,7 @@
         ORDER BY ISNULL(important, 10), update_dt DESC, seq DESC
     </select>
     
-    <select id="swiperBannerRenewal">
+    <select id="swiperBannerRenewal" resultType="com.x62life.mo.model.exhibition.AdMainMg">
        /* swiperBannerRenewal 배너 리뉴얼*/
         SELECT cbnpath01, cbntarget01, cbnurl01, lbntitle01, reservet01  /*'모바일상단 자연이랑NEW1(슬라이드)*/
              , cbnpath02, cbntarget02, cbnurl02, lbntitle02, reservet02  /*'모바일상단 자연이랑NEW2(슬라이드)*/
@@ -121,7 +121,7 @@
              , ISNULL(r.type, '01') odtype2
              , g.price1
              <choose>
-                 <when test = 'strMEMGRPCD != "" and strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                 <when test = 'strMEMGRPCD != "" and strMEMGRPCD != null and strMEMGRPCD != null and strGroupSalePolicy != "N"'>
                      , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
                  </when>
                  <otherwise>
@@ -158,14 +158,14 @@
            AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
     </select>
 
-    <select id="checkFirstBuyPresentEventTarget">
+    <select id="checkFirstBuyPresentEventTarget" parameterType="java.lang.String" resultType="java.util.Map">
         /* checkFirstBuyPresentEventTarget 첫구매 선물증정 이벤트 대상 검사 */
         SELECT CONVERT(VARCHAR(10),indt,23) indt
         FROM mb_master
          WHERE memcd = #{strLoginMemCd}
     </select>
     
-    <select id="checkFirstBuyEventTargetPayment">
+    <select id="eventTargetPayment" parameterType="java.util.Map" resultType="java.util.Map">
        /*
           checkFirstBuyEventTargetPayment
           첫구매 이벤트
@@ -209,7 +209,7 @@
              ]]>
     </select>
     
-    <select id="newProdList">
+    <select id="newProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
         /* newProdList 신상품 리스트 */
         SELECT TOP 8 * 
            FROM ( 
@@ -225,7 +225,7 @@
                         , g.updt
                         , g.shortdesc
                         <choose>
-                            <when test = 'strMEMGRPCD != "" and strGroupSalePolicy != "N"'>
+                            <when test = 'strMEMGRPCD != "" and strMEMGRPCD != null and strGroupSalePolicy != "N"'>
                              , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
                             </when>
                             <otherwise>
@@ -272,16 +272,17 @@
                       AND ISNULL(g.soldoutyn, 'N') <> 'Y'
                       ]]>
                       AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
-                      AND (ISNULL(g.expgrcd, '') = '' OR EXISTS (SELECT cl.ulgrcd
-                                                                 FROM customgrp_l cl
-                                                                  WHERE cl.ulcode = g.expgrcd
-                                                                    AND cl.ulgrcd = #{strMEMGRPCD})
+                      AND (ISNULL(g.expgrcd, '') = '' OR EXISTS ( SELECT cl.ulgrcd
+                                                                  FROM customgrp_l cl
+                                                                   WHERE cl.ulcode = g.expgrcd
+                                                                     AND cl.ulgrcd = #{strMEMGRPCD}
                                                                  )
+                          )
                  ) a
           ORDER BY ISNULL(updt, indt) DESC
     </select>
     
-    <select id="seasonalFoodHall">
+    <select id="seasonalFoodHall" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.SeasonalFoodHall">
         /*seasonalFoodHall 제철 상품*/
         SELECT sfgdcd
              , sfshort
@@ -291,11 +292,11 @@
              , sfcmsyn
              , sfname 
              <choose>
-                 <when test = 'strMEMGRPCD !=  and strGroupSalePolicy != N'>
+                 <when test = 'strMEMGRPCD != "" and strMEMGRPCD != null  and strGroupSalePolicy != N'>
                      , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
                  </when>
                  <otherwise>
-                     , dbo.getMasterPrice(g.gdcd) saleprice
+                     , dbo.getMasterPrice(sfgdcd) saleprice
                  </otherwise>
              </choose>
         FROM seasonal_foodhall
@@ -310,7 +311,7 @@
          ORDER BY sfidx DESC 
     </select>
     
-    <select id="bestProdList">
+    <select id="bestProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.BestProduct">
         /* bestProdList 인기 상품 리스트*/
         SELECT TOP 12 a.odtype
              , a.odtype2
@@ -380,7 +381,7 @@
                                                    ) 
                                 ) 
                             AND g.useyn = 'Y' 
-                          <if test='strMode != ""'>
+                          <if test='strMode != "" and strMode != null'>
                                AND g.exdiv1 = #{strMode}
                            </if>
                             <![CDATA[
@@ -404,7 +405,7 @@
         ORDER BY NEWID()
     </select>
     
-    <select id="discountProdList">
+    <select id="discountProdList" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdMasterEx">
         /* discountProdList 할인상품 리스트 */
         SELECT TOP 8 *  FROM (
                                SELECT TOP 100 *
@@ -482,7 +483,7 @@
          ORDER BY newid()
     </select>
     
-    <select id="getMagazineIdx">
+    <select id="getMagazineIdx" resultType="java.lang.Integer">
         /* getMagazineIdx 매거진 idx*/
         SELECT TOP 1 h.zhidx 
         FROM magazine_h h
@@ -492,7 +493,7 @@
         ORDER BY zhidx DESC
     </select>
     
-    <select id="getMagazineDetail">
+    <select id="getMagazineDetail" resultType="com.x62life.mo.model.boardcontents.MagazineLEx">
         /* getMagazineDetail 매거진 상세*/
         SELECT * 
         FROM (
@@ -591,7 +592,7 @@
         ORDER BY zlidx DESC, zlno ASC
     </select>
     
-    <select id="eventList">
+    <select id="eventList" parameterType="java.util.Map" resultType="com.x62life.mo.model.boardcontents.BdContents">
         /* eventList 이벤트 리스트*/
         SELECT TOP 3 ctsidx
              , title
@@ -610,22 +611,22 @@
         FROM bd_contents b
           WHERE useyn = 'Y' 
             AND ctscd = #{ctsctEvent}
-          <if test='strLoginMemCd == "" '>
+          <if test='strMEMGRPCD == "" OR strMEMGRPCD == null'>
               AND ISNULL(grpcd, '') = ''
               <choose>
-                  <when test='SK_CHEMICALS.indexOf(strMEMGRPCD) gt 0'>
+                  <when test='SK_CHEMICALS != null and SK_CHEMICALS != "" '>
                       AND (ISNULL(grpcd, '') = 'SKCH' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_HYNIXES.indexOf(strMEMGRPCD) gt 0'>
+                  <when test='SK_HYNIXES != null and SK_HYNIXES != "" '>
                       AND (ISNULL(grpcd, '') = 'SKHY' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_HYNIXES_A.indexOf(strMEMGRPCD) gt 0'>
+                  <when test='SK_HYNIXES_A != null and SK_HYNIXES_A != ""'>
                       AND (ISNULL(grpcd, '') = 'SKHY' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_EC.indexOf(strMEMGRPCD) gt 0'>
+                  <when test='SK_EC != null and SK_EC != "" '>
                       AND (ISNULL(grpcd, '') = '02' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_PLANET.indexOf(strMEMGRPCD) gt 0'>
+                  <when test='SK_PLANET != null and SK_PLANET != "" '>
                       AND (ISNULL(grpcd, '') = '31' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
                   <otherwise>
