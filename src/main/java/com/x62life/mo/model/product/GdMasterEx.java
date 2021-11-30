@@ -20,6 +20,7 @@ public class GdMasterEx extends GdMaster{
     private char alltimesale; //상시판매
     private String smenucd;
     private String smenudesc;
+    private String catDesc;
 
     @Override
     public BigDecimal getSaleprice() {
@@ -157,5 +158,13 @@ public class GdMasterEx extends GdMaster{
 
     public void setSmenudesc(String smenudesc) {
         this.smenudesc = smenudesc;
+    }
+
+    public String getCatDesc() {
+        return catDesc;
+    }
+
+    public void setCatDesc(String catDesc) {
+        this.catDesc = catDesc;
     }
 }

@@ -7,6 +7,7 @@ import com.x62life.mo.model.exhibition.OneDaySpecialEx;
 import com.x62life.mo.model.product.BestProduct;
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.SeasonalFoodHall;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;

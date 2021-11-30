@@ -5,8 +5,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.x62life.mo.model.category.CartRecipe;
+import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
+import com.x62life.mo.model.product.BasicTagMap;
 import com.x62life.mo.model.product.GdMasterEx;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +51,45 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public List<GdMasterEx> allItemList(Map<String, Object> paramMap){
 		return categoryDao.getItemListSearch(paramMap);
+	}
+
+	@Override
+	public List<CartRecipe> cartRecipeTitle(int hseqno) {
+		return categoryDao.custSetTitle(hseqno);
+	}
+
+	@Override
+	public void visitorCnt(int hseqno){
+		categoryDao.visitorCnt(hseqno);
+	}
+
+	@Override
+	public List<BasicTagMap> tagList(Map<String, Object> paramMap) {
+		return categoryDao.getTagList(paramMap);
+	}
+
+	@Override
+	public List<CartRecipeEx> cartRecipeProdList(int hseqno) {
+		return categoryDao.getCartRecipeProdList(hseqno);
+	}
+
+	@Override
+	public Map<String, Object> custSetListPaging(Map<String, Object> paramMap) {
+		return categoryDao.custSetListPaging(paramMap);
+	}
+
+	@Override
+	public List<CartRecipeEx> custSetProdList(Map<String, Object> paramMap) {
+		return categoryDao.custSetProdList(paramMap);
+	}
+
+	@Override
+	public List<CartRecipeEx> custSetGoodsList(Map<String, Object> paramMap) {
+		return categoryDao.custSetGoodsList(paramMap);
+	}
+
+	@Override
+	public List<GdMasterEx> defProdOneProd(Map<String, Object> paramMap){
+		return categoryDao.defProdOneProd(paramMap);
 	}
 }
