@@ -25,13 +25,13 @@ public interface CategoryService {
 
 	List<GdMasterEx> allItemList(Map<String, Object> paramMap);
 
-	List<CartRecipe> cartRecipeTitle(int hseqno);
+	List<CartRecipe> cartRecipeTitle(Map<String, Object> paramMap);
 
-	void visitorCnt(int hseqno);
+	void visitorCnt(Map<String, Object> paramMap);
 
-	List<BasicTagMap> tagList(Map<String, Object> paramMap);
+//	List<BasicTagMap> tagList(Map<String, Object> paramMap);
 
-	List<CartRecipeEx> cartRecipeProdList(int hseqno);
+	List<CartRecipeEx> cartRecipeProdList(Map<String, Object> paramMap);
 
 	Map<String, Object> custSetListPaging(Map<String, Object> paramMap);
 
@@ -44,4 +44,8 @@ public interface CategoryService {
 	Map<String, Object> discountListPaging(Map<String, Object> paramMap);
 
 	List<GdMasterEx> discountProdList(Map<String, Object> paramMap);
+
+	Map<String, Object> getDirectListPaging(Map<String, Object> paramMap);
+
+	List<OdReserveGoodsEx> getDirectListHeader(Map<String, Object> paramMap);
 }

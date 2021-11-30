@@ -20,7 +20,7 @@
 <!--    '20151107   hwkim   0.9     처음 작성-->
 <!--    '20161205   hyeok   0.9.1   사이트 리뉴얼 layout적용-->
 <!--    '20161212   hwkim   0.9.2   레이아웃 표준 규칙 수정-->
-    <select id="custSetTitle" parameterType="int" resultType="com.x62life.mo.model.category.CartRecipe">
+    <select id="custSetTitle" parameterType="java.util.Map" resultType="com.x62life.mo.model.category.CartRecipe">
      /* custSetDetailSetTitle 고객이 직접만드는 묵음상품 title세팅*/
         SELECT t.titlex
              , t.indt
@@ -38,22 +38,22 @@
            AND share='Y'
     </select>
 
-    <update id="visitorCnt" parameterType="int">
+    <update id="visitorCnt" parameterType="java.util.Map">
     /*visitorCnt 방문자 카운트 (글 작성자, 미로그인자일 경우 방문 카운트를 기록하지 않음)*/
         UPDATE CART_RECIPE_HEADER
            SET icount = icount+1
         WHERE hseqno = #{hseqno}
     </update>
 
-    <select id="getTagList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.BasicTagMap">
+<!--    <select id="getTagList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.BasicTagMap">
         /* getTagList 태그목록 획득 */
         SELECT (SELECT btname FROM basictag WHERE btidx = t.btidx) AS btname
         FROM basictagmap t
          WHERE btype = #{tagTypeCartrecipe}
            AND bidx = #{hseqno}
-    </select>
+    </select>-->
 
-    <select id="getCartRecipeProdList" parameterType="int" resultType="com.x62life.mo.model.category.CartRecipeEx">
+    <select id="getCartRecipeProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.category.CartRecipeEx">
         /* getCartRecipeProdList 상품목록 */
         SELECT t.gdcd
              , t.gdqty

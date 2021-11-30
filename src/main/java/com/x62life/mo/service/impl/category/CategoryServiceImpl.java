@@ -54,23 +54,23 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<CartRecipe> cartRecipeTitle(int hseqno) {
-		return categoryDao.custSetTitle(hseqno);
+	public List<CartRecipe> cartRecipeTitle(Map<String, Object> paramMap) {
+		return categoryDao.custSetTitle(paramMap);
 	}
 
 	@Override
-	public void visitorCnt(int hseqno){
-		categoryDao.visitorCnt(hseqno);
+	public void visitorCnt(Map<String, Object> paramMap){
+		categoryDao.visitorCnt(paramMap);
 	}
 
-	@Override
-	public List<BasicTagMap> tagList(Map<String, Object> paramMap) {
-		return categoryDao.getTagList(paramMap);
-	}
+//	@Override
+//	public List<BasicTagMap> tagList(Map<String, Object> paramMap) {
+//		return categoryDao.getTagList(paramMap);
+//	}
 
 	@Override
-	public List<CartRecipeEx> cartRecipeProdList(int hseqno) {
-		return categoryDao.getCartRecipeProdList(hseqno);
+	public List<CartRecipeEx> cartRecipeProdList(Map<String, Object> paramMap) {
+		return categoryDao.getCartRecipeProdList(paramMap);
 	}
 
 	@Override
@@ -101,5 +101,15 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public List<GdMasterEx> discountProdList(Map<String, Object> paramMap){
 		return categoryDao.discountProdListAddSetProd(paramMap);
+	}
+
+	@Override
+	public Map<String, Object> getDirectListPaging(Map<String, Object> paramMap) {
+		return categoryDao.getDirectListPaging(paramMap);
+	}
+
+	@Override
+	public List<OdReserveGoodsEx> getDirectListHeader(Map<String, Object> paramMap){
+		return categoryDao.getDirectListHeader(paramMap);
 	}
 }

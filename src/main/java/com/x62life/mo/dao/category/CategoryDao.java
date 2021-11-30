@@ -30,13 +30,13 @@ public interface CategoryDao {
 
 	List<GdMasterEx> getItemListSearch(Map<String, Object> paramMap);
 
-	List<CartRecipe> custSetTitle(int hseqno);
+	List<CartRecipe> custSetTitle(Map<String, Object> paramMap);
 
-	void visitorCnt(int hseqno);
+	void visitorCnt(Map<String, Object> paramMap);
 
-	List<BasicTagMap> getTagList(Map<String, Object> paramMap);
+//	List<BasicTagMap> getTagList(Map<String, Object> paramMap);
 
-	List<CartRecipeEx> getCartRecipeProdList(int hseqno);
+	List<CartRecipeEx> getCartRecipeProdList(Map<String, Object> paramMap);
 
 	Map<String, Object> custSetListPaging(Map<String, Object> paramMap);
 
@@ -49,4 +49,8 @@ public interface CategoryDao {
 	Map<String,Object> discountListAddSetProdPaging(Map<String, Object> paramMap);
 
 	List<GdMasterEx> discountProdListAddSetProd(Map<String, Object> paramMap);
+
+	Map<String, Object> getDirectListPaging(Map<String, Object> paramMap);
+
+	List<OdReserveGoodsEx> getDirectListHeader(Map<String, Object> paramMap);
 }
