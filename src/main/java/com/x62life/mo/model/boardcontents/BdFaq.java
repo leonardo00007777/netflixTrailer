@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 //FAQ 게시판
 public class BdFaq {
     private int faqidx; //순번
-    private char divcd; //구분
+    private String divcd; //구분
     private String title; //질문내용
     private byte[] content; //답변내용
     private char useyn; //사용여부
@@ -15,7 +15,7 @@ public class BdFaq {
     private String indt; //등록일시
     private Timestamp updt; //수정일시
     private String memcd; //등록자코드
-    private char storyon; //faq story 게시
+    private String storyon; //faq story 게시
     private char start; //첫화면게시
     private int page;
     private int maxpage;
@@ -29,11 +29,11 @@ public class BdFaq {
         this.faqidx = faqidx;
     }
 
-    public char getDivcd() {
+    public String getDivcd() {
         return divcd;
     }
 
-    public void setDivcd(char divcd) {
+    public void setDivcd(String divcd) {
         this.divcd = divcd;
     }
 
@@ -117,11 +117,11 @@ public class BdFaq {
         this.memcd = memcd;
     }
 
-    public char getStoryon() {
+    public String getStoryon() {
         return storyon;
     }
 
-    public void setStoryon(char storyon) {
+    public void setStoryon(String storyon) {
         this.storyon = storyon;
     }
 

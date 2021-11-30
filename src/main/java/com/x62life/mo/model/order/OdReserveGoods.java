@@ -13,10 +13,10 @@ public class OdReserveGoods {
     private float applyPrice; //가격
     private float point; //포인트
     private float stockNum; //재고량
-    private char odFrom; //주문기간 from
-    private char odTo; //주문기간 to
-    private char dlvFrom; //배송기간 from
-    private char dlvTo; //배송기간 to
+    private String odFrom; //주문기간 from
+    private String odTo; //주문기간 to
+    private String dlvFrom; //배송기간 from
+    private String dlvTo; //배송기간 to
     private char useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
@@ -110,35 +110,35 @@ public class OdReserveGoods {
         this.stockNum = stockNum;
     }
 
-    public char getOdFrom() {
+    public String getOdFrom() {
         return odFrom;
     }
 
-    public void setOdFrom(char odFrom) {
+    public void setOdFrom(String odFrom) {
         this.odFrom = odFrom;
     }
 
-    public char getOdTo() {
+    public String getOdTo() {
         return odTo;
     }
 
-    public void setOdTo(char odTo) {
+    public void setOdTo(String odTo) {
         this.odTo = odTo;
     }
 
-    public char getDlvFrom() {
+    public String getDlvFrom() {
         return dlvFrom;
     }
 
-    public void setDlvFrom(char dlvFrom) {
+    public void setDlvFrom(String dlvFrom) {
         this.dlvFrom = dlvFrom;
     }
 
-    public char getDlvTo() {
+    public String getDlvTo() {
         return dlvTo;
     }
 
-    public void setDlvTo(char dlvTo) {
+    public void setDlvTo(String dlvTo) {
         this.dlvTo = dlvTo;
     }
 

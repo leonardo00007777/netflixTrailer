@@ -1,7 +1,7 @@
 package com.x62life.mo.model.payment;
 //주문 카드 정보
 public class OdCard {
-    private char paynum; //결제번호
+    private String paynum; //결제번호
     private short payidx; //결제카드 일련번호
     private char authyn; //승인여부
     private String trno; //트랜잭션번호
@@ -9,11 +9,11 @@ public class OdCard {
     private char trtm; //트랜잭션일시
     private String authno; //승인번호
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 

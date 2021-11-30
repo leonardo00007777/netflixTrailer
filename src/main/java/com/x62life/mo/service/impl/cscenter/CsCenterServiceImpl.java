@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
-@Service("CsCenterService")
+@Service("csCenterService")
 public class CsCenterServiceImpl implements CsCenterService {
     @Resource
     CsCenterDao csCenterDao;
