@@ -366,7 +366,7 @@
                                  AND r.useyn = 'Y'
                                  AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
                           <![CDATA[
-                          WHERE a.indt >= DATEADD(D, -7 ,CONVERT(VARCHAR,GETDATE(),23))
+                          WHERE a.indt >= DATEADD(D, -#{basicDays} ,CONVERT(VARCHAR,GETDATE(),23))
                           ]]>
                             AND (ISNULL(g.expgrcd, '') = '' OR EXISTS (SELECT cl.ulgrcd 
                                                                        FROM customgrp_l cl 

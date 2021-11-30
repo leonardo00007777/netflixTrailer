@@ -89,6 +89,7 @@ public class MainController {
 		model.addAttribute("seasonalFoodHallList", seasonalFoodHallList);
 
 		//인기 상품 리스트
+		paramMap.put("basicDays", 7);
 		List<BestProduct> bestProductList = mainService.bestProductList(paramMap);
 		
 		model.addAttribute("bestProductList", bestProductList);
