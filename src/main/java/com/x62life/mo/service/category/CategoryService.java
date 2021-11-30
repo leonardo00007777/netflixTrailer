@@ -40,4 +40,8 @@ public interface CategoryService {
 	List<CartRecipeEx> custSetGoodsList(Map<String, Object> paramMap);
 
 	List<GdMasterEx> defProdOneProd(Map<String, Object> paramMap);
+
+	Map<String, Object> discountListPaging(Map<String, Object> paramMap);
+
+	List<GdMasterEx> discountProdList(Map<String, Object> paramMap);
 }

@@ -483,7 +483,7 @@
          ORDER BY newid()
     </select>
     
-    <select id="getMagazineIdx" resultType="java.lang.Integer">
+    <select id="getMagazineIdx" resultType="int">
         /* getMagazineIdx 매거진 idx*/
         SELECT TOP 1 h.zhidx 
         FROM magazine_h h

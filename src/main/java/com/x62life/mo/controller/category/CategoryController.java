@@ -141,4 +141,24 @@ public class CategoryController {
         return modelAndView;
 
     }
+
+    @RequestMapping("/discountProdList")
+    public ModelAndView discountProdList(Model model, @RequestParam Map<String, Object> paramMap) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        String customFilterProduct[] = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
+        paramMap.put("customFilterProduct",customFilterProduct);
+
+        Map<String, Object> discountListPaging = categoryService.discountListPaging(paramMap);
+
+        model.addAttribute("discountListPaging", discountListPaging);
+
+        List<GdMasterEx> discountProdList = categoryService.discountProdList(paramMap);
+
+        model.addAttribute("discountProdList",discountProdList);
+
+        modelAndView.setViewName("/discountProdList");
+
+        return modelAndView;
+    }
 }

@@ -45,4 +45,8 @@ public interface CategoryDao {
 	List<CartRecipeEx> custSetGoodsList(Map<String, Object> paramMap);
 
 	List<GdMasterEx> defProdOneProd(Map<String, Object> paramMap);
+
+	Map<String,Object> discountListAddSetProdPaging(Map<String, Object> paramMap);
+
+	List<GdMasterEx> discountProdListAddSetProd(Map<String, Object> paramMap);
 }

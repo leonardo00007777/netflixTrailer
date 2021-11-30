@@ -92,4 +92,14 @@ public class CategoryServiceImpl implements CategoryService{
 	public List<GdMasterEx> defProdOneProd(Map<String, Object> paramMap){
 		return categoryDao.defProdOneProd(paramMap);
 	}
+
+	@Override
+	public Map<String, Object> discountListPaging(Map<String, Object> paramMap) {
+		return categoryDao.discountListAddSetProdPaging(paramMap);
+	}
+
+	@Override
+	public List<GdMasterEx> discountProdList(Map<String, Object> paramMap){
+		return categoryDao.discountProdListAddSetProd(paramMap);
+	}
 }
