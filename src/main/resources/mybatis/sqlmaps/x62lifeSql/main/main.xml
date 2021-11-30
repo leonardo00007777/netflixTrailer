@@ -121,7 +121,7 @@
              , ISNULL(r.type, '01') odtype2
              , g.price1
              <choose>
-                 <when test = 'strMEMGRPCD != "" and strMEMGRPCD != null and strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                 <when test = 'strMEMGRPCD != "" and strMEMGRPCD != null and strGroupSalePolicy != "N"'>
                      , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
                  </when>
                  <otherwise>

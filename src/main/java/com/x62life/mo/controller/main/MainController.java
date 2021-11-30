@@ -54,8 +54,7 @@ public class MainController {
 	public ModelAndView main(@RequestParam Map<String, Object> paramMap, Model model) {
 		ModelAndView mv = new ModelAndView();
 
-		List<Category> categoryList = new ArrayList<Category>();
-		categoryList = categoryService.getCategoryList(paramMap);
+		List<Category> categoryList = categoryService.getCategoryList(paramMap);
 
 		model.addAttribute("categoryList", categoryList);
 		//스와이퍼 배너 정보
@@ -66,9 +65,7 @@ public class MainController {
 		model.addAttribute("swiperBannerInfo", swiperBannerInfo);
 
 		//스와이퍼 배너 정보 리뉴얼
-		List<AdMainMg> swiperBannerInfoRenewal = new ArrayList<>();
-
-		swiperBannerInfoRenewal = mainService.swiperBannerRenewal();
+		List<AdMainMg> swiperBannerInfoRenewal = mainService.swiperBannerRenewal();
 
 		model.addAttribute("swiperBannerRenewal", swiperBannerInfoRenewal);
 
@@ -77,6 +74,11 @@ public class MainController {
 		String strGroupSalePolicy = "Y";
 		paramMap.put("strLoginMemCd", strLoginMemCd);
 		paramMap.put("strGroupSalePolicy", strGroupSalePolicy);
+
+		//오늘의 특가 상품
+		List<OneDaySpecialEx> oneDaySpecialList = mainService.oneDaySpecialList(paramMap);
+
+		model.addAttribute("oneDaySpecialList", oneDaySpecialList);
 
 		// 신규 상품 리스트 (strLoginMemCd, strGroupSalePolicy 가져오는 로직 필요)
 		List<GdMasterEx> newProdList = mainService.newProdList(paramMap);
