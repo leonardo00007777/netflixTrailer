@@ -87,8 +87,8 @@
           <div class="global-nav-container">
             <div class="global-nav scroll-fixed-top" id="globalNavContainer">
               <ul class="global-nav-menu" id="mainTab">
-                <li class="menu-item active"><a href="javascript:void(0);" onclick="javascript:location.href='/main/main'"><span class="tit">메인<span></a></li>
-                <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/newprdlist'"><span class="tit">신상품<span></a></li>
+                <li class="menu-item active"><a href="javascript:void(0);" onclick="javascript:location.href='/main/main'"><span class="tit">메인</span></a></li>
+                <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/newprdlist'"><span class="tit">신상품</span></a></li>
                 <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/dcprdlist'"><span class="tit">할인관</span></a></li>
                 <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/bestprdlist'"><span class="tit">베스트</span></a></li>
                 <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/proprdlist'"><span class="tit">전문관</span></a></li>
@@ -1003,52 +1003,53 @@
          </div><!-- /.swiper-container -->
       	</div><!-- /.main-content -->
       
-      <footer class="global-footer">
-        <section class="footer-bt">
-          <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-apple"></i>App Store</a>
-          <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-google"></i>Play Store</a>
-        </section>
-        <nav class="global-footer-menu">
-          <div class="wrapper">
-            <div class="main-item"><a href="#">자연이랑</a></div>
-            <div class="main-item"><a href="#" class="active">올바른밥상</a></div>
-          </div>
-          <div class="wrapper">
-            <div class="main-item"><a href="#">고객센터</a></div>
-            <div class="main-item"><a href="#">제휴문의</a></div>
-            <div class="main-item"><a href="#">이용약관</a></div>
-            <div class="main-item"><a href="#">개인정보처리방침</a></div>
-          </div>
-        </nav>
-        <section class="footer-business-info fold-section">
-          <div class="toggle-button-container">
-            <a class="toggle-button fold-button" href="javascript:void(0)">자연이랑 사업자 정보 <i
-                class="wn-icon bt-chevron-v-gray"></i></a>
-          </div>
-          <div class="business-info-content fold-open-show">
-            재단법인 행복에프앤씨 (자연이랑 분사무소) 대표자 : 안범환<br>
-            사업자등록번호: 794-85-00155 <a href="#" class="green-sub">[사업자등록번호확인]</a><br>
-            통신판매업신고: 2016-서울용산-00340<br>
-            개인정보 보호 책임자 : 김흥완<br>
-            <br>
-            서울시 용산구 장문로 54, SEL빌딩 4층 자연이랑<br>
-            080-303-6262 / 02-6445-5500<br>
-            <a href="mailto:help@happyfnc.org">help@happyfnc.org</a>
-          </div>
-        </section>
-        <ul class="footer-privacy">
-          <li><a href="javascript:void(0)" onclick="$('#popISMS').modal('show')">정보보호 관리<br>체계 인증 획득</a></li>
-          <li><a href="javascript:void(0)" onclick="$('#popSSL').modal('show')">Secure Sockets<br>Layer 적용</a></li>
-          <li><a href="javascript:void(0)" class="item" onclick="$('#popEscrow').modal('show')">에스크로<br>서비스 제공</a></li>
-        </ul>
-        <ul class="footer-sns-list">
-          <li><a href="#"><i class="wn-icon sns-25-fb">Facebook</i></a></li>
-          <li><a href="#"><i class="wn-icon sns-25-in">Instagram</i></a></li>
-          <li><a href="#"><i class="wn-icon sns-25-nv">Naver Blog</i></a></li>
-          <li><a href="#"><i class="wn-icon sns-25-kko">Kakaotalk</i></a></li>
-        </ul>
-        <section class="footer-copyright">Copyright(C) 2017 WithNature All rights reserved.</section>
-      </footer>
+        <footer class="global-footer">
+          <section class="footer-bt">
+            <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-apple"></i>App Store</a>
+            <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-google"></i>Play Store</a>
+          </section>
+          <nav class="global-footer-menu">
+            <div class="wrapper">
+              <div class="main-item"><a href="#">자연이랑</a></div>
+              <div class="main-item"><a href="#" class="active">올바른밥상</a></div>
+            </div>
+            <div class="wrapper">
+              <div class="main-item"><a href="#">고객센터</a></div>
+              <div class="main-item"><a href="#">제휴문의</a></div>
+              <div class="main-item"><a href="#">이용약관</a></div>
+              <div class="main-item"><a href="#">개인정보처리방침</a></div>
+            </div>
+          </nav>
+          <section class="footer-business-info fold-section">
+            <div class="toggle-button-container">
+              <a class="toggle-button fold-button" href="javascript:void(0)">자연이랑 사업자 정보 <i
+                  class="wn-icon bt-chevron-v-gray"></i></a>
+            </div>
+            <div class="business-info-content fold-open-show">
+              재단법인 행복에프앤씨 (자연이랑 분사무소) 대표자 : 안범환<br>
+              사업자등록번호: 794-85-00155 <a href="#" class="green-sub">[사업자등록번호확인]</a><br>
+              통신판매업신고: 2016-서울용산-00340<br>
+              개인정보 보호 책임자 : 김흥완<br>
+              <br>
+              서울시 용산구 장문로 54, SEL빌딩 4층 자연이랑<br>
+              080-303-6262 / 02-6445-5500<br>
+              <a href="mailto:help@happyfnc.org">help@happyfnc.org</a>
+            </div>
+          </section>
+          <ul class="footer-privacy">
+            <li><a href="javascript:void(0)" onclick="$('#popISMS').modal('show')">정보보호 관리<br>체계 인증 획득</a></li>
+            <li><a href="javascript:void(0)" onclick="$('#popSSL').modal('show')">Secure Sockets<br>Layer 적용</a></li>
+            <li><a href="javascript:void(0)" class="item" onclick="$('#popEscrow').modal('show')">에스크로<br>서비스 제공</a></li>
+          </ul>
+          <ul class="footer-sns-list">
+            <li><a href="#"><i class="wn-icon sns-25-fb">Facebook</i></a></li>
+            <li><a href="#"><i class="wn-icon sns-25-in">Instagram</i></a></li>
+            <li><a href="#"><i class="wn-icon sns-25-nv">Naver Blog</i></a></li>
+            <li><a href="#"><i class="wn-icon sns-25-kko">Kakaotalk</i></a></li>
+          </ul>
+          <section class="footer-copyright">Copyright(C) 2017 WithNature All rights reserved.</section>
+        </footer>
+      </div>
     </main>
 
 
@@ -1392,7 +1393,8 @@
     </div>
   </div>
 
-
+  </div>
+</body>
   <!-- Footer.jsp 소스참조  -->
   <!-- Footer.jsp 소스참조 Modal - Buy Option -->
 
