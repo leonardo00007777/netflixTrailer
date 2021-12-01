@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="getSpecialSellingList">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 기획전 가져오기-->
+<!--    'File          : get_specialselling_list_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20161116-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+<!--    '-->
+<!--    'Modified   Author  V/M     Reason For Modification-->
+
+<!--    '20161116   hwkim   0.9     처음 작성-->
+<!--    '20180114   hwkim   0.9.1   표시 레이아웃 개선-->
+<!--    '20180420   hyeok   -&#45;&#45;     기획전 시행기간 범위 확장 (기간 -> 일시)-->
+<!--    '20190828   hwkim   0.9.2   타이틀이 지정되지 않은 기획전은 제외 처리.-->
+    <select id="getSpecialSellingListPaging">
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem} ) maxpage
+             , COUNT(shidx) cnt
+        FROM specialsellingh
+         WHERE 1 = 1
+           AND shrtype NOT IN ('SP','BR')
+           <![CDATA[
+           AND shstartdt <= GETDATE()
+           AND shenddt > GETDATE()
+           AND ISNULL(shhideyn, 'N') <> 'Y'
+           ]]>
+    </select>
+
+    <select id="getSpecialSellingListHeader">
+        SELECT *
+        FROM (
+                 SELECT FLOOR((ROW_NUMBER() OVER ( ORDER BY shidx DESC ) - 1 ) / #{intPagePerItem} + 1) AS cPage
+                      , h.*
+                 FROM specialsellingh h
+                  WHERE 1 = 1
+                    AND shrtype NOT IN ('SP','BR')
+                    <![CDATA[
+                    AND shstartdt <= GETDATE()
+                    AND shenddt > GETDATE()
+                    AND ISNULL(shhideyn, 'N') <> 'Y'
+                    ]]>
+             ) pl
+         WHERE cPage = #{intPage}
+    </select>
+</mapper>
