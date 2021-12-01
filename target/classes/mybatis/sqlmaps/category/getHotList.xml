@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="getHotList">
+<mapper namespace="com.x62life.mo.dao.category.CategoryDao">
 <!--    'System        : m.62life.com-->
 <!--    'Program       :-->
 <!--    'Title         : 자연이랑모바일 - 인기상품 페이지 단위로 가져오기-->
