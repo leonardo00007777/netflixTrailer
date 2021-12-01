@@ -93,4 +93,25 @@ public class MainServiceImpl implements MainService {
         List<BdContents> eventList = mainDao.eventList(paramMap);
         return eventList;
     }
+
+    @Override
+    public Map<String, Object> getRecommendListPaging() {
+       return mainDao.getRecommendListPaging();
+    }
+
+    @Override
+    public List<GdMasterEx> getRecommendProdList(Map<String, Object> paramMap){
+        return mainDao.getRecommendProdList(paramMap);
+    }
+
+    @Override
+    public Map<String, Object> getRightwayListPaging() {
+        return mainDao.getRightwayListPaging();
+    }
+
+    @Override
+    public List<GdMasterEx> getRightwayList(Map<String, Object> paramMap){
+
+        return mainDao.getRightwayList(paramMap);
+    }
 }

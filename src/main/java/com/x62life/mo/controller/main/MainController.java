@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.x62life.mo.model.boardcontents.BdContents;
 import com.x62life.mo.model.boardcontents.MagazineLEx;
 import com.x62life.mo.model.exhibition.AdMainMg;
@@ -96,6 +94,16 @@ public class MainController {
 		
 		model.addAttribute("bestProductList", bestProductList);
 
+		//추천 상품 리스트 페이징
+		Map<String, Object> getRecommendListPaging = mainService.getRecommendListPaging();
+
+		model.addAttribute("getRecommendListPaging", getRecommendListPaging);
+
+		//추천 상품 리스트
+		List<GdMasterEx> getRecommendProdList = mainService.getRecommendProdList(paramMap);
+
+		model.addAttribute("getRecommendProdList",getRecommendProdList);
+
 		//할인 상품 리스트
 		String strMEMGRPCD = null;
 		List<GdMasterEx> discountProdList = mainService.discountProdList(strMEMGRPCD);
@@ -114,6 +122,14 @@ public class MainController {
 		paramMap.put("ctsctEvent",ctsctEvent);
 		List<BdContents> eventList = mainService.eventList(paramMap);
 		model.addAttribute(eventList);
+
+		//오늘발송 상품 리스트 페이징
+		Map<String, Object> getRightwayListPaging = mainService.getRightwayListPaging();
+		model.addAttribute("getRightwayListPaging", getRightwayListPaging);
+
+		//오늘발송 상품 리스트
+		List<GdMasterEx> getRightwayList = mainService.getRightwayList(paramMap);
+		model.addAttribute("getRightwayList", getRightwayList);
 
 		mv.setViewName("/main/main");
 		

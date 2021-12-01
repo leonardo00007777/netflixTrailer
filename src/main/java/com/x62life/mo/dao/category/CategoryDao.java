@@ -65,4 +65,8 @@ public interface CategoryDao {
 	List<String> getItemListSubmenu(Map<String, Object> paramMap);
 
 	List<GdMasterEx> searchProdAll(Map<String, Object> paramMap);
+
+	Map<String,Object> getNewItemListPaging(Map<String, Object> paramMap);
+
+	List<GdMasterEx> getNewItemListStatistics(Map<String, Object> paramMap);
 }

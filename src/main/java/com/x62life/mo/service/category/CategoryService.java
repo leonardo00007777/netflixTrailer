@@ -60,4 +60,8 @@ public interface CategoryService {
 	List<String> subCategoryList(Map<String, Object> paramMap);
 
 	List<GdMasterEx> getItemList(Map<String, Object> paramMap);
+
+	Map<String, Object> getNewItemListPaging(Map<String, Object> paramMap);
+
+	List<GdMasterEx> getNewItemListStatistics(Map<String, Object> paramMap);
 }

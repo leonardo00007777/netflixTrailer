@@ -74,6 +74,7 @@ public class CategoryController {
         return modelAndView;
     }*/
 
+    //고객이 만드는 상품 세트
     @RequestMapping("/custSetList")
     public ModelAndView custSetList(Model model, @RequestParam Map<String,Object> paramMap) {
 
@@ -83,14 +84,17 @@ public class CategoryController {
 
         paramMap.put("intPagePerItem", intPagePerItem);
 
+        //고객이 만드는 상품 리스트 페이징
         Map<String, Object> custSetListPaging = categoryService.custSetListPaging(paramMap);
 
         model.addAttribute("custSetListPaging", custSetListPaging);
 
+        //고객이 만드는 상품 리스트
         List<CartRecipeEx> custSetProdList = categoryService.custSetProdList(paramMap);
 
         model.addAttribute("custSetProdList",custSetProdList);
 
+        //custSetGoodsList 상품 리스트
         List<CartRecipeEx> custSetGoodsList = categoryService.custSetGoodsList(paramMap);
 
         model.addAttribute("custSetGoodsList", custSetGoodsList);
@@ -100,11 +104,13 @@ public class CategoryController {
         return modelAndView;
     }
 
+    //고객이 만드는 상품 상세
     @RequestMapping("/custSetDetail")
     public ModelAndView custSetDetail(Model model, @RequestParam Map<String, Object> paramMap) throws Exception{
 
        ModelAndView modelAndView = new ModelAndView();
 
+        //장바구니 레시피 리스트
        List<CartRecipe> cartRecipeList = categoryService.cartRecipeTitle(paramMap);
 
        model.addAttribute(cartRecipeList);
@@ -117,6 +123,7 @@ public class CategoryController {
 
 //       model.addAttribute("getTagList", getTagList);
 
+        //장바구니 레시피 상품 리스트
        List<CartRecipeEx> cartRecipeProdList = categoryService.cartRecipeProdList(paramMap);
 
        model.addAttribute("cartRecipeProdList", cartRecipeProdList);
@@ -126,6 +133,7 @@ public class CategoryController {
        return modelAndView;
     }
 
+    // 자연이랑모바일 - 할인, 추천 상품 (기본 단품 상품 )
     @RequestMapping("/defProdOneProd")
     public ModelAndView defProdOneProd(Model model, @RequestParam Map<String, Object> paramMap) {
         ModelAndView modelAndView = new ModelAndView();
@@ -133,6 +141,7 @@ public class CategoryController {
         String[] customFilterProduct = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
         paramMap.put("customFilterProduct",customFilterProduct);
 
+        // 자연이랑모바일 - 할인, 추천 상품 (기본 단품 상품 리스트 )
         List<GdMasterEx> defProdOneProd = categoryService.defProdOneProd(paramMap);
         model.addAttribute("defProdOneProd", defProdOneProd);
 
@@ -142,6 +151,7 @@ public class CategoryController {
 
     }
 
+    //할인 상품 리스트
     @RequestMapping("/discountProdList")
     public ModelAndView discountProdList(Model model, @RequestParam Map<String, Object> paramMap) {
         ModelAndView modelAndView = new ModelAndView();
@@ -149,10 +159,12 @@ public class CategoryController {
         String customFilterProduct[] = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
         paramMap.put("customFilterProduct",customFilterProduct);
 
+        //할인 상품 리스트 페이징
         Map<String, Object> discountListPaging = categoryService.discountListPaging(paramMap);
 
         model.addAttribute("discountListPaging", discountListPaging);
 
+        //할인 상품 리스트
         List<GdMasterEx> discountProdList = categoryService.discountProdList(paramMap);
 
         model.addAttribute("discountProdList",discountProdList);
@@ -161,7 +173,8 @@ public class CategoryController {
 
         return modelAndView;
     }
-
+    
+    //사용자 정의 필터링 상품 
     @RequestMapping("/customFilterProduct")
     public ModelAndView firstBuyEventProductList(Model model, @RequestParam Map<String, Object> paramMap) {
         ModelAndView modelAndView = new ModelAndView();
@@ -176,11 +189,13 @@ public class CategoryController {
         if(paramMap.get("odtype2").equals("")){
             paramMap.put("odtype2", "01");
         }
-
+        
+        //사용자 정의 필터링 상품 페이징 
         Map<String, Object> directListPaging = categoryService.getDirectListPaging(paramMap);
 
         model.addAttribute("directListPaging",directListPaging);
 
+        //사용자 정의 필터링 상품 헤더 & 상품 리스트
         List<OdReserveGoodsEx> getDirectListHeader = categoryService.getDirectListHeader(paramMap);
 
         model.addAttribute("directListHeader",getDirectListHeader);
@@ -189,7 +204,8 @@ public class CategoryController {
 
         return modelAndView;
     }
-
+    
+    //인기상품 페이지 
     @RequestMapping("/hotProdList")
     public ModelAndView hotProdList(Model model, @RequestParam Map<String, Object> paramMap) {
         ModelAndView modelAndView = new ModelAndView();
@@ -209,10 +225,12 @@ public class CategoryController {
         paramMap.put("targetDate3",targetDate3);
         paramMap.put("targetDate4",targetDate4);
 
+        //인기상품 페이지 (아이센스 필터링)
         List<String> isenseFilteringProdGdcd = categoryService.isenseFilteringProdGdcd(paramMap);
 
         paramMap.put("isenseFilteringProdGdcd",isenseFilteringProdGdcd);
 
+        //인기상품 페이지 (아이센스 베스트 상품 리스트)
         List<GdMasterEx> isenseBestProd = categoryService.isenseBestProd(paramMap);
 
         model.addAttribute("isenseBestProd",isenseBestProd);
@@ -222,22 +240,62 @@ public class CategoryController {
         return modelAndView;
     }
 
-    @RequestMapping("getItemList")
+    //상품 페이지 단위로 가져오기
+    @RequestMapping("/getItemList")
     public ModelAndView getItemList(Model model, @RequestParam Map<String, Object> paramMap){
         ModelAndView modelAndView = new ModelAndView();
+
+        String date1 = "2020-06-18";
+        String date2 = "2020-06-27";
+        String date3 = "2020-06-26";
+        String date4 = "2020-07-06";
+
+        int targetDate1 = categoryService.getTargetDate(date1);
+        int targetDate2 = categoryService.getTargetDate(date2);
+        int targetDate3 = categoryService.getTargetDate(date3);
+        int targetDate4 = categoryService.getTargetDate(date4);
+
+        paramMap.put("targetDate1",targetDate1);
+        paramMap.put("targetDate2",targetDate2);
+        paramMap.put("targetDate3",targetDate3);
+        paramMap.put("targetDate4",targetDate4);
+
+        ////상품 페이지 단위로 가져오기 - 페이징 갯수
         int itemListPaging = categoryService.itemListPaging(paramMap);
 
         model.addAttribute("itemListPaging",itemListPaging);
 
+        //상품 페이지 단위로 가져오기 - 서브메뉴명
         List<String> getItemListSubmenu = categoryService.subCategoryList(paramMap);
 
         model.addAttribute("getItemListSubmenu",getItemListSubmenu);
 
+        //상품 페이지 단위로 가져오기 상품 리스트
         List<GdMasterEx> getItemList = categoryService.getItemList(paramMap);
 
         model.addAttribute("getItemList",getItemList);
 
         modelAndView.setViewName("/itemList");
+        return modelAndView;
+    }
+
+    //상품 페이지 단위로 가져오기 (신규)
+    @RequestMapping("/getNewItemList")
+    public ModelAndView getNewItemList(Model model, @RequestParam Map<String, Object> paramMap){
+        ModelAndView modelAndView = new ModelAndView();
+
+        //상품 페이지 단위로 가져오기 (신규) 페이징
+        Map<String, Object> getNewItemListPaging = categoryService.getNewItemListPaging(paramMap);
+        
+        model.addAttribute("getNewItemListPaging", getNewItemListPaging);
+
+        //상품 페이지 단위로 가져오기 (신규) 상품 리스트
+        List<GdMasterEx> getNewItemListStatistics = categoryService.getNewItemListStatistics(paramMap);
+
+        model.addAttribute("getNewItemListStatistics", getNewItemListStatistics);
+
+        modelAndView.setViewName("/getNewItemList");
+
         return modelAndView;
     }
 }

@@ -25,6 +25,7 @@ public class GdMasterEx extends GdMaster{
     private long itemRemainQty;
     private long discountPrice;
     private String preOrderInfo;
+    private String soldOutFlag;
 
     @Override
     public BigDecimal getSaleprice() {
@@ -202,5 +203,13 @@ public class GdMasterEx extends GdMaster{
 
     public void setPreOrderInfo(String preOrderInfo) {
         this.preOrderInfo = preOrderInfo;
+    }
+
+    public String getSoldOutFlag() {
+        return soldOutFlag;
+    }
+
+    public void setSoldOutFlag(String soldOutFlag) {
+        this.soldOutFlag = soldOutFlag;
     }
 }

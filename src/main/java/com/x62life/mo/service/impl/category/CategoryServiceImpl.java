@@ -219,6 +219,38 @@ public class CategoryServiceImpl implements CategoryService{
 		} else if(paramMap.get("strOdtype").equals("SP")){
 			paramMap.put("strOdtype", 12);
 		}
-		return categoryDao.searchProdAll(paramMap);
+		List<GdMasterEx> searchProdAll =  categoryDao.searchProdAll(paramMap);
+
+		for(int i = 0; i < searchProdAll.size(); i++) {
+			if(searchProdAll.get(i).getGdcnt().equals("0")){
+				searchProdAll.get(i).setItemRemainQty(99999);
+			}
+			if(searchProdAll.get(i).getReserveyn() == 'Y'){
+				if(searchProdAll.get(i).getOdtype().equals("11")){
+					searchProdAll.get(i).setOdtype("12");
+				} else {
+					if(searchProdAll.get(i).getDeliverydtyn() == 'Y'){
+						searchProdAll.get(i).setOdtype("02");
+					}
+				}
+			}
+		}
+
+		return searchProdAll;
 	}
+
+	@Override
+	public Map<String, Object> getNewItemListPaging(Map<String, Object> paramMap){
+		paramMap.put("intPagePerItem", 20);
+
+		return categoryDao.getNewItemListPaging(paramMap);
+	}
+
+	@Override
+	public List<GdMasterEx> getNewItemListStatistics(Map<String, Object> paramMap) {
+
+		return categoryDao.getNewItemListStatistics(paramMap);
+	}
+
+
 }

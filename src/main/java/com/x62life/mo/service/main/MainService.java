@@ -35,4 +35,12 @@ public interface MainService {
     List<MagazineLEx> magazineDetailList();
 
     List<BdContents> eventList(Map<String, Object> paramMap);
+
+    Map<String, Object> getRecommendListPaging();
+
+    List<GdMasterEx> getRecommendProdList(Map<String, Object> paramMap);
+
+    Map<String, Object> getRightwayListPaging();
+
+    List<GdMasterEx> getRightwayList(Map<String, Object> paramMap);
 }
