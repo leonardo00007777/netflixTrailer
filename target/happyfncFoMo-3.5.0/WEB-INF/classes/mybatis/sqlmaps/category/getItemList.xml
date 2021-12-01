@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="getItemList_m">
+<mapper namespace="com.x62life.mo.dao.category.CategoryDao">
 <!--    'System        : m.62life.com-->
 <!--    'Program       :-->
 <!--    'Title         : 자연이랑모바일 - 상품 페이지 단위로 가져오기-->
@@ -87,10 +87,10 @@
                     , i.address
                     , i.origin
                     , i.producer
-                    , ISNULL(r.od_from,'') od_from
-                    , ISNULL(r.od_to,'') od_to
-                    , ISNULL(r.dlv_from,'') dlv_from
-                    , ISNULL(r.dlv_to,'') dlv_to
+                    , ISNULL(r.od_from,'') odFrom
+                    , ISNULL(r.od_to,'') odTo
+                    , ISNULL(r.dlv_from,'') dlvFrom
+                    , ISNULL(r.dlv_to,'') dlvTo
                     , CASE WHEN ISNULL(r.packunit,'') = '' THEN '' ELSE r.packunit END packunit
                     , g.expdt
                     , g.vat
@@ -268,7 +268,7 @@
         </if>
     </select>
 
-    <select id="searchProdAll">
+    <select id="searchProdAll" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
        /*searchProdAll 상품 전체*/
        <include refid="prodSearchCommon"/>
        <if test="orderBy == ''">
@@ -336,68 +336,5 @@
         </choose>
         OFFSET #{intPageOffset} ROWS
         FETCH NEXT #{intPagePerItem} ROWS ONLY
-    </select>
-
-    <select id="prodSearchPrice">
-        /*prodSearchPrice 가격대별 표시 기능: 범위에 속하는 상품만 표시*/
-        <include refid="prodSearchCommon"/>
-        <if test="orderBy == ''">
-            LEFT JOIN ( SELECT k.gdcd
-                             , RANK() OVER (ORDER BY k.gdprice DESC) yrank
-                             , RANK() OVER (ORDER BY k.gdsum DESC) xrank
-                        FROM (
-                                SELECT gdcd
-                                     , SUM(price*gdcnt) gdprice
-                                     , SUM(gdcnt) gdsum
-                                FROM od_goods
-                                <![CDATA[
-                                 WHERE indt >= DATEADD(d,-7,getdate())
-                                   AND indt <= GETDATE()
-                                ]]>
-                                GROUP BY gdcd
-                             ) k
-                      ) z ON z.gdcd = a.gdcd
-        </if>
-        WHERE 1=1
-        <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0">
-            AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx=468)
-        </if>
-        <if test="strMEMGRPCD == '' or userDefinedTarget2.indexOf(strMEMGRPCD) lte 0">
-            AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 641)
-        </if>
-        <if test="customFilterProduct != ''">
-            AND a.gdcd NOT IN (#{customFilterProduct})
-        </if>
-        <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0">
-            AND a.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 836)
-        </if>
-        <if test="strODTYPE != ''">
-            AND a.odtype = #{strODTYPE}
-        </if>
-        <if test="strOdType2 != ''">
-            a.odtype2 LIKE #{strOdType2}
-        </if>
-        <choose>
-            <when test="orderBy == 'PD'">
-                ORDER BY groupsaleprice DESC
-            </when>
-            <when test="PU">
-                ORDER BY groupsaleprice
-            </when>
-            <when test="PP">
-                ORDER BY (dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, gdcd)/price1), gdcd
-            </when>
-            <when test="PN">
-                ORDER BY gdname
-            </when>
-            <when test="PA">
-                ORDER BY exdiv1, exdiv2, gdcd
-            </when>
-            <otherwise>
-                ORDER BY ISNULL(xrank,99999), exdiv1, exdiv2, gdcd
-            </otherwise>
-        </choose>
-        OFFSET #{intPageOffset} ROWS
-        FETCH NEXT #{intPageOffset} ROWS ONLY
     </select>
 </mapper>
