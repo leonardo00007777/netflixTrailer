@@ -4,7 +4,6 @@ import com.x62life.mo.model.category.CartRecipe;
 import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
-import com.x62life.mo.model.product.BasicTagMap;
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +130,7 @@ public class CategoryController {
     public ModelAndView defProdOneProd(Model model, @RequestParam Map<String, Object> paramMap) {
         ModelAndView modelAndView = new ModelAndView();
 
-        String customFilterProduct[] = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
+        String[] customFilterProduct = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
         paramMap.put("customFilterProduct",customFilterProduct);
 
         List<GdMasterEx> defProdOneProd = categoryService.defProdOneProd(paramMap);
@@ -192,14 +191,53 @@ public class CategoryController {
     }
 
     @RequestMapping("/hotProdList")
-    public ModelAndView hotProdList(Model model) {
-        String date[] = {"2020-06-18", "2020-06-27", "2020-06-26", "2020-07-06"};
+    public ModelAndView hotProdList(Model model, @RequestParam Map<String, Object> paramMap) {
+        ModelAndView modelAndView = new ModelAndView();
 
-        Map<String, Object> paramMap = new HashMap<>();
-        for(int i = 0; i < date.length; i++){
-           paramMap.put("targetDate" + i, date[i]);
-        }
-        System.out.println(paramMap.keySet() + "/" +paramMap.toString());
-        return null;
+        String date1 = "2020-06-18";
+        String date2 = "2020-06-27";
+        String date3 = "2020-06-26";
+        String date4 = "2020-07-06";
+
+        int targetDate1 = categoryService.getTargetDate(date1);
+        int targetDate2 = categoryService.getTargetDate(date2);
+        int targetDate3 = categoryService.getTargetDate(date3);
+        int targetDate4 = categoryService.getTargetDate(date4);
+
+        paramMap.put("targetDate1",targetDate1);
+        paramMap.put("targetDate2",targetDate2);
+        paramMap.put("targetDate3",targetDate3);
+        paramMap.put("targetDate4",targetDate4);
+
+        List<String> isenseFilteringProdGdcd = categoryService.isenseFilteringProdGdcd(paramMap);
+
+        paramMap.put("isenseFilteringProdGdcd",isenseFilteringProdGdcd);
+
+        List<GdMasterEx> isenseBestProd = categoryService.isenseBestProd(paramMap);
+
+        model.addAttribute("isenseBestProd",isenseBestProd);
+
+        modelAndView.setViewName("/hotProdList");
+
+        return modelAndView;
+    }
+
+    @RequestMapping("getItemList")
+    public ModelAndView getItemList(Model model, @RequestParam Map<String, Object> paramMap){
+        ModelAndView modelAndView = new ModelAndView();
+        int itemListPaging = categoryService.itemListPaging(paramMap);
+
+        model.addAttribute("itemListPaging",itemListPaging);
+
+        List<String> getItemListSubmenu = categoryService.subCategoryList(paramMap);
+
+        model.addAttribute("getItemListSubmenu",getItemListSubmenu);
+
+        List<GdMasterEx> getItemList = categoryService.getItemList(paramMap);
+
+        model.addAttribute("getItemList",getItemList);
+
+        modelAndView.setViewName("/itemList");
+        return modelAndView;
     }
 }

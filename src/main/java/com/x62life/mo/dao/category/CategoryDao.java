@@ -53,4 +53,16 @@ public interface CategoryDao {
 	Map<String, Object> getDirectListPaging(Map<String, Object> paramMap);
 
 	List<OdReserveGoodsEx> getDirectListHeader(Map<String, Object> paramMap);
+
+	int targetDate(String date);
+
+	List<String> isenseFilteringProdGdcd(Map<String, Object> paramMap);
+
+	List<GdMasterEx> isenseBestProd(Map<String, Object> paramMap);
+
+	int itemListPaging(Map<String, Object> paramMap);
+
+	List<String> getItemListSubmenu(Map<String, Object> paramMap);
+
+	List<GdMasterEx> searchProdAll(Map<String, Object> paramMap);
 }

@@ -6,7 +6,7 @@ public class GdMasterEx extends GdMaster{
     private BigDecimal saleprice;
     private BigDecimal groupsaleprice;
     private int isgroupsale;
-    private int gdcnt;
+    private String gdcnt;
     private String cdcode;
     private String origin; //생산지
     private String producer; //생산자
@@ -21,6 +21,10 @@ public class GdMasterEx extends GdMaster{
     private String smenucd;
     private String smenudesc;
     private String catDesc;
+    private String packunit;
+    private long itemRemainQty;
+    private long discountPrice;
+    private String preOrderInfo;
 
     @Override
     public BigDecimal getSaleprice() {
@@ -32,11 +36,11 @@ public class GdMasterEx extends GdMaster{
         this.saleprice = saleprice;
     }
 
-    public int getGdcnt() {
+    public String getGdcnt() {
         return gdcnt;
     }
 
-    public void setGdcnt(int gdcnt) {
+    public void setGdcnt(String gdcnt) {
         this.gdcnt = gdcnt;
     }
 
@@ -166,5 +170,37 @@ public class GdMasterEx extends GdMaster{
 
     public void setCatDesc(String catDesc) {
         this.catDesc = catDesc;
+    }
+
+    public String getPackunit() {
+        return packunit;
+    }
+
+    public void setPackunit(String packunit) {
+        this.packunit = packunit;
+    }
+
+    public long getItemRemainQty() {
+        return itemRemainQty;
+    }
+
+    public void setItemRemainQty(long itemRemainQty) {
+        this.itemRemainQty = itemRemainQty;
+    }
+
+    public long getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(long discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public String getPreOrderInfo() {
+        return preOrderInfo;
+    }
+
+    public void setPreOrderInfo(String preOrderInfo) {
+        this.preOrderInfo = preOrderInfo;
     }
 }
