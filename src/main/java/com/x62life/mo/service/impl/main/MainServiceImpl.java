@@ -10,6 +10,7 @@ import com.x62life.mo.model.exhibition.OneDaySpecialEx;
 import com.x62life.mo.model.product.BestProduct;
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.SeasonalFoodHall;
+import com.x62life.mo.model.product.SpecialSellingh;
 import com.x62life.mo.service.main.MainService;
 import org.springframework.stereotype.Service;
 
@@ -113,5 +114,17 @@ public class MainServiceImpl implements MainService {
     public List<GdMasterEx> getRightwayList(Map<String, Object> paramMap){
 
         return mainDao.getRightwayList(paramMap);
+    }
+
+    @Override
+    public Map<String, Object> getSpecialSellingBrandListPaging(Map<String, Object> paramMap) {
+        paramMap.put("intPagePerItem", 30);
+        return mainDao.getSpecialSellingBrandListPaging( paramMap);
+    }
+
+    @Override
+    public List<SpecialSellingh> getSpecialSellingBrandHeader(Map<String, Object> paramMap) {
+        paramMap.put("intPagePerItem", 30);
+        return mainDao.getSpecialSellingBrandHeader(paramMap);
     }
 }

@@ -15,6 +15,7 @@ import com.x62life.mo.model.exhibition.OneDaySpecialEx;
 import com.x62life.mo.model.product.BestProduct;
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.SeasonalFoodHall;
+import com.x62life.mo.model.product.SpecialSellingh;
 import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -130,7 +131,14 @@ public class MainController {
 		//오늘발송 상품 리스트
 		List<GdMasterEx> getRightwayList = mainService.getRightwayList(paramMap);
 		model.addAttribute("getRightwayList", getRightwayList);
-
+		
+		//전문관 정보 가져오기
+		Map<String, Object> getSpecialSellingBrandListPaging = mainService.getSpecialSellingBrandListPaging(paramMap);
+		model.addAttribute("getSpecialSellingBrandListPaging", getSpecialSellingBrandListPaging);
+		
+		//전문관 헤더 정보 및 상품 가져오기
+		List<SpecialSellingh> getSpecialSellingBrandHeader = mainService.getSpecialSellingBrandHeader(paramMap);
+		model.addAttribute("getSpecialSellingBrandHeader", getSpecialSellingBrandHeader);
 		mv.setViewName("/main/main");
 		
 		return mv;

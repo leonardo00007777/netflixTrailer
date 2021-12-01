@@ -1,5 +1,6 @@
 package com.x62life.mo.service.impl.category;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -252,5 +253,17 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDao.getNewItemListStatistics(paramMap);
 	}
 
+	@Override
+	public Map<String, Object> setListPaging(Map<String, Object> paramMap) {
+		String[] isenseExceptProduct = {"B11", "B12", "B13", "B14"};
+		paramMap.put("isenseExceptProduct", isenseExceptProduct);
+		return categoryDao.setListPaging(paramMap);
+	}
 
+	@Override
+	public List<GdMasterEx> setProdList(Map<String, Object> paramMap) {
+		String[] isenseExceptProduct = {"B11", "B12", "B13", "B14"};
+		paramMap.put("isenseExceptProduct", isenseExceptProduct);
+		return categoryDao.setProdList(paramMap);
+	}
 }

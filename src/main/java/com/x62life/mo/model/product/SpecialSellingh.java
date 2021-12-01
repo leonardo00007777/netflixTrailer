@@ -2,7 +2,7 @@ package com.x62life.mo.model.product;
 
 import java.sql.Timestamp;
 //기획전
-public class SpecialSelling {
+public class SpecialSellingh {
 
     private int shidx; //기획전 순번
     private String shtitle; //기획전명
@@ -74,6 +74,7 @@ public class SpecialSelling {
     private String mhimg2url; //모바일용 기획전 배너2 링크url
     private short shlevel; //표시레벨
     private int shrelidx; //연관기획전idx
+    private int page;
 
     public int getShidx() {
         return shidx;
@@ -633,5 +634,13 @@ public class SpecialSelling {
 
     public void setShrelidx(int shrelidx) {
         this.shrelidx = shrelidx;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
 }

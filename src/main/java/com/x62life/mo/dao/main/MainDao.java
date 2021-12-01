@@ -7,6 +7,7 @@ import com.x62life.mo.model.exhibition.OneDaySpecialEx;
 import com.x62life.mo.model.product.BestProduct;
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.SeasonalFoodHall;
+import com.x62life.mo.model.product.SpecialSellingh;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -47,4 +48,8 @@ public interface MainDao {
     Map<String, Object> getRightwayListPaging();
 
     List<GdMasterEx> getRightwayList(Map<String, Object> paramMap);
+
+    Map<String, Object> getSpecialSellingBrandListPaging(Map<String, Object> paramMap);
+
+    List<SpecialSellingh> getSpecialSellingBrandHeader(Map<String,Object> paramMap);
 }

@@ -298,4 +298,20 @@ public class CategoryController {
 
         return modelAndView;
     }
+
+    //세트상품 리스트
+    @RequestMapping("/getSetProdList")
+    public ModelAndView getSetProdList(Model model, @RequestParam Map<String, Object> paramMap){
+
+        ModelAndView modelAndView = new ModelAndView();
+        //세트상품 리스트 페이징
+        Map<String, Object> setListPaging = categoryService.setListPaging(paramMap);
+        model.addAttribute("setListPaging",setListPaging);
+        //세트상품 리스트
+        List<GdMasterEx> setProdList = categoryService.setProdList(paramMap);
+        model.addAttribute("setProdList",setProdList);
+        modelAndView.setViewName("/setProdList");
+
+        return modelAndView;
+    }
 }
