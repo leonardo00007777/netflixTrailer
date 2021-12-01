@@ -170,7 +170,7 @@
              ) a
     </sql>
     
-    <select id="targetDate">
+    <select id="itemListtargetDate" >
         /*targetDate 특정 날짜
             targetDate1 2020-06-18
           , targetDate2 2020-06-27
