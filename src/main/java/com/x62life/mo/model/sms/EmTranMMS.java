@@ -1,4 +1,4 @@
-package com.x62life.mo.model.Sms;
+package com.x62life.mo.model.sms;
 //장문 템플릿
 public class EmTranMMS {
     private int mmsSeq; //순번
