@@ -75,6 +75,8 @@ public class SpecialSellingh {
     private short shlevel; //표시레벨
     private int shrelidx; //연관기획전idx
     private int page;
+    private boolean xflag;
+    private boolean whiteList;
 
     public int getShidx() {
         return shidx;
@@ -642,5 +644,21 @@ public class SpecialSellingh {
 
     public void setPage(int page) {
         this.page = page;
+    }
+
+    public boolean isXflag() {
+        return xflag;
+    }
+
+    public void setXflag(boolean xflag) {
+        this.xflag = xflag;
+    }
+
+    public boolean isWhiteList() {
+        return whiteList;
+    }
+
+    public void setWhiteList(boolean whiteList) {
+        this.whiteList = whiteList;
     }
 }

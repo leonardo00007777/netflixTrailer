@@ -5,6 +5,7 @@ import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.SpecialSellingh;
 import com.x62life.mo.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -302,15 +303,39 @@ public class CategoryController {
     //세트상품 리스트
     @RequestMapping("/getSetProdList")
     public ModelAndView getSetProdList(Model model, @RequestParam Map<String, Object> paramMap){
-
         ModelAndView modelAndView = new ModelAndView();
+
         //세트상품 리스트 페이징
         Map<String, Object> setListPaging = categoryService.setListPaging(paramMap);
+
         model.addAttribute("setListPaging",setListPaging);
+
         //세트상품 리스트
         List<GdMasterEx> setProdList = categoryService.setProdList(paramMap);
+
         model.addAttribute("setProdList",setProdList);
+
         modelAndView.setViewName("/setProdList");
+
+        return modelAndView;
+    }
+
+    //전문관 정보 가져오기
+    @RequestMapping("/getSpecialSellingBrandList")
+    public ModelAndView getSpecialSellingBrandList(Model model, @RequestParam Map<String, Object> paramMap) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        //전문관 상품 페이징
+        Map<String, Object> getSpecialSellingBrandListPaging = categoryService.getSpecialSellingBrandListPaging(paramMap);
+
+        model.addAttribute("getSpecialSellingBrandListPaging",getSpecialSellingBrandListPaging);
+
+        //전문관 상품 리스트 & 헤더 정보
+        List<SpecialSellingh> getSpecialSellingBrandHeader = categoryService.getSpecialSellingBrandHeader(paramMap);
+
+        model.addAttribute("getSpecialSellingBrandHeader", getSpecialSellingBrandHeader);
+
+        modelAndView.setViewName("/specialBrand");
 
         return modelAndView;
     }

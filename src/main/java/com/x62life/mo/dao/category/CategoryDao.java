@@ -9,6 +9,7 @@ import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
 import com.x62life.mo.model.product.BasicTagMap;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.SpecialSellingh;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -73,4 +74,8 @@ public interface CategoryDao {
 	Map<String, Object> setListPaging(Map<String, Object> paramMap);
 
 	List<GdMasterEx> setProdList(Map<String, Object> paramMap);
+
+	Map<String,Object> getSpecialSellingBrandListPaging(Map<String, Object> paramMap);
+
+	List<SpecialSellingh> getSpecialSellingBrandHeader(Map<String, Object> paramMap);
 }

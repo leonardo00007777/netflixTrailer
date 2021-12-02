@@ -12,6 +12,7 @@ import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
 import com.x62life.mo.model.product.BasicTagMap;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.SpecialSellingh;
 import org.springframework.stereotype.Service;
 
 import com.x62life.mo.dao.category.CategoryDao;
@@ -265,5 +266,65 @@ public class CategoryServiceImpl implements CategoryService{
 		String[] isenseExceptProduct = {"B11", "B12", "B13", "B14"};
 		paramMap.put("isenseExceptProduct", isenseExceptProduct);
 		return categoryDao.setProdList(paramMap);
+	}
+
+	@Override
+	public Map<String, Object> getSpecialSellingBrandListPaging(Map<String, Object> paramMap) {
+		paramMap.put("intPagePerItem", 30);
+		return categoryDao.getSpecialSellingBrandListPaging(paramMap);
+	}
+
+	@Override
+	public List<SpecialSellingh> getSpecialSellingBrandHeader(Map<String, Object> paramMap) {
+		String strMEMGRPCD = (String) paramMap.get("strMEMGRPCD");
+		String strLoginMemCd = (String)paramMap.get("strLoginMemCd");
+		String grpcd;
+
+		List<SpecialSellingh> getSpecialSellingBrandHeader = categoryDao.getSpecialSellingBrandHeader(paramMap);
+
+		for(int i = 0; i < getSpecialSellingBrandHeader.size(); i++) {
+			grpcd = getSpecialSellingBrandHeader.get(i).getGrpcd();
+
+			if(grpcd != null && grpcd.isEmpty()) {
+				if(!grpcd.equals(strMEMGRPCD)) {
+					getSpecialSellingBrandHeader.get(i).setXflag(true);
+				}
+				if(grpcd.equals("SKCH")
+				   && strMEMGRPCD != null
+				   && !strMEMGRPCD.isEmpty()
+				   && strMEMGRPCD.indexOf("SK_CHEMICALS") > 0) {
+					getSpecialSellingBrandHeader.get(i).setXflag(true);
+				}
+				if(grpcd.equals("02")
+				   && strMEMGRPCD != null
+				   && !strMEMGRPCD.isEmpty()
+				   && strMEMGRPCD.indexOf("SK_EC") > 0) {
+					getSpecialSellingBrandHeader.get(i).setXflag(true);
+				}
+				if(grpcd.equals("SKHY")
+				   && strMEMGRPCD != null
+				   && !strMEMGRPCD.isEmpty()
+				   && grpcd.indexOf("SK_HYNIXES") > 0){
+					getSpecialSellingBrandHeader.get(i).setXflag(true);
+				}
+				if(grpcd.equals("31")
+				   && strMEMGRPCD != null
+				   && !strMEMGRPCD.isEmpty()
+				   && strMEMGRPCD.indexOf("SK_PLANET") > 0) {
+					getSpecialSellingBrandHeader.get(i).setXflag(true);
+				}
+			}
+		}
+		String[] whiteListMemCd = {  "I0006074", "I0007404", "I1008267"
+				                   , "I1041799", "I1032425", "I1000675"
+				                   , "I1008121", "I1048759", "I1052648"
+				                   , "I1047006", "I1052177", "I1049552" };
+		for(int i = 0; i < whiteListMemCd.length; i++) {
+			if(strLoginMemCd.equals(whiteListMemCd[i])){
+				getSpecialSellingBrandHeader.get(i).setXflag(true);
+			}
+		}
+
+		return getSpecialSellingBrandHeader;
 	}
 }
