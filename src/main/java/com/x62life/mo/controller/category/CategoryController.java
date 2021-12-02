@@ -5,6 +5,7 @@ import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.GdSugar;
 import com.x62life.mo.model.product.SpecialSellingh;
 import com.x62life.mo.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 @Controller
 public class CategoryController {
@@ -337,6 +339,28 @@ public class CategoryController {
 
         modelAndView.setViewName("/specialBrand");
 
+        return modelAndView;
+    }
+
+    @RequestMapping("/itemDetail")
+    public ModelAndView itemDetail(Model model, @RequestParam Map<String, Object> paramMap) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        boolean directDespatchFlag = true;
+
+        String strOdtype = (String) paramMap.get("strOdtype");
+        char strTheDaysYn = (char)paramMap.get("strTheDaysYn");
+
+        List<GdMasterEx> searchReserveProdDetail = categoryService.searchReserveProdDetail(paramMap);
+
+
+        String testPathInfo = categoryService.testPathInfo((String)paramMap.get("strTestidx"));
+        model.addAttribute("testPathInfo", testPathInfo);
+
+        List<GdSugar> fruitsSugarInfo = categoryService.fruitsSugarInfo((String)paramMap.get("strGdcd"));
+        model.addAttribute("fruitsSugarInfo",fruitsSugarInfo);
+
+        String defProdInfo;
         return modelAndView;
     }
 }

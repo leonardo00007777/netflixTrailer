@@ -10,9 +10,7 @@ import com.x62life.mo.model.category.CartRecipe;
 import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
-import com.x62life.mo.model.product.BasicTagMap;
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.model.product.SpecialSellingh;
+import com.x62life.mo.model.product.*;
 import org.springframework.stereotype.Service;
 
 import com.x62life.mo.dao.category.CategoryDao;
@@ -326,5 +324,41 @@ public class CategoryServiceImpl implements CategoryService{
 		}
 
 		return getSpecialSellingBrandHeader;
+	}
+
+	@Override
+	public List<GdMasterEx> searchReserveProdDetail(Map<String, Object> paramMap){
+
+		return categoryDao.searchReserveProdDetail(paramMap);
+	}
+
+	@Override
+	public List<Map<String, Object>> setItemInfoOnlySetProd(Map<String, Object> paramMap) {
+		return categoryDao.setItemInfoOnlySetProd(paramMap);
+	}
+
+	@Override
+	public List<GdMasterEx> optionProductViewYn(Map<String, Object> paramMap) {
+		return categoryDao.optionProductViewYn(paramMap);
+	}
+
+	@Override
+	public String testPathInfo(String strTestidx){
+		return categoryDao.testPathInfo(strTestidx);
+	}
+
+	@Override
+	public List<GdSugar> fruitsSugarInfo(String strGdcd) {
+		return categoryDao.fruitsSugarInfo(strGdcd);
+	}
+
+	@Override
+	public String defProdInfo(String strGdcd) {
+		return categoryDao.defProdInfo(strGdcd);
+	}
+
+	@Override
+	public List<GdPipnRef> defProdInfoNew(String strGdcd){
+		return categoryDao.defProdInfoNew(strGdcd);
 	}
 }

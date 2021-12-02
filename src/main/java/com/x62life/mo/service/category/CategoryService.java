@@ -8,9 +8,7 @@ import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.Category;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
-import com.x62life.mo.model.product.BasicTagMap;
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.model.product.SpecialSellingh;
+import com.x62life.mo.model.product.*;
 
 public interface CategoryService {
 
@@ -73,4 +71,18 @@ public interface CategoryService {
 	Map<String, Object> getSpecialSellingBrandListPaging(Map<String, Object> paramMap);
 
 	List<SpecialSellingh> getSpecialSellingBrandHeader(Map<String, Object> paramMap);
+
+	List<GdMasterEx> searchReserveProdDetail(Map<String, Object> paramMap);
+
+	List<Map<String, Object>> setItemInfoOnlySetProd(Map<String, Object> paramMap);
+
+	List<GdMasterEx> optionProductViewYn(Map<String, Object> paramMap);
+
+	String testPathInfo(String strTestidx);
+
+	List<GdSugar> fruitsSugarInfo(String strGdcd);
+
+	String defProdInfo(String strGdcd);
+
+	List<GdPipnRef> defProdInfoNew(String strGdcd);
 }

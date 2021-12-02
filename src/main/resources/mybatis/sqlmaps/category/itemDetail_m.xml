@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x62life.mo.dao.category.CategoryDao">
+<!--    'System        : m.62life.com-->
+<!--    'Program       :-->
+<!--    'Title         : 자연이랑모바일 - 상품 카테고리별 보기-->
+<!--    'File          : item_detail_m.asp-->
+<!--    'Program Type  : asp-->
+<!--    'Analyst       :-->
+<!--    'Author        : hwkim-->
+<!--    'Date Started  : 20130506-->
+<!--    'Last Modified :-->
+<!--    'Called By     :-->
+<!--    'Parameters    :-->
+<!--    'Purpose       :-->
+<!--    'Version       :-->
+    <select id="searchReserveProdDetail" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        /* reservedProdList 상품목록조회 (일반상품, 패키지 상품은 제외) */
+        SELECT g.gdcd
+             , g.gdname
+             , g.gdimg
+             , g.gdimg2
+             , g.gdimg3
+             , g.gdimg4
+             , g.mgdimg1
+             , g.dispatchtype 
+             , g.priceyn
+             , ISNULL(g.qtysaleyn,'N') qtysaleyn 
+             , g.price1 
+             , dbo.getMasterPrice(g.gdcd) saleprice 
+             , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy},g.gdcd) groupsaleprice
+             , dbo.getIsGroupSaleGoods(#{strMEMGRPCD}, #{strGroupSalePolicy},g.gdcd) isgroupsale
+             , g.div1
+             , g.div2
+             , g.divcd
+             , ISNULL(s.gdcnt,99999) gdcnt
+             , g.minqty
+             , g.maxqty
+             , g.shortdesc
+             , ISNULL(t.cdname,'미정') AS typename
+             , ISNULL(g.recommendyn,'N') recommendyn
+             , ISNULL(g.newyn,'N') newyn
+             , ISNULL(g.deliverydtyn,'N') deliverydtyn
+             , ISNULL(g.thedaysyn,'N') thedaysyn
+             , ISNULL(g.soldoutyn,'N') soldoutyn
+             , CONVERT(CHAR(10),g.plandate,120) plandate
+             , ISNULL(g.reserveyn,'N') reserveyn
+             , g.explain
+             , g.unit
+             , i.address
+             , i.origin
+             , i.producer
+             , ISNULL(r.od_from,'') odFrom
+             , ISNULL(r.od_to,'') odTo
+             , ISNULL(r.dlv_from,'') dlvFrom
+             , ISNULL(r.dlv_to,'') dlvTo
+             , CASE WHEN ISNULL(r.packunit,'') = '' THEN '' ELSE r.packunit END packunit
+             , g.expdt
+             , g.vat
+             , g.limitdelivery
+             , g.bestbeforedate
+             , g.packaging
+             , g.handling
+             , g.precaution1
+             , g.precaution2
+             , g.importnote
+             , g.addinformation
+             , g.testidx
+             , g.optionp
+             , g.updt
+             , g.subgdcd1
+             , g.subgdcd2
+             , g.subgdcd3
+             , g.subgdcd4
+             , g.subgdcd5
+             , g.exdiv1
+             , g.exdiv2
+             , ISNULL(t8.delpol,'01') delpol
+             , ISNULL(t8.limamt,0) limamt
+             , ISNULL(t8.delcharge,0) delcharge
+             , g.specifications
+             , g.periodofuse
+             , g.howtouse
+         FROM gd_master g 
+           LEFT JOIN gd_item i
+                  ON i.gdcd = g.gdcd
+           LEFT JOIN cd_master t
+                  ON t.cdtype = '09'
+                 AND t.cdcode = i.typecd
+           LEFT JOIN gd_cnt s
+                  ON g.gdcd = s.gdcd
+           LEFT JOIN supplus t8
+                  ON g.scode = t8.suno
+           LEFT JOIN od_reservegoods r
+                  ON g.gdcd = r.gdcd
+                 AND r.useyn = 'Y'
+                 <![CDATA[
+                 AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                 AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                 ]]>
+         WHERE 1 = 1
+           AND g.useyn = 'Y'
+           AND g.gdcd = #{strGDCD}
+           <![CDATA[
+           AND g.divcd <> '10'
+           ]]>
+           AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+    </select>
+    
+    <select id="optionProductViewYn" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        SELECT gm.gdcd
+             , gm.gdname
+             , gm.price1
+             , dbo.getMasterPrice(gm.gdcd) saleprice 
+             , ISNULL(gc.gdcnt,99999) gdcnt
+             , gm.minqty
+             , gm.maxqty 
+        FROM gd_master gm 
+          LEFT JOIN gd_cnt gc 
+                 ON gm.gdcd = gc.gdcd
+          LEFT JOIN od_reservegoods r 
+                 ON gm.gdcd = r.gdcd 
+                AND r.useyn = 'Y'
+                <![CDATA[
+                AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0 
+                AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                ]]>
+         WHERE 1=1 
+           AND gm.useyn = 'Y' 
+           AND (gm.reserveyn = 'N' OR (gm.reserveyn = 'Y' AND r.gdcd IS NOT NULL)) 
+           <choose>
+               <when test='strItemOptionp == "Y"'>
+                   AND (gm.gdcd IN (SELECT mpcode FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y')
+                        OR gm.mpcode IN (SELECT gdcd FROM gd_master WHERE gdcd IN (SELECT mpcode FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y'))
+                       )
+               </when>
+               <otherwise>
+                   AND (gm.gdcd = #{strGDCD} OR gm.mpcode IN (SELECT gdcd FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y'))
+               </otherwise>
+           </choose>
+        ORDER BY gdcd
+    </select>
+
+    <select id="testPathInfo" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT testpath
+        FROM c_pesticide_residue
+         WHERE testidx = #{strTestidx}
+    </select>
+    
+    <select id="fruitsSugarInfo" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdSugar">
+         /*fruitsSugarInfo 과일 상품 당도 표시*/
+         SELECT TOP 1
+                gasuga
+              , gasug1
+              , gasug2
+              , gasug3
+          FROM gd_sugar 
+           WHERE gagdcd = #{strGDCD}
+          ORDER BY gadate DESC
+    </select>
+    
+    <select id="defProdInfo" parameterType="java.lang.String" resultType="java.lang.String">
+        /*defProdInfo 기존방식으로 기본 상품 표시*/
+        SELECT ppcode 
+          FROM gd_pipn
+           WHERE ppartc = #{strGDCD}
+    </select>
+    
+    <select id="defProdInfoNew" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdPipnRef">
+        /*defProdInfoNew 신규방식으로 기본 상품 표시*/
+        SELECT b.ppartc
+             , b.ppcode
+             , b.pp01
+             , b.pp02
+             , b.pp03
+             , b.pp04
+             , b.pp05
+             , b.pp06
+             , b.pp07
+             , b.pp08
+             , b.pp09
+             , b.pp10
+             , b.pp11
+             , b.pp12
+             , b.pp13
+             , b.pp14
+             , b.pp15
+             , c.pncode
+             , c.pnname
+             , c.pnitem01
+             , c.pnitem02
+             , c.pnitem03
+             , c.pnitem04
+             , c.pnitem05
+             , c.pnitem06
+             , c.pnitem07
+             , c.pnitem08
+             , c.pnitem09
+             , c.pnitem10
+             , c.pnitem11
+             , c.pnitem12
+             , c.pnitem13
+             , c.pnitem14
+             , c.pnitem15 
+        FROM gd_pipn b 
+          INNER JOIN gd_pipn_ref c 
+                  ON b.ppcode = c.pncode  
+         WHERE b.ppartc = #{strGDCD}
+    </select>
+    
+    <select id="setProdDetailList" >
+        SELECT a.gdqty
+             , b.gdname
+        FROM (SELECT sgdcd
+                   , gdqty
+              FROM gd_week
+               WHERE gdyear = #{strNowGDYear}
+                 AND gdweek = #{strNowGDWeek}
+                 AND gdcd = #{strGDCD}
+                 <![CDATA[
+                 AND sgdcd <> '*') A
+                 ]]>
+          JOIN gd_master b
+            ON a.sgdcd = b.gdcd
+        ORDER BY b.gdname
+    </select>
+</mapper>
