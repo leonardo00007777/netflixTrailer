@@ -15,7 +15,7 @@
 <!--    'Purpose       :-->
 <!--    'Version       :-->
     <select id="searchReserveProdDetail" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
-        /* reservedProdList 상품목록조회 (일반상품, 패키지 상품은 제외) */
+        /* searchReserveProdDetail 상품목록조회 (일반상품, 패키지 상품은 제외) */
         SELECT g.gdcd
              , g.gdname
              , g.gdimg
@@ -108,6 +108,7 @@
     </select>
     
     <select id="optionProductViewYn" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        /*optionProductViewYn 옵션 상품 표시 여부 처리*/
         SELECT gm.gdcd
              , gm.gdname
              , gm.price1
@@ -142,9 +143,28 @@
     </select>
 
     <select id="testPathInfo" parameterType="java.lang.String" resultType="java.lang.String">
+        /*testPathInfo 방사능 검사 정보 img 경로*/
         SELECT testpath
         FROM c_pesticide_residue
          WHERE testidx = #{strTestidx}
+    </select>
+
+    <select id="setItemInfoOnlySetProd" parameterType="java.util.Map" resultType="java.util.Map">
+        /* setItemInfoOnlySetProd 세트아이템 정보*/
+        SELECT a.gdqty
+             , b.gdname
+        FROM (SELECT sgdcd
+                   , gdqty
+              FROM gd_week
+              WHERE gdyear = #{strNowGDYear}
+                AND gdweek = #{strNowGDWeek}
+                AND gdcd = #{strGDCD}
+                 <![CDATA[
+                AND sgdcd <> '*') A
+                 ]]>
+          JOIN gd_master b
+                      ON a.sgdcd = b.gdcd
+        ORDER BY b.gdname
     </select>
     
     <select id="fruitsSugarInfo" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdSugar">
@@ -159,14 +179,14 @@
           ORDER BY gadate DESC
     </select>
     
-    <select id="defProdInfo" parameterType="java.lang.String" resultType="java.lang.String">
+    <select id="defProdInfoList" parameterType="java.lang.String" resultType="java.lang.String">
         /*defProdInfo 기존방식으로 기본 상품 표시*/
         SELECT ppcode 
           FROM gd_pipn
            WHERE ppartc = #{strGDCD}
     </select>
     
-    <select id="defProdInfoNew" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdPipnRef">
+    <select id="defProdInfoListNew" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdPipnRef">
         /*defProdInfoNew 신규방식으로 기본 상품 표시*/
         SELECT b.ppartc
              , b.ppcode
@@ -207,21 +227,5 @@
                   ON b.ppcode = c.pncode  
          WHERE b.ppartc = #{strGDCD}
     </select>
-    
-    <select id="setProdDetailList" >
-        SELECT a.gdqty
-             , b.gdname
-        FROM (SELECT sgdcd
-                   , gdqty
-              FROM gd_week
-               WHERE gdyear = #{strNowGDYear}
-                 AND gdweek = #{strNowGDWeek}
-                 AND gdcd = #{strGDCD}
-                 <![CDATA[
-                 AND sgdcd <> '*') A
-                 ]]>
-          JOIN gd_master b
-            ON a.sgdcd = b.gdcd
-        ORDER BY b.gdname
-    </select>
+
 </mapper>

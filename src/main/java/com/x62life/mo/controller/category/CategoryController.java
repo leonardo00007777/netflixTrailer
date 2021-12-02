@@ -5,6 +5,7 @@ import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.GdPipnRef;
 import com.x62life.mo.model.product.GdSugar;
 import com.x62life.mo.model.product.SpecialSellingh;
 import com.x62life.mo.service.category.CategoryService;
@@ -346,21 +347,36 @@ public class CategoryController {
     public ModelAndView itemDetail(Model model, @RequestParam Map<String, Object> paramMap) {
         ModelAndView modelAndView = new ModelAndView();
 
-        boolean directDespatchFlag = true;
-
-        String strOdtype = (String) paramMap.get("strOdtype");
-        char strTheDaysYn = (char)paramMap.get("strTheDaysYn");
-
+        //상품목록조회 (일반상품, 패키지 상품은 제외)
         List<GdMasterEx> searchReserveProdDetail = categoryService.searchReserveProdDetail(paramMap);
+        model.addAttribute("searchReserveProdDetail",searchReserveProdDetail);
 
+        //옵션 상품 표시 여부 처리
+        List<GdMasterEx> optionProductViewYn = categoryService.optionProductViewYn(paramMap);
+        model.addAttribute("optionProductViewYn",optionProductViewYn);
 
+        //세트아이템 정보
+        List<Map<String,Object>> setItemInfoOnlySetProd = categoryService.setItemInfoOnlySetProd(paramMap);
+        model.addAttribute("setItemInfoOnlySetProd", setItemInfoOnlySetProd);
+
+        //방사능 검사 정보 img 경로
         String testPathInfo = categoryService.testPathInfo((String)paramMap.get("strTestidx"));
         model.addAttribute("testPathInfo", testPathInfo);
 
+        //과일 상품 당도 표시
         List<GdSugar> fruitsSugarInfo = categoryService.fruitsSugarInfo((String)paramMap.get("strGdcd"));
         model.addAttribute("fruitsSugarInfo",fruitsSugarInfo);
 
-        String defProdInfo;
+        //기존방식으로 기본 상품 표시
+        List<String> defProdInfoList = categoryService.defProdInfoList((String)paramMap.get("strGdcd"));
+        model.addAttribute("defProdInfoList", defProdInfoList);
+
+        //신규방식으로 기본 상품 표시
+        List<GdPipnRef> defProdInfoListNew = categoryService.defProdInfoListNew((String)paramMap.get("strGdcd"));
+        model.addAttribute("defProdInfoListNew",defProdInfoListNew);
+
+        modelAndView.setViewName("/itemDetail");
+
         return modelAndView;
     }
 }

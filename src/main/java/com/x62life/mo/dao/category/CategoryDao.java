@@ -87,8 +87,8 @@ public interface CategoryDao {
 
 	List<GdSugar> fruitsSugarInfo(String strGdcd);
 
-	String defProdInfo(String strGdcd);
+	List<String> defProdInfoList(String strGdcd);
 
-	List<GdPipnRef> defProdInfoNew(String strGdcd);
+	List<GdPipnRef> defProdInfoListNew(String strGdcd);
 
 }

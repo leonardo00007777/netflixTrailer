@@ -353,12 +353,12 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public String defProdInfo(String strGdcd) {
-		return categoryDao.defProdInfo(strGdcd);
+	public List<String> defProdInfoList(String strGdcd) {
+		return categoryDao.defProdInfoList(strGdcd);
 	}
 
 	@Override
-	public List<GdPipnRef> defProdInfoNew(String strGdcd){
-		return categoryDao.defProdInfoNew(strGdcd);
+	public List<GdPipnRef> defProdInfoListNew(String strGdcd){
+		return categoryDao.defProdInfoListNew(strGdcd);
 	}
 }
