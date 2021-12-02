@@ -39,7 +39,7 @@
              , g.indt
              , g.updt
              , g.shortdesc
-             , dbo.getProductPrice(${strMEMGRPCD}.strMEMGRPCD, ${strGroupSalePolicy}.strMEMGRPCD, g.gdcd) saleprice
+            <!--  , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) saleprice -->
              , CASE WHEN ISNULL(g.soldoutyn,'N')='N' THEN 'N' ELSE g.soldoutyn END soldoutyn
              , ISNULL(g.newyn,'N') newyn
              , ISNULL(g.qtysaleyn,'N') qtysaleyn
@@ -78,7 +78,7 @@
              , r.indt
              , r.updt
              , m.shortdesc
-             , dbo.getProductPrice(${strMEMGRPCD}.strMEMGRPCD, ${strGroupSalePolicy}.strMEMGRPCD, r.gdcd) saleprice
+            <!--  , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, r.gdcd) saleprice -->
              , CASE WHEN ISNULL(soldoutyn,'N')='N' THEN 'N' ELSE soldoutyn END soldoutyn
              , ISNULL(m.newyn,'N') newyn
              , 'N' qtysaleyn
