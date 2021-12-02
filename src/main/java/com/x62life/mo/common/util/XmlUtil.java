@@ -1,6 +1,10 @@
 package com.x62life.mo.common.util;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -12,8 +16,10 @@ import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
+import com.x62life.mo.common.exception.SSOServiceException;
 
 public class XmlUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(XmlUtil.class);
@@ -73,4 +79,87 @@ public class XmlUtil {
         
         return rtnClass;
     } 
+    
+    
+	
+/**
+ * convertInputStreamXMLToObject() function converts an input stream into XML format using the Castor API.
+ * 
+ */
+public static Object convertInputStreamXMLToObject(InputStream in, Unmarshaller unmarshaller) throws SSOServiceException {	
+	Object parameter = null;
+	
+	BufferedInputStream bis = null;
+	ByteArrayInputStream bais = null;
+	try {
+		byte[] data = convertXMLToBytes(in);
+		bais = new ByteArrayInputStream(data);
+		bis = new BufferedInputStream(bais);
+		InputSource inSource = new InputSource(bis);
+		parameter = unmarshaller.unmarshal(inSource);
+		return parameter;
+	} catch(Exception e){
+		throw new SSOServiceException(e.getMessage(),e);
+
+	} finally {
+		try { if(bais!=null) bais.close(); } catch(Exception e) { LOGGER.error(e.getMessage()); }
+		try { if(bis!=null) bis.close(); } catch(Exception e) { LOGGER.error(e.getMessage()); }
+		try { if(in!=null) in.close(); } catch(Exception e) { LOGGER.error(e.getMessage()); }
+	}
+}
+
+/**
+ * convertInputStreamXMLToBytes() function converts an input stream into byte array.
+ * 
+ */
+public static byte[] convertXMLToBytes(final InputStream inStream) throws SSOServiceException {	
+	BufferedInputStream bis = null;
+	ByteArrayOutputStream bos = null;
+	try {
+
+		bis = new BufferedInputStream(inStream);
+		bos = new ByteArrayOutputStream();
+		byte[] buff = new byte[1024];
+		while (true) {
+			int len = bis.read(buff);
+			if (len == -1)
+				break;
+			bos.write(buff, 0, len);
+		}
+
+		byte[] data = bos.toByteArray();
+		bos.close();
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("RequestPayload--> " + new String(data));
+		}
+		if (LOGGER.isWarnEnabled()) {
+			LOGGER.warn("RequestPayload--> " + new String(data));
+		}
+		return data;
+	} catch(Exception e){
+		throw new SSOServiceException(e.getMessage(),e);
+	} finally {
+		try { if(bis!=null) bis.close(); } catch(Exception e) { LOGGER.error(e.getMessage()); }
+		try { if(inStream!=null) inStream.close(); } catch(Exception e) { LOGGER.error(e.getMessage()); }
+		try { if(bos!=null) bos.close(); } catch(Exception e) { LOGGER.error(e.getMessage()); }
+	}
+
+}
+
+/**
+ * convertBytesXMLToObject() function converts an byte array data containing xml  into an object by the Castor API.
+ * 
+ */
+public static Object convertBytesXMLToObject(byte[] data, Unmarshaller unmarshaller) throws SSOServiceException {	
+	Object parameter = null;
+	try {
+		InputSource inSource = new InputSource(new ByteArrayInputStream(
+				data));
+		parameter = unmarshaller.unmarshal(inSource);
+		return parameter;
+	} catch(Exception e){
+		throw new SSOServiceException(e.getMessage(),e);
+	}
+}
+
 }
