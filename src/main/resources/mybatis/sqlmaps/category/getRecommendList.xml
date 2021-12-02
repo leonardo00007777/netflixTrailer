@@ -27,7 +27,7 @@
 <!--    '20180803   hwkim   0.9.7   상품등급 라벨 표시, 할인율 사각형스티커 변경 등-->
 
 <!--추천상품-->
-    <sql id="getRecommendProdList">
+    <sql id="getRecommendProdListInclude">
         SELECT '' odtype
              , g.gdcd
              , g.gdname
@@ -109,7 +109,7 @@
              , COUNT(gdcd) CNT
         FROM (
                  SELECT * FROM (
-                                 <include refid="getRecommendProdList"/>
+                                 <include refid="getRecommendProdListInclude"/>
                                ) a
              ) x
     </select>
@@ -120,7 +120,7 @@
                SELECT FLOOR((ROW_NUMBER() OVER ( ORDER BY indt DESC ) - 1 ) / #{intPagePerItem} + 1) AS page
                     , x.*
                FROM (
-                      <include refid="getRecommendProdList"/>
+                      <include refid="getRecommendProdListInclude"/>
                     ) x
              ) AS pl
          WHERE page = #{intPage}
