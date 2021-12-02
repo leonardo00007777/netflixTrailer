@@ -56,6 +56,7 @@ public class MainController {
 		List<Category> categoryList = categoryService.getCategoryList(paramMap);
 
 		model.addAttribute("categoryList", categoryList);
+/*	
 		//스와이퍼 배너 정보
 		List<AdMainMg> swiperBannerInfo = new ArrayList<>();
 
@@ -139,6 +140,8 @@ public class MainController {
 		//전문관 헤더 정보 및 상품 가져오기
 		List<SpecialSellingh> getSpecialSellingBrandHeader = mainService.getSpecialSellingBrandHeader(paramMap);
 		model.addAttribute("getSpecialSellingBrandHeader", getSpecialSellingBrandHeader);
+		*/
+		
 		mv.setViewName("/main/main");
 		
 		return mv;
