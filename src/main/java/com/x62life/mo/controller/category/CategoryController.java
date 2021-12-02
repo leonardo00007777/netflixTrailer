@@ -5,6 +5,8 @@ import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.GdPipnRef;
+import com.x62life.mo.model.product.GdSugar;
 import com.x62life.mo.model.product.SpecialSellingh;
 import com.x62life.mo.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 @Controller
 public class CategoryController {
@@ -336,6 +339,43 @@ public class CategoryController {
         model.addAttribute("getSpecialSellingBrandHeader", getSpecialSellingBrandHeader);
 
         modelAndView.setViewName("/specialBrand");
+
+        return modelAndView;
+    }
+
+    @RequestMapping("/itemDetail")
+    public ModelAndView itemDetail(Model model, @RequestParam Map<String, Object> paramMap) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        //상품목록조회 (일반상품, 패키지 상품은 제외)
+        List<GdMasterEx> searchReserveProdDetail = categoryService.searchReserveProdDetail(paramMap);
+        model.addAttribute("searchReserveProdDetail",searchReserveProdDetail);
+
+        //옵션 상품 표시 여부 처리
+        List<GdMasterEx> optionProductViewYn = categoryService.optionProductViewYn(paramMap);
+        model.addAttribute("optionProductViewYn",optionProductViewYn);
+
+        //세트아이템 정보
+        List<Map<String,Object>> setItemInfoOnlySetProd = categoryService.setItemInfoOnlySetProd(paramMap);
+        model.addAttribute("setItemInfoOnlySetProd", setItemInfoOnlySetProd);
+
+        //방사능 검사 정보 img 경로
+        String testPathInfo = categoryService.testPathInfo((String)paramMap.get("strTestidx"));
+        model.addAttribute("testPathInfo", testPathInfo);
+
+        //과일 상품 당도 표시
+        List<GdSugar> fruitsSugarInfo = categoryService.fruitsSugarInfo((String)paramMap.get("strGdcd"));
+        model.addAttribute("fruitsSugarInfo",fruitsSugarInfo);
+
+        //기존방식으로 기본 상품 표시
+        List<String> defProdInfoList = categoryService.defProdInfoList((String)paramMap.get("strGdcd"));
+        model.addAttribute("defProdInfoList", defProdInfoList);
+
+        //신규방식으로 기본 상품 표시
+        List<GdPipnRef> defProdInfoListNew = categoryService.defProdInfoListNew((String)paramMap.get("strGdcd"));
+        model.addAttribute("defProdInfoListNew",defProdInfoListNew);
+
+        modelAndView.setViewName("/itemDetail");
 
         return modelAndView;
     }

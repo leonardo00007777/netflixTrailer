@@ -7,8 +7,8 @@ public class OdReserveGoods {
     private String gdcd; //상품코드
     private String gdnm; //상품명
     private String unit; //단위
-    private char divcd; //상품구분
-    private char divcd1; //카테고리
+    private String divcd; //상품구분
+    private String divcd1; //카테고리
     private float masterPrice; //가격
     private float applyPrice; //가격
     private float point; //포인트
@@ -62,19 +62,19 @@ public class OdReserveGoods {
         this.unit = unit;
     }
 
-    public char getDivcd() {
+    public String getDivcd() {
         return divcd;
     }
 
-    public void setDivcd(char divcd) {
+    public void setDivcd(String divcd) {
         this.divcd = divcd;
     }
 
-    public char getDivcd1() {
+    public String getDivcd1() {
         return divcd1;
     }
 
-    public void setDivcd1(char divcd1) {
+    public void setDivcd1(String divcd1) {
         this.divcd1 = divcd1;
     }
 

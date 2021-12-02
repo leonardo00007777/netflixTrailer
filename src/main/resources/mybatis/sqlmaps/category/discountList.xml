@@ -55,8 +55,9 @@
             ON c.cat1 = a.exdiv1
          WHERE 1 = 1
          <if test="customFilterProduct != null and customFilterProduct != '' ">
-            <foreach collection="customFilterProduct" item="customFilterProduct">
-             AND a.gdcd NOT IN (#{customFilterProduct})
+             AND a.gdcd NOT IN
+            <foreach collection="customFilterProduct" item="customFilterProduct"  open="(" separator="," close=")">
+              #{customFilterProduct}
             </foreach>
          </if>
         GROUP BY a.exdiv1, c.catdesc

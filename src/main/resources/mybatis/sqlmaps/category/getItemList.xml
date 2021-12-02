@@ -164,8 +164,11 @@
                 <if test="listingMode == 'OPT'">
                   AND ISNULL(g.optionp,'N') = 'N'
                 </if>
-                <if test='strMEMGRPCD =="" strMEMGRPCD.indexOf("219") lte 0' >
-                  AND g.gdcd NOT IN (#{isensExceptProduct})
+                <if test='strMEMGRPCD == "" or strMEMGRPCD.indexOf("219") lte 0'>
+                    AND g.gdcd NOT IN
+                    <foreach collection="isensExceptProduct" item="isensExceptProduct"  open="(" separator="," close=")">
+                        #{isensExceptProduct}
+                    </foreach>
                 </if>
              ) a
     </sql>
@@ -233,8 +236,11 @@
                    <if test="listingMode == 'OPT'">
                        AND ISNULL(g.optionp,'N') = 'N'
                    </if>
-                   <if test='strMEMGRPCD != "" or strMEMGRPCD.indexOf("219") lte 0'>
-                       AND g.gdcd NOT IN (#{isensExceptProduct})
+                   <if test='strMEMGRPCD == "" or strMEMGRPCD.indexOf("219") lte 0'>
+                       AND g.gdcd NOT IN
+                       <foreach collection="isensExceptProduct" item="isensExceptProduct"  open="(" separator="," close=")">
+                           #{isensExceptProduct}
+                       </foreach>
                    </if>
             ) a
          WHERE 1=1
