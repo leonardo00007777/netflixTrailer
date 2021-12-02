@@ -27,7 +27,7 @@
 <!--    '20180803   hwkim   0.9.7   상품등급 라벨 표시, 할인율 사각형스티커 변경 등-->
 
 <!--추천상품-->
-    <sql id="getRecommendListCommon">
+    <sql id="getRecommendProdList">
         SELECT '' odtype
              , g.gdcd
              , g.gdname
@@ -39,7 +39,7 @@
              , g.indt
              , g.updt
              , g.shortdesc
-             , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, g.gdcd) saleprice
+             , dbo.getProductPrice(${strMEMGRPCD}.strMEMGRPCD, ${strGroupSalePolicy}.strMEMGRPCD, g.gdcd) saleprice
              , CASE WHEN ISNULL(g.soldoutyn,'N')='N' THEN 'N' ELSE g.soldoutyn END soldoutyn
              , ISNULL(g.newyn,'N') newyn
              , ISNULL(g.qtysaleyn,'N') qtysaleyn
@@ -78,7 +78,7 @@
              , r.indt
              , r.updt
              , m.shortdesc
-             , dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, r.gdcd) saleprice
+             , dbo.getProductPrice(${strMEMGRPCD}.strMEMGRPCD, ${strGroupSalePolicy}.strMEMGRPCD, r.gdcd) saleprice
              , CASE WHEN ISNULL(soldoutyn,'N')='N' THEN 'N' ELSE soldoutyn END soldoutyn
              , ISNULL(m.newyn,'N') newyn
              , 'N' qtysaleyn
@@ -109,7 +109,7 @@
              , COUNT(gdcd) CNT
         FROM (
                  SELECT * FROM (
-                                <include refid="getRecommendListCommon"/>
+                                 <include refid="getRecommendProdList"/>
                                ) a
              ) x
     </select>
@@ -120,7 +120,7 @@
                SELECT FLOOR((ROW_NUMBER() OVER ( ORDER BY indt DESC ) - 1 ) / #{intPagePerItem} + 1) AS page
                     , x.*
                FROM (
-                      <include refid="getRecommendListCommon"/>
+                      <include refid="getRecommendProdList"/>
                     ) x
              ) AS pl
          WHERE page = #{intPage}
