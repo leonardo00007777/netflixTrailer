@@ -1,21 +1,18 @@
 package com.x62life.mo.service.impl.category;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.x62life.mo.dao.category.CategoryDao;
 import com.x62life.mo.model.category.CartRecipe;
 import com.x62life.mo.model.category.CartRecipeEx;
+import com.x62life.mo.model.category.Category;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
 import com.x62life.mo.model.product.*;
+import com.x62life.mo.service.category.CategoryService;
 import org.springframework.stereotype.Service;
 
-import com.x62life.mo.dao.category.CategoryDao;
-import com.x62life.mo.model.category.Category;
-import com.x62life.mo.service.category.CategoryService;
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService{
@@ -31,6 +28,11 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public List<SubCategory> getSubCategoryList(Map<String, Object> paramMap) {
 		return categoryDao.getItemList(paramMap);
+	}
+
+	@Override
+	public int specialExhibitionProdCnt(Map<String, Object> paramMap) {
+		return categoryDao.specialExhibitionProdCnt(paramMap);
 	}
 
 	@Override
@@ -360,5 +362,34 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public List<GdPipnRef> defProdInfoListNew(String strGdcd){
 		return categoryDao.defProdInfoListNew(strGdcd);
+	}
+
+	@Override
+	public List<GdMasterEx> itemDetailBar(Map<String, Object> paramMap){
+		return categoryDao.itemDetailBar(paramMap);
+	}
+
+	@Override
+	public List<GdMasterEx> itemDetailBarSetItem(Map<String, Object> paramMap) {
+		return categoryDao.itemDetailBarSetItem(paramMap);
+	}
+
+	@Override
+	public List<GdMasterEx> itemDetailBarOptionYN(Map<String, Object> paramMap) {
+		return categoryDao.itemDetailBarOptionYN(paramMap);
+	}
+
+	@Override
+	public String itemDetailBarTestPathInfo(Map<String, Object> paramMap) {
+		return categoryDao.itemDetailBarTestPathInfo(paramMap);
+	}
+
+	@Override
+	public List<GdSugar> itemBarDetailFruitsSugarInfo(Map<String, Object> paramMap) {
+		return categoryDao.itemBarDetailFruitsSugarInfo(paramMap);
+	}
+	@Override
+	public List<GdPipn> itemBarDetailBasicInfoNew(Map<String, Object> paramMap) {
+		return categoryDao.itemBarDetailBasicInfoNew(paramMap);
 	}
 }

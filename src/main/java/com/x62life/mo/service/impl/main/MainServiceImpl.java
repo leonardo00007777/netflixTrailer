@@ -1,7 +1,5 @@
 package com.x62life.mo.service.impl.main;
 
-import com.x62life.mo.dao.CommonDao;
-import com.x62life.mo.dao.category.CategoryDao;
 import com.x62life.mo.dao.main.MainDao;
 import com.x62life.mo.model.boardcontents.BdContents;
 import com.x62life.mo.model.boardcontents.MagazineLEx;
@@ -54,6 +52,11 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
+    public List<OneDaySpecialEx> nowNewProdList(Map<String, Object> paramMap) {
+        List<OneDaySpecialEx> nowNewProdList = mainDao.nowNewProdList(paramMap);
+        return nowNewProdList;
+    }
+    @Override
     public List<GdMasterEx> newProdList(Map<String, Object> paramMap){
         List<GdMasterEx> newProdList = mainDao.newProdList(paramMap);
         return newProdList;
@@ -77,6 +80,10 @@ public class MainServiceImpl implements MainService {
         return discountProdList;
     }
 
+    @Override
+    public List<Map<String, Object>> bestReviewProdList(Map<String, Object> paramMap) {
+        return mainDao.bestReviewProdList(paramMap);
+    }
     @Override
     public int magazineIdx(){
         int magazineIdx = mainDao.getMagazineIdx();
@@ -126,5 +133,30 @@ public class MainServiceImpl implements MainService {
     public List<SpecialSellingh> getSpecialSellingBrandHeader(Map<String, Object> paramMap) {
         paramMap.put("intPagePerItem", 30);
         return mainDao.getSpecialSellingBrandHeader(paramMap);
+    }
+
+    @Override
+    public List<GdMasterEx> itemListBasicProdCategory(Map<String, Object> paramMap) {
+
+        String[] customFilterProduct = {"43042719", "91073305", "05020034", "99701120", "1010000011", "1010000031"};
+        paramMap.put("customFilterProduct", customFilterProduct);
+        
+        String[] isensExceptProduct = {"B11","B12", "B13", "B14"};
+        paramMap.put("isensExceptProduct", isensExceptProduct);
+
+        String[] exceptProduct ={"Y51","Y52","Y53","Y54"};
+        paramMap.put("exceptProduct", exceptProduct);
+
+        return mainDao.itemListBasicProdCategory(paramMap);
+    }
+
+    @Override
+    public List<String> itemListSelectCategory(Map<String, Object> paramMap){
+        return mainDao.itemListSelectCategory(paramMap);
+    }
+
+    @Override
+    public int itemListProdPaging(Map<String, Object> paramMap) {
+        return mainDao.itemListProdPaging(paramMap);
     }
 }

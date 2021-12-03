@@ -4,12 +4,8 @@ import com.x62life.mo.model.category.CartRecipe;
 import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.model.product.GdPipnRef;
-import com.x62life.mo.model.product.GdSugar;
-import com.x62life.mo.model.product.SpecialSellingh;
+import com.x62life.mo.model.product.*;
 import com.x62life.mo.service.category.CategoryService;
-import org.bouncycastle.math.raw.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CategoryController {
@@ -40,6 +36,11 @@ public class CategoryController {
 
         modelAndView.setViewName("/main/main");
         return modelAndView;
+    }
+
+    @RequestMapping("/discountProdList")
+    public ModelAndView discountProdList(@RequestParam Map<String, Object> paramMap) {
+
     }
 /*
     //업체직송상품 페이징, 업체직송상품 리스트
@@ -381,8 +382,35 @@ public class CategoryController {
         return modelAndView;
     }
 
-    @RequestMapping("/categoryItemList")
-    public ModelAndView categoryItemList(Model model, @RequestParam Map<String, Object> paramMap) {
+    @RequestMapping("/itemDetailBar")
+    public ModelAndView itemDetailBar(Model model, @RequestParam Map<String, Object> paramMap) {
+        ModelAndView modelAndView = new ModelAndView();
 
+        //아이템 상세 바
+        List<GdMasterEx> itemDetailBar = categoryService.itemDetailBar(paramMap);
+        model.addAttribute("itemDetailBar", itemDetailBar);
+
+        //아이템 상세 바 세트아이템
+        List<GdMasterEx> itemDetailBarSetItem = categoryService.itemDetailBarSetItem(paramMap);
+        model.addAttribute("itemDetailBarSetItem", itemDetailBarSetItem);
+
+        //아이템 상세 바 옵션상품 표시 여부
+        List<GdMasterEx> itemDetailBarOptionYN = categoryService.itemDetailBarOptionYN(paramMap);
+        model.addAttribute("itemDetailBarOptionYN",itemDetailBarOptionYN);
+
+        //아이템 상세 바 방사능 정보
+        String itemDetailBarTestPathInfo = categoryService.itemDetailBarTestPathInfo(paramMap);
+        model.addAttribute("itemDetailBarTestPathInfo", itemDetailBarTestPathInfo);
+
+        List<GdSugar> itemBarDetailFruitsSugarInfo = categoryService.itemBarDetailFruitsSugarInfo(paramMap);
+
+
+        //기본상품정보 신규방식
+        List<GdPipn> itemBarDetailBasicInfoNew = categoryService.itemBarDetailBasicInfoNew(paramMap);
+        model.addAttribute("itemBarDetailBasicInfoNew", itemBarDetailBasicInfoNew);
+
+        modelAndView.setViewName("itemDetailBar");
+
+        return modelAndView;
     }
 }

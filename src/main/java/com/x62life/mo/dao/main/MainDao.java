@@ -8,10 +8,8 @@ import com.x62life.mo.model.product.BestProduct;
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.SeasonalFoodHall;
 import com.x62life.mo.model.product.SpecialSellingh;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +25,8 @@ public interface MainDao {
 
     Map<String, Object> eventTargetPayment(Map<String, Object> paramMap);
 
+    List<OneDaySpecialEx> nowNewProdList(Map<String, Object> paramMap);
+
     List<GdMasterEx> newProdList(Map<String, Object> paramMap);
 
     List<SeasonalFoodHall> seasonalFoodHall(Map<String, Object> paramMap);
@@ -34,6 +34,8 @@ public interface MainDao {
     List<BestProduct> bestProdList(Map<String, Object> paramMap);
 
     List<GdMasterEx> discountProdList(String strMEMGRPCD);
+
+    List<Map<String, Object>> bestReviewProdList(Map<String, Object> paramMap);
 
     int getMagazineIdx();
 
@@ -52,4 +54,10 @@ public interface MainDao {
     Map<String, Object> getSpecialSellingBrandListPaging(Map<String, Object> paramMap);
 
     List<SpecialSellingh> getSpecialSellingBrandHeader(Map<String,Object> paramMap);
+
+    List<GdMasterEx> itemListBasicProdCategory(Map<String, Object> paramMap);
+
+    List<String> itemListSelectCategory(Map<String, Object> paramMap);
+
+    int itemListProdPaging(Map<String, Object> paramMap);
 }

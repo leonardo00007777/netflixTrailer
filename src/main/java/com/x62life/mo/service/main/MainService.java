@@ -23,6 +23,8 @@ public interface MainService {
 
     Map<String, Object> eventTargetPayment(Map<String, Object> paramMap);
 
+    List<OneDaySpecialEx> nowNewProdList(Map<String, Object> paramMap);
+
     List<GdMasterEx> newProdList (Map<String, Object> paramMap);
 
     List<SeasonalFoodHall> seasonalFoodHallList(Map<String, Object> paramMap);
@@ -30,6 +32,8 @@ public interface MainService {
     List<BestProduct> bestProductList(Map<String, Object> paramMap);
 
     List<GdMasterEx> discountProdList(String strMEMGRPCD);
+
+    List<Map<String, Object>> bestReviewProdList(Map<String, Object> paramMap);
 
     int magazineIdx();
 
@@ -48,4 +52,10 @@ public interface MainService {
     Map<String, Object> getSpecialSellingBrandListPaging(Map<String, Object> paramMap);
 
     List<SpecialSellingh> getSpecialSellingBrandHeader(Map<String, Object> paramMap);
+
+    List<GdMasterEx> itemListBasicProdCategory(Map<String, Object> paramMap);
+
+    List<String> itemListSelectCategory(Map<String, Object> paramMap);
+
+    int itemListProdPaging(Map<String, Object> paramMap);
 }

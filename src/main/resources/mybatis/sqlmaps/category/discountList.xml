@@ -20,6 +20,95 @@
 <!--    '20170619   hwkim   0.9     처음 작성-->
 <!--    '20170713   hwkim   0.9.1   카테고리 추가-->
 <!--    '20200324   sykim   0.9.2   상품정보 단일화(gd_master & od_reservegoods > gd_master) 적용.&ndash;&gt;-->
+    <select id="specialExhibitionProdCnt" parameterType="java.util.Map" resultType="int">
+         /*기획전 일반*/
+        SELECT COUNT(1) rscnt 
+          FROM gd_master a
+            LEFT JOIN od_reservegoods r
+                   ON a.gdcd = r.gdcd
+                  AND r.useyn = 'Y'
+                  <![CDATA[
+                  AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                  AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                   ]]>
+           WHERE 1 = 1
+             AND a.useyn = 'Y'
+             AND (a.reserveyn = 'N' OR (a.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+             AND (a.divcd = '30' OR (a.divcd = '20'
+                                     AND a.deliverydtyn = 'N'
+                                     AND a.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')
+                                    )
+                ) 
+            AND a.saleflag IN ('P','S')
+        <if test="customFilterProduct != null and customFilterProduct != '' ">
+            AND a.gdcd NOT IN
+            <foreach collection="customFilterProduct" item="customFilterProduct" open="(" separator="," close=")">
+                 #{customFilterProduct}
+            </foreach>
+        </if>
+    </select>
+    
+    <select id="specialExhibitionProdList">
+        SELECT * 
+           FROM ( 
+                 SELECT a.gdcd
+                      , a.gdname
+                      , a.unit
+                      , a.price1
+                      , a.gdimg
+                      , a.divcd
+                      , a.div1
+                      , a.indt
+                      , a.updt
+                      , a.shortdesc 
+                      , ISNULL(z.gdcnt,99999) stock_num 
+                      , ISNULL(a.soldoutyn,'N') soldoutyn 
+                      , ISNULL(a.newyn,'N') newyn
+                      , ISNULL(a.qtysaleyn,'N') qtysaleyn 
+                      , dbo.getMasterPrice(a.gdcd) saleprice 
+                      , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) groupsaleprice 
+                      , dbo.getIsGroupSaleGoods(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) isgroupsale 
+                      , a.plandate 
+                      , a.thedaysyn 
+                      , ISNULL(t6.cdname,'미정') AS typename
+                      , '-' alltimesale
+                      , CASE a.dispatchtype WHEN 'I' THEN '11' WHEN 'O' THEN '15' END odtype 
+                      , ISNULL(a.deliverydtyn,'N') deliverydtyn 
+                      , ISNULL(a.reserveyn,'N') reserveyn 
+                   FROM gd_master a 
+                        LEFT JOIN gd_cnt z
+                               ON z.gdcd = a.gdcd
+                        LEFT JOIN gd_item i
+                               ON i.gdcd = a.gdcd
+                        LEFT JOIN cd_master t6
+                               ON t6.cdtype = '09' AND t6.cdcode = i.typecd
+                        LEFT JOIN od_reservegoods r
+                               ON a.gdcd = r.gdcd
+                              AND r.useyn = 'Y'
+                              <![CDATA[
+                              AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                              AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                              ]]>
+                  WHERE 1 = 1 
+                    AND a.useyn = 'Y' 
+                    AND (a.reserveyn = 'N' OR (a.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                    AND (a.divcd = '30' OR (  a.divcd='20' "
+                                              AND a.deliverydtyn = 'N'
+                                              AND a.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')
+                                           )
+                         )
+                   AND a.saleflag IN ('P','S')
+                 <if test=" 0 lte targetDate1 and targetDete2 lte 0">
+                     <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0">
+                         AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 784)
+                     </if>
+                 </if>
+                 <if test="0 lte targetDate3 and targetDate4 lte 0">
+                     <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0">
+                         AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 792)
+                     </if>
+                 </if>
+    </select>
 
     <select id="defProdOneProd">
         /* defProdOneProd 기본세트상품 단품상품 표시*/
@@ -63,27 +152,25 @@
         GROUP BY a.exdiv1, c.catdesc
         ORDER BY a.exdiv1
     </select>
-    <!--    'System        : m.62life.com-->
-    <!--    'Program       :-->
-    <!--    'Title         : 자연이랑모바일 - 상품 페이지 단위로 가져오기-->
-    <!--    'File          : get_discount_list2_m.asp-->
-    <!--    'Program Type  : asp-->
-    <!--    'Analyst       :-->
-    <!--    'Author        : hwkim-->
-    <!--    'Date Started  : 20161116-->
-    <!--    'Last Modified :-->
-    <!--    'Called By     :-->
-    <!--    'Parameters    :-->
-    <!--    'Purpose       :-->
-    <!--    'Version       :-->
-    <!--    '-->
-    <!--    'Modified   Author  V/M     Reason For Modification-->
-    <!--    '20161116   hwkim   0.9     처음 작성-->
-    <!--    '20170713   hwkim   0.9.1   카테고리 추가-->
-    <!--    '20180621   hyeok   -&#45;&#45;     표시대상 상품 조건에 세트유형(20) 추가-->
-    <!--    '20180803   hwkim   0.9.2   상품등급 라벨 표시, 할인율 사각형스티커 변경 등-->
-    <!--    '사용자 정의 필터링 상품 - 첫구매(2019)이벤트 상품, 5월휴면고객특가-->
-    <!--    CUSTOM_FILTER_PRODUCT = "'43042719','91073305','05020034','99701120','1010000011','1010000013','1010000031'"-->
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 할인, 추천 상품
+    'File          : weekhot_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20140324
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20170619   hwkim   0.9     처음 작성
+    '20170713   hwkim   0.9.1   카테고리 추가
+    '20200324   sykim   0.9.2   상품정보 단일화(gd_master & od_reservegoods > gd_master) 적용.-->
     <select id="discountListAddSetProdPaging" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem}) maxPage
              , COUNT(a.gdcd) CNT
