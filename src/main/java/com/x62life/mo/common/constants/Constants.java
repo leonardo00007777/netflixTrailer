@@ -12,6 +12,17 @@ import org.apache.commons.lang.StringUtils;
  *
  */
 public class Constants {
+	
+    public static final String sMobileTextLogo = "AlexStudio";
+    public static final String sProgramTitle = "";
+    public static final String loginUrl = "";    
+    public static final String topRightMenuUrl = "/m/menum.asp";
+    public static final String topRightMenu = "";
+    public static final String P62LIFECOM = "http://www.62life.com";
+    public static final String M62LIFECOM = "http://m.62life.com";
+	public static final String bodyBackgroundColor = "#ecf0f1";
+	
+	
     public static final String DEFAULT_SYSTEM_LANGUAGE = "defaultSystemLanguage";
     public static final String DEFAULT_COUNTRY_CD = "defaultCntryCd";
     public static final String DEFAULT_LOGGER_CATEGORY = "default.cat";

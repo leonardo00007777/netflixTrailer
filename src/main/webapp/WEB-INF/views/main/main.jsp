@@ -6,26 +6,6 @@
 %>
 
 <body class="page-home header-float">
-	    			<c:choose>
-			        	<c:when test="${fn:length(categoryList) == 0}">
-			            	<tr>
-			            		<td colspan="4" align="center">
-			            			조회결과가 없습니다.
-			            		</td>
-			            	</tr>
-			           	</c:when>
-			           	<c:otherwise>
-			            	<c:forEach var="categoryList" items="${categoryList}" varStatus="status">
-								<tr>
-						    		<td align="center">${categoryList.id}</td>
-						    		<td>
-						    			<a name="subject" class="mouseOverHighlight" content_id="${categoryList.id}">${categoryList.subject}</a>
-						    		</td>
-						    	</tr>
-						    </c:forEach>
-			           	</c:otherwise> 
-			    	</c:choose>
-			    	
   <div class="site-container">
     <header class="global-header" id="global-header">
       <div class="global-header-wrap" id="sticky-header">
@@ -64,18 +44,26 @@
           <div class="kv-container">
             <div class="swiper-container swiper-dot-main" id="swiperKvA2">
               <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
-                </div>
+              
+	    			<c:choose>
+			        	<c:when test="${fn:length(swiperBannerInfo) == 0}">
+			            	<tr>
+			            		<td colspan="4" align="center">
+			            			조회결과가 없습니다.
+			            		</td>
+			            	</tr>
+			           	</c:when>
+			           	<c:otherwise>
+			            	<c:forEach var="gdInfo" items="${swiperBannerInfo}" varStatus="status">
+				                <div class="swiper-slide">
+				                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/"${gdInfo.gdimg}"   alt="상품이미지"></a>
+				                </div>
+				                
+				                
+						    </c:forEach>
+			           	</c:otherwise> 
+			    	</c:choose>
+                
               </div>
               <div class="swiper-kv-footer">
                 <div class="swiper-pgn-dots-main">
@@ -110,10 +98,31 @@
                     <a href="#" class="btn-all-chevron" title="전체보기"></a>
                   </div>
                 </header>
+                
                 <div class="swiper-container swiper-prd-2n swiper-no-swiping">
                   <div class="swiper-wrapper">
+                  
+                  <!-- MD 추천상품 1 : swiper-slide   start	 ------------------------- -->
+<%-- 		    			<c:choose>
+				        	<c:when test="${fn:length(swiperBannerInfo) == 0}">
+				            	<tr>
+				            		<td colspan="4" align="center">
+				            			조회결과가 없습니다.
+				            		</td>
+				            	</tr>
+				           	</c:when>
+				           	<c:otherwise>
+				            	<c:forEach var="gdInfo" items="${swiperBannerInfo}" varStatus="status">
+					                <div class="swiper-slide">
+					                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/"${gdInfo.gdimg}"   alt="상품이미지"></a>
+					                </div>
+							    </c:forEach>
+				           	</c:otherwise> 
+				    	</c:choose> --%>
+				    	                  
                     <div class="swiper-slide">
                       <article class="prd-item">
+                      
                         <div class="img-container">
                           <a href="#" class="prd-item-img">
                             <img src="<%=_imgUrl %>/images/uploads/prd-img-08.jpg" alt="마담로익 크림치즈 플레인 150g">
@@ -123,6 +132,7 @@
                             </div>
                           </a>
                         </div>
+				    	                        
                         <div class="detail">
                           <a href="#">
                             <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
@@ -132,77 +142,14 @@
                             </div>
                           </a>
                         </div>
+                        
                       </article>
-                    </div>
-                    <div class="swiper-slide">
-                      <article class="prd-item">
-                        <div class="img-container">
-                          <a href="#" class="prd-item-img">
-                            <img src="<%=_imgUrl %>/images/uploads/prd-img-02.jpg" alt="마담로익 크림치즈 플레인 150g">
-                            <div class="prd-item-badge dc">
-                              <span>23</span>
-                              <small>%</small>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="detail">
-                          <a href="#">
-                            <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
-                            <div class="prd-item-price">
-                              <div class="price"><span>3,480</span><small>원</small></div>
-                              <div class="price-org">4,800원</div>
-                            </div>
-                          </a>
-                        </div>
-                      </article>
-                    </div>
-                    <div class="swiper-slide">
-                      <article class="prd-item">
-                        <div class="img-container">
-                          <a href="#" class="prd-item-img">
-                            <img src="<%=_imgUrl %>/images/uploads/prd-img-08.jpg" alt="마담로익 크림치즈 플레인 150g">
-                            <div class="prd-item-badge dc">
-                              <span>23</span>
-                              <small>%</small>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="detail">
-                          <a href="#">
-                            <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
-                            <div class="prd-item-price">
-                              <div class="price"><span>3,480</span><small>원</small></div>
-                              <div class="price-org">4,800원</div>
-                            </div>
-                          </a>
-                        </div>
-                      </article>
-                    </div>
-                    <div class="swiper-slide">
-                      <article class="prd-item">
-                        <div class="img-container">
-                          <a href="#" class="prd-item-img">
-                            <img src="<%=_imgUrl %>/images/uploads/prd-img-02.jpg" alt="마담로익 크림치즈 플레인 150g">
-                            <div class="prd-item-badge dc">
-                              <span>23</span>
-                              <small>%</small>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="detail">
-                          <a href="#">
-                            <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
-                            <div class="prd-item-price">
-                              <div class="price"><span>3,480</span><small>원</small></div>
-                              <div class="price-org">4,800원</div>
-                            </div>
-                          </a>
-                        </div>
-                      </article>
-                    </div>
+                    </div> 
+                    <!-- MD 추천상품 1 : swiper-slide   end	 ------------------------- -->     
+                  
                   </div>
                   <div class="swiper-pgn-dots-sub"></div>
-                </div>
+                </div> <!--  swiper-container swiper-prd-2n swiper-no-swiping -->
               </section>
 
               <!-- 오늘의 특가 B1 ------------------------- -->

@@ -241,6 +241,17 @@
         </if>
     </select>
 
+     <select id="getItemListSearch" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        /* getSwiperBannerInfo 스와이프 배너 정보*/
+		SELECT
+		 a.*
+		FROM
+			GD_MASTER a
+		where updt > '20210630'
+    </select> 
+        
+        
+        <!-- 
     <select id="getItemListSearch" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
         /* getItemListSearch 상품목록조회 (통합)*/
         SELECT * FROM (
@@ -408,5 +419,7 @@
                     </if>
                  ) AS pl
                WHERE PAGE = #{intPage}
-    </select>
+    </select> -->
+    
+    
 </mapper>

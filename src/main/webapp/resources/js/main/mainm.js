@@ -1105,3 +1105,374 @@ $(function(){
         $("#"+$(this).data('id')).slideToggle(300).siblings().slideUp(300);
     });
 });
+
+
+
+//********************************************************
+// mainm.asp 내 function 
+//********************************************************
+function closeJoinPointPop() {
+      setCookie('closeJoinLayer', 'true' , 1);
+      $('.bottom-banner').css('display', 'none');
+      if($('#div-bottom-bar').length > 0) {
+        $("#div-goto-top").css("bottom","50px");
+      } else {
+          $("#div-goto-top").css("bottom","5px");
+      }
+  }
+
+  function closeJoinPointPop2() {
+      setCookie('closeJoinLayer', 'true' , 1);
+      $('.bottom-banner').css('display', 'none');
+  }
+
+
+function openIntroVideo() {
+  $('#intro-video-wrap iframe').attr('src', 'https://www.youtube.com/embed/AzGTyf3Fc6A');
+  $('#intro-video-wrap').fadeIn();
+}
+
+function closeIntroVideo() {
+  $('#intro-video-wrap iframe').attr('src', '');
+  $('#intro-video-wrap').fadeOut();
+}
+
+
+// Android : android, iOS : webkit 객체 판단 추가
+function callFCMSync() {
+	var android = window.Android;
+	if(android) {
+		android.callFCMIdSync('<%=strLoginMemCd%>');
+	} else if(typeof webkit != "undefined")  {
+		webkit.messageHandlers.callFCMIdSync.postMessage('<%=strLoginMemCd%>');
+	}
+}
+
+function loadingContent(idx) {
+	var page2 = parseInt($('#page2').val());
+	var page3 = parseInt($('#page3').val());
+	var page4 = parseInt($('#page4').val());
+
+	if(idx == 2 || idx == 3 || idx == 4){
+	//if(idx == 2 || idx == 4){
+		$('#popFilter').show();
+	}else{
+		$('#popFilter').hide();
+	}
+
+	switch(idx) {
+		case 1:
+			//홈
+			fixViewport();
+
+			break;
+		case 2:
+			//신제품
+			fixViewport();
+			if($('.ul-new').find("li").length == 0) getNewList(1);
+			showFilter(1);
+			showFilter2(1);
+
+			break;
+		case 3:
+			//인기
+			fixViewport();
+			if($('.ul-hot').find("li").length == 0) getHotList(1);
+			showFilter(2);
+			showFilter2(2);
+
+			break;
+		case 4:
+			//할인중
+			fixViewport();
+			if($('.ul-discount').find("li").length == 0) getDiscountList(1);
+			showFilter(3);
+			showFilter2(3);
+
+			break;
+		case 5:
+			//이벤트
+			zoomViewport();
+			if($('.ul-event').find("li").length == 0) getEvent(1);
+
+			break;
+		case 6:
+			//자연이랑
+			fixViewport();
+			if($('.ul-event').find("li").length == 0) getEvent(1);
+			
+			break;
+		case 7:
+			//행복소식
+			zoomViewport();
+			//if($('.ul-news').find("li").length == 0) getNews(1);
+
+			break;
+		default:
+	}
+	//$('#mtab'+idx).click();
+}
+
+function changeSortingOptionNew(){
+	$('.ul-new').empty();
+	delayUpdate();
+	getNewList(1);
+}
+function changeSortingOptionHot(){
+	$('.ul-hot').empty();
+	delayUpdate();
+	getHotList(1);
+}
+function changeSortingOptionDis(){
+	$('.ul-discount').empty();
+	delayUpdate();
+	getDiscountList(1);
+}
+
+function showFilter(num){
+	for(var i=1; i <= 3; i++){
+		if(num == i){
+			$('#pOption'+i).show();
+		}else{
+			$('#pOption'+i).hide();
+		}
+	}
+}
+
+function showFilter2(num){
+	for(var i=1; i <= 3; i++){
+		if(num == i){
+			$('#dOption'+i).show();
+		}else{
+			$('#dOption'+i).hide();
+		}
+	}
+}
+
+function checkForHash() {
+	if(document.location.hash){
+		var HashLocationName = document.location.hash;
+		HashLocationName = HashLocationName.replace("#","");
+		var arrtemp = HashLocationName.split("-");
+		var ctab = parseInt(arrtemp[0]);
+		var npage = parseInt(arrtemp[1]);
+		var cgdcd = parseInt(arrtemp[2]);
+		if(ctab != "" && ctab != null){
+			$('#mtab'+ctab).click();
+			$('#hash'+ctab).val(npage+"-"+ctab+"-"+cgdcd);
+		}
+	} else {
+
+	}
+}
+
+function moveToContent(ctab) {
+	var hashl = $('#hash'+ctab).val();
+	var position = null;
+	if($('#'+hashl).length > 0){
+		position = $('#'+hashl).offset();
+		$('html, body').animate({scrollTop : position.top}, 300);
+	}
+}
+
+function showProductDetailNoHash(urlx){
+	document.location.hash = "";
+	location.href = urlx;
+}
+
+function showProductDetail(urlx, tab, gdcd, currentPage){
+	var tabidx;
+
+	if(tab=="new") {
+		tabidx = 1;
+	} else if(tab=="hot") {
+		tabidx = 2;
+	} else if(tab=="discount") {
+		tabidx = 3;
+	} else if(tab=="hot") {
+		tabidx = 4;
+	} else if(tab=="event") {
+		tabidx = 5;
+	} else if(tab=="withnature") {
+		tabidx = 6;
+	} else if(tab=="news") {
+		tabidx = 7;
+	} else {
+		tabidx = "0";
+	}
+
+	window.location.hash = "#" + tabidx + "-" + currentPage + "-" + gdcd;
+	location.href = urlx;
+}
+
+function delayUpdate() {
+	swiper_2.update();
+}
+
+function getNewList(page) {
+	var orderby = $("#pOption1").val();
+	var dispatchtype = $("#dOption1").val();
+	var flagfirst = false;
+	if(page == 0){
+		flagfirst = true;
+		page = 1;
+	}
+	$("#div-loading-noback").show();
+	$.ajax({
+		type: 'POST',
+		url: "/m/goods/get_new_list_x2_m.asp",
+		data: "page="+page+"&opcart=show&orderby="+orderby+"&dispatchtype="+dispatchtype,
+		success: function(html) {
+			if(html) {
+				$('.new-button').remove();
+				$(".ul-new").append(html);
+				$('#page2').val(page);
+			}
+			$("#div-loading-noback").hide();
+		},
+		complete: function(data) {
+			moveToContent(2);
+			if(!flagfirst){
+				$("img").load(function(){
+					delayUpdate();
+				});
+			}
+		},
+		error: function(request,status,error) {
+			$("#div-loading-noback").hide();
+		}
+	});
+}
+
+function getHotList(page) {
+	var orderby = $("#pOption2").val();
+	var dispatchtype = $("#dOption2").val();
+	var flagfirst = false;
+	if(page == 0){
+		flagfirst = true;
+		page = 1;
+	}
+	$("#div-loading-noback").show();
+	$.ajax({
+		type: 'POST',
+		url: "/m/goods/get_hot_list_x2_m.asp",
+		data: "page="+page+"&opcart=show&orderby="+orderby+"&dispatchtype="+dispatchtype,
+		success: function(html) {
+			if(html) {
+				$('.hot-button').remove();
+				$(".ul-hot").append(html);
+				$('#page3').val(page);
+			}
+			$("#div-loading-noback").hide();
+		},
+		complete: function(data) {
+			moveToContent(3);
+			if(!flagfirst){
+				$("img").load(function(){
+					delayUpdate();
+				});
+			}
+		},
+		error: function(request,status,error) {
+			$("#div-loading-noback").hide();
+		}
+	});
+}
+
+function getDiscountList(page) {
+	var orderby = $("#pOption3").val();
+	var dispatchtype = $("#dOption3").val();
+	var flagfirst = false;
+	if(page == 0){
+		flagfirst = true;
+		page = 1;
+	}
+	$("#div-loading-noback").show();
+	$.ajax({
+		type: 'POST',
+		url: "/m/goods/get_discount_list_x2_m.asp",
+		data: "page="+page+"&opcart=show&orderby="+orderby+"&dispatchtype="+dispatchtype,
+		success: function(html) {
+			if(html) {
+				$('.discount-button').remove();
+				$(".ul-discount").append(html);
+				$('#page4').val(page);
+			}
+			$("#div-loading-noback").hide();
+		},
+		complete: function(data) {
+			if(!flagfirst){
+				$("img").load(function(){
+					delayUpdate();
+				});
+			}
+		},
+		error: function(request,status,error) {
+			$("#div-loading-noback").hide();
+		}
+	});
+}
+
+function getNews(page) {
+	$("#div-loading-noback").show();
+	$.ajax({
+		type: 'POST',
+		url: "/m/community/get_magazine_m.asp",
+		data: "",
+		success: function(html) {
+			if(html) {
+				$(".ul-news").empty();
+				$(".ul-news").append(html);
+				$('.ul-news img').css('max-width','100%');
+				$('.ul-news img').css('height','auto');
+			}
+			$("#div-loading-noback").hide();
+		},
+		complete: function(data) {
+			$("img").load(function(){
+				delayUpdate();
+			});
+		},
+		error: function(request,status,error) {
+			$("#div-loading-noback").hide();
+		}
+	});
+}
+
+function getEvent(page) {
+	$("#div-loading-noback").show();
+	$.ajax({
+		type: 'POST',
+		url: "/m/community/get_news_m.asp",
+		data: "page="+page+"&bdtype=event",
+		success: function(html) {
+			if(html) {
+				$(".ul-event").empty();
+				$(".ul-event").append(html);
+				$('.ul-event img').css('max-width','100%');
+				$('.ul-event img').css('height','auto');
+				//태블릿 크기 경우 레이아웃 중앙정렬
+				if($('.ul-event #divBbsContents').length > 0) $('.ul-event #divBbsContents').css('text-align','center');
+			}
+			$("#div-loading-noback").hide();
+		},
+		complete: function(data) {
+			$("img").load(function(){
+				delayUpdate();
+			});
+		},
+		error: function(request,status,error) {
+			$("#div-loading-noback").hide();
+		}
+	});
+}
+
+function fixViewport() {
+	$("meta[name=viewport]").attr("content","user-scalable=yes, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height");
+}
+
+function zoomViewport() {
+	$("meta[name=viewport]").attr("content","user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0, width=device-width, height=device-height");
+}
+
+

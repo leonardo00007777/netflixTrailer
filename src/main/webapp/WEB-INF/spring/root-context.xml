@@ -12,8 +12,17 @@
      
     <import resource="jdbc-config.xml"/>
 	
-	
 	<mybatis:scan base-package="com.x62life.mo.dao"/>
 	
-	
+<!-- 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="order" value="1" />
+		<property name="locations">
+			<list>
+  				<value>classpath:config/jdbc.properties</value>
+				<value>classpath:config/dev_resource.properties</value>
+	   		</list>
+		</property>    
+  	</bean> -->
+  		
 </beans>

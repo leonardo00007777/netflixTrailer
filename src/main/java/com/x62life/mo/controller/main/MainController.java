@@ -8,23 +8,20 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.x62life.mo.model.boardcontents.BdContents;
-import com.x62life.mo.model.boardcontents.MagazineLEx;
-import com.x62life.mo.model.exhibition.AdMainMg;
-import com.x62life.mo.model.exhibition.OneDaySpecialEx;
-import com.x62life.mo.model.product.BestProduct;
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.model.product.SeasonalFoodHall;
-import com.x62life.mo.model.product.SpecialSellingh;
-import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.x62life.mo.model.category.Category;
+import com.x62life.mo.model.exhibition.OneDaySpecialEx;
+import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.service.category.CategoryService;
+import com.x62life.mo.service.main.MainService;
 
 @Controller
 @RequestMapping(value = "/main")
@@ -54,14 +51,19 @@ public class MainController {
 		ModelAndView mv = new ModelAndView();
 
 		List<Category> categoryList = categoryService.getCategoryList(paramMap);
-
 		model.addAttribute("categoryList", categoryList);
-/*	
+
+		//스와이퍼 배너 정보 - TEST
+		List<GdMasterEx> gdList = categoryService.allItemList(paramMap);
+		model.addAttribute("swiperBannerInfo", gdList);
+		
+		
+		/*	
 		//스와이퍼 배너 정보
 		List<AdMainMg> swiperBannerInfo = new ArrayList<>();
-
+		
 		swiperBannerInfo = mainService.getSwiperBannerInfo();
-
+		
 		model.addAttribute("swiperBannerInfo", swiperBannerInfo);
 
 		//스와이퍼 배너 정보 리뉴얼
