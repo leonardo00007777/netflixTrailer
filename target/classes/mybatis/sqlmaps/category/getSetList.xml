@@ -92,8 +92,11 @@
                              AND g.divcd = '20'
                              AND g.useyn = 'Y'
                              AND g.gdcd IN (SELECT gdcd FROM gd_set WHERE gdsetyn='Y')
-                           <if test='strMEMGRPCD == "" OR strMEMGRPCD.indexOf("219") lte 0'>
-                             AND g.gdcd NOT IN (#{isensExceptProduct})
+                           <if test='strMEMGRPCD == "" or strMEMGRPCD.indexOf("219") lte 0'>
+                               AND g.gdcd NOT IN
+                               <foreach collection="isensExceptProduct" item="isensExceptProduct"  open="(" separator="," close=")">
+                                   #{isensExceptProduct}
+                               </foreach>
                            </if>
                       ) AS pl
         WHERE PAGE = #{intPage}

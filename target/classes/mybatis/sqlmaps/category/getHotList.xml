@@ -71,15 +71,15 @@
                                                               AND DATEDIFF(D, GETDATE(), CONVERT(DATETIME, r.od_to, 120)) >= 0
                                                               ]]>
                            WHERE 1 = 1
-                            <![CDATA[
                             AND ISNULL(s.gdcnt, 99999) > 0
-
                             AND g.exdiv1 NOT IN ('85', '90')
                             AND (g.useyn = 'Y' OR g.gdcd IN (SELECT gdcd
                                                              FROM od_reservegoods
                                                              WHERE useyn = 'Y'
+                                                               <![CDATA[
                                                                AND od_from <= CONVERT(VARCHAR, GETDATE(), 23)
                                                                AND od_to >= CONVERT(VARCHAR, GETDATE(), 23)
+                                                               ]]>
                                                              )
                                 )
                             AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
@@ -88,9 +88,11 @@
                                                     AND g.gdcd NOT IN ('A3', 'A4', 'A7', 'A8', 'B2', 'B3', 'C3', 'G9', 'H6', 'H9', 'P9', 'R6', 'R9', 'T1','T2', 'T3', 'Z02', 'Z21', 'Z22', 'Z25', 'Z26', 'Z94')
                                                    )
                                 )
-                            ]]>
                             <if test='strMEMGRPCD == "" or strMEMGRPCD.indexOf("219") lte 0'>
-                                AND g.gdcd NOT IN (#{isensExceptProduct})
+                                AND g.gdcd NOT IN
+                                <foreach collection="isensExceptProduct" item="isensExceptProduct"  open="(" separator="," close=")">
+                                    #{isensExceptProduct}
+                                </foreach>
                             </if>
                             <if test="strMEMGRPCD == '' OR strMEMGRPCD.indexOf(userDefinedTarget) lte 0 ">
                                 AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx=468)

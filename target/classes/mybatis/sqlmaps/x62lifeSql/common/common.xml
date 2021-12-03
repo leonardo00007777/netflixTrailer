@@ -13,7 +13,6 @@
 
     <select id="getSearchRecentView" parameterType="java.util.HashMap" resultType="com.x62life.mo.model.common.searchRecentView">
         /*strOrderCase 쿠키에 저장된 최근 본 상품목록 가져오기*/
-        <![CDATA[
         SELECT *
         FROM(
                 SELECT CASE g.dispatchtype WHEN 'I' THEN '11'
@@ -49,35 +48,51 @@
                   LEFT JOIN od_reservegoods r
                          ON g.gdcd = r.gdcd
                         AND r.useyn = 'Y'
+                       <![CDATA[
                         AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
                         AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                        ]]>
                  WHERE g.useyn = 'Y'
-                   AND ( g.divcd = '30' OR (g.divcd = '20' AND g.deliverydtyn = 'N' AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')))
+                   AND ( g.divcd = '30'
+                         OR (g.divcd = '20'
+                             AND g.deliverydtyn = 'N'
+                             AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')
+                             )
+                       )
                    AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
                    AND g.gdcd IN (#{strInCase})
             ) g
-        ]]>
     </select>
 
     <select id="jsonSearchAutoComplete">
         /*jsonSearchAutoComplete 첫구매(2019)이벤트 상품, 5월휴면고객특가*/
-        <![CDATA[
+
         SELECT gdname
         FROM gd_master g
           LEFT JOIN od_reservegoods r
                  ON g.gdcd = r.gdcd
+                <![CDATA[
                 AND r.od_from <= CONVERT(CHAR(10), GETDATE(), 121)
                 AND r.od_to >= CONVERT(CHAR(10), GETDATE(), 121)
+                ]]>
                 AND r.useyn = 'Y'
          WHERE 1=1
            AND (g.useyn = 'Y' OR (g.useyn = 'N' AND r.useyn = 'Y'))
            AND g.useyn = 'Y'
            AND ((ISNULL(g.reserveyn,'N') = 'N')
-            OR (ISNULL(g.reserveyn,'N') = 'Y' AND r.useyn = 'Y' AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0 AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0))
+            OR (ISNULL(g.reserveyn,'N') = 'Y'
+                AND r.useyn = 'Y'
+          <![CDATA[
+                AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0)
+               )
+            ]]>
            AND (g.divcd = '30' OR (g.divcd='20' AND g.gdcd='R2') )
-        ]]>
-        <if test='strMEMGRPCD = "" OR strMEMGRPCD.indexOf("219") lte 0'>
-           AND g.gdcd NOT IN (#{isensExceptProduct})
+        <if test='strMEMGRPCD == "" or strMEMGRPCD.indexOf("219") lte 0'>
+            AND g.gdcd NOT IN
+            <foreach collection="isensExceptProduct" item="isensExceptProduct"  open="(" separator="," close=")">
+                #{isensExceptProduct}
+            </foreach>
         </if>
         <if test='strMEMGRPCD == "" OR strMEMGRPCD == null OR userDefinedTarget.indexOf(strMEMGRPCD) lte 0 '>
            AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx=468)
