@@ -17,6 +17,8 @@ public interface CategoryDao {
 
 	int specialExhibitionProdCnt(Map<String, Object> paramMap);
 
+	List<GdMasterEx> specialExhibitionProdList(Map<String, Object> paramMap);
+
 	List<SubCategory> getItemList(Map<String, Object> paramMap);
 
 	Map<String, Object> getReserveItemListPaging(Map<String, Object> paramMap);
@@ -41,11 +43,11 @@ public interface CategoryDao {
 
 	List<CartRecipeEx> custSetGoodsList(Map<String, Object> paramMap);
 
-	List<GdMasterEx> defProdOneProd(Map<String, Object> paramMap);
+	List<GdMasterEx> defSetOneProd(Map<String, Object> paramMap);
 
-	Map<String,Object> discountListAddSetProdPaging(Map<String, Object> paramMap);
+	Map<String,Object> discountListPaging(Map<String, Object> paramMap);
 
-	List<GdMasterEx> discountProdListAddSetProd(Map<String, Object> paramMap);
+	List<GdMasterEx> discountSetProdList(Map<String, Object> paramMap);
 
 	Map<String, Object> getDirectListPaging(Map<String, Object> paramMap);
 

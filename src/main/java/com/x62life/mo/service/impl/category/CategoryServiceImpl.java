@@ -8,9 +8,12 @@ import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
 import com.x62life.mo.model.product.*;
 import com.x62life.mo.service.category.CategoryService;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +36,37 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public int specialExhibitionProdCnt(Map<String, Object> paramMap) {
 		return categoryDao.specialExhibitionProdCnt(paramMap);
+	}
+
+	@Override
+	public List<GdMasterEx> specialExhibitionProdList(Map<String, Object> paramMap) throws Exception{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date currentTime = new Date();
+		String date = format.format(currentTime);
+
+		String targetDate1 = "2020-06-18";
+		String targetDate2 = "2020-06-27";
+		String targetDate3 = "2020-06-26";
+		String targetDate4 = "2020-07-06";
+
+		Date endDate1 = format.parse(targetDate1);
+		Date endDate2 = format.parse(targetDate2);
+		Date endDate3 = format.parse(targetDate3);
+		Date endDate4 = format.parse(targetDate4);
+
+		Date todate = format.parse(date);
+
+		int compareDate1 = endDate1.compareTo(todate);
+		int compareDate2 = endDate2.compareTo(todate);
+		int compareDate3 = endDate3.compareTo(todate);
+		int compareDate4 = endDate4.compareTo(todate);
+
+		paramMap.put("compare1", compareDate1);
+		paramMap.put("compare2", compareDate2);
+		paramMap.put("compare3", compareDate3);
+		paramMap.put("compare4", compareDate4);
+
+		return categoryDao.specialExhibitionProdList(paramMap);
 	}
 
 	@Override
@@ -91,18 +125,49 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<GdMasterEx> defProdOneProd(Map<String, Object> paramMap){
-		return categoryDao.defProdOneProd(paramMap);
+	public List<GdMasterEx> defSetOneProd(Map<String, Object> paramMap){
+		String[] customFilterProduct = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
+		paramMap.put("customFilterProduct",customFilterProduct);
+
+		return categoryDao.defSetOneProd(paramMap);
 	}
 
 	@Override
 	public Map<String, Object> discountListPaging(Map<String, Object> paramMap) {
-		return categoryDao.discountListAddSetProdPaging(paramMap);
+		paramMap.put("intPagePerItem", 30);
+		return categoryDao.discountListPaging(paramMap);
 	}
 
+	@SneakyThrows
 	@Override
-	public List<GdMasterEx> discountProdList(Map<String, Object> paramMap){
-		return categoryDao.discountProdListAddSetProd(paramMap);
+	public List<GdMasterEx> discountSetProdList(Map<String, Object> paramMap) {
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date currentTime = new Date();
+		String date = format.format(currentTime);
+
+		String targetDate1 = "2020-11-16";
+		String targetDate2 = "2020-11-20";
+		String targetDate3 = "2020-11-21";
+
+		Date endDate1 = format.parse(targetDate1);
+		Date endDate2 = format.parse(targetDate2);
+		Date endDate3 = format.parse(targetDate3);
+
+		Date todate = format.parse(date);
+
+		int compareDate1 = endDate1.compareTo(todate);
+		int compareDate2 = endDate2.compareTo(todate);
+		int compareDate3 = endDate3.compareTo(todate);;
+
+		paramMap.put("compare1", compareDate1);
+		paramMap.put("compare2", compareDate2);
+		paramMap.put("compare3", compareDate3);
+
+		String[] onlyNormalGroupProduct= {"1010000246", "0110000403", "7010000438", "1010000245", "7010000439"};
+		paramMap.put("onlyNormalGroupProduct", onlyNormalGroupProduct);
+
+		return categoryDao.discountSetProdList(paramMap);
 	}
 
 	@Override

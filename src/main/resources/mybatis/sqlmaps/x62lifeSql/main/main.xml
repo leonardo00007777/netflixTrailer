@@ -690,19 +690,19 @@
           <if test='strMEMGRPCD == "" or strMEMGRPCD == null'>
               AND ISNULL(grpcd, '') = ''
               <choose>
-                  <when test='SK_CHEMICALS.indexOf(strMEMGRPCD) gte 0'>
+                  <when test='strMEMGRPCD.indexOf(SK_CHEMICALS) gte 0'>
                       AND (ISNULL(grpcd, '') = 'SKCH' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_HYNIXES.indexOf(strMEMGRPCD) gte 0'>
+                  <when test='strMEMGRPCD.indexOf(SK_HYNIXES) gte 0'>
                       AND (ISNULL(grpcd, '') = 'SKHY' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_HYNIXES_A.indexOf(strMEMGRPCD) gte 0'>
+                  <when test='strMEMGRPCD.indexOf(SK_HYNIXES_A) gte 0'>
                       AND (ISNULL(grpcd, '') = 'SKHY' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_EC.indexOf(strMEMGRPCD) gte 0'>
+                  <when test='strMEMGRPCD.indexOf(SK_EC) gte 0'>
                       AND (ISNULL(grpcd, '') = '02' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_PLANET.indexOf(strMEMGRPCD) gte 0'>
+                  <when test='strMEMGRPCD.indexOf(SK_PLANET) gte 0'>
                       AND (ISNULL(grpcd, '') = '31' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
                   <otherwise>

@@ -18,6 +18,8 @@ public interface CategoryService {
 
 	int specialExhibitionProdCnt(Map<String, Object> paramMap);
 
+	List<GdMasterEx> specialExhibitionProdList(Map<String, Object> paramMap) throws Exception;
+
 	Map<String, Object> getReserveItemListPaging(Map<String, Object> paramMap);
 
 	List<OdReserveGoodsEx> reserveGoodsList(Map<String, Object> paramMap);
@@ -40,11 +42,11 @@ public interface CategoryService {
 
 	List<CartRecipeEx> custSetGoodsList(Map<String, Object> paramMap);
 
-	List<GdMasterEx> defProdOneProd(Map<String, Object> paramMap);
+	List<GdMasterEx> defSetOneProd(Map<String, Object> paramMap);
 
 	Map<String, Object> discountListPaging(Map<String, Object> paramMap);
 
-	List<GdMasterEx> discountProdList(Map<String, Object> paramMap);
+	List<GdMasterEx> discountSetProdList(Map<String, Object> paramMap);
 
 	Map<String, Object> getDirectListPaging(Map<String, Object> paramMap);
 

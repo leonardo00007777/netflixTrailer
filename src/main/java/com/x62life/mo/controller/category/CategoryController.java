@@ -38,9 +38,31 @@ public class CategoryController {
         return modelAndView;
     }
 
-    @RequestMapping("/discountProdList")
-    public ModelAndView discountProdList(@RequestParam Map<String, Object> paramMap) {
+    //할인상품 리스트
+    @RequestMapping("/discountProd")
+    public ModelAndView discountProd(Model model, @RequestParam Map<String, Object> paramMap) throws Exception {
+        ModelAndView modelAndView = new ModelAndView();
 
+        int specialExhibitionProdCnt = categoryService.specialExhibitionProdCnt(paramMap);
+        model.addAttribute("specialExhibitionProdCnt", specialExhibitionProdCnt);
+
+        List<GdMasterEx> specialExhibitionProdList = categoryService.specialExhibitionProdList(paramMap);
+        model.addAttribute("specialExhibitionProdList",specialExhibitionProdList);
+
+        // 자연이랑모바일 - 할인, 추천 상품 (기본 단품 상품 리스트 )
+        List<GdMasterEx> defProdOneProd = categoryService.defSetOneProd(paramMap);
+        model.addAttribute("defProdOneProd", defProdOneProd);
+
+        //할인 상품 페이징
+        Map<String, Object> discountListPaging = categoryService.discountListPaging(paramMap);
+        model.addAttribute("discountListPaging",discountListPaging);
+
+        //할인 상품 리스트
+        List<GdMasterEx> discountSetProdList = categoryService.discountSetProdList(paramMap);
+        model.addAttribute("discountSetProdList", discountSetProdList);
+
+        modelAndView.setViewName("/discountProd");
+        return modelAndView;
     }
 /*
     //업체직송상품 페이징, 업체직송상품 리스트
@@ -139,46 +161,6 @@ public class CategoryController {
        return modelAndView;
     }
 
-    // 자연이랑모바일 - 할인, 추천 상품 (기본 단품 상품 )
-    @RequestMapping("/defProdOneProd")
-    public ModelAndView defProdOneProd(Model model, @RequestParam Map<String, Object> paramMap) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        String[] customFilterProduct = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
-        paramMap.put("customFilterProduct",customFilterProduct);
-
-        // 자연이랑모바일 - 할인, 추천 상품 (기본 단품 상품 리스트 )
-        List<GdMasterEx> defProdOneProd = categoryService.defProdOneProd(paramMap);
-        model.addAttribute("defProdOneProd", defProdOneProd);
-
-        modelAndView.setViewName("/main/main");
-
-        return modelAndView;
-
-    }
-
-    //할인 상품 리스트
-    @RequestMapping("/discountProdList")
-    public ModelAndView discountProdList(Model model, @RequestParam Map<String, Object> paramMap) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        String customFilterProduct[] = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
-        paramMap.put("customFilterProduct",customFilterProduct);
-
-        //할인 상품 리스트 페이징
-        Map<String, Object> discountListPaging = categoryService.discountListPaging(paramMap);
-
-        model.addAttribute("discountListPaging", discountListPaging);
-
-        //할인 상품 리스트
-        List<GdMasterEx> discountProdList = categoryService.discountProdList(paramMap);
-
-        model.addAttribute("discountProdList",discountProdList);
-
-        modelAndView.setViewName("/discountProdList");
-
-        return modelAndView;
-    }
     
     //사용자 정의 필터링 상품 
     @RequestMapping("/customFilterProduct")
