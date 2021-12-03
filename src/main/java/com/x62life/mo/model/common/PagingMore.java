@@ -3,7 +3,9 @@ package com.x62life.mo.model.common;
 import java.util.Map;
 
 import com.x62life.mo.common.util.StringUtil;
+import org.apache.ibatis.type.Alias;
 
+@Alias("pagingMore")
 public class PagingMore {
 
 	//페이지 셋팅

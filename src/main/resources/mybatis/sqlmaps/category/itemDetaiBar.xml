@@ -46,8 +46,8 @@
     '20200528   chhyeon 1.0.7   친환경인증정보 상단표시
     '20200625   hwkim   1.0.8   상품정보 표시 일부 제외 /상품팀 요청
     '20200716   hnjang  1.0.9   기본상품정보 제공목록 카테고리별 분류 (적용)-->
-    <select id="categoryProdList">
-        /* categoryProdList 카테고리 상품 리스트*/
+    <select id="itemDetailBar" parameterType="java.util.Map" resultType="gdMasterEx">
+        /* itemDetailBar 카테고리 상품 리스트*/
         SELECT g.gdcd
              , g.gdname
              , g.gdimg
@@ -134,8 +134,8 @@
            AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
     </select>
 
-     <select id="categorySetProdInfo">
-         /*categorySetProdInfo 세트상품 정보*/
+     <select id="itemDetailBarSetItem" parameterType="java.util.Map" resultType="gdWeekEx">
+         /*itemDetailBarSetItem 세트상품 정보*/
           SELECT a.gdqty
                , b.gdname
           FROM (SELECT sgdcd
@@ -147,12 +147,13 @@
                   <![CDATA[
                   AND sgdcd <> '*') A
                   ]]>
-            JOIN gd_master b ON a.sgdcd = b.gdcd
+            JOIN gd_master b
+              ON a.sgdcd = b.gdcd
           ORDER BY b.gdname
      </select>
 
-     <select id="categoryOptionProduct">
-         /* categoryOptionProduct 옵션 상품 표시 여부 */
+     <select id="itemDetailBarOptionYN" parameterType="java.util.Map" resultType="gdMasterEx">
+         /* itemDetailBar 옵션 상품 표시 여부 */
           SELECT gm.gdcd
                , gm.gdname
                , gm.price1
@@ -183,15 +184,15 @@
           ORDER BY gdcd
      </select>
 
-     <select id="categoryProdTestPath">
-        /*categoryProdTestPath 방사능 정보 안내*/
+     <select id="itemDetailBarTestPathInfo" parameterType="java.lang.String" resultType="java.lang.String">
+        /*itemDetailBarTestPathInfo 방사능 정보 안내*/
          SELECT testpath
          FROM c_pesticide_residue
           WHERE testidx = #{strItemTestidx}
      </select>
 
-    <select id="categoryProdFruitsSugar">
-        /*categoryProdFruitsSugar 과일류일 경우 당도 표시 strGdType = "01" */
+    <select id="itemBarDetailFruitsSugarInfo" parameterType="java.lang.String" resultType="gdSugar">
+        /*itemBarDetailFruitsSugarInfo 과일류일 경우 당도 표시 strGdType = "01" */
         SELECT TOP 1 gasuga
              , gasug1
              , gasug2
@@ -201,15 +202,15 @@
         ORDER BY gadate DESC
     </select>
 
-    <select id="categoryProdBasicDetailInfo">
-         /* categoryProdBasicDetailInfo 기본상품정보 (기존방식) */
+    <select id="itemBarDetailBasicInfo" parameterType="java.lang.String" resultType="java.lang.String">
+         /* itemBarDetailBasicInfo 기본상품정보 (기존방식) */
         SELECT ppcode
         FROM gd_pipn
          WHERE ppartc = #{strGDCD}
     </select>
 
-    <select id="categoryProdBasicDetailInfoNew">
-        /*categoryProdBasicDetailInfoNew 기본상품정보 신규방식*/
+    <select id="itemBarDetailBasicInfoNew" parameterType="java.lang.String" resultType="gdPipnRef">
+        /*itemBarDetailBasicInfoNew 기본상품정보 신규방식*/
         SELECT b.ppartc
              , b.ppcode
              , b.pp01

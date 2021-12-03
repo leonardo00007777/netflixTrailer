@@ -1,23 +1,23 @@
 package com.x62life.mo.dao.category;
 
-import java.util.List;
-import java.util.Map;
-
 import com.x62life.mo.model.category.CartRecipe;
 import com.x62life.mo.model.category.CartRecipeEx;
+import com.x62life.mo.model.category.Category;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
 import com.x62life.mo.model.product.*;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.x62life.mo.model.category.Category;
+import java.util.List;
+import java.util.Map;
 
 @Repository("categoryDao")
 public interface CategoryDao {
-
-	
 	List<Category> getCategoryList(Map<String, Object> paramMap);
+
+	int specialExhibitionProdCnt(Map<String, Object> paramMap);
+
+	List<GdMasterEx> specialExhibitionProdList(Map<String, Object> paramMap);
 
 	List<SubCategory> getItemList(Map<String, Object> paramMap);
 
@@ -43,11 +43,11 @@ public interface CategoryDao {
 
 	List<CartRecipeEx> custSetGoodsList(Map<String, Object> paramMap);
 
-	List<GdMasterEx> defProdOneProd(Map<String, Object> paramMap);
+	List<GdMasterEx> defSetOneProd(Map<String, Object> paramMap);
 
-	Map<String,Object> discountListAddSetProdPaging(Map<String, Object> paramMap);
+	Map<String,Object> discountListPaging(Map<String, Object> paramMap);
 
-	List<GdMasterEx> discountProdListAddSetProd(Map<String, Object> paramMap);
+	List<GdMasterEx> discountSetProdList(Map<String, Object> paramMap);
 
 	Map<String, Object> getDirectListPaging(Map<String, Object> paramMap);
 
@@ -91,4 +91,17 @@ public interface CategoryDao {
 
 	List<GdPipnRef> defProdInfoListNew(String strGdcd);
 
+	List<GdMasterEx> itemDetailBar(Map<String, Object> paramMap);
+
+	List<GdMasterEx> itemDetailBarSetItem(Map<String, Object> paramMap);
+
+	List<GdMasterEx> itemDetailBarOptionYN(Map<String, Object> paramMap);
+
+	String itemDetailBarTestPathInfo(Map<String, Object> paramMap);
+
+	List<GdSugar> itemBarDetailFruitsSugarInfo(Map<String, Object> paramMap);
+
+	String itemBarDetailBasicInfo(Map<String, Object> paramMap);
+
+	List<GdPipn> itemBarDetailBasicInfoNew(Map<String, Object> paramMap);
 }

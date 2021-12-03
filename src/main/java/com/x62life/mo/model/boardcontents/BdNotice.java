@@ -1,7 +1,9 @@
 package com.x62life.mo.model.boardcontents;
 
-import java.sql.Timestamp;
+import org.apache.ibatis.type.Alias;
 
+import java.sql.Timestamp;
+@Alias("bdNotice")
 public class BdNotice {
     private int ntcidx; //순번
     private String title; //제목

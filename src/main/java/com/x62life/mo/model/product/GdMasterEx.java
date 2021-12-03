@@ -1,7 +1,10 @@
 package com.x62life.mo.model.product;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 
+@Alias("gdMasterEx")
 public class GdMasterEx extends GdMaster{
     private BigDecimal saleprice;
     private BigDecimal groupsaleprice;

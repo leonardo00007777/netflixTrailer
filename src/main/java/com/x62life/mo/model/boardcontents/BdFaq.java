@@ -1,7 +1,10 @@
 package com.x62life.mo.model.boardcontents;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 //FAQ 게시판
+@Alias("bdFaq")
 public class BdFaq {
     private int faqidx; //순번
     private String divcd; //구분

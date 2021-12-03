@@ -58,7 +58,7 @@
              ) x
     </select>
 
-    <select id="getNewItemListStatistics" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="getNewItemListStatistics" parameterType="java.util.Map" resultType="gdMasterEx">
         /* getNewItemListStatistics 지표 추출*/
         SELECT *
         FROM (

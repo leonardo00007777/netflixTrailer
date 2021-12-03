@@ -1,7 +1,11 @@
 package com.x62life.mo.model.boardcontents;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 //scm 공지사항
+
+@Alias("bdNoticeScm")
 public class BdNoticeScm {
     private int ntcidx; //순번
     private String title; //제목

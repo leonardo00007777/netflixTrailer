@@ -4,7 +4,7 @@
 <mapper namespace="com.x62life.mo.dao.category.CategoryDao">
 
 <!--  TEST Query    
-	 <select id="getCategoryList" resultType="com.x62life.mo.model.category.Category" parameterType="java.util.HashMap">
+	 <select id="getCategoryList" resultType="category" parameterType="java.util.HashMap">
         select
             id,
             name as subject
@@ -12,7 +12,7 @@
            testtb1
     </select> -->
 
-    <select id="getCategoryList" resultType="com.x62life.mo.model.category.Category" parameterType="java.util.HashMap">
+    <select id="getCategoryList" parameterType="java.util.HashMap" resultType="category">
 		SELECT
 			c2.cat1 as  id ,
 			c1.catdesc  as subject

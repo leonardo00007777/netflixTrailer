@@ -42,7 +42,7 @@
          </if>
     </select>
 
-    <select id="custSetProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.category.CartRecipeEx">
+    <select id="custSetProdList" parameterType="java.util.Map" resultType="cartRecipeEx">
         /*custSetProdList 고객이 직접 만드는 묶음상품 List*/
         SELECT * FROM (
                           SELECT t.hseqno
@@ -84,7 +84,7 @@
 
     </select>
 
-    <select id="custSetGoodsList" parameterType="java.util.Map" resultType="com.x62life.mo.model.category.CartRecipeEx">
+    <select id="custSetGoodsList" parameterType="java.util.Map" resultType="cartRecipeEx">
         /*custSetGoodsList 상품 리스트*/
         SELECT cl.gdcd
              , g.gdname

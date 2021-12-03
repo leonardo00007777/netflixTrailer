@@ -1,8 +1,10 @@
 package com.x62life.mo.model.sms;
 
-import java.sql.Timestamp;
+import org.apache.ibatis.type.Alias;
 
-public class SmsTemplet {
+import java.sql.Timestamp;
+@Alias("smsTemplate")
+public class SmsTemplate {
     private short id; //순번
     private String msg; //메세지내용
     private char useyn; //사용여부

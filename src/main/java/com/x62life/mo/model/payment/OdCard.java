@@ -1,5 +1,9 @@
 package com.x62life.mo.model.payment;
+
+import org.apache.ibatis.type.Alias;
+
 //주문 카드 정보
+@Alias("odCard")
 public class OdCard {
     private String paynum; //결제번호
     private short payidx; //결제카드 일련번호

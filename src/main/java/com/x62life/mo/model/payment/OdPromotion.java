@@ -1,8 +1,11 @@
 package com.x62life.mo.model.payment;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
 //상품권
+@Alias("odPromotion")
 public class OdPromotion {
     private int idx; //(k1)
     private String certificateno; //인증번호(k2)

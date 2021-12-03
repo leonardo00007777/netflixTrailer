@@ -94,23 +94,23 @@
                                     #{isensExceptProduct}
                                 </foreach>
                             </if>
-                            <if test="strMEMGRPCD == '' OR strMEMGRPCD.indexOf(userDefinedTarget) lte 0 ">
+                            <if test="strMEMGRPCD == '' OR userDefinedTarget.indexOf(strMEMGRPCD) lte 0 ">
                                 AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx=468)
                              </if>
-                             <if test="strMEMGRPCD == '' OR strMEMGRPCD.indexOf(userDefinedTarget2) lte 0">
+                             <if test="strMEMGRPCD == '' OR userDefinedTarget2.indexOf(strMEMGRPCD) lte 0">
                                 AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl where slidx = 641)
                              </if>
                              <if test=" 0 lte targetDate1 and targetDete2 gte 0">
-                                 <if test="strMEMGRPCD == '' or strMEMGRPCD.indexOf(userDefinedTarget) lte 0">
+                                 <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0">
                                      AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 784)
                                  </if>
                              </if>
                              <if test="0 lte targetDate3 and targetDate4 gte 0">
-                                 <if test="strMEMGRPCD == '' or strMEMGRPCD.indexOf(userDefinedTarget3) lte 0">
+                                 <if test="strMEMGRPCD == '' or userDefinedTarget3.indexOf(strMEMGRPCD) lte 0">
                                      AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 792)
                                  </if>
                              </if>
-                             <if test="strMEMGRPCD == '' or strMEMGRPCD.indexOf(userDefinedTarget) lte 0 ">
+                             <if test="strMEMGRPCD == '' or userDefinedTarget.indexOf(strMEMGRPCD) lte 0 ">
                                  AND g.gdcd NOT IN (SELECT slgdcd FROM specialsellingl WHERE slidx = 836)
                              </if>
                       ) b
@@ -123,7 +123,7 @@
         ]]>
     </select>
 
-    <select id="isenseBestProd" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="isenseBestProd" parameterType="java.util.Map" resultType="gdMasterEx">
         /*isenseBest 베스트 상품 */
         SELECT g.gdcd
              , gdname

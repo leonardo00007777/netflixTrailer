@@ -33,7 +33,7 @@
            AND shidx IN (264,265)
            ]]>
     </select>
-    <select id="getSpecialSellingBrandHeader" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.SpecialSellingh">
+    <select id="getSpecialSellingBrandHeader" parameterType="java.util.Map" resultType="sepcialSellingh">
         /* getSpecialSellingBrandHeader 전문관 헤더 정보 및 상품 리스트*/
         SELECT *
         FROM (

@@ -1,6 +1,9 @@
 package com.x62life.mo.model.product;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
+@Alias("specialSellingh")
 //기획전
 public class SpecialSellingh {
 

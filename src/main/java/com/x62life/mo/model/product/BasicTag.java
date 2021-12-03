@@ -1,6 +1,9 @@
 package com.x62life.mo.model.product;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Date;
+@Alias("basicTag")
 //기본태그
 public class BasicTag {
     private int btidx; //태그인덱스

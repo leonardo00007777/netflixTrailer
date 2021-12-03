@@ -1,7 +1,10 @@
 package com.x62life.mo.model.boardcontents;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 //댓글
+@Alias("basicCommnets")
 public class BasicCommnets {
     private int rseqno;
     private String rtype; //태그유형

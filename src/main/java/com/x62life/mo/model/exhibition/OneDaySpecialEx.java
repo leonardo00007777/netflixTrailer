@@ -1,7 +1,11 @@
 package com.x62life.mo.model.exhibition;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 
+
+@Alias("oneDaySpecialEx")
 public class OneDaySpecialEx extends OneDaySpecial{
 
     private String gdname; //상품이름

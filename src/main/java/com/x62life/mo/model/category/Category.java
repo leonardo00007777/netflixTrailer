@@ -1,5 +1,8 @@
 package com.x62life.mo.model.category;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("category")
 public class Category {
 	
 	private String id;

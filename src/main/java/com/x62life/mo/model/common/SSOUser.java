@@ -1,7 +1,10 @@
 package com.x62life.mo.model.common;
 
+import org.apache.ibatis.type.Alias;
+
 import java.io.Serializable;
 
+@Alias("ssoUser")
 public class SSOUser implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

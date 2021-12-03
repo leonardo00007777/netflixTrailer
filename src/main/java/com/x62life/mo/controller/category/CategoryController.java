@@ -4,10 +4,7 @@ import com.x62life.mo.model.category.CartRecipe;
 import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.model.product.GdPipnRef;
-import com.x62life.mo.model.product.GdSugar;
-import com.x62life.mo.model.product.SpecialSellingh;
+import com.x62life.mo.model.product.*;
 import com.x62life.mo.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CategoryController {
@@ -38,6 +35,33 @@ public class CategoryController {
         model.addAttribute("subCategoryList",subCategoryList);
 
         modelAndView.setViewName("/main/main");
+        return modelAndView;
+    }
+
+    //할인상품 리스트
+    @RequestMapping("/discountProd")
+    public ModelAndView discountProd(Model model, @RequestParam Map<String, Object> paramMap) throws Exception {
+        ModelAndView modelAndView = new ModelAndView();
+
+        int specialExhibitionProdCnt = categoryService.specialExhibitionProdCnt(paramMap);
+        model.addAttribute("specialExhibitionProdCnt", specialExhibitionProdCnt);
+
+        List<GdMasterEx> specialExhibitionProdList = categoryService.specialExhibitionProdList(paramMap);
+        model.addAttribute("specialExhibitionProdList",specialExhibitionProdList);
+
+        // 자연이랑모바일 - 할인, 추천 상품 (기본 단품 상품 리스트 )
+        List<GdMasterEx> defProdOneProd = categoryService.defSetOneProd(paramMap);
+        model.addAttribute("defProdOneProd", defProdOneProd);
+
+        //할인 상품 페이징
+        Map<String, Object> discountListPaging = categoryService.discountListPaging(paramMap);
+        model.addAttribute("discountListPaging",discountListPaging);
+
+        //할인 상품 리스트
+        List<GdMasterEx> discountSetProdList = categoryService.discountSetProdList(paramMap);
+        model.addAttribute("discountSetProdList", discountSetProdList);
+
+        modelAndView.setViewName("/discountProd");
         return modelAndView;
     }
 /*
@@ -137,46 +161,6 @@ public class CategoryController {
        return modelAndView;
     }
 
-    // 자연이랑모바일 - 할인, 추천 상품 (기본 단품 상품 )
-    @RequestMapping("/defProdOneProd")
-    public ModelAndView defProdOneProd(Model model, @RequestParam Map<String, Object> paramMap) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        String[] customFilterProduct = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
-        paramMap.put("customFilterProduct",customFilterProduct);
-
-        // 자연이랑모바일 - 할인, 추천 상품 (기본 단품 상품 리스트 )
-        List<GdMasterEx> defProdOneProd = categoryService.defProdOneProd(paramMap);
-        model.addAttribute("defProdOneProd", defProdOneProd);
-
-        modelAndView.setViewName("/main/main");
-
-        return modelAndView;
-
-    }
-
-    //할인 상품 리스트
-    @RequestMapping("/discountProdList")
-    public ModelAndView discountProdList(Model model, @RequestParam Map<String, Object> paramMap) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        String customFilterProduct[] = {"43042719","91073305","05020034","99701120","1010000011","1010000013", "1010000031"};
-        paramMap.put("customFilterProduct",customFilterProduct);
-
-        //할인 상품 리스트 페이징
-        Map<String, Object> discountListPaging = categoryService.discountListPaging(paramMap);
-
-        model.addAttribute("discountListPaging", discountListPaging);
-
-        //할인 상품 리스트
-        List<GdMasterEx> discountProdList = categoryService.discountProdList(paramMap);
-
-        model.addAttribute("discountProdList",discountProdList);
-
-        modelAndView.setViewName("/discountProdList");
-
-        return modelAndView;
-    }
     
     //사용자 정의 필터링 상품 
     @RequestMapping("/customFilterProduct")
@@ -376,6 +360,38 @@ public class CategoryController {
         model.addAttribute("defProdInfoListNew",defProdInfoListNew);
 
         modelAndView.setViewName("/itemDetail");
+
+        return modelAndView;
+    }
+
+    @RequestMapping("/itemDetailBar")
+    public ModelAndView itemDetailBar(Model model, @RequestParam Map<String, Object> paramMap) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        //아이템 상세 바
+        List<GdMasterEx> itemDetailBar = categoryService.itemDetailBar(paramMap);
+        model.addAttribute("itemDetailBar", itemDetailBar);
+
+        //아이템 상세 바 세트아이템
+        List<GdMasterEx> itemDetailBarSetItem = categoryService.itemDetailBarSetItem(paramMap);
+        model.addAttribute("itemDetailBarSetItem", itemDetailBarSetItem);
+
+        //아이템 상세 바 옵션상품 표시 여부
+        List<GdMasterEx> itemDetailBarOptionYN = categoryService.itemDetailBarOptionYN(paramMap);
+        model.addAttribute("itemDetailBarOptionYN",itemDetailBarOptionYN);
+
+        //아이템 상세 바 방사능 정보
+        String itemDetailBarTestPathInfo = categoryService.itemDetailBarTestPathInfo(paramMap);
+        model.addAttribute("itemDetailBarTestPathInfo", itemDetailBarTestPathInfo);
+
+        List<GdSugar> itemBarDetailFruitsSugarInfo = categoryService.itemBarDetailFruitsSugarInfo(paramMap);
+
+
+        //기본상품정보 신규방식
+        List<GdPipn> itemBarDetailBasicInfoNew = categoryService.itemBarDetailBasicInfoNew(paramMap);
+        model.addAttribute("itemBarDetailBasicInfoNew", itemBarDetailBasicInfoNew);
+
+        modelAndView.setViewName("itemDetailBar");
 
         return modelAndView;
     }

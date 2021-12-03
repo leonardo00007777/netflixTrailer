@@ -1,8 +1,11 @@
 package com.x62life.mo.model.order;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+@Alias("odGoods")
 //주문상품
 public class OdGoods {
     private char paynum; //결제번호

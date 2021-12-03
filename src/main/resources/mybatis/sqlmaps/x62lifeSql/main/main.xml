@@ -69,24 +69,28 @@
     '                           불필요한 코드 간단하게 정리, 인라인 스타일 정리(추가정리필요)
     '20210906   hnjang  2.1     배송유형별(자연이랑,업체직송) 분류 기능 추가-->
     
-    <select id="getSwiperBannerInfo" resultType="com.x62life.mo.model.exhibition.AdMainMg">
+    <select id="getSwiperBannerInfo" resultType="adMainMg">
         /* getSwiperBannerInfo 스와이프 배너 정보*/
-        SELECT CASE WHEN ISNULL(url,'') = '' THEN url
-                    ELSE url
+        SELECT CASE WHEN ISNULL(urlm,'') = '' THEN url
+                    ELSE urlm
                END url
              , CASE WHEN ISNULL(img_src_m,'')='' THEN ISNULL(img_src,'')
                     ELSE img_src_m
                END img_src
-        FROM ad_mainimg
-         WHERE use_yn = 'Y'
-           <![CDATA[
-           AND sdate <= GETDATE()
-           AND edate > GETDATE()
-           ]]>
-        ORDER BY ISNULL(important, 10), update_dt DESC, seq DESC
+          FROM ad_mainimg
+           WHERE use_yn = 'Y'
+             <![CDATA[
+             AND sdate <= GETDATE() AND edate > GETDATE()
+             ]]>
+             AND (ISNULL(grpcd, '') = ''
+                  OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl 
+                              WHERE cl.ulcode = grpcd
+                                AND cl.ulgrcd = #{strMEMGRPCD})
+                  )
+          ORDER BY ISNULL(important, 10), update_dt DESC, seq DESC 
     </select>
     
-    <select id="swiperBannerRenewal" resultType="com.x62life.mo.model.exhibition.AdMainMg">
+    <select id="swiperBannerRenewal" resultType="adMainMg">
        /* swiperBannerRenewal 배너 리뉴얼*/
         SELECT cbnpath01, cbntarget01, cbnurl01, lbntitle01, reservet01  /*'모바일상단 자연이랑NEW1(슬라이드)*/
              , cbnpath02, cbntarget02, cbnurl02, lbntitle02, reservet02  /*'모바일상단 자연이랑NEW2(슬라이드)*/
@@ -100,7 +104,7 @@
         FROM mainpageskin
     </select>
     
-    <select id="todaySpecial" parameterType="java.util.Map" resultType="com.x62life.mo.model.exhibition.OneDaySpecialEx">
+    <select id="todaySpecial" parameterType="java.util.Map" resultType="oneDaySpecialEx">
         /* todaySpecial 오늘의 특가 */
         SELECT os.idx
              , opt 
@@ -118,10 +122,9 @@
                END odtype 
              , ISNULL(g.reserveyn,'N') reserveyn 
              , ISNULL(g.deliverydtyn,'N') deliverydtyn 
-             , ISNULL(r.type, '01') odtype2
-             , g.price1
+             , ISNULL(r.type, '01') odtype2 , g.price1 
              <choose>
-                 <when test = 'strMEMGRPCD != "" and strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                 <when test="strMEMGRPCD != '' and strGroupSalePolicy != 'N'">
                      , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
                  </when>
                  <otherwise>
@@ -133,29 +136,30 @@
              , os.gdlimit
              , ISNULL(g.soldoutyn,'N') soldoutyn
              , ISNULL(c.gdcnt,999) gdcnt
-             , mhmimg1
-             , ISNULL(os.lastyn,'N') lastyn
-             , title
-             , subtitle
-             , COUNT(1) OVER(PARTITION BY 1) cnt
-        FROM oneday_special os
-          JOIN gd_master g
-            ON os.gdcd = g.gdcd
-          LEFT JOIN od_reservegoods r
-                 ON g.gdcd = r.gdcd
-                AND r.useyn = 'Y'
-                AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
-          LEFT JOIN gd_cnt c
-                 ON g.gdcd = c.gdcd
-         WHERE 1 = 1
-           AND os.target = 'O'
-           AND os.opt = 'S'
-           <![CDATA[
-           AND GETDATE() >= os.startdt
-           AND GETDATE() <  os.enddt
-           ]]>
-           AND g.useyn = 'Y'
-           AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+             , mhmimg1 
+             , ISNULL(os.lastyn,'N') lastyn 
+             , title 
+             , subtitle 
+             , COUNT(1) OVER(PARTITION BY 1) cnt 
+          FROM oneday_special os 
+            JOIN gd_master g
+              ON os.gdcd = g.gdcd
+            LEFT JOIN od_reservegoods r
+                   ON g.gdcd = r.gdcd
+                  AND r.useyn = 'Y'
+                  AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+            LEFT JOIN gd_cnt c
+                   ON g.gdcd = c.gdcd
+          WHERE 1 = 1
+            AND os.target = 'O'
+            AND os.opt = 'S'
+            <![CDATA[
+            AND GETDATE() >= os.startdt
+            AND GETDATE() < os.enddt
+            ]]>
+            AND g.useyn = 'Y'
+            AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+          ORDER BY os.idx DESC
     </select>
 
     <select id="checkFirstBuyPresentEventTarget" parameterType="java.lang.String" resultType="java.util.Map">
@@ -208,11 +212,46 @@
              AND a.gdprice >= 10000  /*'할인적용 상품가 10000원 이상 구매*/
              ]]>
     </select>
-    
-    <select id="newProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+
+    <select id="nowNewProdList" parameterType="java.util.Map" resultType="oneDaySpecialEx">
+        /*nowNewProdList 지금뜨는 상품*/
+        SELECT os.idx
+             , os.gdcd
+             , g.gdname
+             , g.shortdesc
+             , CONVERT(VARCHAR(19), os.enddt, 21) endtime
+             , g.mgdimg1
+             , g.price1
+        <choose>
+            <when test="strMEMGRPCD != '' and strGroupSalePolicy != 'N'">
+                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+            </when>
+            <otherwise>
+                , dbo.getMasterPrice(g.gdcd) saleprice
+            </otherwise>
+        </choose>
+        FROM oneday_special os
+          JOIN gd_master g
+            ON os.gdcd = g.gdcd
+          LEFT JOIN od_reservegoods r
+                 ON g.gdcd = r.gdcd
+                AND r.useyn = 'Y'
+                AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+         WHERE 1 = 1
+           AND os.target = 'O'
+           AND os.opt = 'N'
+           <![CDATA[
+           AND GETDATE() >= os.startdt
+           AND GETDATE() <  os.enddt
+           ]]>
+           AND g.useyn = 'Y'
+           AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+    </select>
+
+    <select id="newProdList" parameterType="java.util.Map" resultType="gdMasterEx">
         /* newProdList 신상품 리스트 */
-        SELECT TOP 8 * 
-           FROM ( 
+        SELECT TOP 8 *
+           FROM (
                    SELECT g.gdcd
                         , g.gdname
                         , g.unit
@@ -248,13 +287,13 @@
                           END odtype
                         , ISNULL(g.deliverydtyn,'N') deliverydtyn
                         , ISNULL(g.reserveyn,'N') reserveyn
-                   FROM gd_master g 
+                   FROM gd_master g
                      LEFT JOIN gd_item i
                             ON i.gdcd = g.gdcd
                      LEFT JOIN cd_master t
                             ON t.cdtype = '09'
                            AND t.cdcode = i.typecd
-                        LEFT JOIN gd_cnt s ON g.gdcd = s.gdcd 
+                        LEFT JOIN gd_cnt s ON g.gdcd = s.gdcd
                      LEFT JOIN od_reservegoods r
                             ON g.gdcd = r.gdcd
                            AND r.useyn = 'Y'
@@ -282,7 +321,7 @@
           ORDER BY ISNULL(updt, indt) DESC
     </select>
     
-    <select id="seasonalFoodHall" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.SeasonalFoodHall">
+    <select id="seasonalFoodHall" parameterType="java.util.Map" resultType="seasonalFoodHall">
         /*seasonalFoodHall 제철 상품*/
         SELECT sfgdcd
              , sfshort
@@ -311,7 +350,7 @@
          ORDER BY sfidx DESC 
     </select>
     
-    <select id="bestProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.BestProduct">
+    <select id="bestProdList" parameterType="java.util.Map" resultType="bestProduct">
         /* bestProdList 인기 상품 리스트*/
         SELECT TOP 12 a.odtype
              , a.odtype2
@@ -405,7 +444,7 @@
         ORDER BY NEWID()
     </select>
     
-    <select id="discountProdList" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="discountProdList" parameterType="java.lang.String" resultType="gdMasterEx">
         /* discountProdList 할인상품 리스트 */
         SELECT TOP 8 *  FROM (
                                SELECT TOP 100 *
@@ -481,6 +520,43 @@
                              ) xx
                         WHERE 1 = 1
          ORDER BY newid()
+    </select>
+    
+    <select id="bestReviewProdList" parameterType="java.util.Map" resultType="java.util.Map">
+         /* bestReviewProdList 베스트 리뷰 상품*/
+         SELECT TOP 6
+                g.gdcd
+               , g.gdname
+               , g.price1
+               , g.mgdimg1
+               , p.bpmemid
+               , p.bpmemo
+               , g.price1
+        <choose>
+            <when test = 'strMEMGRPCD != ""  and strMEMGRPCD != null and  strGroupSalePolicy != N'>
+                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+            </when>
+            <otherwise>
+                , dbo.getMasterPrice(g.gdcd) saleprice
+            </otherwise>
+        </choose>
+           FROM BEST_PRODUCTREVIEW p 
+             JOIN gd_master g
+               ON g.gdcd = p.bpgdcd
+             LEFT JOIN gd_cnt z
+                    ON z.gdcd = g.gdcd
+             LEFT JOIN od_reservegoods r
+                    ON g.gdcd = r.gdcd
+                   AND r.useyn = 'Y'
+                   AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+            WHERE 1 = 1
+              AND g.useyn = 'Y'
+              AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+              <![CDATA[
+              AND ISNULL(z.gdcnt,99999) > 0
+              ]]>
+              AND g.soldoutyn = 'N'
+           ORDER BY p.bpidx desc
     </select>
     
     <select id="getMagazineIdx" resultType="int">
@@ -614,19 +690,19 @@
           <if test='strMEMGRPCD == "" or strMEMGRPCD == null'>
               AND ISNULL(grpcd, '') = ''
               <choose>
-                  <when test='SK_CHEMICALS != null and SK_CHEMICALS != "" '>
+                  <when test='strMEMGRPCD.indexOf(SK_CHEMICALS) gte 0'>
                       AND (ISNULL(grpcd, '') = 'SKCH' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_HYNIXES != null and SK_HYNIXES != "" '>
+                  <when test='strMEMGRPCD.indexOf(SK_HYNIXES) gte 0'>
                       AND (ISNULL(grpcd, '') = 'SKHY' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_HYNIXES_A != null and SK_HYNIXES_A != ""'>
+                  <when test='strMEMGRPCD.indexOf(SK_HYNIXES_A) gte 0'>
                       AND (ISNULL(grpcd, '') = 'SKHY' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_EC != null and SK_EC != "" '>
+                  <when test='strMEMGRPCD.indexOf(SK_EC) gte 0'>
                       AND (ISNULL(grpcd, '') = '02' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
-                  <when test='SK_PLANET != null and SK_PLANET != "" '>
+                  <when test='strMEMGRPCD.indexOf(SK_PLANET) gte 0'>
                       AND (ISNULL(grpcd, '') = '31' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                   </when>
                   <otherwise>

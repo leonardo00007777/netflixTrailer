@@ -1,5 +1,8 @@
 package com.x62life.mo.model.member;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("memberProfile")
 public class MemberProfile {
     private String memid; //회원id
     private String memcd; //회원번호

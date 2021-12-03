@@ -1,8 +1,11 @@
 package com.x62life.mo.model.payment;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
 //자동주문 중단
+@Alias("odAutoPayStop")
 public class OdAutoPayStop {
     private String memcd; //회원코드
     private int autoidx; //자동주문결제일련번호

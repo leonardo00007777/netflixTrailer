@@ -1,7 +1,10 @@
 package com.x62life.mo.model.order;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
+@Alias("odHeader")
 //주문 기본정보
 public class OdHeader {
     private String ordnum; //주문번호

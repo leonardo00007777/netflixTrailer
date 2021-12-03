@@ -1,13 +1,9 @@
 package com.x62life.mo.controller.main;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.x62life.mo.model.category.Category;
+import com.x62life.mo.model.exhibition.OneDaySpecialEx;
+import com.x62life.mo.service.category.CategoryService;
+import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import com.x62life.mo.model.category.Category;
 import com.x62life.mo.model.exhibition.OneDaySpecialEx;
 import com.x62life.mo.model.product.GdMasterEx;
@@ -52,18 +53,12 @@ public class MainController {
 
 		List<Category> categoryList = categoryService.getCategoryList(paramMap);
 		model.addAttribute("categoryList", categoryList);
-
-		//스와이퍼 배너 정보 - TEST
-		List<GdMasterEx> gdList = categoryService.allItemList(paramMap);
-		model.addAttribute("swiperBannerInfo", gdList);
-		
-		
-		/*	
+/*	
 		//스와이퍼 배너 정보
 		List<AdMainMg> swiperBannerInfo = new ArrayList<>();
-		
+
 		swiperBannerInfo = mainService.getSwiperBannerInfo();
-		
+
 		model.addAttribute("swiperBannerInfo", swiperBannerInfo);
 
 		//스와이퍼 배너 정보 리뉴얼
@@ -143,7 +138,14 @@ public class MainController {
 		List<SpecialSellingh> getSpecialSellingBrandHeader = mainService.getSpecialSellingBrandHeader(paramMap);
 		model.addAttribute("getSpecialSellingBrandHeader", getSpecialSellingBrandHeader);
 		*/
-		
+		//지금뜨는 상품
+		List<OneDaySpecialEx> nowNewProdList = mainService.nowNewProdList(paramMap);
+		model.addAttribute("nowNewProdList",nowNewProdList);
+
+		//베스트 리뷰 상품
+		List<Map<String, Object>> bestReviewProdList = mainService.bestReviewProdList(paramMap);
+		model.addAttribute("bestReviewProdList",bestReviewProdList);
+
 		mv.setViewName("/main/main");
 		
 		return mv;

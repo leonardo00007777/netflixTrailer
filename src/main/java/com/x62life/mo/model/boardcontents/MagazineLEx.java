@@ -1,5 +1,8 @@
 package com.x62life.mo.model.boardcontents;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("magazineLEx")
 public class MagazineLEx extends MagazineL{
     String thumbimg2;
     String thumbimg3;

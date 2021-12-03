@@ -4,12 +4,14 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
 import org.dom4j.tree.AbstractEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.x62life.mo.common.constants.Constants;
 
+@Alias("baseCommonEntity")
 public class BaseCommonEntity extends AbstractEntity {
     private static final Logger LOGGER  = LoggerFactory.getLogger(BaseCommonEntity.class);
 

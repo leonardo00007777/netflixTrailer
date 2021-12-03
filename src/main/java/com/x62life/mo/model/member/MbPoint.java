@@ -1,7 +1,11 @@
 package com.x62life.mo.model.member;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
+@Alias("mbPoint")
 //회원 지원금
 public class MbPoint {
     private int nox; //순번

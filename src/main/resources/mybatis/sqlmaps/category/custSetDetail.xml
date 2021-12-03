@@ -20,7 +20,7 @@
 <!--    '20151107   hwkim   0.9     처음 작성-->
 <!--    '20161205   hyeok   0.9.1   사이트 리뉴얼 layout적용-->
 <!--    '20161212   hwkim   0.9.2   레이아웃 표준 규칙 수정-->
-    <select id="custSetTitle" parameterType="java.util.Map" resultType="com.x62life.mo.model.category.CartRecipe">
+    <select id="custSetTitle" parameterType="java.util.Map" resultType="cartRecipe">
      /* custSetDetailSetTitle 고객이 직접만드는 묵음상품 title세팅*/
         SELECT t.titlex
              , t.indt
@@ -53,7 +53,7 @@
            AND bidx = #{hseqno}
     </select>-->
 
-    <select id="getCartRecipeProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.category.CartRecipeEx">
+    <select id="getCartRecipeProdList" parameterType="java.util.Map" resultType="cartRecipeEx">
         /* getCartRecipeProdList 상품목록 */
         SELECT t.gdcd
              , t.gdqty

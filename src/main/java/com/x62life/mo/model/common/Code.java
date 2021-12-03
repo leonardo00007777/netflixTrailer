@@ -1,10 +1,14 @@
 package com.x62life.mo.model.common;
 
+import org.apache.ibatis.type.Alias;
+
 /**
  * @FileName      : Code.java
  * @Date        : 2021. 3. 22.
  * @프로그램 설명     :
  */
+
+@Alias("code")
 public class Code {
     
     /**

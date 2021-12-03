@@ -1,7 +1,10 @@
 package com.x62life.mo.model.boardcontents;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
+@Alias("discussionBoard")
 //토론게시판
 public class DiscussionBoard {
     private int idx; //순번

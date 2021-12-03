@@ -1,5 +1,9 @@
 package com.x62life.mo.model.sms;
+
+import org.apache.ibatis.type.Alias;
+
 //카카오 문자전송
+@Alias("emTranKaKao")
 public class EmTranKaKao {
     private int kkoSeq; //순번
     private String senderKey; //카카오key

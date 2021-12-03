@@ -1,8 +1,10 @@
 package com.x62life.mo.model.product;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
+@Alias("gdSugar")
 public class GdSugar {
     private int gaidx;
     private String gagdcd;

@@ -1,7 +1,10 @@
 package com.x62life.mo.model.product;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
+@Alias("gdPipn")
 public class GdPipn {
     private String ppartc;
     private String ppcode;
