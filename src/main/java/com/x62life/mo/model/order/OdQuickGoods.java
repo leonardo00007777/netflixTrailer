@@ -1,7 +1,10 @@
 package com.x62life.mo.model.order;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
+@Alias("odQuickGoods")
 //신속배송 상품
 public class OdQuickGoods {
     private int seqno; //순번

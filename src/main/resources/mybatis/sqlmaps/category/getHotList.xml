@@ -123,7 +123,7 @@
         ]]>
     </select>
 
-    <select id="isenseBestProd" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="isenseBestProd" parameterType="java.util.Map" resultType="gdMasterEx">
         /*isenseBest 베스트 상품 */
         SELECT g.gdcd
              , gdname

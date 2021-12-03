@@ -1,6 +1,10 @@
 package com.x62life.mo.model.order;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
+
+@Alias("odReserveGoods")
 // 예약판매정보
 public class OdReserveGoods {
     private int seqno; //순번

@@ -57,7 +57,7 @@
         </if>
    </select>
 
-    <select id="getDirectListHeader" parameterType="java.util.Map" resultType="com.x62life.mo.model.order.OdReserveGoodsEx">
+    <select id="getDirectListHeader" parameterType="java.util.Map" resultType="odReserveGoodsEx">
         /* getDirectListHeader 사용자 정의 필터링 상품 헤더*/
         SELECT '12' odtype
              , * FROM (

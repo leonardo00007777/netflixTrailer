@@ -3,10 +3,11 @@ package com.x62life.mo.model.customer;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import org.apache.ibatis.type.Alias;
 import org.dom4j.tree.AbstractEntity;
 
 
-@org.apache.ibatis.type.Alias("group")
+@Alias("group")
 public class Group extends AbstractEntity implements Serializable {
 /*@org.apache.ibatis.type.Alias("group")
 public class Group extends AbstractEntity {*/

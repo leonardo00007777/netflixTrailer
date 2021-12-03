@@ -1,8 +1,10 @@
 package com.x62life.mo.model.common;
 
 import com.x62life.mo.model.product.GdMaster;
+import org.apache.ibatis.type.Alias;
 
-public class searchRecentView extends GdMaster {
+@Alias("searchRecentView")
+public class SearchRecentView extends GdMaster {
     private String odttype;
     private int groupsaleprice;
     private int isgroupsale;

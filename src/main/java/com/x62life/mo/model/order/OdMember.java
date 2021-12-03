@@ -1,4 +1,8 @@
 package com.x62life.mo.model.order;
+
+import org.apache.ibatis.type.Alias;
+
+@Alias("odMember")
 //주문회원 정보
 public class OdMember {
     private char paynum; //결제번호

@@ -1,7 +1,10 @@
 package com.x62life.mo.model.boardcontents;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
+@Alias("magazineL")
 public class MagazineL {
     private int zlidx;
     private short zlctty;

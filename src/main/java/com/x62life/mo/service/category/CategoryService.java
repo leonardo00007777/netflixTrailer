@@ -85,4 +85,6 @@ public interface CategoryService {
 	List<String> defProdInfoList(String strGdcd);
 
 	List<GdPipnRef> defProdInfoListNew(String strGdcd);
+
+
 }

@@ -1,7 +1,10 @@
 package com.x62life.mo.model.member;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
+@Alias("mbMaster")
 //회원 정보
 public class MbMaster {
     private char memcd; //회원코드

@@ -1,7 +1,10 @@
 package com.x62life.mo.model.product;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Date;
 import java.sql.Timestamp;
+@Alias("cPesticideResidue")
 //안정성 테스트정보
 public class CPesticideResidue {
     private int testidx; //안전성테스트 일련번호

@@ -1,6 +1,10 @@
 package com.x62life.mo.model.exhibition;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
+
+@Alias("adMainMg")
 //메인광고
 public class AdMainMg {
     private int seq; //순번

@@ -1,6 +1,10 @@
 package com.x62life.mo.model.login;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
+
+@Alias("memberLoginHistory")
 //회원 로그인 이력
 public class MemberLoginHistory {
     private int nox; //순번

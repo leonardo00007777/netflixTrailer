@@ -1,7 +1,9 @@
 package com.x62life.mo.model.product;
 
-import java.sql.Timestamp;
+import org.apache.ibatis.type.Alias;
 
+import java.sql.Timestamp;
+@Alias("gdPipnRef")
 public class GdPipnRef extends GdPipn{
     private String pncode;
     private String pnname;

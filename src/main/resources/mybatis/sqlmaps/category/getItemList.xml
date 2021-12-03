@@ -274,7 +274,7 @@
         </if>
     </select>
 
-    <select id="searchProdAll" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="searchProdAll" parameterType="java.util.Map" resultType="gdMasterEx">
        /*searchProdAll 상품 전체*/
        <include refid="prodSearchCommon"/>
        <if test="orderBy == ''">

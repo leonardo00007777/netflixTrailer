@@ -1,9 +1,12 @@
 package com.x62life.mo.model.product;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+@Alias("wmslAvailStock")
 //실시간 가용재고량 수신 및 조회
-public class wmslAvailStock {
+public class WmslAvailStock {
     private String avcomp;
     private String avusid; //등록인
     private String avartc; //상품코드

@@ -1,8 +1,11 @@
 package com.x62life.mo.model.member;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+@Alias("memberLevelMaster")
 //회원 멤버십 등급 정보
 public class MemberLevelMaster {
     private char mvcode; //멤버쉽등급

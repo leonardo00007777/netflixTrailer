@@ -1,8 +1,11 @@
 package com.x62life.mo.model.member;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+@Alias("mbAccPointLog")
 //회원 적립금 로그
 public class MbAccPointLog {
     private int seq; //순번

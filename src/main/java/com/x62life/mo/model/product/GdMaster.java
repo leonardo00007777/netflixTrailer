@@ -1,7 +1,10 @@
 package com.x62life.mo.model.product;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Date;
+@Alias("gdMaster")
 //상품 마스터
 public class GdMaster {
     private String gdcd; //상품코드

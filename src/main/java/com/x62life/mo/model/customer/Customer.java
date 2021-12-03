@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.type.Alias;
 import org.dom4j.tree.AbstractEntity;
 
-@org.apache.ibatis.type.Alias("customer")
+@Alias("customer")
 public class Customer extends AbstractEntity implements Serializable {
 /*@org.apache.ibatis.type.Alias("customer")
 public class Customer extends BaseCommonEntity implements CurrentUser {*/

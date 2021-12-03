@@ -1,5 +1,7 @@
 package com.x62life.mo.model.common;
 
+import org.apache.ibatis.type.Alias;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +12,8 @@ import java.util.Map;
  * @프로그램 설명 : 사용자 정보를 저장하고 반환하는 DAO CLASS
  * @author jangsin
  */
+
+@Alias("user")
 public class User extends Code {
     
     static public enum ROLEUSER{

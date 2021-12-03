@@ -1,7 +1,10 @@
 package com.x62life.mo.model.order;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
+@Alias("odAutoDlv")
 //자동주문 배송
 public class OdAutoDlv {
     private char memcd; //회원코드

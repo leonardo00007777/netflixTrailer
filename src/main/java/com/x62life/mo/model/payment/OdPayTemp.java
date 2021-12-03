@@ -1,9 +1,12 @@
 package com.x62life.mo.model.payment;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 //임시결제정보
+@Alias("odPayTemp")
 public class OdPayTemp {
     private String paynum; //결제번호
     private String memcd; //회원코드

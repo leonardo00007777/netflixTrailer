@@ -1,8 +1,12 @@
 package com.x62life.mo.model.order;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+
+@Alias("odOrderTemp")
 public class OdOrderTemp {
     private char memcd; //회원코드
     private String gubun; //주문유형

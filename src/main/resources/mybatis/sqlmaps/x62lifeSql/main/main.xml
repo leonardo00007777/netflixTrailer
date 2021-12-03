@@ -209,7 +209,7 @@
              ]]>
     </select>
     
-    <select id="newProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="newProdList" parameterType="java.util.Map" resultType="gdMasterEx">
         /* newProdList 신상품 리스트 */
         SELECT TOP 8 * 
            FROM ( 
@@ -405,7 +405,7 @@
         ORDER BY NEWID()
     </select>
     
-    <select id="discountProdList" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="discountProdList" parameterType="java.lang.String" resultType="gdMasterEx">
         /* discountProdList 할인상품 리스트 */
         SELECT TOP 8 *  FROM (
                                SELECT TOP 100 *

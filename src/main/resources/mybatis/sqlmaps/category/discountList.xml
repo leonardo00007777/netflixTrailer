@@ -128,7 +128,7 @@
          </if>
     </select>
 
-    <select id="discountProdListAddSetProd" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="discountProdListAddSetProd" parameterType="java.util.Map" resultType="gdMasterEx">
         SELECT *
         FROM (
                SELECT FLOOR((ROW_NUMBER() OVER (ORDER BY 1-(a.saleprice/a.price1) DESC)-1)/ #{intPagePerItem} + 1) AS cPage

@@ -9,6 +9,7 @@ import com.x62life.mo.model.product.GdPipnRef;
 import com.x62life.mo.model.product.GdSugar;
 import com.x62life.mo.model.product.SpecialSellingh;
 import com.x62life.mo.service.category.CategoryService;
+import org.bouncycastle.math.raw.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -378,5 +379,10 @@ public class CategoryController {
         modelAndView.setViewName("/itemDetail");
 
         return modelAndView;
+    }
+
+    @RequestMapping("/categoryItemList")
+    public ModelAndView categoryItemList(Model model, @RequestParam Map<String, Object> paramMap) {
+
     }
 }

@@ -11,7 +11,7 @@
          GROUP BY word
     </select>
 
-    <select id="getSearchRecentView" parameterType="java.util.HashMap" resultType="com.x62life.mo.model.common.searchRecentView">
+    <select id="getSearchRecentView" parameterType="java.util.HashMap" resultType="com.x62life.mo.model.common.SearchRecentView">
         /*strOrderCase 쿠키에 저장된 최근 본 상품목록 가져오기*/
         SELECT *
         FROM(

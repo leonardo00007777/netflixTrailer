@@ -14,7 +14,7 @@
 <!--    'Parameters    :-->
 <!--    'Purpose       :-->
 <!--    'Version       :-->
-    <select id="searchReserveProdDetail" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="searchReserveProdDetail" parameterType="java.util.Map" resultType="gdMasterEx">
         /* searchReserveProdDetail 상품목록조회 (일반상품, 패키지 상품은 제외) */
         SELECT g.gdcd
              , g.gdname
@@ -107,7 +107,7 @@
            AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
     </select>
     
-    <select id="optionProductViewYn" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="optionProductViewYn" parameterType="java.util.Map" resultType="gdMasterEx">
         /*optionProductViewYn 옵션 상품 표시 여부 처리*/
         SELECT gm.gdcd
              , gm.gdname
@@ -167,7 +167,7 @@
         ORDER BY b.gdname
     </select>
     
-    <select id="fruitsSugarInfo" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdSugar">
+    <select id="fruitsSugarInfo" parameterType="java.lang.String" resultType="gdSugar">
          /*fruitsSugarInfo 과일 상품 당도 표시*/
          SELECT TOP 1
                 gasuga
@@ -186,7 +186,7 @@
            WHERE ppartc = #{strGDCD}
     </select>
     
-    <select id="defProdInfoListNew" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdPipnRef">
+    <select id="defProdInfoListNew" parameterType="java.lang.String" resultType="gdPipnRef">
         /*defProdInfoNew 신규방식으로 기본 상품 표시*/
         SELECT b.ppartc
              , b.ppcode

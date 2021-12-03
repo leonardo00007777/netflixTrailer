@@ -34,7 +34,7 @@
            ]]>
     </select>
 
-    <select id="getSpecialSellingBrandHeader" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.SpecialSellingh">
+    <select id="getSpecialSellingBrandHeader" parameterType="java.util.Map" resultType="sepcialSellingh">
         /* getSpecialSellingBrandHeader 전문관 헤더 정보*/
         SELECT *
         FROM (
