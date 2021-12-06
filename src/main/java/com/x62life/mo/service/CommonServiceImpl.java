@@ -1,14 +1,11 @@
-package com.x62life.mo.service.common.impl;
+package com.x62life.mo.service;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.x62life.mo.dao.CommonDao;
 import org.springframework.stereotype.Service;
 
-import com.x62life.mo.dao.common.CommonDao;
-import com.x62life.mo.service.common.CommonService;
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @Service("commonService")
 public class CommonServiceImpl implements CommonService {

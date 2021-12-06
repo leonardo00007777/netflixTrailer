@@ -1,29 +1,21 @@
 package com.x62life.mo.service.category.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.x62life.mo.dao.category.CategoryDao;
 import com.x62life.mo.model.category.CartRecipe;
 import com.x62life.mo.model.category.CartRecipeEx;
 import com.x62life.mo.model.category.Category;
 import com.x62life.mo.model.category.SubCategory;
 import com.x62life.mo.model.order.OdReserveGoodsEx;
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.model.product.GdPipn;
-import com.x62life.mo.model.product.GdPipnRef;
-import com.x62life.mo.model.product.GdSugar;
-import com.x62life.mo.model.product.SpecialSellingh;
+import com.x62life.mo.model.product.*;
 import com.x62life.mo.service.category.CategoryService;
-
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService{
@@ -158,26 +150,19 @@ public class CategoryServiceImpl implements CategoryService{
 		String targetDate2 = "2020-11-20";
 		String targetDate3 = "2020-11-21";
 
-		Date endDate1;
-		try {
-			endDate1 = format.parse(targetDate1);
-			Date endDate2 = format.parse(targetDate2);
-			Date endDate3 = format.parse(targetDate3);
-			Date todate = format.parse(date);
-			
-			int compareDate1 = endDate1.compareTo(todate);
-			int compareDate2 = endDate2.compareTo(todate);
-			int compareDate3 = endDate3.compareTo(todate);;
-			paramMap.put("compare1", compareDate1);
-			paramMap.put("compare2", compareDate2);
-			paramMap.put("compare3", compareDate3);
+		Date endDate1 = format.parse(targetDate1);
+		Date endDate2 = format.parse(targetDate2);
+		Date endDate3 = format.parse(targetDate3);
 
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Date todate = format.parse(date);
 
+		int compareDate1 = endDate1.compareTo(todate);
+		int compareDate2 = endDate2.compareTo(todate);
+		int compareDate3 = endDate3.compareTo(todate);;
 
+		paramMap.put("compare1", compareDate1);
+		paramMap.put("compare2", compareDate2);
+		paramMap.put("compare3", compareDate3);
 
 		String[] onlyNormalGroupProduct= {"1010000246", "0110000403", "7010000438", "1010000245", "7010000439"};
 		paramMap.put("onlyNormalGroupProduct", onlyNormalGroupProduct);

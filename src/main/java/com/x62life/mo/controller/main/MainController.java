@@ -1,12 +1,9 @@
 package com.x62life.mo.controller.main;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.x62life.mo.model.category.Category;
+import com.x62life.mo.model.exhibition.OneDaySpecialEx;
+import com.x62life.mo.service.category.CategoryService;
+import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.x62life.mo.model.category.Category;
-import com.x62life.mo.model.exhibition.OneDaySpecialEx;
-import com.x62life.mo.service.category.CategoryService;
-import com.x62life.mo.service.main.MainService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/main")
@@ -45,7 +43,7 @@ public class MainController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/main")
-	public ModelAndView main(@RequestParam Map<String, Object> paramMap, Model model) {
+	public ModelAndView main(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
 		ModelAndView mv = new ModelAndView();
 
 		List<Category> categoryList = categoryService.getCategoryList(paramMap);

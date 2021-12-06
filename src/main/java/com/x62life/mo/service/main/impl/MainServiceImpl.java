@@ -1,12 +1,5 @@
 package com.x62life.mo.service.main.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.x62life.mo.dao.main.MainDao;
 import com.x62life.mo.model.boardcontents.BdContents;
 import com.x62life.mo.model.boardcontents.MagazineLEx;
@@ -17,6 +10,11 @@ import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.SeasonalFoodHall;
 import com.x62life.mo.model.product.SpecialSellingh;
 import com.x62life.mo.service.main.MainService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @Service("mainService")
 public class MainServiceImpl implements MainService {

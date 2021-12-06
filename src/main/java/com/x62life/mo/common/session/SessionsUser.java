@@ -10,8 +10,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.x62life.mo.common.util.StringUtil;
-import com.x62life.mo.model.common.UserM;
-import com.x62life.mo.model.common.UserM.ROLEUSER;
+import com.x62life.mo.model.common.User;
+import com.x62life.mo.model.common.User.ROLEUSER;
 
 
 public class SessionsUser {
@@ -186,7 +186,7 @@ public class SessionsUser {
     * @param request
     * @return
     */
-    public static UserM getSessionUser(HttpServletRequest request)
+    public static User getSessionUser(HttpServletRequest request)
     {
         try 
         {
@@ -195,7 +195,7 @@ public class SessionsUser {
             if(isLogin(request) || isNonLogin(request))
             {
                 userMap = getSessionUserMap(request);
-                UserM user = new UserM();
+                User user = new User();
                 
                 if(StringUtil.getString(userMap.get("ROLE_USER"), "").equals(ROLEUSER.user.toString()))
                 { 
@@ -226,13 +226,13 @@ public class SessionsUser {
             } 
             else 
             {
-                return new UserM();
+                return new User();
             }
 
         } 
         catch (Exception e)
         {
-            return new UserM();
+            return new User();
         }
     }
 
