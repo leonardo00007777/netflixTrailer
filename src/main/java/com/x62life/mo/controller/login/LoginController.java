@@ -61,12 +61,10 @@ public class LoginController {
         return modelAndView;
     }
     
-/*	
+/*
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody JsonResponse login_post(Model model, User userParam, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		Meta meta = new Meta(null, null);
-		
     	if (userParam.getEmail_address() == null || "".equals(userParam.getEmail_address()) ) {
         	return null;
 		}
@@ -77,55 +75,6 @@ public class LoginController {
 		
     	
 		User user = null;
-		try {
-			String email = userParam.getEmail_address();
-			String loginId = email.split("@")[0];
-			
-			User selectParam = new User();
-			selectParam.setEmail_address(email);
-			selectParam.setLogin_name(loginId);
-			
-			user = userService.getUser(selectParam);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-        	return null;
-		}
-		
-		if (user == null) {
-			return null;
-		}
-		
-		User statusParam = new User();
-		statusParam.setEmail_address(userParam.getEmail_address());
-		
-		User accountStatus = userService.getAccountStatus(statusParam);
-		if (accountStatus == null) {
-			return null;
-		}
-		
-		String db_pw = user.getPassword();					// pw stored in DB; encoded
-		String input_pw = passwordEncoder.encode(userParam.getPassword());	// pw input by user; encoded
-		if (db_pw == null || "".equals(db_pw)) {
-			return null;
-		}
-		
-		if (!passwordEncoder.matches(userParam.getPassword(), db_pw)) {
-			User updateParam = new User();
-			updateParam.setEmail_address(userParam.getEmail_address());
-			int nextCount = accountStatus.getLogin_fail_count() + 1;	// up to 5 tries
-			updateParam.setLogin_fail_count(nextCount);
-			
-			int res = userService.updateAccountStatus(updateParam);
-			return null;
-			
-		} else {
-			User updateParam = new User();
-			updateParam.setEmail_address(userParam.getEmail_address());
-			updateParam.setLogin_fail_count(Integer.parseInt("0"));
-			
-			int res = userService.updateAccountStatus(updateParam);
-		}
 		
 		// validation success후, session 생성
 		SSOUser ssoUser = new SSOUser();
