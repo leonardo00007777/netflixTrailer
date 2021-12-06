@@ -1,12 +1,6 @@
 package com.x62life.mo.controller.main;
 
-import com.x62life.mo.model.boardcontents.BdContents;
-import com.x62life.mo.model.boardcontents.MagazineLEx;
-import com.x62life.mo.model.category.Category;
-import com.x62life.mo.model.exhibition.AdMainMg;
 import com.x62life.mo.model.exhibition.MainPageSkin;
-import com.x62life.mo.model.exhibition.OneDaySpecialEx;
-import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.service.category.CategoryService;
 import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -48,18 +40,23 @@ public class MainController {
 	@RequestMapping(value = "/main")
 	public ModelAndView main(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
 		ModelAndView mv = new ModelAndView();
-
+		paramMap.put("strMEMGRPCD",null);
+/*
 		List<Category> categoryList = categoryService.getCategoryList(paramMap);
-		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("categoryList", categoryList);*/
 
 		//상단 메인 배너 리스트
-		List<AdMainMg> mainBannerList = mainService.mainBannerList((String) paramMap.get("strMEMGRPCD"));
-		model.addAttribute("mainBannerList",mainBannerList);
+/*		List<AdMainMg> mainBannerList = mainService.mainBannerList((String) paramMap.get("strMEMGRPCD"));
+		model.addAttribute("mainBannerList",mainBannerList);*/
 
 		//리뉴얼 배너 리스트
 		List<MainPageSkin> renewalBannerList = mainService.renewalBannerList();
 		model.addAttribute("renewalBannerList", renewalBannerList);
 
+/*		//오늘의 특가
+		List<OneDaySpecialEx> todaySpecialProdList = mainService.todaySpecialProdList(paramMap);
+		model.addAttribute("todaySpecialProdList",todaySpecialProdList);
+		
 		//첫구매 선물증정 이벤트 대상 검사
 		String firstBuyGiftTargetCheck = mainService.firstBuyGiftTargetCheck((String)paramMap.get("strMEMGRPCD"));
 		model.addAttribute("firstBuyGiftTargetCheck", firstBuyGiftTargetCheck);
@@ -110,7 +107,7 @@ public class MainController {
 
 		//이벤트
 		List<BdContents> eventList = mainService.eventList(paramMap);
-		model.addAttribute("eventList", eventList);
+		model.addAttribute("eventList", eventList);*/
 
 		mv.setViewName("/main/main");
 
