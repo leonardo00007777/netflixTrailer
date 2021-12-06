@@ -23,7 +23,7 @@ import com.lowagie.text.Meta;
 import com.x62life.mo.common.util.Encrypt;
 import com.x62life.mo.model.common.Code;
 import com.x62life.mo.model.common.SSOUser;
-import com.x62life.mo.model.common.User;
+import com.x62life.mo.model.common.UserRef;
 import com.x62life.mo.model.login.LoginProcess;
 import com.x62life.mo.service.common.SSOService;
 import com.x62life.mo.service.login.LoginService;
@@ -61,7 +61,7 @@ public class LoginController {
         return modelAndView;
     }
     
-	
+/*	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody JsonResponse login_post(Model model, User userParam, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
@@ -145,6 +145,7 @@ public class LoginController {
 		
     	return new JsonResponse(meta, accountStatus.getPasswd_reset_needed());
 	}
+	*/
 	
 	// log out
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
