@@ -1,4 +1,4 @@
-package com.x62life.mo.common.session;
+/*package com.x62life.mo.common.session;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ import com.x62life.mo.model.common.User.ROLEUSER;
 
 public class SessionsUser {
 
-    /**
+    *//**
     * <pre>
     * 1. MethodName : getSessionUserValue
     * 2. ClassName  : SessionsUser.java
@@ -27,13 +27,13 @@ public class SessionsUser {
     *
     * @param name
     * @return
-    */
+    *//*
     public static String getSessionUserValue(String name)
     {
         return getSessionUserValue(((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest(), name);
     }
 
-    /**
+    *//**
     * <pre>
     * 1. MethodName : getSessionUserValue
     * 2. ClassName  : SessionsUser.java
@@ -45,7 +45,7 @@ public class SessionsUser {
     * @param request
     * @param name
     * @return
-    */
+    *//*
     public static String getSessionUserValue(HttpServletRequest request, String name)
     {
         if (getSessionUserValue(request) == null)
@@ -67,7 +67,7 @@ public class SessionsUser {
         }
     }
 
-    /**
+    *//**
     * <pre>
     * 1. MethodName : getSessionUserValue
     * 2. ClassName  : SessionsUser.java
@@ -78,7 +78,7 @@ public class SessionsUser {
     *
     * @param request
     * @return
-    */
+    *//*
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getSessionUserValue(HttpServletRequest request)
     {
@@ -92,7 +92,7 @@ public class SessionsUser {
         }
     }
 
-    /**
+    *//**
      * <pre>
      * 1. MethodName	: setSessionUser
      * 2. ClassName		: SessionsUser.java
@@ -104,7 +104,7 @@ public class SessionsUser {
      * @return void
      * @param request
      * @param userMap
-     */
+     *//*
     public static void setSessionUser(HttpServletRequest request, Map<String, Object> userMap){
     	
         HttpSession session = request.getSession();
@@ -113,7 +113,7 @@ public class SessionsUser {
         
         if (StringUtil.getString(sessionUserMap.get("ROLE_USER")).equals("user"))  // SNS 간편로그인에서도 사용
         {   
-            /**************************** 회원정보 ******************************/ 
+            *//**************************** 회원정보 ******************************//*
             sessionUserMap.put("MEM_MST_MEM_ID", StringUtil.getString(userMap.get("MEM_MST_MEM_ID"), ""));
             sessionUserMap.put("MEM_MST_MEM_NM", StringUtil.getString(userMap.get("MEM_MST_MEM_NM"), "")); 
             sessionUserMap.put("MEM_MST_HP", StringUtil.getString(userMap.get("MEM_MST_HP"), ""));           
@@ -124,17 +124,17 @@ public class SessionsUser {
         // 비회원 주문조회
         else if (StringUtil.getString(sessionUserMap.get("ROLE_USER")).equals("order_guest"))
         {
-            /************************ 비회원주문조회 정보 ***********************/
+            *//************************ 비회원주문조회 정보 ***********************//*
             sessionUserMap.put("ORD_MST_CD", StringUtil.getString(userMap.get("ORD_MST_CD"), ""));
             sessionUserMap.put("ORD_MST_ORD_NM", StringUtil.getString(userMap.get("ORD_MST_ORD_NM"), ""));
         }
         
-       /* System.out.println("sessionUserMap====================="+sessionUserMap);*/
+       *//* System.out.println("sessionUserMap====================="+sessionUserMap);*//*
 
         session.setAttribute("USER_SESSION_INFO", sessionUserMap);
     }
 
-    /**
+    *//**
     * <pre>
     * 1. MethodName : setSessionClear
     * 2. ClassName  : SessionsUser.java
@@ -144,13 +144,13 @@ public class SessionsUser {
     * </pre>
     *
     * @param request
-    */
+    *//*
     public static void setSessionClear(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.setAttribute("USER_SESSION_INFO", null);
     }
 
-    /**
+    *//**
     * <pre>
     * 1. MethodName : getSessionUserMap
     * 2. ClassName  : SessionsUser.java
@@ -161,7 +161,7 @@ public class SessionsUser {
     *
     * @param request
     * @return
-    */
+    *//*
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getSessionUserMap(HttpServletRequest request){
         try 
@@ -174,7 +174,7 @@ public class SessionsUser {
         }
     }
 
-    /**
+    *//**
     * <pre>
     * 1. MethodName : getSessionUser
     * 2. ClassName  : SessionsUser.java
@@ -185,7 +185,7 @@ public class SessionsUser {
     *
     * @param request
     * @return
-    */
+    *//*
     public static User getSessionUser(HttpServletRequest request)
     {
         try 
@@ -200,7 +200,7 @@ public class SessionsUser {
                 if(StringUtil.getString(userMap.get("ROLE_USER"), "").equals(ROLEUSER.user.toString()))
                 { 
                     user.setROLE_USER(ROLEUSER.user);
-                    /************************회원정보************************/
+                    *//************************회원정보************************//*
                     user.setMEM_MST_MEM_ID				(StringUtil.getString(userMap.get("MEM_MST_MEM_ID"				)));
                     user.setMEM_MST_MEM_NM				(StringUtil.getString(userMap.get("MEM_MST_MEM_NM"				)));
                     user.setMEM_MST_HP			        (StringUtil.getString(userMap.get("MEM_MST_HP"			     	)));  // SNS 계정 로그인에서 사용
@@ -212,7 +212,7 @@ public class SessionsUser {
                 else if(StringUtil.getString(userMap.get("ROLE_USER"), "").equals(ROLEUSER.order_guest.toString()))
                 {
                     user.setROLE_USER(ROLEUSER.order_guest);
-                    /************************비회원정보***********************/
+                    *//************************비회원정보***********************//*
                     user.setORD_MST_CD(StringUtil.getString(userMap.get("ORD_MST_CD"), ""));
                     user.setORD_MST_ORD_NM(StringUtil.getString(userMap.get("ORD_MST_ORD_NM"), ""));
                 }
@@ -236,7 +236,7 @@ public class SessionsUser {
         }
     }
 
-    /**
+    *//**
     * <pre>
     * 1. MethodName : setAccreditationInfo
     * 2. ClassName  : SessionsUser.java
@@ -246,14 +246,14 @@ public class SessionsUser {
     * </pre>
     *
     * @param infoMap
-    */
+    *//*
     public static void setAccreditationInfo (HttpServletRequest request, Map<String, Object> infoMap)
     {
         HttpSession session = request.getSession();
         session.setAttribute("__MALL_ACCREDITATION_SESSION_INFO__", infoMap);
     }
     
-    /**
+    *//**
     * <pre>
     * 1. MethodName : getAccreditationInfo
     * 2. ClassName  : SessionsUser.java
@@ -263,7 +263,7 @@ public class SessionsUser {
     * </pre>
     *
     * @return
-    */
+    *//*
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getAccreditationInfo(HttpServletRequest request)
     {
@@ -277,7 +277,7 @@ public class SessionsUser {
         }
     }
     
-    /**
+    *//**
     * <pre>
     * 1. MethodName : setAccreditationClear
     * 2. ClassName  : SessionsUser.java
@@ -288,13 +288,13 @@ public class SessionsUser {
     *
     * @param request
     * @throws Exception
-    */
+    *//*
     public static void setAccreditationClear (HttpServletRequest request) throws Exception{
         HttpSession session = request.getSession();
         session.setAttribute("__MALL_ACCREDITATION_SESSION_INFO__", null);
     }
     
-    /**
+    *//**
     * <pre>
     * 1. MethodName : getSessionUserRole
     * 2. ClassName  : SessionsUser.java
@@ -305,7 +305,7 @@ public class SessionsUser {
     *
     * @param request
     * @return
-    */
+    *//*
     public static ROLEUSER getSessionUserRole(HttpServletRequest request){
 
         // 회원
@@ -351,7 +351,7 @@ public class SessionsUser {
     }
 
     
-    /**
+    *//**
     * <pre>
     * 1. MethodName : isLogin
     * 2. ClassName  : SessionsUser.java
@@ -362,7 +362,7 @@ public class SessionsUser {
     *
     * @param request
     * @return
-    */
+    *//*
     public static boolean isLogin(HttpServletRequest request){
     	boolean returnValue = false;
     	if(getSessionUserMap(request) != null)
@@ -377,7 +377,7 @@ public class SessionsUser {
         return returnValue;
     }
     
-    /**
+    *//**
     	 * <pre>
     	 * 1. MethodName : isOrderAble
     	 * 2. ClassName  : SessionsUser.java
@@ -388,7 +388,7 @@ public class SessionsUser {
     	 *
     	 * @param request
     	 * @return
-     */
+     *//*
     public static boolean isOrderAble(HttpServletRequest request){
     	boolean returnValue = false;
     	if(getSessionUserMap(request) != null)
@@ -414,7 +414,7 @@ public class SessionsUser {
         return returnValue;
     }
 
-    /**
+    *//**
      * <pre>
      * 1. MethodName : isNonLogin
      * 2. ClassName  : SessionsUser.java
@@ -425,7 +425,7 @@ public class SessionsUser {
      *
      * @param request
      * @return
-     */
+     *//*
     public static boolean isNonLogin(HttpServletRequest request)
     {
     	boolean returnValue = false;
@@ -443,3 +443,4 @@ public class SessionsUser {
         return returnValue;
     }
 }
+*/

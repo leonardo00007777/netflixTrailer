@@ -18,6 +18,9 @@ public class BdContents {
     private String todate; //게시 종료일
     private Timestamp dday; //지정일
     private String thumbimg; //썸네일이미지명
+    private String thumbimg2;
+    private String thumbimg3;
+    private int ingyn;
     private String grpcd; //(공개)적용고객
 
     public int getCtsidx() {
@@ -114,6 +117,30 @@ public class BdContents {
 
     public void setThumbimg(String thumbimg) {
         this.thumbimg = thumbimg;
+    }
+
+    public String getThumbimg2() {
+        return thumbimg2;
+    }
+
+    public void setThumbimg2(String thumbimg2) {
+        this.thumbimg2 = thumbimg2;
+    }
+
+    public String getThumbimg3() {
+        return thumbimg3;
+    }
+
+    public void setThumbimg3(String thumbimg3) {
+        this.thumbimg3 = thumbimg3;
+    }
+
+    public int getIngyn() {
+        return ingyn;
+    }
+
+    public void setIngyn(int ingyn) {
+        this.ingyn = ingyn;
     }
 
     public String getGrpcd() {
