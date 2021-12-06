@@ -1,6 +1,10 @@
 package com.x62life.mo.model.login;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
+
+@Alias("snsLoginMaster")
 //sns로그인
 public class SnsLoginMaster {
     private char snsType; //sns 유형

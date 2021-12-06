@@ -1,22 +1,26 @@
 package com.x62life.mo.model.order;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
+
+@Alias("odReserveGoods")
 // 예약판매정보
 public class OdReserveGoods {
     private int seqno; //순번
     private String gdcd; //상품코드
     private String gdnm; //상품명
     private String unit; //단위
-    private char divcd; //상품구분
-    private char divcd1; //카테고리
+    private String divcd; //상품구분
+    private String divcd1; //카테고리
     private float masterPrice; //가격
     private float applyPrice; //가격
     private float point; //포인트
     private float stockNum; //재고량
-    private char odFrom; //주문기간 from
-    private char odTo; //주문기간 to
-    private char dlvFrom; //배송기간 from
-    private char dlvTo; //배송기간 to
+    private String odFrom; //주문기간 from
+    private String odTo; //주문기간 to
+    private String dlvFrom; //배송기간 from
+    private String dlvTo; //배송기간 to
     private char useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
@@ -62,19 +66,19 @@ public class OdReserveGoods {
         this.unit = unit;
     }
 
-    public char getDivcd() {
+    public String getDivcd() {
         return divcd;
     }
 
-    public void setDivcd(char divcd) {
+    public void setDivcd(String divcd) {
         this.divcd = divcd;
     }
 
-    public char getDivcd1() {
+    public String getDivcd1() {
         return divcd1;
     }
 
-    public void setDivcd1(char divcd1) {
+    public void setDivcd1(String divcd1) {
         this.divcd1 = divcd1;
     }
 
@@ -110,35 +114,35 @@ public class OdReserveGoods {
         this.stockNum = stockNum;
     }
 
-    public char getOdFrom() {
+    public String getOdFrom() {
         return odFrom;
     }
 
-    public void setOdFrom(char odFrom) {
+    public void setOdFrom(String odFrom) {
         this.odFrom = odFrom;
     }
 
-    public char getOdTo() {
+    public String getOdTo() {
         return odTo;
     }
 
-    public void setOdTo(char odTo) {
+    public void setOdTo(String odTo) {
         this.odTo = odTo;
     }
 
-    public char getDlvFrom() {
+    public String getDlvFrom() {
         return dlvFrom;
     }
 
-    public void setDlvFrom(char dlvFrom) {
+    public void setDlvFrom(String dlvFrom) {
         this.dlvFrom = dlvFrom;
     }
 
-    public char getDlvTo() {
+    public String getDlvTo() {
         return dlvTo;
     }
 
-    public void setDlvTo(char dlvTo) {
+    public void setDlvTo(String dlvTo) {
         this.dlvTo = dlvTo;
     }
 

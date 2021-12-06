@@ -1,6 +1,9 @@
 package com.x62life.mo.model.sms;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
+@Alias("smsHeader")
 //sms 헤더
 public class SmsHeader {
     private int smsid;

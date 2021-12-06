@@ -1,17 +1,20 @@
 package com.x62life.mo.model.payment;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 //임시결제정보
+@Alias("odPayTemp")
 public class OdPayTemp {
-    private char paynum; //결제번호
-    private char memcd; //회원코드
-    private char paycd; //결제수단 01:카드결제,02:무통장입금, 03:급여공제, 04:SK건설복리후생포인트,05:상품권, 06:기타결제(고객결제0원)
+    private String paynum; //결제번호
+    private String memcd; //회원코드
+    private String paycd; //결제수단 01:카드결제,02:무통장입금, 03:급여공제, 04:SK건설복리후생포인트,05:상품권, 06:기타결제(고객결제0원)
                         // , 07:실시간계좌이체, 08:가상계좌, 09:휴대폰결제, 10:하이닉스하이웰포인트, 11:시럽페이, 12:네이버페이결제
                         // , 13:포인트결제(PG), 20:복합결제(PG포인트와 다른결제수단을 동시에 사용)
 
-    private char pgcd; //결제대행사 01:자체결제, 01:이니시스, 02:SK페이, 03:네이버페이, 99:기타
+    private String pgcd; //결제대행사 01:자체결제, 01:이니시스, 02:SK페이, 03:네이버페이, 99:기타
 
     private short bnkidx; //은행코드 PAYCD-02
     private String bnkuser; //입금자 PAYCD-02
@@ -20,11 +23,11 @@ public class OdPayTemp {
     private BigDecimal dpsprice; //예치금
     private BigDecimal dlvprice; //배송비
     private BigDecimal ttlprice; //주문금액
-    private char fixdt; //등록일자
-    private char paystcd; //결제상태 00:결제준비, 01:입금대기, 02:카드결제대기, 10:결제완료, 90:결제실패, 91:결제취소신청, 95:카드결제중단, 99:결제취소
+    private String fixdt; //등록일자
+    private String paystcd; //결제상태 00:결제준비, 01:입금대기, 02:카드결제대기, 10:결제완료, 90:결제실패, 91:결제취소신청, 95:카드결제중단, 99:결제취소
     private Timestamp paydt; //결제등록일시
     private Timestamp updt; //수정일시
-    private char paystcds; //결제상태 00:결제준비, 01:입금대기, 02:카드결제대기, 10:결제완료, 90:결제실패, 91:결제취소신청, 95:카드결제중단, 99:결제취소
+    private String paystcds; //결제상태 00:결제준비, 01:입금대기, 02:카드결제대기, 10:결제완료, 90:결제실패, 91:결제취소신청, 95:카드결제중단, 99:결제취소
     private BigDecimal tvos; //공급가
     private BigDecimal ttax; //과세
     private BigDecimal tvat; //부가세
@@ -40,35 +43,35 @@ public class OdPayTemp {
     private String cashInfo; //현금영수증가입정보 CASH_TYPE에 따른 저옵
     private char rcpType; //현금영수증발행용도 0:소득공제용, 1:지출증빙용
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
-    public char getPaycd() {
+    public String getPaycd() {
         return paycd;
     }
 
-    public void setPaycd(char paycd) {
+    public void setPaycd(String paycd) {
         this.paycd = paycd;
     }
 
-    public char getPgcd() {
+    public String getPgcd() {
         return pgcd;
     }
 
-    public void setPgcd(char pgcd) {
+    public void setPgcd(String pgcd) {
         this.pgcd = pgcd;
     }
 
@@ -128,19 +131,19 @@ public class OdPayTemp {
         this.ttlprice = ttlprice;
     }
 
-    public char getFixdt() {
+    public String getFixdt() {
         return fixdt;
     }
 
-    public void setFixdt(char fixdt) {
+    public void setFixdt(String fixdt) {
         this.fixdt = fixdt;
     }
 
-    public char getPaystcd() {
+    public String getPaystcd() {
         return paystcd;
     }
 
-    public void setPaystcd(char paystcd) {
+    public void setPaystcd(String paystcd) {
         this.paystcd = paystcd;
     }
 
@@ -160,11 +163,11 @@ public class OdPayTemp {
         this.updt = updt;
     }
 
-    public char getPaystcds() {
+    public String getPaystcds() {
         return paystcds;
     }
 
-    public void setPaystcds(char paystcds) {
+    public void setPaystcds(String paystcds) {
         this.paystcds = paystcds;
     }
 

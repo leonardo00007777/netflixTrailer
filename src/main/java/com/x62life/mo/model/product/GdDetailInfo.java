@@ -1,5 +1,9 @@
 package com.x62life.mo.model.product;
+
+import org.apache.ibatis.type.Alias;
+
 //입고 상세정보
+@Alias("gdDetailInfo")
 public class GdDetailInfo {
     private String glno; //입고번호
     private String glsuno; //구매공급자번호

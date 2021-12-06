@@ -1,8 +1,10 @@
 package com.x62life.mo.model.purchase;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
+@Alias("purchasingDetailInfo")
 public class PurchasingDetailInfo {
     private String plcomp; //회사코드
     private String plnmor; //구매주문번호

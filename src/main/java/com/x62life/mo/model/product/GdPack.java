@@ -1,4 +1,8 @@
 package com.x62life.mo.model.product;
+
+import org.apache.ibatis.type.Alias;
+
+@Alias("gdPack")
 // 패키지 상품 패키지 정보
 public class GdPack {
    private String gdcd;

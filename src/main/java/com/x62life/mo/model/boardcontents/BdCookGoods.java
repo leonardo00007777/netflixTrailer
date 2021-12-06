@@ -1,5 +1,9 @@
 package com.x62life.mo.model.boardcontents;
+
+import org.apache.ibatis.type.Alias;
+
 //요리연관상품
+@Alias("bdCookGoods")
 public class BdCookGoods {
     private int ctsidx; //순번
     private String gdcd; //상품코드

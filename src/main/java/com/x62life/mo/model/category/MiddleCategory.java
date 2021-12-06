@@ -1,6 +1,10 @@
 package com.x62life.mo.model.category;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
+
+@Alias("middleCategory")
 //중간 카테고리
 public class MiddleCategory {
     private String category; //대분류코드

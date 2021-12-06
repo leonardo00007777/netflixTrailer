@@ -1,8 +1,11 @@
 package com.x62life.mo.model.payment;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 
 //배송비
+@Alias("odDeliveryCharge")
 public class OdDeliveryCharge {
     private String ordnum; //주문번호
     private String paynum; //결제번호

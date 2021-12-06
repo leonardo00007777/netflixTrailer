@@ -1,5 +1,9 @@
 package com.x62life.mo.model.product;
+
+import org.apache.ibatis.type.Alias;
+
 //기획전 상품
+@Alias("specialSellingProduct")
 public class SpecialSellingProduct {
     private int slidx; //순번
     private String slgdcd; //상품코드

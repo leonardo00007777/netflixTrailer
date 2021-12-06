@@ -1,5 +1,8 @@
 package com.x62life.mo.model.sms;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("smsSendLine")
 //sms 전송 대상
 public class SmsSendLine {
     private int seqno;

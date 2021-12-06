@@ -1,8 +1,11 @@
 package com.x62life.mo.model.payment;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+@Alias("couponVoucher")
 //쿠폰 바우처
 public class CouponVoucher {
     private int idx; //순번

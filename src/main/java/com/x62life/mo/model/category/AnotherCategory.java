@@ -1,5 +1,9 @@
 package com.x62life.mo.model.category;
+
+import org.apache.ibatis.type.Alias;
+
 //다른 카테고리
+@Alias("anotherCategory")
 public class AnotherCategory {
     private String div1;
     private String div2;

@@ -1,7 +1,10 @@
 package com.x62life.mo.model.product;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Date;
+@Alias("gdMaster")
 //상품 마스터
 public class GdMaster {
     private String gdcd; //상품코드
@@ -50,7 +53,7 @@ public class GdMaster {
     private int testidx; //안전성테스트 일련번호
     private String bestbeforedate; //유통기한 또는 품질유지기한(농축수산물만)
     private char easybreakyn; //배송주의상품
-    private Date plandate; //재판매예정일
+    private String plandate; //재판매예정일
     private char dispatchtype; //발송유형
     private char thedaysyn; //당일발송상품
     private char active; //사용여부
@@ -436,11 +439,11 @@ public class GdMaster {
         this.easybreakyn = easybreakyn;
     }
 
-    public Date getPlandate() {
+    public String getPlandate() {
         return plandate;
     }
 
-    public void setPlandate(Date plandate) {
+    public void setPlandate(String plandate) {
         this.plandate = plandate;
     }
 

@@ -1,8 +1,11 @@
 package com.x62life.mo.model.member;
 
+import org.apache.ibatis.type.Alias;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+@Alias("mbDeposit")
 //회원 예치금
 public class MbDeposit {
     private char memcd; //회원번호

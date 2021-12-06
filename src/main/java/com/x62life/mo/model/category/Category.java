@@ -1,12 +1,15 @@
 package com.x62life.mo.model.category;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("category")
 public class Category {
 	
 	private String id;
 	private String subject;
 	private String content;
 	private String writer;
-	private String register_datetime;
+	private String registerDatetime;
 	
 	public String getId() {
 		return id;
@@ -32,11 +35,11 @@ public class Category {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public String getRegister_datetime() {
-		return register_datetime;
+	public String getregisterDatetime() {
+		return registerDatetime;
 	}
-	public void setRegister_datetime(String register_datetime) {
-		this.register_datetime = register_datetime;
+	public void setregisterDatetime(String registerDatetime) {
+		this.registerDatetime = registerDatetime;
 	}
 	
 }

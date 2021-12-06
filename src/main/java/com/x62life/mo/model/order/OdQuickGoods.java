@@ -1,7 +1,10 @@
 package com.x62life.mo.model.order;
 
+import org.apache.ibatis.type.Alias;
+
 import java.sql.Timestamp;
 
+@Alias("odQuickGoods")
 //신속배송 상품
 public class OdQuickGoods {
     private int seqno; //순번
@@ -14,8 +17,8 @@ public class OdQuickGoods {
     private float applyPrice; //가격
     private float point; //포인트
     private float stockNum; //재고량
-    private char odFrom; //판매기간 from
-    private char odTo; //판매기간 to
+    private String odFrom; //판매기간 from
+    private String odTo; //판매기간 to
     private char useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
@@ -107,19 +110,19 @@ public class OdQuickGoods {
         this.stockNum = stockNum;
     }
 
-    public char getOdFrom() {
+    public String getOdFrom() {
         return odFrom;
     }
 
-    public void setOdFrom(char odFrom) {
+    public void setOdFrom(String odFrom) {
         this.odFrom = odFrom;
     }
 
-    public char getOdTo() {
+    public String getOdTo() {
         return odTo;
     }
 
-    public void setOdTo(char odTo) {
+    public void setOdTo(String odTo) {
         this.odTo = odTo;
     }
 
