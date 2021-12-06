@@ -20,6 +20,7 @@ public class BdContents {
     private String thumbimg; //썸네일이미지명
     private String thumbimg2;
     private String thumbimg3;
+    private int ingyn;
     private String grpcd; //(공개)적용고객
 
     public int getCtsidx() {
@@ -118,14 +119,6 @@ public class BdContents {
         this.thumbimg = thumbimg;
     }
 
-    public String getGrpcd() {
-        return grpcd;
-    }
-
-    public void setGrpcd(String grpcd) {
-        this.grpcd = grpcd;
-    }
-
     public String getThumbimg2() {
         return thumbimg2;
     }
@@ -140,5 +133,21 @@ public class BdContents {
 
     public void setThumbimg3(String thumbimg3) {
         this.thumbimg3 = thumbimg3;
+    }
+
+    public int getIngyn() {
+        return ingyn;
+    }
+
+    public void setIngyn(int ingyn) {
+        this.ingyn = ingyn;
+    }
+
+    public String getGrpcd() {
+        return grpcd;
+    }
+
+    public void setGrpcd(String grpcd) {
+        this.grpcd = grpcd;
     }
 }
