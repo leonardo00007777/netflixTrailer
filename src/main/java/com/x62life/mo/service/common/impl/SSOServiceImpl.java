@@ -1,19 +1,19 @@
 package com.x62life.mo.service.common.impl;
 
+import com.x62life.mo.dao.common.SsoUserDao;
+import com.x62life.mo.model.common.SSOUser;
+import com.x62life.mo.service.common.SsoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.x62life.mo.dao.common.SSOUserDao;
-import com.x62life.mo.model.common.SSOUser;
-import com.x62life.mo.service.common.SSOService;
 
 @Service
-public class SSOServiceImpl implements SSOService {
+public class SSOServiceImpl implements SsoService {
 	
 	@Autowired
-	private SSOUserDao ssoServiceDao;
+	private SsoUserDao ssoServiceDao;
 	
-	public void setSsoServiceDao(SSOUserDao ssoServiceDao) {
+	public void setSsoServiceDao(SsoUserDao ssoServiceDao) {
 		this.ssoServiceDao = ssoServiceDao;
 	}
 

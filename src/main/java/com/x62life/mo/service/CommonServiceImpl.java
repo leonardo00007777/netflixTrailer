@@ -1,6 +1,7 @@
 package com.x62life.mo.service;
 
-import com.x62life.mo.dao.CommonDao;
+import com.x62life.mo.dao.common.CommonDao;
+import com.x62life.mo.service.common.CommonService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
