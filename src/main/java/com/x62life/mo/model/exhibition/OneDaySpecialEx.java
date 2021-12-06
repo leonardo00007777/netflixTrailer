@@ -24,6 +24,9 @@ public class OneDaySpecialEx extends OneDaySpecial{
     private String title;
     private String subtitle;
     private int cnt;
+    private BigDecimal saleprice;
+    private char lastyn;
+    private String endtime;
 
     public String getGdname() {
         return gdname;
@@ -151,5 +154,29 @@ public class OneDaySpecialEx extends OneDaySpecial{
 
     public void setCnt(int cnt) {
         this.cnt = cnt;
+    }
+
+    public BigDecimal getSaleprice() {
+        return saleprice;
+    }
+
+    public void setSaleprice(BigDecimal saleprice) {
+        this.saleprice = saleprice;
+    }
+
+    public char getLastyn() {
+        return lastyn;
+    }
+
+    public void setLastyn(char lastyn) {
+        this.lastyn = lastyn;
+    }
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
     }
 }
