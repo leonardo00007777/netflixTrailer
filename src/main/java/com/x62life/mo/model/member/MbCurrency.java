@@ -1,10 +1,6 @@
 package com.x62life.mo.model.member;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
-
-@Alias("mbCurrency")
 //회원 적립금 잔액
 public class MbCurrency {
     private char memcd; //회원번호

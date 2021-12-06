@@ -1,11 +1,7 @@
 package com.x62life.mo.model.login;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 //관리자 로그인 정보
-
-@Alias("adminLoginInfo")
 public class AdminLoginInfo {
     private String memid; //로그인id
     private Timestamp lastLogin; //최근로그인일시

@@ -1,11 +1,8 @@
 package com.x62life.mo.model.payment;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
 //이니시스 결제
-@Alias("inicisPay")
 public class InicisPay {
     private int inidx; //id
     private String tid; //각 거래를 나타내는 40자리 고유번호.

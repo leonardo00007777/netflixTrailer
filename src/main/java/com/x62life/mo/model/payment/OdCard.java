@@ -1,11 +1,7 @@
 package com.x62life.mo.model.payment;
-
-import org.apache.ibatis.type.Alias;
-
 //주문 카드 정보
-@Alias("odCard")
 public class OdCard {
-    private String paynum; //결제번호
+    private char paynum; //결제번호
     private short payidx; //결제카드 일련번호
     private char authyn; //승인여부
     private String trno; //트랜잭션번호
@@ -13,11 +9,11 @@ public class OdCard {
     private char trtm; //트랜잭션일시
     private String authno; //승인번호
 
-    public String getPaynum() {
+    public char getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(String paynum) {
+    public void setPaynum(char paynum) {
         this.paynum = paynum;
     }
 

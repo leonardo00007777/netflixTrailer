@@ -1,11 +1,9 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
+
 import java.sql.Timestamp;
 //상품변경정보
-@Alias("productChangeInfo")
 public class ProductChangeInfo {
     private String productCd; //상품코드
     private String applyType; //배송일지정상품

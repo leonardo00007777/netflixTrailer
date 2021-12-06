@@ -5,11 +5,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-/*
 
 import net.sf.json.JSONObject;
-
 import org.springframework.web.servlet.view.AbstractView;
+
+
 
 public class JSONView extends AbstractView {
     public JSONView() {
@@ -34,4 +34,3 @@ public class JSONView extends AbstractView {
 
     }
 }
-*/

@@ -1,10 +1,7 @@
 package com.x62life.mo.model.member;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("memberLevel")
 //회원 멤버십 레벨
 public class MemberLevel {
     private char YYYYMM; //연월

@@ -1,227 +1,186 @@
 package com.x62life.mo.model.common;
 
-import org.apache.ibatis.type.Alias;
+import java.io.Serializable;
+import java.util.List;
 
-import java.util.HashMap;
-import java.util.Map;
+public class User implements Serializable {
 
-/**
- * @PackageName: x62life.common.model
- * @FileName : User.java
- * @Date : 2020. 4. 22.
- * @프로그램 설명 : 사용자 정보를 저장하고 반환하는 DAO CLASS
- * @author jangsin
- */
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4512264820153491630L;
 
-@Alias("user")
-public class User extends Code {
-    
-    static public enum ROLEUSER{
-        user,
-        sns,
-        order_guest,
-        guest
-    }
+	private long userseqno;
+	
+	private String email_address;
+	
+	private String first_name;
+	
+	private String last_name;
+	
+	private String user_type;
+	
+	private String login_name;
+	
+	private String division_name;
+	
+	private List<Code> divisions;
+	
+	private String company_code;
+	
+	private String company_name;
+	
+	private String status;
 
-    static public Map<ROLEUSER, Integer> levels = new HashMap<ROLEUSER, Integer>();
+	private String password;
+	
+	private String new_password;
+	
+	private String new_password_confirm;
 
-    static{
-        levels.put(ROLEUSER.user, 30);
-        levels.put(ROLEUSER.sns, 20); 
-        levels.put(ROLEUSER.order_guest, 10);
-        levels.put(ROLEUSER.guest, 0);
-    }
-
-    int loginStateCode = Code.LOGIN_FAIL;  // 로그인 상태 코드
-    
-    ROLEUSER ROLE_USER = ROLEUSER.guest;   // 회원 비회원 구분
-    
-    String saveId = ""; // 아이디저장 유무
-    String autoLoginYn = "";	// 자동로그인 유무
-    
-    /*******************회원 정보********************/
-	String MEM_MST_MEM_ID				= "";	// 웹ID
-	String MEM_MST_WEB_PWD				= "";	// 웹PW
-	String MEM_MST_MEM_NM				= "";	// 회원명
-	String RST_YN 						= "";	// 휴면여부
-	String MEM_MST_MEM_GBN				= "";	// 회원구분
-	String VST_PASS_YN					= "";	// 전환 페이지 이동 여부(온라인회원,간편회원만 해당 / 마지막방문일 + 15일 여부 체크)
-	String LOGIN_PIT_YN					= "";	// 로그인 시 포인트 지급 여부(하루에 한번)
-	String MEM_MST_MEM_GRD				= "";	// 회원등급
-    
-	/*******************비회원 정보*******************/
-    String ORD_MST_CD 					= "";   // 비회원 주문번호
-    String ORD_MST_ORD_NM 			    = "";   // 비회원 이름
-    
-    /*****************SNS간편회원 정보****************/
-    String MEM_SNS_ID                   = "";   // SNS 아이디(고유 KEY)
-    String MEM_MST_MAIL                 = "";   // SNS 이메일
-    String MEM_MST_HP                   = "";   // SNS 핸드폰번호ex) 01012345678
-    
-  
-    public int getLoginStateCode() {
-        return loginStateCode;
-    }
-
-    public void setLoginStateCode(int loginStateCode) {
-        this.loginStateCode = loginStateCode;
-    }
-
-    public ROLEUSER getROLE_USER() {
-        return ROLE_USER;
-    }
-
-    public void setROLE_USER(ROLEUSER rOLE_USER) {
-        ROLE_USER = rOLE_USER;
-    }
-    
-    public String getSaveId() {
-        return saveId;
-    }
-
-    public void setSaveId(String saveId) {
-        this.saveId = saveId;
-    }
-    
-	public String getAutoLoginYn() {
-		return autoLoginYn;
+	private int login_fail_count;
+	
+	private String inactive_flag;
+	
+	private String passwd_reset_needed;
+	
+	public long getUserseqno() {
+		return userseqno;
 	}
 
-	public void setAutoLoginYn(String autoLoginYn) {
-		this.autoLoginYn = autoLoginYn;
+	public void setUserseqno(long userseqno) {
+		this.userseqno = userseqno;
 	}
 
-	public static Map<ROLEUSER, Integer> getLevels() {
-		return levels;
+	public String getEmail_address() {
+		return email_address;
 	}
 
-	public static void setLevels(Map<ROLEUSER, Integer> levels) {
-		User.levels = levels;
+	public void setEmail_address(String email_address) {
+		this.email_address = email_address;
 	}
 
-	public String getMEM_MST_MEM_ID() {
-		return MEM_MST_MEM_ID;
+	public String getFirst_name() {
+		return first_name;
 	}
 
-	public void setMEM_MST_MEM_ID(String mEM_MST_MEM_ID) {
-		MEM_MST_MEM_ID = mEM_MST_MEM_ID;
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
+	}
+
+	public String getLast_name() {
+		return last_name;
+	}
+
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+
+	public String getUser_type() {
+		return user_type;
+	}
+
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
+	}
+
+	public String getLogin_name() {
+		return login_name;
+	}
+
+	public void setLogin_name(String login_name) {
+		this.login_name = login_name;
+	}
+
+	public String getDivision_name() {
+		return division_name;
+	}
+
+	public void setDivision_name(String division_name) {
+		this.division_name = division_name;
+	}
+
+	public List<Code> getDivisions() {
+		return divisions;
+	}
+
+	public void setDivisions(List<Code> divisions) {
+		this.divisions = divisions;
+	}
+
+	public String getCompany_name() {
+		return company_name;
+	}
+
+	public void setCompany_name(String company_name) {
+		this.company_name = company_name;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getCompany_code() {
+		return company_code;
+	}
+
+	public void setCompany_code(String company_code) {
+		this.company_code = company_code;
+	}
+
+	public String getNew_password() {
+		return new_password;
+	}
+
+	public void setNew_password(String new_password) {
+		this.new_password = new_password;
+	}
+
+	public String getNew_password_confirm() {
+		return new_password_confirm;
+	}
+
+	public void setNew_password_confirm(String new_password_confirm) {
+		this.new_password_confirm = new_password_confirm;
+	}
+
+	public int getLogin_fail_count() {
+		return login_fail_count;
+	}
+
+	public void setLogin_fail_count(int login_fail_count) {
+		this.login_fail_count = login_fail_count;
 	}
 	
-	public String getMEM_MST_WEB_PWD() {
-		return MEM_MST_WEB_PWD;
+	public String getInactive_flag() {
+		return inactive_flag;
 	}
 
-	public void setMEM_MST_WEB_PWD(String mEM_MST_WEB_PWD) {
-		MEM_MST_WEB_PWD = mEM_MST_WEB_PWD;
+	public void setInactive_flag(String inactive_flag) {
+		this.inactive_flag = inactive_flag;
 	}
 
-	public String getMEM_MST_MEM_NM() {
-		return MEM_MST_MEM_NM;
+	public String getPasswd_reset_needed() {
+		return passwd_reset_needed;
 	}
 
-	public void setMEM_MST_MEM_NM(String mEM_MST_MEM_NM) {
-		MEM_MST_MEM_NM = mEM_MST_MEM_NM;
+	public void setPasswd_reset_needed(String passwd_reset_needed) {
+		this.passwd_reset_needed = passwd_reset_needed;
 	}
+
 	
-	public String getRST_YN() {
-		return RST_YN;
-	}
 
-	public void setRST_YN(String rST_YN) {
-		RST_YN = rST_YN;
-	}
-	
-	public String getMEM_MST_MEM_GBN() {
-		return MEM_MST_MEM_GBN;
-	}
-
-	public void setMEM_MST_MEM_GBN(String mEM_MST_MEM_GBN) {
-		MEM_MST_MEM_GBN = mEM_MST_MEM_GBN;
-	}
-
-	public String getMEM_MST_MEM_GRD() {
-		return MEM_MST_MEM_GRD;
-	}
-
-	public void setMEM_MST_MEM_GRD(String mEM_MST_MEM_GRD) {
-		MEM_MST_MEM_GRD = mEM_MST_MEM_GRD;
-	}
-
-	public String getVST_PASS_YN() {
-		return VST_PASS_YN;
-	}
-
-	public void setVST_PASS_YN(String vST_PASS_YN) {
-		VST_PASS_YN = vST_PASS_YN;
-	}
-	
-	public String getLOGIN_PIT_YN() {
-		return LOGIN_PIT_YN;
-	}
-
-	public void setLOGIN_PIT_YN(String lOGIN_PIT_YN) {
-		LOGIN_PIT_YN = lOGIN_PIT_YN;
-	}
-
-	public String getORD_MST_CD() {
-		return ORD_MST_CD;
-	}
-
-	public void setORD_MST_CD(String oRD_MST_CD) {
-		ORD_MST_CD = oRD_MST_CD;
-	}
-
-	public String getORD_MST_ORD_NM() {
-		return ORD_MST_ORD_NM;
-	}
-
-	public void setORD_MST_ORD_NM(String oRD_MST_ORD_NM) {
-		ORD_MST_ORD_NM = oRD_MST_ORD_NM;
-	}
-	
-    public String getMEM_SNS_ID() {
-        return MEM_SNS_ID;
-    }
-
-    public void setMEM_SNS_ID(String mEM_SNS_ID) {
-        MEM_SNS_ID = mEM_SNS_ID;
-    }
-
-    public String getMEM_MST_MAIL() {
-        return MEM_MST_MAIL;
-    }
-
-    public void setMEM_MST_MAIL(String mEM_MST_MAIL) {
-        MEM_MST_MAIL = mEM_MST_MAIL;
-    }
-
-    public String getMEM_MST_HP() {
-        return MEM_MST_HP;
-    }
-
-    public void setMEM_MST_HP(String mEM_MST_HP) {
-        MEM_MST_HP = mEM_MST_HP;
-    }
-
-    
-	@Override
-	public String toString() {
-		return "User [loginStateCode=" + loginStateCode + ", ROLE_USER="
-				+ ROLE_USER + ", saveId=" + saveId 
-				+ ", autoLoginYn=" + autoLoginYn
-				+ ", MEM_MST_MEM_ID=" + MEM_MST_MEM_ID 
-				+ ", MEM_MST_WEB_PWD=" + MEM_MST_WEB_PWD
-				+ ", MEM_MST_MEM_NM=" + MEM_MST_MEM_NM
-				+ ", RST_YN=" + RST_YN
-				+ ", MEM_MST_MEM_GBN=" + MEM_MST_MEM_GBN
-				+ ", VST_PASS_YN=" + VST_PASS_YN
-				+ ", LOGIN_PIT_YN=" + LOGIN_PIT_YN
-				+ ", ORD_MST_CD=" + ORD_MST_CD 
-				+ ", ORD_MST_ORD_NM="	+ ORD_MST_ORD_NM 
-				+ ", MEM_SNS_ID="	+ MEM_SNS_ID 
-				+ ", MEM_MST_MAIL="	+ MEM_MST_MAIL 
-				+ ", MEM_MST_HP="	+ MEM_MST_HP 
-				+ "]";  
-	}
 	
 }

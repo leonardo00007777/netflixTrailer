@@ -22,9 +22,11 @@ img {
   display: block;
   padding-left: 15px;
 }
+
 .prm-entry-banner .img-container {
   position: relative;
 }
+
 .prm-entry-banner .flag {
   position: absolute;
   top: 0;
@@ -36,22 +38,31 @@ img {
   font-size: 12px;
   font-weight: 600;
 }
+
 .prm-entry-banner .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding-top: 10px;
   padding-right: 15px;
 }
+
 .prm-entry-banner .label {
   font-size: 11px;
   font-weight: 600;
 }
+
 .prm-entry-banner .label .opened {
   color: #066b4c;
 }
+
 .prm-entry-banner .label .closed {
   color: #999999;
 }
+
 .prm-entry-banner .label .dot {
   display: inline-block;
   margin-top: -2px;
@@ -63,9 +74,11 @@ img {
   border-radius: 50%;
   vertical-align: middle;
 }
+
 .prm-entry-banner .label .notice {
   color: #c3a67f;
 }
+
 .prm-entry-banner .date {
   margin-left: auto;
   color: #999999;
@@ -85,9 +98,11 @@ img {
 .prm-tit-section {
   padding: 30px 15px;
 }
+
 .prm-tit-section.evt-tit-section {
   padding-bottom: 15px;
 }
+
 .prm-tit-section .tit {
   padding-right: 30px;
   color: #222222;
@@ -95,6 +110,7 @@ img {
   font-weight: 600;
   line-height: 22px;
 }
+
 .prm-tit-section .label {
   margin-top: 10px;
   margin-bottom: 15px;
@@ -102,11 +118,13 @@ img {
   font-size: 11px;
   font-weight: 600;
 }
+
 .prm-tit-section .date {
   color: #999999;
   font-size: 14px;
   line-height: 20px;
 }
+
 .prm-tit-section .comments {
   color: #999999;
   font-size: 14px;
@@ -116,6 +134,7 @@ img {
 .prm-cate-nav {
   background-color: #fff;
 }
+
 .prm-cate-nav.sticky {
   border-bottom: 1px solid #eeeeee;
 }
@@ -137,6 +156,7 @@ img {
   margin-top: -154px;
   margin-left: -82.5px;
 }
+
 .prm-prd-view .prd-item {
   margin: 0 auto;
   width: 165px;
@@ -148,6 +168,7 @@ Event
 .evt-header {
   position: relative;
 }
+
 .evt-header .state {
   position: absolute;
   top: 10px;
@@ -172,10 +193,12 @@ Event
 .prm-rel-banner {
   display: block;
 }
+
 .prm-rel-banner .img-container img {
   display: block;
   width: 100%;
 }
+
 .prm-rel-banner .detail {
   position: relative;
   margin-top: -30px;
@@ -184,12 +207,14 @@ Event
   background-color: #fff;
   z-index: 1;
 }
+
 .prm-rel-banner .tit {
   color: #222222;
   font-size: 16px;
   font-weight: 600;
   line-height: 25px;
 }
+
 .prm-rel-banner .desc {
   color: #999999;
   font-size: 13px;
@@ -212,10 +237,15 @@ Event
 }
 
 .evtr-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-bottom: 15px;
 }
+
 .evtr-header .tit {
   max-height: 40px;
   color: #222222;
@@ -223,6 +253,7 @@ Event
   line-height: 20px;
   overflow: hidden;
 }
+
 .evtr-header .total {
   display: block;
   margin-left: auto;
@@ -236,7 +267,8 @@ Event
 
 .evtr-badge {
   display: inline-block;
-  flex-shrink: 0;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   margin-right: 10px;
   width: 40px;
   height: 40px;
@@ -247,6 +279,7 @@ Event
   line-height: 40px;
   text-align: center;
 }
+
 .evtr-badge.evtr-1 {
   background-color: #066b4c;
 }
@@ -260,6 +293,7 @@ Event
 .evta-header {
   position: relative;
 }
+
 .evta-header .evta-tit {
   padding: 30px 15px;
   color: #222222;
@@ -268,9 +302,9 @@ Event
   line-height: 22px;
   word-break: keep-all;
 }
+
 .evta-header .notice {
   margin-top: -15px;
   padding-bottom: 30px;
 }
-
 /*# sourceMappingURL=promotion.css.map */

@@ -1,16 +1,12 @@
 package com.x62life.mo.model.login;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
-
-@Alias("memberLoginHistory")
 //회원 로그인 이력
 public class MemberLoginHistory {
     private int nox; //순번
     private String memcd; //회원번호
     private Timestamp datex; //등록일시
-    private String daysx; //등록요일
+    private char daysx; //등록요일
     private short hourx; //등록시간
     private String ipx; //로그인ip
     private String refererx; //연결url
@@ -41,20 +37,12 @@ public class MemberLoginHistory {
         this.datex = datex;
     }
 
-    public String getDaysx() {
+    public char getDaysx() {
         return daysx;
     }
 
-    public void setDaysx(String daysx) {
+    public void setDaysx(char daysx) {
         this.daysx = daysx;
-    }
-
-    public String getUserAgent() {
-        return userAgent;
-    }
-
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
     }
 
     public short getHourx() {

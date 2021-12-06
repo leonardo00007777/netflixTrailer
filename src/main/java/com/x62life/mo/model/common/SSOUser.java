@@ -11,12 +11,19 @@ public class SSOUser implements Serializable {
 	
 	private String userSeqNo;
 	private String loginId;
+	private String loginPw;
 	private String email;
 	private String userName;
 	private String userType;
 	private String userType_name;
 	private String passwd_reset_needed;
 	
+	public String getLoginPw() {
+		return loginPw;
+	}
+	public void setLoginPw(String loginPw) {
+		this.loginPw = loginPw;
+	}
 	public String getUserSeqNo() {
 		return userSeqNo;
 	}

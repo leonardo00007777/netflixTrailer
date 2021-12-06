@@ -1,9 +1,6 @@
 package com.x62life.mo.model.standardinfo;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
-@Alias("supplierMoreInfo")
 //공급자 추가정보
 public class SupplierMoreInfo {
     private String suno; //공급자코드

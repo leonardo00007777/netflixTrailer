@@ -1,11 +1,7 @@
 package com.x62life.mo.model.order;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-@Alias("odCooperativeGoods")
 //공동구매상품 기준정보
 public class OdCooperativeGoods {
     private int seqno; //순번

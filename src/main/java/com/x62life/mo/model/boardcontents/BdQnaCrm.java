@@ -1,10 +1,7 @@
 package com.x62life.mo.model.boardcontents;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("bdQnaCrm")
 //Qna게시판 crm
 public class BdQnaCrm {
     private int qnaidx; //순번

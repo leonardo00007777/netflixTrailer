@@ -1,10 +1,5 @@
 package com.x62life.mo.model.category;
-
-import org.apache.ibatis.type.Alias;
-
 //블로그 카테고리
-
-@Alias("blogCategory")
 public class BlogCategory {
     private String memid; //회원아이디
     private String cgroup; //블로그 그룹코드

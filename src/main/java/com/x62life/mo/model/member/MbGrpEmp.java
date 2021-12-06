@@ -1,11 +1,8 @@
 package com.x62life.mo.model.member;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-@Alias("mbGrpEmp")
 //회원 그룹사 직원
 public class MbGrpEmp {
     private String grpcd; //그룹사코드

@@ -1,9 +1,5 @@
 package com.x62life.mo.model.payment;
-
-import org.apache.ibatis.type.Alias;
-
 //주문 자동결제
-@Alias("odAutoPay")
 public class OdAutoPay {
     private char memcd; //회원코드
     private int autoidx; //자동주문결제일련번호

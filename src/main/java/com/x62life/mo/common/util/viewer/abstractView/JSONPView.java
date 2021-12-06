@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.view.AbstractView;
 
 import com.x62life.mo.common.util.StringUtil;
-/*
+
 import net.sf.json.JSONObject;
 
 public class JSONPView extends AbstractView {
@@ -36,4 +36,4 @@ public class JSONPView extends AbstractView {
         out.flush();
 
     }
-}*/
+}

@@ -1,8 +1,4 @@
 package com.x62life.mo.model.standardinfo;
-
-import org.apache.ibatis.type.Alias;
-
-@Alias("commonCode")
 //공통코드
 public class CommonCode {
     private char cdtype; //코드유형

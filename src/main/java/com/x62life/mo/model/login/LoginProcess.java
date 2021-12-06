@@ -1,9 +1,7 @@
 package com.x62life.mo.model.login;
 
 import com.x62life.mo.model.member.MbMaster;
-import org.apache.ibatis.type.Alias;
 
-@Alias("loginProcess")
 public class LoginProcess extends MbMaster {
     private String nickn;
     private String idurl;

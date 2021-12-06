@@ -6,6 +6,26 @@
 %>
 
 <body class="page-home header-float">
+	    			<c:choose>
+			        	<c:when test="${fn:length(categoryList) == 0}">
+			            	<tr>
+			            		<td colspan="4" align="center">
+			            			조회결과가 없습니다.
+			            		</td>
+			            	</tr>
+			           	</c:when>
+			           	<c:otherwise>
+			            	<c:forEach var="categoryList" items="${categoryList}" varStatus="status">
+								<tr>
+						    		<td align="center">${categoryList.id}</td>
+						    		<td>
+						    			<a name="subject" class="mouseOverHighlight" content_id="${categoryList.id}">${categoryList.subject}</a>
+						    		</td>
+						    	</tr>
+						    </c:forEach>
+			           	</c:otherwise> 
+			    	</c:choose>
+			    	
   <div class="site-container">
     <header class="global-header" id="global-header">
       <div class="global-header-wrap" id="sticky-header">
@@ -44,26 +64,18 @@
           <div class="kv-container">
             <div class="swiper-container swiper-dot-main" id="swiperKvA2">
               <div class="swiper-wrapper">
-              
-	    			<c:choose>
-			        	<c:when test="${fn:length(swiperBannerInfo) == 0}">
-			            	<tr>
-			            		<td colspan="4" align="center">
-			            			조회결과가 없습니다.
-			            		</td>
-			            	</tr>
-			           	</c:when>
-			           	<c:otherwise>
-			            	<c:forEach var="gdInfo" items="${swiperBannerInfo}" varStatus="status">
-				                <div class="swiper-slide">
-				                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/"${gdInfo.gdimg}"   alt="상품이미지"></a>
-				                </div>
-				                
-				                
-						    </c:forEach>
-			           	</c:otherwise> 
-			    	</c:choose>
-                
+                <div class="swiper-slide">
+                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
+                </div>
+                <div class="swiper-slide">
+                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
+                </div>
+                <div class="swiper-slide">
+                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
+                </div>
+                <div class="swiper-slide">
+                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
+                </div>
               </div>
               <div class="swiper-kv-footer">
                 <div class="swiper-pgn-dots-main">
@@ -75,8 +87,8 @@
           <div class="global-nav-container">
             <div class="global-nav scroll-fixed-top" id="globalNavContainer">
               <ul class="global-nav-menu" id="mainTab">
-                <li class="menu-item active"><a href="javascript:void(0);" onclick="javascript:location.href='/main/main'"><span class="tit">메인</span></a></li>
-                <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/newprdlist'"><span class="tit">신상품</span></a></li>
+                <li class="menu-item active"><a href="javascript:void(0);" onclick="javascript:location.href='/main/main'"><span class="tit">메인<span></a></li>
+                <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/newprdlist'"><span class="tit">신상품<span></a></li>
                 <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/dcprdlist'"><span class="tit">할인관</span></a></li>
                 <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/bestprdlist'"><span class="tit">베스트</span></a></li>
                 <li class="menu-item"><a href="javascript:void(0);" onclick="javascript:location.href='/main/proprdlist'"><span class="tit">전문관</span></a></li>
@@ -85,6 +97,7 @@
             </div>
           </div>
         </section>
+
 
         <div class="swiper-container" id="globalNavSwiper">
           <div class="swiper-wrapper">
@@ -98,31 +111,10 @@
                     <a href="#" class="btn-all-chevron" title="전체보기"></a>
                   </div>
                 </header>
-                
                 <div class="swiper-container swiper-prd-2n swiper-no-swiping">
                   <div class="swiper-wrapper">
-                  
-                  <!-- MD 추천상품 1 : swiper-slide   start	 ------------------------- -->
-<%-- 		    			<c:choose>
-				        	<c:when test="${fn:length(swiperBannerInfo) == 0}">
-				            	<tr>
-				            		<td colspan="4" align="center">
-				            			조회결과가 없습니다.
-				            		</td>
-				            	</tr>
-				           	</c:when>
-				           	<c:otherwise>
-				            	<c:forEach var="gdInfo" items="${swiperBannerInfo}" varStatus="status">
-					                <div class="swiper-slide">
-					                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/"${gdInfo.gdimg}"   alt="상품이미지"></a>
-					                </div>
-							    </c:forEach>
-				           	</c:otherwise> 
-				    	</c:choose> --%>
-				    	                  
                     <div class="swiper-slide">
                       <article class="prd-item">
-                      
                         <div class="img-container">
                           <a href="#" class="prd-item-img">
                             <img src="<%=_imgUrl %>/images/uploads/prd-img-08.jpg" alt="마담로익 크림치즈 플레인 150g">
@@ -132,7 +124,6 @@
                             </div>
                           </a>
                         </div>
-				    	                        
                         <div class="detail">
                           <a href="#">
                             <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
@@ -142,14 +133,77 @@
                             </div>
                           </a>
                         </div>
-                        
                       </article>
-                    </div> 
-                    <!-- MD 추천상품 1 : swiper-slide   end	 ------------------------- -->     
-                  
+                    </div>
+                    <div class="swiper-slide">
+                      <article class="prd-item">
+                        <div class="img-container">
+                          <a href="#" class="prd-item-img">
+                            <img src="<%=_imgUrl %>/images/uploads/prd-img-02.jpg" alt="마담로익 크림치즈 플레인 150g">
+                            <div class="prd-item-badge dc">
+                              <span>23</span>
+                              <small>%</small>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="detail">
+                          <a href="#">
+                            <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
+                            <div class="prd-item-price">
+                              <div class="price"><span>3,480</span><small>원</small></div>
+                              <div class="price-org">4,800원</div>
+                            </div>
+                          </a>
+                        </div>
+                      </article>
+                    </div>
+                    <div class="swiper-slide">
+                      <article class="prd-item">
+                        <div class="img-container">
+                          <a href="#" class="prd-item-img">
+                            <img src="<%=_imgUrl %>/images/uploads/prd-img-08.jpg" alt="마담로익 크림치즈 플레인 150g">
+                            <div class="prd-item-badge dc">
+                              <span>23</span>
+                              <small>%</small>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="detail">
+                          <a href="#">
+                            <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
+                            <div class="prd-item-price">
+                              <div class="price"><span>3,480</span><small>원</small></div>
+                              <div class="price-org">4,800원</div>
+                            </div>
+                          </a>
+                        </div>
+                      </article>
+                    </div>
+                    <div class="swiper-slide">
+                      <article class="prd-item">
+                        <div class="img-container">
+                          <a href="#" class="prd-item-img">
+                            <img src="<%=_imgUrl %>/images/uploads/prd-img-02.jpg" alt="마담로익 크림치즈 플레인 150g">
+                            <div class="prd-item-badge dc">
+                              <span>23</span>
+                              <small>%</small>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="detail">
+                          <a href="#">
+                            <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
+                            <div class="prd-item-price">
+                              <div class="price"><span>3,480</span><small>원</small></div>
+                              <div class="price-org">4,800원</div>
+                            </div>
+                          </a>
+                        </div>
+                      </article>
+                    </div>
                   </div>
                   <div class="swiper-pgn-dots-sub"></div>
-                </div> <!--  swiper-container swiper-prd-2n swiper-no-swiping -->
+                </div>
               </section>
 
               <!-- 오늘의 특가 B1 ------------------------- -->
@@ -168,7 +222,7 @@
                             <div class="today-price-circle-bar"></div>
                           </div>
                           <div class="img-container">
-                            <div class="prd-img" style="background-image: url('<%=_imgUrl %>/images/uploads/prd-img-07.jpg');"
+                            <div class="prd-img" style="background-image: url('/images/uploads/prd-img-07.jpg');"
                               title="[채움] 유기농 노니 30입">
                             </div>
                             <div class="remain">
@@ -942,62 +996,102 @@
 
                <hr class="spacer-m">
             </div>
-            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/newPrdList.jsp" %></div>
-            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/dcPrdList.jsp" %></div>
-            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/bestPrdList.jsp" %></div>
-            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/proPrdList.jsp" %></div>
-            <div class="swiper-slide"><%@ include file="/WEB-INF/views/main/eventPrdList.jsp" %></div>
-         </div><!-- /.swiper-container -->
-      	</div><!-- /.main-content -->
-      
-        <footer class="global-footer">
-          <section class="footer-bt">
-            <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-apple"></i>App Store</a>
-            <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-google"></i>Play Store</a>
-          </section>
-          <nav class="global-footer-menu">
-            <div class="wrapper">
-              <div class="main-item"><a href="#">자연이랑</a></div>
-              <div class="main-item"><a href="#" class="active">올바른밥상</a></div>
-            </div>
-            <div class="wrapper">
-              <div class="main-item"><a href="#">고객센터</a></div>
-              <div class="main-item"><a href="#">제휴문의</a></div>
-              <div class="main-item"><a href="#">이용약관</a></div>
-              <div class="main-item"><a href="#">개인정보처리방침</a></div>
-            </div>
-          </nav>
-          <section class="footer-business-info fold-section">
-            <div class="toggle-button-container">
-              <a class="toggle-button fold-button" href="javascript:void(0)">자연이랑 사업자 정보 <i
-                  class="wn-icon bt-chevron-v-gray"></i></a>
-            </div>
-            <div class="business-info-content fold-open-show">
-              재단법인 행복에프앤씨 (자연이랑 분사무소) 대표자 : 안범환<br>
-              사업자등록번호: 794-85-00155 <a href="#" class="green-sub">[사업자등록번호확인]</a><br>
-              통신판매업신고: 2016-서울용산-00340<br>
-              개인정보 보호 책임자 : 김흥완<br>
-              <br>
-              서울시 용산구 장문로 54, SEL빌딩 4층 자연이랑<br>
-              080-303-6262 / 02-6445-5500<br>
-              <a href="mailto:help@happyfnc.org">help@happyfnc.org</a>
-            </div>
-          </section>
-          <ul class="footer-privacy">
-            <li><a href="javascript:void(0)" onclick="$('#popISMS').modal('show')">정보보호 관리<br>체계 인증 획득</a></li>
-            <li><a href="javascript:void(0)" onclick="$('#popSSL').modal('show')">Secure Sockets<br>Layer 적용</a></li>
-            <li><a href="javascript:void(0)" class="item" onclick="$('#popEscrow').modal('show')">에스크로<br>서비스 제공</a></li>
-          </ul>
-          <ul class="footer-sns-list">
-            <li><a href="#"><i class="wn-icon sns-25-fb">Facebook</i></a></li>
-            <li><a href="#"><i class="wn-icon sns-25-in">Instagram</i></a></li>
-            <li><a href="#"><i class="wn-icon sns-25-nv">Naver Blog</i></a></li>
-            <li><a href="#"><i class="wn-icon sns-25-kko">Kakaotalk</i></a></li>
-          </ul>
-          <section class="footer-copyright">Copyright(C) 2017 WithNature All rights reserved.</section>
-        </footer>
-      </div>
+            
+              <div class="spacer-bottom"></div>
+           
+          </div>
+        </div><!-- /.swiper-container -->
+
+
+
+      </div><!-- /.main-content -->
+      <footer class="global-footer">
+        <section class="footer-bt">
+          <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-apple"></i>App Store</a>
+          <a href="#" class="button bt-outline bt-steel"><i class="wn-icon store-google"></i>Play Store</a>
+        </section>
+        <nav class="global-footer-menu">
+          <div class="wrapper">
+            <div class="main-item"><a href="#">자연이랑</a></div>
+            <div class="main-item"><a href="#" class="active">올바른밥상</a></div>
+          </div>
+          <div class="wrapper">
+            <div class="main-item"><a href="#">고객센터</a></div>
+            <div class="main-item"><a href="#">제휴문의</a></div>
+            <div class="main-item"><a href="#">이용약관</a></div>
+            <div class="main-item"><a href="#">개인정보처리방침</a></div>
+          </div>
+        </nav>
+        <section class="footer-business-info fold-section">
+          <div class="toggle-button-container">
+            <a class="toggle-button fold-button" href="javascript:void(0)">자연이랑 사업자 정보 <i
+                class="wn-icon bt-chevron-v-gray"></i></a>
+          </div>
+          <div class="business-info-content fold-open-show">
+            재단법인 행복에프앤씨 (자연이랑 분사무소) 대표자 : 안범환<br>
+            사업자등록번호: 794-85-00155 <a href="#" class="green-sub">[사업자등록번호확인]</a><br>
+            통신판매업신고: 2016-서울용산-00340<br>
+            개인정보 보호 책임자 : 김흥완<br>
+            <br>
+            서울시 용산구 장문로 54, SEL빌딩 4층 자연이랑<br>
+            080-303-6262 / 02-6445-5500<br>
+            <a href="mailto:help@happyfnc.org">help@happyfnc.org</a>
+          </div>
+        </section>
+        <ul class="footer-privacy">
+          <li><a href="javascript:void(0)" onclick="$('#popISMS').modal('show')">정보보호 관리<br>체계 인증 획득</a></li>
+          <li><a href="javascript:void(0)" onclick="$('#popSSL').modal('show')">Secure Sockets<br>Layer 적용</a></li>
+          <li><a href="javascript:void(0)" class="item" onclick="$('#popEscrow').modal('show')">에스크로<br>서비스 제공</a></li>
+        </ul>
+        <ul class="footer-sns-list">
+          <li><a href="#"><i class="wn-icon sns-25-fb">Facebook</i></a></li>
+          <li><a href="#"><i class="wn-icon sns-25-in">Instagram</i></a></li>
+          <li><a href="#"><i class="wn-icon sns-25-nv">Naver Blog</i></a></li>
+          <li><a href="#"><i class="wn-icon sns-25-kko">Kakaotalk</i></a></li>
+        </ul>
+        <section class="footer-copyright">Copyright(C) 2017 WithNature All rights reserved.</section>
+      </footer>
     </main>
+
+    <div class="quick-menu" id="quick-menu">
+      <a href="#" class="quick-menu-button btn-chat"><i class="wn-icon wni-message-square">채팅상담</i></a>
+      <a href="#" class="quick-menu-button" id="page-top-button"><i class="wn-icon wni-chevron-v">Top</i></a>
+    </div>
+    <div class="global-bottom">
+      <ul class="global-bottom-menu">
+        <li class="gbm-item active">
+          <a href="review_home.html">
+            <i class="wn-icon wni-home"></i>
+            <!-- <span class="tit">홈</span> -->
+          </a>
+        </li>
+        <li class="gbm-item">
+          <a href="WN_PB_MO_COM_030501.html">
+            <i class="wn-icon wni-history"></i>
+            <!-- <span class="tit">타임라인</span> -->
+          </a>
+        </li>
+        <li class="gbm-item">
+          <a href="WN_PB_MO_COM_030503.html">
+            <i class="wn-icon wni-menu"></i>
+            <!-- <span class="tit">카테고리</span> -->
+          </a>
+        </li>
+        <li class="gbm-item">
+          <a href="WN_PB_MO_SCH_010101.html">
+            <i class="wn-icon wni-search"></i>
+            <!-- <span class="tit">검색</span> -->
+          </a>
+        </li>
+        <li class="gbm-item">
+          <a href="WN_PB_MO_MYP_000100.html">
+            <i class="wn-icon wni-user"></i>
+            <span class="tit">마이자연</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
 
   <!-- Bottom Sheet Modal Code -->
@@ -1340,12 +1434,41 @@
     </div>
   </div>
 
+
+  <!-- Modal - Buy Option -->
+  <div class="modal fade wn-modal-bottom modal-buy-option" id="modalBuyOption">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="btn-close" data-dismiss="modal">닫기</button>
+        <div class="overflow-auto">
+          <div class="wn-modal-body">
+            <div class="buy-options">
+              <div class="buy-option-item">
+                <div class="label">맛있는 아이스 홍시 1개입</div>
+                <div class="content">
+                  <div class="input-number">
+                    <button class="dec"></button>
+                    <input class="num" type="text" value="1" readonly>
+                    <button class="inc"></button>
+                  </div>
+                  <div class="price-format">1,900<small>원</small></div>
+                </div>
+              </div>
+              <div class="buy-option-total">
+                <span class="label">합계</span>
+                <span class="price-format">10,900<small>원</small></span>
+              </div>
+            </div>
+          </div>
+          <footer class="wn-modal-footer">
+            <button class="button bt-l bt-gray bt-rect">바로구매</button>
+            <button class="button bt-l bt-green bt-rect">장바구니</button>
+          </footer>
+        </div>
+      </div>
+    </div>
   </div>
-</body>
-  <!-- Footer.jsp 소스참조  -->
-  <!-- Footer.jsp 소스참조 Modal - Buy Option -->
 
   <script src="<%=_libUrl %>swiper/swiper-bundle.min.js"></script>
   <script src="<%=_jsUrl %>main/main.js"></script>
-  <script src="<%=_jsUrl %>main/mainEvent.js"></script>
   

@@ -1,9 +1,5 @@
 package com.x62life.mo.model.product;
-
-import org.apache.ibatis.type.Alias;
-
 //주간 상품 변경 정보
-@Alias("gdConvertWeek")
 public class GdConvertWeek {
     private String gdcd;
     private int gdyear;

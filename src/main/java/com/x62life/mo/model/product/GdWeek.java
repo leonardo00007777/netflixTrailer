@@ -1,28 +1,36 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-@Alias("gdWeek")
-public class GdWeek {
-    private int gdyear; //년도
-    private int gdweek; //배송주차
-    private String gdcd; //대표세트상품코드
-    private String sgdcd; //상품코드
-    private int gdqty; //수량
+import java.math.BigDecimal;
 
-    public int getGdyear() {
+public class GdWeek {
+    private BigDecimal gdyear; //년도
+    private	BigDecimal	gdweek; //배송주차
+    private	String	gdcd; //대표세트상품코드
+    private	String	sgdcd; //상품코드
+    private	BigDecimal	gdqty; //수량
+
+    public BigDecimal getGdyear() {
         return gdyear;
     }
 
-    public void setGdyear(int gdyear) {
+    public void setGdyear(BigDecimal gdyear) {
         this.gdyear = gdyear;
     }
 
-    public int getGdweek() {
+    public BigDecimal getGdweek() {
         return gdweek;
     }
 
-    public void setGdweek(int gdweek) {
+    public void setGdweek(BigDecimal gdweek) {
         this.gdweek = gdweek;
+    }
+
+    public String getGdcd() {
+        return gdcd;
+    }
+
+    public void setGdcd(String gdcd) {
+        this.gdcd = gdcd;
     }
 
     public String getSgdcd() {
@@ -33,11 +41,11 @@ public class GdWeek {
         this.sgdcd = sgdcd;
     }
 
-    public int getGdqty() {
+    public BigDecimal getGdqty() {
         return gdqty;
     }
 
-    public void setGdqty(int gdqty) {
+    public void setGdqty(BigDecimal gdqty) {
         this.gdqty = gdqty;
     }
 }

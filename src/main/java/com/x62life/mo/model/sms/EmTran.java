@@ -1,9 +1,6 @@
 package com.x62life.mo.model.sms;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
-@Alias("emTran")
 //문자전송
 public class EmTran {
     private int tranPr;

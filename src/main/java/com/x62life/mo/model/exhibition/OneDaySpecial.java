@@ -1,10 +1,6 @@
 package com.x62life.mo.model.exhibition;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
-
-@Alias("oneDaySpecial")
 //오늘의 특가
 public class OneDaySpecial {
     private int idx; //순번

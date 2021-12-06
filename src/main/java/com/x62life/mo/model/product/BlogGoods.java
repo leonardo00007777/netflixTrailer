@@ -1,8 +1,4 @@
 package com.x62life.mo.model.product;
-
-import org.apache.ibatis.type.Alias;
-
-@Alias("blogGoods")
 //블로그 연관상품
 public class BlogGoods {
     private int seqno; //순번

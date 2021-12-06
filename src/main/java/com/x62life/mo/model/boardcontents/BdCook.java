@@ -1,11 +1,8 @@
 package com.x62life.mo.model.boardcontents;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
 //요리관리
-@Alias("bdCook")
 public class BdCook {
     private int ctsidx; //순번
     private String title; //요리명

@@ -1,9 +1,5 @@
 package com.x62life.mo.model.order;
 
-
-import org.apache.ibatis.type.Alias;
-
-@Alias("odDilivery")
 //배송지 정보
 public class OdDilivery {
     private char ordnum; //주문번호

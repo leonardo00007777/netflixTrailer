@@ -16,8 +16,8 @@
         <!-- add dependencies version DB start -->
         <org.springframework.jdbc-version>3.2.5.RELEASE</org.springframework.jdbc-version>
         <spring.maven.artifact.version>4.0.9.RELEASE</spring.maven.artifact.version>
-        <org.mybatis-version>3.2.2</org.mybatis-version>
-        <org.mybatis.spring-version>1.2.0</org.mybatis.spring-version>
+        <org.mybatis-version>3.4.6</org.mybatis-version>
+        <org.mybatis.spring-version>1.3.2</org.mybatis.spring-version>
         <org.mysql.connector-version>5.1.27</org.mysql.connector-version>
         <!-- add dependencies version DB end -->
     </properties>
@@ -94,8 +94,30 @@
             <artifactId>log4jdbc-remix</artifactId>
             <version>0.2.7</version>
         </dependency>
-        
-        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.15</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.mail</groupId>
+                    <artifactId>mail</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.jms</groupId>
+                    <artifactId>jms</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jdmk</groupId>
+                    <artifactId>jmxtools</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jmx</groupId>
+                    <artifactId>jmxri</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>runtime</scope>
+        </dependency>
         <!-- add dependencies end -->
         <!-- Jackson JSON Mapper -->
         <dependency>
@@ -196,6 +218,7 @@
             </exclusions>
             <scope>runtime</scope>
         </dependency>
+ 
         <!-- @Inject -->
         <dependency>
             <groupId>javax.inject</groupId>
@@ -277,6 +300,21 @@
 	      <artifactId>jxl</artifactId>
 	      <version>2.6.12</version>
 	    </dependency>
+				
+		<!-- json-lib -->
+		<dependency>
+		  <groupId>net.sf.json-lib</groupId>
+		  <artifactId>json-lib</artifactId>
+		  <version>2.4</version>
+		  <classifier>jdk15</classifier>
+		</dependency>
+		
+		<!-- json object -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20210307</version>
+		</dependency>
 
 		<!-- jaxb-core -->
 		<dependency>

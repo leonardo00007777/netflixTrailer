@@ -1,8 +1,5 @@
 package com.x62life.mo.model.order;
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("odDeliveryTemp")
 //배송지 정보 임시
 public class OdDeliveryTemp {
     private char paynum; //임시결제번호

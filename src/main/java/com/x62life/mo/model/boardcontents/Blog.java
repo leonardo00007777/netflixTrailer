@@ -1,10 +1,7 @@
 package com.x62life.mo.model.boardcontents;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 //블로그
-@Alias("blog")
 public class Blog {
     private int seqno; //순번 순번
     private int idx; //작성자순번 작성자순번

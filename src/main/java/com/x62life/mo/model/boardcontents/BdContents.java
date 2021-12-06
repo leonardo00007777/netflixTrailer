@@ -1,21 +1,18 @@
 package com.x62life.mo.model.boardcontents;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 //게시판 컨텐츠
-@Alias("bdContents")
 public class BdContents {
     private int ctsidx; //순번
     private char ctscd; //게시판코드
     private String title; //제목
     private String content; //글내용
     private char useyn; //사용여부
-    private String indt; //등록일시
+    private Timestamp indt; //등록일시
     private int rcount; //조회수
     private char topyn; //top게시여부
-    private String fromdate; //게시 시작일
-    private String todate; //게시 종료일
+    private Timestamp fromdate; //게시 시작일
+    private Timestamp todate; //게시 종료일
     private Timestamp dday; //지정일
     private String thumbimg; //썸네일이미지명
     private String grpcd; //(공개)적용고객
@@ -60,11 +57,11 @@ public class BdContents {
         this.useyn = useyn;
     }
 
-    public String getIndt() {
+    public Timestamp getIndt() {
         return indt;
     }
 
-    public void setIndt(String indt) {
+    public void setIndt(Timestamp indt) {
         this.indt = indt;
     }
 
@@ -84,19 +81,19 @@ public class BdContents {
         this.topyn = topyn;
     }
 
-    public String getFromdate() {
+    public Timestamp getFromdate() {
         return fromdate;
     }
 
-    public void setFromdate(String fromdate) {
+    public void setFromdate(Timestamp fromdate) {
         this.fromdate = fromdate;
     }
 
-    public String getTodate() {
+    public Timestamp getTodate() {
         return todate;
     }
 
-    public void setTodate(String todate) {
+    public void setTodate(Timestamp todate) {
         this.todate = todate;
     }
 

@@ -1,10 +1,7 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("productReview")
 public class ProductReview {
     private int rseqno; //상품평일련번호
     private String rtype;

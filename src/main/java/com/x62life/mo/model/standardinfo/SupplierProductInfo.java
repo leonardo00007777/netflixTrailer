@@ -1,10 +1,7 @@
 package com.x62life.mo.model.standardinfo;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.sql.Date;
-@Alias("supplierProductInfo")
 //공급자 상품정보
 public class SupplierProductInfo {
     private String sacomp; //회사코드

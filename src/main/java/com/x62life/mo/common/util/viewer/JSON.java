@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.x62life.mo.common.util.viewer.abstractView.JSONView;
 import com.x62life.mo.model.common.Paging;
-import com.x62life.util.viewer.abstractView.JSONView;
 
 public class JSON extends ModelAndView {
 

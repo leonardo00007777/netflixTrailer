@@ -51,7 +51,7 @@ $(function() {
 	UI.CustomSelect(".custom-select");
 	initGlobalHeader();
 	initQuickMenu();
-
+	
 	/**
 	 * Category Page
 	 */
@@ -103,7 +103,6 @@ var swiperOptionDotSub = {
 	pagination: {
 		el: '.swiper-pgn-dots-sub',
 	},
-	noSwiping: false,
 };
 
 $(function() {
@@ -159,7 +158,7 @@ function initMarketingPopupSwiper() {
 /* Layer Popup Swiper */
 function initLayerPopupSwiper() {
 	if(!$(".wn-layer-popup").length) return;
-
+	
 	$('.wn-layer-popup').on('shown.bs.modal', function (e) {
 		new Swiper('#layerPopupSwiper', {
 			navigation: {
@@ -195,7 +194,6 @@ function initSwiperRankingB() {
 		slidesOffsetAfter: -5,
 		spaceBetween: 10,
 		watchOverflow: true,
-		noSwiping: false,
 	});
 	detectSingleSlide(swiperSelector);
 }
@@ -217,7 +215,6 @@ function initSwiperFree() {
 		freeMode: true,
 		slidesOffsetAfter: 15,
 		watchOverflow: true,
-		noSwiping: false,
 	});
 }
 
@@ -246,7 +243,7 @@ function initSwiperPrdMain() {
 }
 function initSwiperDotMain() {
 	var swiperSelector = ".swiper-dot-main";
-
+	
 	$(swiperSelector).each(function() {
 		var idSelector = "#" + $(this).attr("id");
 		var btnAutoplay = $(this).find(".swiper-btn-autoplay");
@@ -261,7 +258,7 @@ function initSwiperDotMain() {
 				el: '.swiper-pgn-dots-main',
 			},
 		});
-
+		
 		btnAutoplay.data("swiper", swiper).on("click", function() {
 			if(swiper.autoplay.running) {
 				swiper.autoplay.stop();
@@ -272,7 +269,7 @@ function initSwiperDotMain() {
 			}
 		});
 	});
-
+	
 }
 function initSwiperDotSub() {
 	var swiperSelector = ".swiper-dot-sub";
@@ -288,7 +285,6 @@ function initSwiperSpShopA3() {
 		pagination: {
 			el: '.swiper-pgn-dots-sub',
 		},
-		noSwiping: false,
 	});
 	//thumbnails in group
 	new Swiper(".swiper-sp-shop-thumb-a3", {
@@ -298,7 +294,7 @@ function initSwiperSpShopA3() {
 		slidesOffsetAfter: -75,
 		spaceBetween: 10,
 		nested: true,
-		noSwiping: false,
+		// noSwiping: false,
 	});
 }
 function initSwiperSpShopC5() {
@@ -307,7 +303,6 @@ function initSwiperSpShopC5() {
 		slidesOffsetAfter: -125,
 		spaceBetween: 10,
 		watchOverflow: true,
-		noSwiping: false,
 	});
 	detectSingleSlide(swiperSelector);
 }
@@ -338,7 +333,6 @@ function initSwiperPrdH() {
 		slidesOffsetAfter: -25,
 		spaceBetween: 10,
 		watchOverflow: true,
-		noSwiping: false,
 	});
 	detectSingleSlide(swiperSelector);
 }
@@ -477,19 +471,18 @@ $(".btn-layout").each(function() {
 function addBtnLayoutClick($btn) {
   $btn.on("click", function() {
 		var layout = $(this).attr("data-layout");
-		var listSelector = $(this).attr("data-list");
-    changePlpLayout(layout, listSelector);
+    changePlpLayout(layout);
   });
 }
-function changePlpImage(layout, listSelector) {
-	var prdList = $(listSelector);
+function changePlpImage(layout) {
+	var prdList = $("#prd-list");
 	var prdItems = prdList.find(".prd-item");
 	var item,
 	img,
 	dataSrc,
 	imgV,
 	imgH;
-
+	
 	prdItems.each(function() {
 		item = $(this);
 		img = item.find(".prd-item-img img");
@@ -503,8 +496,8 @@ function changePlpImage(layout, listSelector) {
 		}
 	});
 }
-function changePlpLayout(layout, listSelector) {
-	var prdList = $(listSelector);
+function changePlpLayout(layout) {
+	var prdList = $("#prd-list");
 	var prdItems = prdList.find(".prd-item");
 	var PRD_LIST_LAYOUT = ["tile", "large", "list"];
 	var PRD_ITEM_TYPES = ["v", "large", "h"];
@@ -512,7 +505,7 @@ function changePlpLayout(layout, listSelector) {
 	var itemClassPre = "prd-item-";
 	var listClass,
 	itemClass;
-
+	
 	changePlpImage(layout);
 
 	PRD_LIST_LAYOUT.forEach(function (item, index) {
@@ -538,9 +531,3 @@ function changeOpen(selector) {
 function changeClose(selector) {
 	$(selector).removeClass("open");
 }
-
-/* prd-list-tags swiper */
-var tagsSwiper = new Swiper('#tags-swiper', {
-	slidesPerView: 'auto',
-	noSwiping: false,
-});
