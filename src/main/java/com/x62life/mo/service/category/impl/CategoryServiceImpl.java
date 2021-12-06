@@ -12,6 +12,8 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -150,19 +152,25 @@ public class CategoryServiceImpl implements CategoryService{
 		String targetDate2 = "2020-11-20";
 		String targetDate3 = "2020-11-21";
 
-		Date endDate1 = format.parse(targetDate1);
-		Date endDate2 = format.parse(targetDate2);
-		Date endDate3 = format.parse(targetDate3);
-
-		Date todate = format.parse(date);
-
-		int compareDate1 = endDate1.compareTo(todate);
-		int compareDate2 = endDate2.compareTo(todate);
-		int compareDate3 = endDate3.compareTo(todate);;
-
-		paramMap.put("compare1", compareDate1);
-		paramMap.put("compare2", compareDate2);
-		paramMap.put("compare3", compareDate3);
+		Date endDate1;
+		try {
+			endDate1 = format.parse(targetDate1);
+			Date endDate2 = format.parse(targetDate2);
+			Date endDate3 = format.parse(targetDate3);
+			
+			Date todate = format.parse(date);
+			
+			int compareDate1 = endDate1.compareTo(todate);
+			int compareDate2 = endDate2.compareTo(todate);
+			int compareDate3 = endDate3.compareTo(todate);;
+			
+			paramMap.put("compare1", compareDate1);
+			paramMap.put("compare2", compareDate2);
+			paramMap.put("compare3", compareDate3);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		String[] onlyNormalGroupProduct= {"1010000246", "0110000403", "7010000438", "1010000245", "7010000439"};
 		paramMap.put("onlyNormalGroupProduct", onlyNormalGroupProduct);
