@@ -18,11 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.x62life.mo.model.category.Category;
-import com.x62life.mo.model.exhibition.OneDaySpecialEx;
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.service.category.CategoryService;
-import com.x62life.mo.service.main.MainService;
 
 @Controller
 @RequestMapping(value = "/main")
@@ -48,7 +43,7 @@ public class MainController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/main")
-	public ModelAndView main(@RequestParam Map<String, Object> paramMap, Model model) {
+	public ModelAndView main(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
 		ModelAndView mv = new ModelAndView();
 
 		List<Category> categoryList = categoryService.getCategoryList(paramMap);

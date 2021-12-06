@@ -1,4 +1,4 @@
-package com.x62life.mo.service.impl.category;
+package com.x62life.mo.service.category.impl;
 
 import com.x62life.mo.dao.category.CategoryDao;
 import com.x62life.mo.model.category.CartRecipe;

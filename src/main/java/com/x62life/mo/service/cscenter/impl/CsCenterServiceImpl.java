@@ -1,4 +1,4 @@
-package com.x62life.mo.service.impl.cscenter;
+package com.x62life.mo.service.cscenter.impl;
 
 import com.x62life.mo.dao.cscenter.CsCenterDao;
 import com.x62life.mo.model.boardcontents.BdFaq;

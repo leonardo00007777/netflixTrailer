@@ -1,4 +1,4 @@
-package com.x62life.mo.service.impl.main;
+package com.x62life.mo.service.main.impl;
 
 import com.x62life.mo.dao.main.MainDao;
 import com.x62life.mo.model.boardcontents.BdContents;

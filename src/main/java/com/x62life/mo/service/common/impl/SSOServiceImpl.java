@@ -1,4 +1,4 @@
-package com.x62life.mo.service.impl.common;
+package com.x62life.mo.service.common.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

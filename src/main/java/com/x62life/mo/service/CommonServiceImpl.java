@@ -1,10 +1,6 @@
-package com.x62life.mo.service.impl;
+package com.x62life.mo.service;
 
 import com.x62life.mo.dao.CommonDao;
-import com.x62life.mo.model.category.Category;
-import com.x62life.mo.model.member.MbMaster;
-import com.x62life.mo.service.CommonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
