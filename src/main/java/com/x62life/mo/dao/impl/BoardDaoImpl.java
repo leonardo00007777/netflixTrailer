@@ -7,7 +7,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.x62life.mo.dao.BoardDao;
 import com.x62life.mo.model.Board;
 import com.x62life.mo.model.BoardReply;
 
@@ -65,10 +64,10 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public int delReply(Map<String, Object> paramMap) {
 		if(paramMap.get("r_type").equals("main")) {
-			//ºÎ¸ðºÎÅÍ ÇÏÀ§ ´Ù Áö¿ò
+			//ï¿½Î¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			return sqlSession.delete("deleteBoardReplyAll", paramMap);
 		}else {
-			//ÀÚ±â ÀÚ½Å¸¸ Áö¿ò
+			//ï¿½Ú±ï¿½ ï¿½Ú½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 			return sqlSession.delete("deleteBoardReply", paramMap);
 		}
 		
