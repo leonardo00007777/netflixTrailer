@@ -63,6 +63,14 @@ public class MainPageSkin {
     private String cbntarget05; //모바일 고정배너2 연결방법
     private String cbnurl05; //모바일 고정배너2 링크url
     private String cbntitle05; //
+    private String cbnpath06;
+    private String cbntarget06;
+    private String cbnurl06;
+    private String cbntitle06;
+    private String cbnpath07;
+    private String cbntarget07;
+    private String cbnurl07;
+    private String cbntitle07;
     private String rbnpath01; //모바일 고정배너3 이미지경로
     private String rbntarget01; //모바일 고정배너3 연결방법
     private String rbnurl01; //모바일 고정배너3 링크url
@@ -581,6 +589,70 @@ public class MainPageSkin {
 
     public void setCbntitle05(String cbntitle05) {
         this.cbntitle05 = cbntitle05;
+    }
+
+    public String getCbnpath06() {
+        return cbnpath06;
+    }
+
+    public void setCbnpath06(String cbnpath06) {
+        this.cbnpath06 = cbnpath06;
+    }
+
+    public String getCbntarget06() {
+        return cbntarget06;
+    }
+
+    public void setCbntarget06(String cbntarget06) {
+        this.cbntarget06 = cbntarget06;
+    }
+
+    public String getCbnurl06() {
+        return cbnurl06;
+    }
+
+    public void setCbnurl06(String cbnurl06) {
+        this.cbnurl06 = cbnurl06;
+    }
+
+    public String getCbntitle06() {
+        return cbntitle06;
+    }
+
+    public void setCbntitle06(String cbntitle06) {
+        this.cbntitle06 = cbntitle06;
+    }
+
+    public String getCbnpath07() {
+        return cbnpath07;
+    }
+
+    public void setCbnpath07(String cbnpath07) {
+        this.cbnpath07 = cbnpath07;
+    }
+
+    public String getCbntarget07() {
+        return cbntarget07;
+    }
+
+    public void setCbntarget07(String cbntarget07) {
+        this.cbntarget07 = cbntarget07;
+    }
+
+    public String getCbnurl07() {
+        return cbnurl07;
+    }
+
+    public void setCbnurl07(String cbnurl07) {
+        this.cbnurl07 = cbnurl07;
+    }
+
+    public String getCbntitle07() {
+        return cbntitle07;
+    }
+
+    public void setCbntitle07(String cbntitle07) {
+        this.cbntitle07 = cbntitle07;
     }
 
     public String getRbnpath01() {

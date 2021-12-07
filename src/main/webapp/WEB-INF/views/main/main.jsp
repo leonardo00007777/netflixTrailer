@@ -768,11 +768,12 @@
                  </header>
                  <div class="swiper-container swiper-prd-2n">
                    <div class="swiper-wrapper">
+                     <c:forEach items="${discountProdList}" var="discountProd">
                      <div class="swiper-slide">
                        <article class="prd-item">
                          <div class="img-container">
                            <a href="#" class="prd-item-img">
-                             <img src="<%=_imgUrl %>/images/uploads/prd-img-06.jpg" alt="마담로익 크림치즈 플레인 150g">
+                             <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}">
                              <div class="prd-item-badge dc">
                                <span>23</span>
                                <small>%</small>
@@ -783,58 +784,21 @@
                            <a href="#">
                              <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
                              <div class="prd-item-price">
-                               <div class="price"><span>3,480</span><small>원</small></div>
-                               <div class="price-org">4,800원</div>
+                               <div class="price">
+                                 <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
+                                 <span>${originalPrice}</span><small>원</small>
+                               </div>
+                               <div class="price-org">
+                                 <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
+                                   ${salePrice}
+                               </div>
                              </div>
                            </a>
                          </div>
                        </article>
                      </div>
-                     <div class="swiper-slide">
-                       <article class="prd-item">
-                         <div class="img-container">
-                           <a href="#" class="prd-item-img">
-                             <img src="<%=_imgUrl %>/images/uploads/prd-img-04.jpg" alt="마담로익 크림치즈 플레인 150g">
-                             <div class="prd-item-badge dc">
-                               <span>23</span>
-                               <small>%</small>
-                             </div>
-                           </a>
-                         </div>
-                         <div class="detail">
-                           <a href="#">
-                             <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
-                             <div class="prd-item-price">
-                               <div class="price"><span>3,480</span><small>원</small></div>
-                               <div class="price-org">4,800원</div>
-                             </div>
-                           </a>
-                         </div>
-                       </article>
-                     </div>
-                     <div class="swiper-slide">
-                       <article class="prd-item">
-                         <div class="img-container">
-                           <a href="#" class="prd-item-img">
-                             <img src="<%=_imgUrl %>/images/uploads/prd-img-06.jpg" alt="마담로익 크림치즈 플레인 150g">
-                             <div class="prd-item-badge dc">
-                               <span>23</span>
-                               <small>%</small>
-                             </div>
-                           </a>
-                         </div>
-                         <div class="detail">
-                           <a href="#">
-                             <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
-                             <div class="prd-item-price">
-                               <div class="price"><span>3,480</span><small>원</small></div>
-                               <div class="price-org">4,800원</div>
-                             </div>
-                           </a>
-                         </div>
-                       </article>
-                     </div>
-                     <div class="swiper-slide">
+                     </c:forEach>
+                     <%--<div class="swiper-slide">
                        <article class="prd-item">
                          <div class="img-container">
                            <a href="#" class="prd-item-img">
@@ -855,7 +819,51 @@
                            </a>
                          </div>
                        </article>
-                     </div>
+                     </div>--%>
+                     <%--<div class="swiper-slide">
+                       <article class="prd-item">
+                         <div class="img-container">
+                           <a href="#" class="prd-item-img">
+                             <img src="<%=_imgUrl %>/images/uploads/prd-img-06.jpg" alt="마담로익 크림치즈 플레인 150g">
+                             <div class="prd-item-badge dc">
+                               <span>23</span>
+                               <small>%</small>
+                             </div>
+                           </a>
+                         </div>
+                         <div class="detail">
+                           <a href="#">
+                             <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
+                             <div class="prd-item-price">
+                               <div class="price"><span>3,480</span><small>원</small></div>
+                               <div class="price-org">4,800원</div>
+                             </div>
+                           </a>
+                         </div>
+                       </article>
+                     </div>--%>
+                     <%--<div class="swiper-slide">
+                       <article class="prd-item">
+                         <div class="img-container">
+                           <a href="#" class="prd-item-img">
+                             <img src="<%=_imgUrl %>/images/uploads/prd-img-04.jpg" alt="마담로익 크림치즈 플레인 150g">
+                             <div class="prd-item-badge dc">
+                               <span>23</span>
+                               <small>%</small>
+                             </div>
+                           </a>
+                         </div>
+                         <div class="detail">
+                           <a href="#">
+                             <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
+                             <div class="prd-item-price">
+                               <div class="price"><span>3,480</span><small>원</small></div>
+                               <div class="price-org">4,800원</div>
+                             </div>
+                           </a>
+                         </div>
+                       </article>
+                     </div>--%>
                    </div>
                    <div class="swiper-pgn-dots-sub"></div>
                  </div>

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 /*@Alias("gdMasterEx")*/
 public class GdMasterEx extends GdMaster{
-    private BigDecimal saleprice;
     private BigDecimal groupsaleprice;
     private int isgroupsale;
     private String gdcnt;
@@ -27,16 +26,6 @@ public class GdMasterEx extends GdMaster{
     private long discountPrice;
     private String preOrderInfo;
     private String soldOutFlag;
-
-    @Override
-    public BigDecimal getSaleprice() {
-        return saleprice;
-    }
-
-    @Override
-    public void setSaleprice(BigDecimal saleprice) {
-        this.saleprice = saleprice;
-    }
 
     public String getGdcnt() {
         return gdcnt;
