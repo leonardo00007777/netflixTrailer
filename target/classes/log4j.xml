@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.x62life.mo">
-		<level value="info" />
+		<level value="all" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

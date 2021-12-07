@@ -103,6 +103,7 @@
     </select>
 
     <select id="todaySpecialProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.exhibition.OneDaySpecialEx">
+        /*todaySpecialProdList 오늘의 특가*/
         SELECT os.idx
              , opt
              , os.gdcd
@@ -121,14 +122,16 @@
              , ISNULL(g.deliverydtyn,'N') deliverydtyn
              , ISNULL(r.type, '01') odtype2
              , g.price1
-              <choose>
-                  <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
+             <if test="strMEMGRPCD != null">
+               <choose>
+                  <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
                       , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
                   </when>
                   <otherwise>
                       , dbo.getMasterPrice(g.gdcd) saleprice
                   </otherwise>
-              </choose>
+               </choose>
+             </if>
              , os.gdname1
              , os.gdname2
              , os.gdlimit
@@ -209,14 +212,16 @@
              , CONVERT(VARCHAR(19), os.enddt, 21) endtime
              , g.mgdimg1
              , g.price1
-        <choose>
-            <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
-                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-            </when>
-            <otherwise>
-                , dbo.getMasterPrice(g.gdcd) saleprice
-            </otherwise>
-        </choose>
+             <if test="strMEMGRPCD != null">
+                <choose>
+                   <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                       , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                   </when>
+                   <otherwise>
+                       , dbo.getMasterPrice(g.gdcd) saleprice
+                   </otherwise>
+                </choose>
+             </if>
           FROM oneday_special os
                JOIN gd_master g
                  ON os.gdcd = g.gdcd
@@ -249,14 +254,16 @@
                       , g.indt
                       , g.updt
                       , g.shortdesc
-                      <choose>
-                         <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
-                             , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-                         </when>
-                         <otherwise>
-                             , dbo.getMasterPrice(g.gdcd) saleprice
-                         </otherwise>
-                      </choose>
+                      <if test="strMEMGRPCD != null">
+                         <choose>
+                            <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                            </when>
+                            <otherwise>
+                                , dbo.getMasterPrice(g.gdcd) saleprice
+                            </otherwise>
+                         </choose>
+                      </if>
                       , CASE WHEN ISNULL(g.soldoutyn,'N')='N' THEN 'N'
                              ELSE g.soldoutyn
                         END soldoutyn
@@ -314,14 +321,16 @@
              , sf01_des2
              , sfcmsyn
              , sfname
-        <choose>
-            <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
-                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-            </when>
-            <otherwise>
-                , dbo.getMasterPrice(g.gdcd) saleprice
-            </otherwise>
-        </choose>
+             <if test="strMEMGRPCD != null">
+                <choose>
+                   <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                       , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                   </when>
+                   <otherwise>
+                       , dbo.getMasterPrice(g.gdcd) saleprice
+                   </otherwise>
+                </choose>
+             </if>
           FROM seasonal_foodhall
          WHERE sfusyn = 'Y'
            AND (SFCMSYN = 'Y'
@@ -334,6 +343,7 @@
     </select>
 
     <select id="bestProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        /* bestProdList 인기상품*/
         SELECT TOP 12 a.odtype
              , a.odtype2
              , a.gdcd
@@ -343,14 +353,16 @@
              , b.divcd
              , b.div1
              , b.price1
-        <choose>
-            <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
-                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-            </when>
-            <otherwise>
-                , dbo.getMasterPrice(g.gdcd) saleprice
-            </otherwise>
-        </choose>
+             <if test="strMEMGRPCD != null">
+                <choose>
+                   <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                       , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                   </when>
+                   <otherwise>
+                       , dbo.getMasterPrice(g.gdcd) saleprice
+                   </otherwise>
+                </choose>
+             </if>
              , ISNULL(b.deliverydtyn,'N') deliverydtyn
              , ISNULL(b.soldoutyn,'N') soldoutyn
              , ISNULL(d.gdcnt,99999) gdcnt, ISNULL(b.newyn,'N') newyn, ISNULL(b.qtysaleyn,'N') qtysaleyn
@@ -391,7 +403,7 @@
                                                   )
                                )
                            AND g.useyn = 'Y'
-                           <if test="strMode != ''">
+                           <if test="strMode != null">
                                AND g.exdiv1 = #{strMode}
                            </if>
                            <![CDATA[
@@ -417,9 +429,10 @@
     </select>
 
     <select id="discountProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
-        SELECT TOP  #{displayCount}  *
+        /*discountProdList 할인상품*/
+        SELECT TOP (#{displayCount})  *
           FROM (
-                  SELECT TOP  #{limitRank}  *
+                  SELECT TOP (#{limitRank})  *
                     FROM (
                            SELECT g.gdcd
                                 , g.gdname
@@ -432,14 +445,16 @@
                                 , g.indt
                                 , g.updt
                                 , g.shortdesc
-                           <choose>
-                              <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
-                                  , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-                              </when>
-                              <otherwise>
-                                  , dbo.getMasterPrice(g.gdcd) saleprice
-                              </otherwise>
-                           </choose>
+                                <if test="strMEMGRPCD != null">
+                                   <choose>
+                                      <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                                          , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                                      </when>
+                                      <otherwise>
+                                          , dbo.getMasterPrice(g.gdcd) saleprice
+                                      </otherwise>
+                                   </choose>
+                                </if>
                                 , CASE WHEN ISNULL(g.soldoutyn,'N')='N' THEN 'N'
                                        ELSE g.soldoutyn
                                   END soldoutyn, ISNULL(s.gdcnt,99999) gdcnt
@@ -481,9 +496,12 @@
                               AND ISNULL(g.soldoutyn, 'N') <> 'Y'
                               ]]>
                               AND (ISNULL(g.expgrcd, '') = ''
-                               OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl
-                                                            WHERE cl.ulcode = g.expgrcd AND cl.ulgrcd = #{strMEMGRPCD})
-                                         )
+                                   OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl
+                                                            WHERE cl.ulcode = g.expgrcd
+                                                                 AND cl.ulgrcd = #{strMEMGRPCD}
+
+                                             )
+                                )
                           ) x
                      WHERE 1 = 1
                  ) xx
@@ -492,6 +510,7 @@
     </select>
 
     <select id="bestReviewProd"  parameterType="java.util.Map" resultType="java.util.Map">
+         /*bestReviewProd 베스트 리뷰상품*/
          SELECT TOP 6 g.gdcd
               , g.gdname
               , g.price1
@@ -499,14 +518,16 @@
               , p.bpmemid
               , p.bpmemo
               , g.price1
-        <choose>
-            <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
-                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-            </when>
-            <otherwise>
-                , dbo.getMasterPrice(g.gdcd) saleprice
-            </otherwise>
-        </choose>
+              <if test="strMEMGRPCD != null">
+                 <choose>
+                    <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                        , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                    </when>
+                    <otherwise>
+                        , dbo.getMasterPrice(g.gdcd) saleprice
+                    </otherwise>
+                 </choose>
+              </if>
            FROM BEST_PRODUCTREVIEW p
                 JOIN gd_master g
                   ON g.gdcd = p.bpgdcd
@@ -645,22 +666,22 @@
           FROM bd_contents b
            WHERE useyn = 'Y'
              AND ctscd = #{ctscdEvent}
-             <if test="strLoginMemCd == '' ">
+             <if test="strLoginMemCd == null ">
                  AND ISNULL(grpcd, '') = ''
                  <choose>
-                     <when test="SK_CHEMICALS.indexOf('strLoginMemCd') gt 0">
+                     <when test="SK_CHEMICALS != null and SK_CHEMICALS.indexOf('strLoginMemCd') gt 0">
                          AND (ISNULL(grpcd, '') = 'SKCH' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                      </when>
-                     <when test="SK_HYNIXES.indexOf('strMEMGRPCD') gt 0">
+                     <when test="SK_HYNIXES != null and SK_HYNIXES.indexOf('strMEMGRPCD') gt 0">
                          AND (ISNULL(grpcd, '') = 'SKHY' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                      </when>
-                     <when test="SK_HYNIXES_A.indexOf('strMEMGRPCD') gt 0">
+                     <when test="SK_HYNIXES_A != null and SK_HYNIXES_A.indexOf('strMEMGRPCD') gt 0">
                          AND (ISNULL(grpcd, '') = 'SKHA' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                      </when>
-                     <when test="SK_EC.indexOf('strMEMGRPCD') gt 0">
+                     <when test="SK_EC != null and SK_EC.indexOf('strMEMGRPCD') gt 0">
                          AND (ISNULL(grpcd, '') = '02' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                      </when>
-                     <when test="SK_PLANET.indexOf('strMEMGRPCD') gt 0">
+                     <when test="SK_PLANET != null and SK_PLANET.indexOf('strMEMGRPCD') gt 0">
                         AND (ISNULL(grpcd, '') = '31' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
                      </when>
                      <otherwise>

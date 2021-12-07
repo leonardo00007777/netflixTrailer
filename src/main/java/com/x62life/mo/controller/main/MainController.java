@@ -1,6 +1,10 @@
 package com.x62life.mo.controller.main;
 
+import com.x62life.mo.model.boardcontents.BdContents;
+import com.x62life.mo.model.boardcontents.MagazineLEx;
 import com.x62life.mo.model.exhibition.MainPageSkin;
+import com.x62life.mo.model.exhibition.OneDaySpecialEx;
+import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.service.category.CategoryService;
 import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +56,7 @@ public class MainController {
 		List<MainPageSkin> renewalBannerList = mainService.renewalBannerList();
 		model.addAttribute("renewalBannerList", renewalBannerList);
 
-/*		//오늘의 특가
+		//오늘의 특가
 		List<OneDaySpecialEx> todaySpecialProdList = mainService.todaySpecialProdList(paramMap);
 		model.addAttribute("todaySpecialProdList",todaySpecialProdList);
 		
@@ -92,9 +98,9 @@ public class MainController {
 		List<GdMasterEx> discountProdList = mainService.discountProdList(paramMap);
 		model.addAttribute("discountProdList", discountProdList);
 
-		//베스트 리뷰 상품
+/*		//베스트 리뷰 상품
 		List<Map<String, Object>> bestReviewProd = mainService.bestReviewProd(paramMap);
-		model.addAttribute("bestReviewProd", bestReviewProd);
+		model.addAttribute("bestReviewProd", bestReviewProd);*/
 
 		//매거진
 		int magazineNum = mainService.magazineNum();
@@ -104,7 +110,7 @@ public class MainController {
 
 		//이벤트
 		List<BdContents> eventList = mainService.eventList(paramMap);
-		model.addAttribute("eventList", eventList);*/
+		model.addAttribute("eventList", eventList);
 
 		mv.setViewName("/main/main");
 
