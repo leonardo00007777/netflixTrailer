@@ -1,0 +1,235 @@
+@charset "UTF-8";
+/* *********************************
+* 푸터 관련 화면들
+********************************** */
+.partner-tabs-container {
+  height: 46px;
+}
+
+.partner-tabs {
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.policy-content {
+  color: #999999;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.policy-content p + p {
+  margin-top: 1em;
+}
+
+.policy-content table {
+  margin: 20px 0;
+  border: 1px solid #eeeeee !important;
+}
+
+.policy-content table td, .policy-content table th {
+  border: 1px solid #eeeeee !important;
+  padding: 5px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.policy-content table thead th {
+  background-color: #f8f8f8 !important;
+  color: #222222 !important;
+  white-space: nowrap;
+}
+
+.policy-content ul {
+  margin: 1em 0;
+}
+
+.policy-content ul li {
+  position: relative;
+  padding-left: 1em;
+}
+
+.policy-content ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  font-size: 0.91667em;
+  opacity: .5;
+}
+
+.policy-bookmarks {
+  margin: 30px 15px 0;
+}
+
+.policy-bookmark-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 10px 10px 10px 15px;
+  min-height: 40px;
+  border: 1px solid #eeeeee;
+}
+
+.policy-bookmark-item .tit {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  overflow: hidden;
+  padding-right: 15px;
+  color: #222222;
+  font-size: 13px;
+}
+
+.policy-bookmark-item .tit em {
+  color: #066b4c;
+}
+
+.policy-bookmark-item::after {
+  content: '';
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: url("../images/icons/chevronH16Green@2x.png") 50% 50% no-repeat;
+  background-size: contain;
+}
+
+.policy-bookmark-item + .policy-bookmark-item {
+  border-top: none;
+}
+
+.policy-field {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: -50px;
+  padding-top: 100px;
+}
+
+.policy-footer {
+  margin-top: 50px;
+  padding: 0 15px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.yt-vod-container {
+  position: relative;
+  padding-top: 56.25%;
+  height: 0;
+}
+
+.yt-vod-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.yt-vod-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: 50% 50%;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.company-info-graphic {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+.company-info-graphic.col2 {
+  padding-left: 10px;
+  max-width: 230px;
+}
+
+.company-info-graphic.col3 {
+  max-width: 305px;
+}
+
+.company-ig-item .graphic {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0 auto;
+  width: 80px;
+  height: 80px;
+  background-color: #066b4c;
+  border-radius: 50%;
+}
+
+.company-ig-item .label {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.wn-icon-48.company-i-01 {
+  background-image: url("../images/company/company-icon-01@2x.png");
+}
+
+.wn-icon-48.company-i-02 {
+  background-image: url("../images/company/company-icon-02@2x.png");
+}
+
+.wn-icon-48.company-i-03 {
+  background-image: url("../images/company/company-icon-03@2x.png");
+}
+
+.wn-icon-48.company-i-04 {
+  background-image: url("../images/company/company-icon-04@2x.png");
+}
+
+.wn-icon-48.company-i-05 {
+  background-image: url("../images/company/company-icon-05@2x.png");
+}
+
+.bi-img-wrap {
+  margin: 0 auto;
+  max-width: 480px;
+}
+
+.bi-img-item {
+  width: 148px;
+}
+
+.loc-map-container {
+  position: relative;
+  width: 100%;
+  height: 333px;
+}
+
+.loc-map-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+/*# sourceMappingURL=footer-pages.css.map */
