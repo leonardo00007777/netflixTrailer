@@ -1,10 +1,8 @@
 package com.x62life.mo.controller.main;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.x62life.mo.model.exhibition.MainPageSkin;
+import com.x62life.mo.service.category.CategoryService;
+import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.x62life.mo.model.category.Category;
-import com.x62life.mo.model.exhibition.MainPageSkin;
-import com.x62life.mo.service.category.CategoryService;
-import com.x62life.mo.service.main.MainService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/main")
@@ -45,16 +42,13 @@ public class MainController {
 		ModelAndView mv = new ModelAndView();
 		paramMap.put("strMEMGRPCD",null);
 
-		List<Category> categoryList = categoryService.getCategoryList(paramMap);
-		model.addAttribute("categoryList", categoryList);
-
-		//상단 메인 배너 리스트
-/*		List<AdMainMg> mainBannerList = mainService.mainBannerList((String) paramMap.get("strMEMGRPCD"));
-		model.addAttribute("mainBannerList",mainBannerList);
+/*		//상단 메인 배너 리스트
+		List<AdMainMg> mainBannerList = mainService.mainBannerList((String) paramMap.get("strMEMGRPCD"));
+		model.addAttribute("mainBannerList",mainBannerList);*/
 
 		//리뉴얼 배너 리스트
 		List<MainPageSkin> renewalBannerList = mainService.renewalBannerList();
-		model.addAttribute("renewalBannerList", renewalBannerList);*/
+		model.addAttribute("renewalBannerList", renewalBannerList);
 
 /*		//오늘의 특가
 		List<OneDaySpecialEx> todaySpecialProdList = mainService.todaySpecialProdList(paramMap);

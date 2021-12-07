@@ -90,15 +90,15 @@
     </select>
 
     <select id="renewalBannerList" resultType="com.x62life.mo.model.exhibition.MainPageSkin">
-        SELECT cbnpath01/*, cbntarget01, cbnurl01, lbntitle01, reservet01  /*'모바일상단 자연이랑NEW1(슬라이드)*/
-             , cbnpath02, cbntarget02, cbnurl02, lbntitle02, reservet02  /*'모바일상단 자연이랑NEW2(슬라이드)*/
-             , cbnpath03, cbntarget03, cbnurl03, lbntitle03, reservet03  /*'모바일상단 자연이랑NEW3(슬라이드)*/
-             , cbnpath04, cbntarget04, cbnurl04  /*'모바일상단 고정배너1(슬라이드)*/
-             , cbnpath05, cbntarget05, cbnurl05  /*'모바일상단 고정배너2(슬라이드)*/
-             , cbnpath06, cbntarget06, cbnurl06  /*'모바일상단 고정배너2(슬라이드)*/
-             , cbnpath07, cbntarget07, cbnurl07  /*'모바일상단 고정배너2(슬라이드)*/
-             , tbnpath02, tbntarget02, tbnurl02  /*'모바일상단 고정배너3(슬라이드)*/
-             , tbnpath03, tbntarget03, tbnurl03  /*'모바일상단 고정배너4(슬라이드)*/*/
+        SELECT cbnpath01, cbntarget01, cbnurl01, lbntitle01, reservet01  <!--'모바일상단 자연이랑NEW1(슬라이드)-->
+             , cbnpath02, cbntarget02, cbnurl02, lbntitle02, reservet02   <!--'모바일상단 자연이랑NEW2(슬라이드)-->
+             , cbnpath03, cbntarget03, cbnurl03, lbntitle03, reservet03  <!--'모바일상단 자연이랑NEW3(슬라이드)-->
+             , cbnpath04, cbntarget04, cbnurl04  <!--'모바일상단 고정배너1(슬라이드)-->
+             , cbnpath05, cbntarget05, cbnurl05  <!--'모바일상단 고정배너2(슬라이드)-->
+             , cbnpath06, cbntarget06, cbnurl06  <!--'모바일상단 고정배너2(슬라이드)-->
+             , cbnpath07, cbntarget07, cbnurl07  <!--'모바일상단 고정배너2(슬라이드)-->
+             , tbnpath02, tbntarget02, tbnurl02  <!--'모바일상단 고정배너3(슬라이드)-->
+             , tbnpath03, tbntarget03, tbnurl03  <!--'모바일상단 고정배너4(슬라이드)-->
           FROM mainpageskin
     </select>
 
