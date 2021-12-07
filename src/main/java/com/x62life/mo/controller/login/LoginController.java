@@ -25,7 +25,6 @@ import com.x62life.mo.model.common.Code;
 import com.x62life.mo.model.common.SSOUser;
 import com.x62life.mo.model.common.UserRef;
 import com.x62life.mo.model.login.LoginProcess;
-import com.x62life.mo.service.common.SSOService;
 import com.x62life.mo.service.login.LoginService;
 
 @Controller
