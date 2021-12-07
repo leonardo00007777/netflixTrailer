@@ -82,11 +82,6 @@ public class MainController {
 
 		//제철 상품
 		List<SeasonalFoodHall> seasonalProdList = mainService.seasonalProdList(paramMap);
-		for(int i = 0; i < seasonalProdList.size(); i++) {
-			System.out.println("desc :" + seasonalProdList.get(i).getSf01Des2());
-			System.out.println("img : " + seasonalProdList.get(i).getSfhmimgM());
-			System.out.println("shfshort" + seasonalProdList.get(i).getSfshort());
-		}
 		model.addAttribute("seasonalProdList", seasonalProdList);
 
 		//지금 뜨는 상품 (신상품추천)
