@@ -1,10 +1,8 @@
 package com.x62life.mo.model.boardcontents;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 //crm 공지사항
-@Alias("bdNoticeCrm")
+/*@Alias("bdNoticeCrm")*/
 public class BdNoticeCrm {
     private int ntcidx; //순번
     private String title; //제목

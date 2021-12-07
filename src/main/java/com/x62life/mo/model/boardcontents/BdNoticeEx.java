@@ -1,9 +1,7 @@
 package com.x62life.mo.model.boardcontents;
 
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("bdNoticeEx")
+/*@Alias("bdNoticeEx")*/
 public class BdNoticeEx extends BdFaq{
     private char cdtype;
     private char cdcode;

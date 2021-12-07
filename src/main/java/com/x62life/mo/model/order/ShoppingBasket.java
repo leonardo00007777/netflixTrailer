@@ -1,10 +1,8 @@
 package com.x62life.mo.model.order;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("shoppingBasket")
+/*@Alias("shoppingBasket")*/
 public class ShoppingBasket {
     private char memcd; //회원코드
     private int crtidx; //카트일련번호

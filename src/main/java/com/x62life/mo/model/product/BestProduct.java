@@ -1,9 +1,7 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
-@Alias("bestProduct")
+/*@Alias("bestProduct")*/
 public class BestProduct extends GdMaster {
     private String odtype;
     private String odtype2;

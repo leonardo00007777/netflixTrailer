@@ -1,12 +1,12 @@
 package com.x62life.mo.model.customer;
 
+import org.dom4j.tree.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.ibatis.type.Alias;
-import org.dom4j.tree.AbstractEntity;
-@Alias("nickname")
+/*@Alias("nickname")*/
 public class Nickname extends AbstractEntity implements Serializable {
 /*@org.apache.ibatis.type.Alias("nickname")
 public class Nickname extends AbstractEntity {*/

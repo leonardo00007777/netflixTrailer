@@ -69,7 +69,7 @@
     '                           불필요한 코드 간단하게 정리, 인라인 스타일 정리(추가정리필요)
     '20210906   hnjang  2.1     배송유형별(자연이랑,업체직송) 분류 기능 추가-->
 
-    <select id="mainBannerList" resultType="adMainMg" parameterType="java.lang.String">
+    <select id="mainBannerList" resultType="com.x62life.mo.model.exhibition.AdMainMg" parameterType="java.lang.String">
         SELECT CASE WHEN ISNULL(urlm,'') = '' THEN url
                     ELSE urlm
                END url
@@ -89,8 +89,8 @@
           ORDER BY ISNULL(important, 10), update_dt DESC, seq DESC
     </select>
 
-    <select id="renewalBannerList" resultType="mainPageSkin">
-        SELECT cbnpath01, cbntarget01, cbnurl01, lbntitle01, reservet01  /*'모바일상단 자연이랑NEW1(슬라이드)*/
+    <select id="renewalBannerList" resultType="com.x62life.mo.model.exhibition.MainPageSkin">
+        SELECT cbnpath01/*, cbntarget01, cbnurl01, lbntitle01, reservet01  /*'모바일상단 자연이랑NEW1(슬라이드)*/
              , cbnpath02, cbntarget02, cbnurl02, lbntitle02, reservet02  /*'모바일상단 자연이랑NEW2(슬라이드)*/
              , cbnpath03, cbntarget03, cbnurl03, lbntitle03, reservet03  /*'모바일상단 자연이랑NEW3(슬라이드)*/
              , cbnpath04, cbntarget04, cbnurl04  /*'모바일상단 고정배너1(슬라이드)*/
@@ -98,7 +98,7 @@
              , cbnpath06, cbntarget06, cbnurl06  /*'모바일상단 고정배너2(슬라이드)*/
              , cbnpath07, cbntarget07, cbnurl07  /*'모바일상단 고정배너2(슬라이드)*/
              , tbnpath02, tbntarget02, tbnurl02  /*'모바일상단 고정배너3(슬라이드)*/
-             , tbnpath03, tbntarget03, tbnurl03  /*'모바일상단 고정배너4(슬라이드)*/
+             , tbnpath03, tbntarget03, tbnurl03  /*'모바일상단 고정배너4(슬라이드)*/*/
           FROM mainpageskin
     </select>
 

@@ -5,7 +5,7 @@ import org.apache.ibatis.type.Alias;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-@Alias("mbGroupCompany")
+/*@Alias("mbGroupCompany")*/
 //회원 그룹사
 public class MbGroupCompany {
     private String grpcd; //그룹사코드

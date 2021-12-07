@@ -1,10 +1,8 @@
 package com.x62life.mo.model.login;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("memberTwalkLogin")
+/*@Alias("memberTwalkLogin")*/
 //twalk 로그인
 public class MemberTwalkLogin {
     private String twMemcd; //회원번호

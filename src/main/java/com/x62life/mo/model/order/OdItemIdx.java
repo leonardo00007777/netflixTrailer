@@ -1,8 +1,6 @@
 package com.x62life.mo.model.order;
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("odItemIdx")
+/*@Alias("odItemIdx")*/
 //주문 item Index
 public class OdItemIdx {
     private int odcnt;

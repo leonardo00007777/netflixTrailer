@@ -1,8 +1,6 @@
 package com.x62life.mo.model.sms;
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("emTranMMS")
+/*@Alias("emTranMMS")*/
 //장문 템플릿
 public class EmTranMMS {
     private int mmsSeq; //순번

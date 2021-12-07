@@ -1,10 +1,8 @@
 package com.x62life.mo.model.login;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 //관리자 로그인 이력
-@Alias("adminLoginHistory")
+/*@Alias("adminLoginHistory")*/
 public class AdminLoginHistory {
     private int nox; //순번
     private String memid; //로그인id

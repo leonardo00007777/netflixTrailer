@@ -1,11 +1,9 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 //상품 예외 입고 임시저장
-@Alias("gdTemp")
+/*@Alias("gdTemp")*/
 public class GdTemp {
     private String tUsid; //등록id
     private short tSeq; //순번

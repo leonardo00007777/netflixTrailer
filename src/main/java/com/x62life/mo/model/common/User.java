@@ -1,7 +1,5 @@
 package com.x62life.mo.model.common;
 
-import org.apache.ibatis.type.Alias;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +11,7 @@ import java.util.Map;
  * @author jangsin
  */
 
-@Alias("user")
+/*@Alias("user")*/
 public class User extends Code {
     
     static public enum ROLEUSER{

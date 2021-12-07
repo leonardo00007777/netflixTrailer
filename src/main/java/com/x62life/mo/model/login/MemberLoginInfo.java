@@ -1,10 +1,8 @@
 package com.x62life.mo.model.login;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("memberLoginInfo")
+/*@Alias("memberLoginInfo")*/
 //회원 로그인 정보
 public class MemberLoginInfo {
     private String memcd; //회원번호

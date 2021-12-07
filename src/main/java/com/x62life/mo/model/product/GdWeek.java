@@ -1,7 +1,6 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-@Alias("gdWeek")
+/*@Alias("gdWeek")*/
 public class GdWeek {
     private int gdyear; //년도
     private int gdweek; //배송주차

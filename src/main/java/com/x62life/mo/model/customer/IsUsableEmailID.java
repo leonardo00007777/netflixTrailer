@@ -1,9 +1,7 @@
 package com.x62life.mo.model.customer;
 
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("isUsableEmailID")
+/*@Alias("isUsableEmailID")*/
 public class IsUsableEmailID {
 
 	private String resultCode;

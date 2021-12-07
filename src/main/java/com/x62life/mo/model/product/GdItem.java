@@ -1,9 +1,7 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
-@Alias("gdItem")
+/*@Alias("gdItem")*/
 //상품 정보
 public class GdItem {
     private String gdcd;  //상품코드

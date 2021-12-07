@@ -1,10 +1,8 @@
 package com.x62life.mo.model.standardinfo;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-@Alias("supplierProductPaymentInfo")
+/*@Alias("supplierProductPaymentInfo")*/
 //공급자 결제 정보
 public class SupplierProductPaymentInfo {
     private String macomp; //회사코드

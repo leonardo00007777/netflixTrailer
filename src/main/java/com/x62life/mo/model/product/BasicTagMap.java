@@ -1,8 +1,6 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("basicTagMap")
+/*@Alias("basicTagMap")*/
 public class BasicTagMap {
     private String bttype; //태그타입
     private String bid; //태그아이디

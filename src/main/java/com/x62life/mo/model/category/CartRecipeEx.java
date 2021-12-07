@@ -1,10 +1,8 @@
 package com.x62life.mo.model.category;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 
-@Alias("cartRecipeEx")
+/*@Alias("cartRecipeEx")*/
 public class CartRecipeEx extends CartRecipe{
     private String gdname; //상품이름
     private char useyn; //사용여부

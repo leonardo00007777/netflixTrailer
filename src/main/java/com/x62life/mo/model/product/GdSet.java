@@ -1,8 +1,6 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("gdSet")
+/*@Alias("gdSet")*/
 //세트상품
 public class GdSet {
     private String gdcd;

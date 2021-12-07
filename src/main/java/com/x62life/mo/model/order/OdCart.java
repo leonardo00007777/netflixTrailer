@@ -1,10 +1,8 @@
 package com.x62life.mo.model.order;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("odCart")
+/*@Alias("odCart")*/
 //주문 카트 정보
 public class OdCart {
     private char memcd; //회원코드

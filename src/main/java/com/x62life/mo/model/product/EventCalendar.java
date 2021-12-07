@@ -1,9 +1,7 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
-@Alias("eventCalendar")
+/*@Alias("eventCalendar")*/
 //이벤트 달력
 public class EventCalendar {
     private int idschedule; //순번

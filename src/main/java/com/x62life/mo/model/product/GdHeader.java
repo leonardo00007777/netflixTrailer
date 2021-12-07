@@ -1,10 +1,8 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 //상품 입고 기본정보
-@Alias("gdHeader")
+/*@Alias("gdHeader")*/
 public class GdHeader {
     private String ghno; //입고번호
     private String ghcdwh; //입고창고코드
