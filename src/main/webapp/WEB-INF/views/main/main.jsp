@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
-<%@ include file="/WEB-INF/views/common/env.jsp"
-%>
+<%@ include file="/WEB-INF/views/common/env.jsp" %>
 
 <body class="page-home header-float">
   <div class="site-container">
@@ -93,6 +93,58 @@
                 </header>
                 <div class="swiper-container swiper-prd-2n swiper-no-swiping">
                   <div class="swiper-wrapper">
+                    <c:forEach items="${newProdList}" var="newProdList">
+                    <div class="swiper-slide">
+                      <article class="prd-item">
+                        <div class="img-container">
+                          <a href="#" class="prd-item-img">
+                            <img src="<%=_imgUrl %>/images/uploads/${newProdList.mgdimg1}" alt="${newProdList.unit}">
+                            <div class="prd-item-badge dc">
+                              <span>23</span>
+                              <small>%</small>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="detail">
+                          <a href="#">
+                            <h4 class="prd-item-tit">${newProdList.gdname}</h4>
+                            <div class="prd-item-price">
+                              <div class="price">
+                                <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProdList.price1}"/>
+                                <span>${originalPrice}</span><small>원</small>
+                              </div>
+                              <div class="price-org">
+                                <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProdList.saleprice}"/>
+                                  ${salePrice}
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </article>
+                    </div>
+                    </c:forEach>
+<%--                    <div class="swiper-slide">
+                      <article class="prd-item">
+                        <div class="img-container">
+                          <a href="#" class="prd-item-img">
+                            <img src="<%=_imgUrl %>/images/uploads/prd-img-02.jpg" alt="마담로익 크림치즈 플레인 150g">
+                            <div class="prd-item-badge dc">
+                              <span>23</span>
+                              <small>%</small>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="detail">
+                          <a href="#">
+                            <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
+                            <div class="prd-item-price">
+                              <div class="price"><span>3,480</span><small>원</small></div>
+                              <div class="price-org">4,800원</div>
+                            </div>
+                          </a>
+                        </div>
+                      </article>
+                    </div>
                     <div class="swiper-slide">
                       <article class="prd-item">
                         <div class="img-container">
@@ -136,51 +188,7 @@
                           </a>
                         </div>
                       </article>
-                    </div>
-                    <div class="swiper-slide">
-                      <article class="prd-item">
-                        <div class="img-container">
-                          <a href="#" class="prd-item-img">
-                            <img src="<%=_imgUrl %>/images/uploads/prd-img-08.jpg" alt="마담로익 크림치즈 플레인 150g">
-                            <div class="prd-item-badge dc">
-                              <span>23</span>
-                              <small>%</small>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="detail">
-                          <a href="#">
-                            <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
-                            <div class="prd-item-price">
-                              <div class="price"><span>3,480</span><small>원</small></div>
-                              <div class="price-org">4,800원</div>
-                            </div>
-                          </a>
-                        </div>
-                      </article>
-                    </div>
-                    <div class="swiper-slide">
-                      <article class="prd-item">
-                        <div class="img-container">
-                          <a href="#" class="prd-item-img">
-                            <img src="<%=_imgUrl %>/images/uploads/prd-img-02.jpg" alt="마담로익 크림치즈 플레인 150g">
-                            <div class="prd-item-badge dc">
-                              <span>23</span>
-                              <small>%</small>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="detail">
-                          <a href="#">
-                            <h4 class="prd-item-tit">마담로익 크림치즈 플레인 150g</h4>
-                            <div class="prd-item-price">
-                              <div class="price"><span>3,480</span><small>원</small></div>
-                              <div class="price-org">4,800원</div>
-                            </div>
-                          </a>
-                        </div>
-                      </article>
-                    </div>
+                    </div>--%>
                   </div>
                   <div class="swiper-pgn-dots-sub"></div>
                 </div>
@@ -1451,4 +1459,10 @@
 
   <script src="<%=_libUrl %>swiper/swiper-bundle.min.js"></script>
   <script src="<%=_jsUrl %>main/main.js"></script>
-  
+                    <script>
+                      document.ready(function (){
+                        <c:forEach items="${newProdList}" var="newProdList">
+                        console.log("11111111111111111", ${newProdList.gdname});
+                        </c:forEach>
+                      });
+                    </script>

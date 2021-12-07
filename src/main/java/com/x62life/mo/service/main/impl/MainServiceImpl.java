@@ -7,6 +7,7 @@ import com.x62life.mo.model.exhibition.AdMainMg;
 import com.x62life.mo.model.exhibition.MainPageSkin;
 import com.x62life.mo.model.exhibition.OneDaySpecialEx;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.SeasonalFoodHall;
 import com.x62life.mo.service.main.MainService;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,11 @@ public class MainServiceImpl implements MainService {
         paramMap.put("normalMemberPromotionStartDdate", "2020-10-27");
         paramMap.put("normalMemberPromotionEndDate", "2020-11-30");
         return mainDao.commonUserBuyGiftTargetCheck(paramMap);
+    }
+
+    @Override
+    public List<SeasonalFoodHall> seasonalProdList(Map<String, Object> paramMap){
+        return mainDao.seasonalProdList(paramMap);
     }
 
     @Override

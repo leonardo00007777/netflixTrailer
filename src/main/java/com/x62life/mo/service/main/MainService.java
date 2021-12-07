@@ -6,6 +6,7 @@ import com.x62life.mo.model.exhibition.AdMainMg;
 import com.x62life.mo.model.exhibition.MainPageSkin;
 import com.x62life.mo.model.exhibition.OneDaySpecialEx;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.SeasonalFoodHall;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ public interface MainService {
     String firstBuyGiftTargetCheck(String strMEMGRPCD);
 
     Map<String, Object> commonUserBuyGiftTargetCheck(Map<String, Object> paramMap);
+
+    List<SeasonalFoodHall> seasonalProdList(Map<String, Object> paramMap);
 
     List<OneDaySpecialEx> nowHotProdList(Map<String, Object> paramMap);
 

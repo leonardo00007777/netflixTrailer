@@ -5,6 +5,7 @@ import com.x62life.mo.model.boardcontents.MagazineLEx;
 import com.x62life.mo.model.exhibition.MainPageSkin;
 import com.x62life.mo.model.exhibition.OneDaySpecialEx;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.SeasonalFoodHall;
 import com.x62life.mo.service.category.CategoryService;
 import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,10 @@ public class MainController {
 			Map<String, Object> commonUserBuyGiftTargetCheck = mainService.commonUserBuyGiftTargetCheck(paramMap);
 			model.addAttribute("commonUserBuyGiftTargetCheck",commonUserBuyGiftTargetCheck);
 		}
+
+		//제철 상품
+		List<SeasonalFoodHall> seasonalProdList = mainService.seasonalProdList(paramMap);
+		model.addAttribute("seasonalProdList", seasonalProdList);
 
 		//지금 뜨는 상품 (신상품추천)
 		List<OneDaySpecialEx> nowHotProdList = mainService.nowHotProdList(paramMap);
