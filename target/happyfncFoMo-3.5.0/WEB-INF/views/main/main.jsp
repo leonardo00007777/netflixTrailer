@@ -6,26 +6,6 @@
 %>
 
 <body class="page-home header-float">
-	    			<c:choose>
-			        	<c:when test="${fn:length(categoryList) == 0}">
-			            	<tr>
-			            		<td colspan="4" align="center">
-			            			조회결과가 없습니다.
-			            		</td>
-			            	</tr>
-			           	</c:when>
-			           	<c:otherwise>
-			            	<c:forEach var="categoryList" items="${categoryList}" varStatus="status">
-								<tr>
-						    		<td align="center">${categoryList.id}</td>
-						    		<td>
-						    			<a name="subject" class="mouseOverHighlight" content_id="${categoryList.id}">${categoryList.subject}</a>
-						    		</td>
-						    	</tr>
-						    </c:forEach>
-			           	</c:otherwise> 
-			    	</c:choose>
-			    	
   <div class="site-container">
     <header class="global-header" id="global-header">
       <div class="global-header-wrap" id="sticky-header">

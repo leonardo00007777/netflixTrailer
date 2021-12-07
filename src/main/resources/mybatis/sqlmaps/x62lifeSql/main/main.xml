@@ -70,6 +70,7 @@
     '20210906   hnjang  2.1     배송유형별(자연이랑,업체직송) 분류 기능 추가-->
 
     <select id="mainBannerList" resultType="com.x62life.mo.model.exhibition.AdMainMg" parameterType="java.lang.String">
+        /*mainBannerList 메인배너*/
         SELECT CASE WHEN ISNULL(urlm,'') = '' THEN url
                     ELSE urlm
                END url
@@ -90,6 +91,7 @@
     </select>
 
     <select id="renewalBannerList" resultType="com.x62life.mo.model.exhibition.MainPageSkin">
+        /*리뉴얼 배너*/
         SELECT cbnpath01, cbntarget01, cbnurl01, lbntitle01, reservet01  <!--'모바일상단 자연이랑NEW1(슬라이드)-->
              , cbnpath02, cbntarget02, cbnurl02, lbntitle02, reservet02   <!--'모바일상단 자연이랑NEW2(슬라이드)-->
              , cbnpath03, cbntarget03, cbnurl03, lbntitle03, reservet03  <!--'모바일상단 자연이랑NEW3(슬라이드)-->
@@ -163,10 +165,12 @@
     </select>
 
     <select id="firstBuyGiftTargetCheck" parameterType="java.lang.String" resultType="java.lang.String">
+        /*firstBuyGiftTargetCheck 첫 구매 대상자 체크*/
         SELECT CONVERT(VARCHAR(10),indt,23) indt FROM mb_master WHERE memcd = #{strLoginMemCd}
     </select>
 
     <select id="commonUserBuyGiftTargetCheck" parameterType="java.util.Map" resultType="java.util.Map">
+        /*commonUserBuyGiftTargetCheck*/
         SELECT a.paynum
              , a.gdprice
           FROM (
@@ -205,6 +209,7 @@
     </select>
 
     <select id="nowHotProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.exhibition.OneDaySpecialEx">
+        /* nowHotProdList 지금뜨는상품 */
         SELECT os.idx
              , os.gdcd
              , g.gdname
@@ -241,6 +246,7 @@
     </select>
 
     <select id="newProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        /*newProdList 신상품*/
         SELECT TOP 8 *
            FROM (
                  SELECT g.gdcd
@@ -314,6 +320,7 @@
     </select>
 
     <select id="seasonalProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.SeasonalFoodHall">
+        /*seasonalProdList 계절상품 */
         SELECT sfgdcd
              , sfshort
              , sfhmimg_m
