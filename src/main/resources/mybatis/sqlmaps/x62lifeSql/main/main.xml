@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x62life.mo.dao.main.MainDao">
+<!--    'System        : 62life.com
+    'Program       :
+    'Title         : 자연이랑 모바일 첫 페이지
+    'File          : mainm.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20161107
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+
+    '20161107   hwkim   0.9     처음 작성
+    '20161227   hwkim   0.9.1   처음 표시 방식 개선 - 동시 백그라운드 로딩 처리
+    '20161229   hwkim   0.9.2   카테고리 버튼 디자인 변경
+    '20170106   hwkim   0.9.3   (자연이랑)소식 정보 탭 추가 - 확대
+    '20170202   hwkim   0.9.4   업체 직배송 상품 처리 추가.
+    '20170209   hwkim   0.9.5   자동로그인 기능 개선
+    '20170303   hwkim   0.9.6   첫 화면 로딩 속도 향상 처리 / 이전, 다음 탭의 정보만 미리 로딩
+    '20170331   hwkim   0.9.7   바로 가기 아이콘 디자인 변경 v20170331
+    '20170614   hwkim   0.9.8   제한된 시간에 따라 당일발송 배너를 표시
+    '20171012   hwkim   0.9.9   품절 및 일시판매중지 상품, 표시 제외
+    '20171208   hwkim   -       FCM 토큰, 아이디 매칭을 위한 함수 추가.
+    '20180114   hwkim   1.0     상품표시 레이아웃 개선. 모바일용 세로비율 그림 적용
+    '20180227   hwkim   1.0.1   첫 화면 그리드 표시 방식으로 변경, swiper 리팩토링
+    '20180423   hwkim   -       freewall 첫화면 지연 표시 개선
+    '20180524   hwkim   1.0.2   티커 부분 제거, 레시피 배너 제거 및 레시피 고정 아이콘 추가
+    '20180621   hyeok   -       세트유형(20)상품 추천,할인상품, 신상품 목록에 표시 조건 추가
+    '20180629   sykim   -       7시 > 8시 당일발송 변경.
+    '20180723   hwkim   -       상품간략 설명이 없을 경우, 높이를 맞추기 위해 공백으로 표시
+    '20180803   hwkim   1.0.3   상품등급 라벨 표시, 할인율 사각형스티커 변경, 장바구니 표시 축소, 흐리게 등
+    '20180808   hwkim   -       건강식품 카테고리 추가 (고객센터 제외)
+    '20180821   sykim   -       배송휴일의 전날과 당일은 당일발송 배너 제외기능 추가.
+    '20180928   hwkim   -       배너 자동표시 임시처리. 후 지울것.
+    '20181005   hwkim   1.0.4   할인상품 다양한 상품을 표시하기 위한 조작
+    '20190103   hwkim   1.0.5   iOS 대응 webkit 객체 판단 처리 추가.
+    '20190104   hwkim   1.0.6   자동로그인 시 fcm 파라미터 유지 처리 강화 적용.
+    '20190124   hwkim   1.0.7   첫 화면 속도문제로 '할인중인 상품' 제거 (탭, 할인관에 있음)
+    '20190128   hwkim   -       '할인중인 상품' 속도 개선 후 무작위 처리 다시 도입.
+    '20190722   hwkim   -       중앙 '레시피' 아이콘, '멤버십안내'로 변경
+    '20190828   hwkim   -       전문관을 기획전으로 대체(복원)
+    '20200310   -       -       202003 리뉴얼 적용
+    '20200713   hwkim   1.1     하단 바 적용, 앱전용 파라미터 추가
+    '20200721   hwkim   1.1.1   세션처리 하단바 표시 제어
+    '20201019   chhyeon 1.2.1   모바일 HM 1차 변경
+    '20201113   chhyeon 1.2.2   더 자연이랑 멤버십 배너추가
+    '20201130   chhyeon 1.3     홈메인 변경
+    '20201207   chhyeon 1.4     하단 바 useragent 값으로 처리하도록 변경
+    '20210107   chhyeon 1.4.1   신상품, 할인중인 상품 더보기 시 상단 탭으로 이동하도록 변경.
+    '20210114   chhyeon 1.4.2   상단 nav 이동 시 하단 짤림 문제 보완 - swipe 라이브러리 자동 높이 조정 기능 이슈, 첫 페이지 로딩 시 모든 콘텐츠를 불러오는 방식으로 변경
+    '20210114   hwkim   -       하단 배너 유무에 따른 상단으로 버튼 위치 조정
+    '20210118   chhyeon 1.5.0   상단nav(신상품,베스트,할인관) 필터링 처리 추가
+    '20210125   chhyeon 1.6.0   신상품, 베스트, 할인관 x2 처리
+    '20210128   chhyeon -       헤더 IOS 디자인 가이드 적용
+    '20210204   chhyeon 1.6.1   사용자 정의 (고객)그룹 표시 제한 방식 적용
+    '20210310   chhyeon 1.7     홈메인 개편
+    '20210708   chhyeon 1.8     일일특가(기간특가) 처리 개선
+    '20210715   chhyeon 1.9     제철의 맛 변경.
+    '20210728   hwkim   1.9.1   모바일 전용 url링크 정보 추가. ad_mainimg.urlm
+    '20210805   chhyeon 1.9.2   모바일 url 체크 부분 쿼리 보완
+    '20210903   chhyeon 2.0     일일특가 스와이프 형식으로 개편
+    '                           불필요한 코드 간단하게 정리, 인라인 스타일 정리(추가정리필요)
+    '20210906   hnjang  2.1     배송유형별(자연이랑,업체직송) 분류 기능 추가-->
+
+    <select id="mainBannerList" resultType="com.x62life.mo.model.exhibition.AdMainMg" parameterType="java.lang.String">
+        SELECT CASE WHEN ISNULL(urlm,'') = '' THEN url
+                    ELSE urlm
+               END url
+             , CASE WHEN ISNULL(img_src_m,'')='' THEN ISNULL(img_src,'')
+                    ELSE img_src_m
+               END img_src
+          FROM ad_mainimg
+          WHERE use_yn = 'Y'
+            <![CDATA[
+            AND sdate <= GETDATE()
+            AND edate > GETDATE()
+            ]]>
+            AND (ISNULL(grpcd, '') = ''
+                 OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl
+                              WHERE cl.ulcode = grpcd AND cl.ulgrcd = #{strMEMGRPCD})
+                            )
+          ORDER BY ISNULL(important, 10), update_dt DESC, seq DESC
+    </select>
+
+    <select id="renewalBannerList" resultType="com.x62life.mo.model.exhibition.MainPageSkin">
+        SELECT cbnpath01/*, cbntarget01, cbnurl01, lbntitle01, reservet01  /*'모바일상단 자연이랑NEW1(슬라이드)*/
+             , cbnpath02, cbntarget02, cbnurl02, lbntitle02, reservet02  /*'모바일상단 자연이랑NEW2(슬라이드)*/
+             , cbnpath03, cbntarget03, cbnurl03, lbntitle03, reservet03  /*'모바일상단 자연이랑NEW3(슬라이드)*/
+             , cbnpath04, cbntarget04, cbnurl04  /*'모바일상단 고정배너1(슬라이드)*/
+             , cbnpath05, cbntarget05, cbnurl05  /*'모바일상단 고정배너2(슬라이드)*/
+             , cbnpath06, cbntarget06, cbnurl06  /*'모바일상단 고정배너2(슬라이드)*/
+             , cbnpath07, cbntarget07, cbnurl07  /*'모바일상단 고정배너2(슬라이드)*/
+             , tbnpath02, tbntarget02, tbnurl02  /*'모바일상단 고정배너3(슬라이드)*/
+             , tbnpath03, tbntarget03, tbnurl03  /*'모바일상단 고정배너4(슬라이드)*/*/
+          FROM mainpageskin
+    </select>
+
+    <select id="todaySpecialProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.exhibition.OneDaySpecialEx">
+        SELECT os.idx
+             , opt
+             , os.gdcd
+             , g.gdname
+             , g.div1
+             , g.divcd
+             , CONVERT(VARCHAR(19), os.enddt, 21) endtime
+             , DATEDIFF(S, os.startdt, os.enddt) - DATEDIFF(S, GETDATE(), os.enddt) difftime
+             , DATEDIFF(S, os.startdt, os.enddt) fulltime
+             , g.mgdimg1
+             , g.gdimg
+             , CASE g.dispatchtype WHEN 'I' THEN '11'
+                                   WHEN 'O' THEN '15'
+               END odtype
+             , ISNULL(g.reserveyn,'N') reserveyn
+             , ISNULL(g.deliverydtyn,'N') deliverydtyn
+             , ISNULL(r.type, '01') odtype2
+             , g.price1
+              <choose>
+                  <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
+                      , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                  </when>
+                  <otherwise>
+                      , dbo.getMasterPrice(g.gdcd) saleprice
+                  </otherwise>
+              </choose>
+             , os.gdname1
+             , os.gdname2
+             , os.gdlimit
+             , ISNULL(g.soldoutyn,'N') soldoutyn, ISNULL(c.gdcnt,999) gdcnt
+             , mhmimg1
+             , ISNULL(os.lastyn,'N') lastyn
+             , title
+             , subtitle
+             , COUNT(1) OVER(PARTITION BY 1) cnt
+          FROM oneday_special os
+              JOIN gd_master g
+                ON os.gdcd = g.gdcd
+              LEFT JOIN od_reservegoods r
+                     ON g.gdcd = r.gdcd
+                    AND r.useyn = 'Y'
+                    AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+              LEFT JOIN gd_cnt c
+                     ON g.gdcd = c.gdcd
+           WHERE 1 = 1
+             AND os.target = 'O'
+             AND os.opt = 'S'
+             <![CDATA[
+             AND GETDATE() >= os.startdt
+             AND GETDATE() <  os.enddt
+             ]]>
+             AND g.useyn = 'Y'
+             AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+        ORDER BY os.idx DESC
+    </select>
+
+    <select id="firstBuyGiftTargetCheck" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT CONVERT(VARCHAR(10),indt,23) indt FROM mb_master WHERE memcd = #{strLoginMemCd}
+    </select>
+
+    <select id="commonUserBuyGiftTargetCheck" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT a.paynum
+             , a.gdprice
+          FROM (
+                SELECT p.paynum
+                     , t.eventcode
+                     , ISNULL(SUM(g.price * g.gdcnt),0) gdprice
+                     , ROW_NUMBER() OVER (ORDER BY p.paynum) rn
+                  FROM od_pay p
+                       JOIN od_header h
+                         ON p.paynum = h.paynum
+                       JOIN od_goods g
+                         ON h.ordnum = g.ordnum
+                        AND h.paynum = g.paynum
+                       JOIN temp_normal_member_promotion n
+                         ON p.memcd = n.memcd
+                       LEFT JOIN temp_13annivstamp t
+                              ON t.eventcode = 'NEWGIFT19'
+                             AND t.memcd = p.memcd
+                             AND t.note IN (SELECT ordnum FROM od_relation WHERE paynum = p.paynum)
+                   WHERE p.memcd = #{strLoginMemCd}
+                     AND p.paystcd = #{paystPay}
+                     <![CDATA[
+                     AND p.paydt >= CONVERT(DATETIME,#{normalMemberPromotionStartDdate},21)
+                     AND p.paydt < CONVERT(DATETIME,#{normalMemberPromotionEndDate},21)-2 /* '결제기간은 11/27까지.*/
+                     ]]>
+                     AND h.paystcd = #{paystPay}
+                     AND h.odgubun IN ( #{nSalesOrderType})
+                     AND n.title IN ('2019년 가입, 구매 0 일반회원','2020년 가입, 구매 0 일반회원')
+                GROUP BY p.paynum, t.eventcode
+               ) a
+         WHERE a.rn = 1
+           AND a.eventcode IS NULL  /*'첫구매선물 선택하지 않은.*/
+           <![CDATA[
+           AND a.gdprice >= 10000  /*'할인적용 상품가 10000원 이상 구매*/
+           ]]>
+    </select>
+
+    <select id="nowHotProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.exhibition.OneDaySpecialEx">
+        SELECT os.idx
+             , os.gdcd
+             , g.gdname
+             , g.shortdesc
+             , CONVERT(VARCHAR(19), os.enddt, 21) endtime
+             , g.mgdimg1
+             , g.price1
+        <choose>
+            <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
+                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+            </when>
+            <otherwise>
+                , dbo.getMasterPrice(g.gdcd) saleprice
+            </otherwise>
+        </choose>
+          FROM oneday_special os
+               JOIN gd_master g
+                 ON os.gdcd = g.gdcd
+               LEFT JOIN od_reservegoods r
+                      ON g.gdcd = r.gdcd
+                     AND r.useyn = 'Y'
+                     AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+           WHERE 1 = 1
+             AND os.target = 'O'
+             AND os.opt = 'N'
+             <![CDATA[
+             AND GETDATE() >= os.startdt
+             AND GETDATE() <  os.enddt
+             ]]>
+             AND g.useyn = 'Y'
+             AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+    </select>
+
+    <select id="newProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        SELECT TOP 8 *
+           FROM (
+                 SELECT g.gdcd
+                      , g.gdname
+                      , g.unit
+                      , g.price1
+                      , g.gdimg
+                      , g.mgdimg1
+                      , g.divcd
+                      , g.div1
+                      , g.indt
+                      , g.updt
+                      , g.shortdesc
+                      <choose>
+                         <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
+                             , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                         </when>
+                         <otherwise>
+                             , dbo.getMasterPrice(g.gdcd) saleprice
+                         </otherwise>
+                      </choose>
+                      , CASE WHEN ISNULL(g.soldoutyn,'N')='N' THEN 'N'
+                             ELSE g.soldoutyn
+                        END soldoutyn
+                      , ISNULL(s.gdcnt,99999) gdcnt
+                      , ISNULL(g.newyn,'N') newyn
+                      , ISNULL(g.qtysaleyn,'N') qtysaleyn
+                      , g.recommendyn
+                      , i.origin
+                      , i.producer
+                      , i.address
+                      , ISNULL(t.cdname,'미지정') AS gradedesc
+                      , CASE g.dispatchtype WHEN 'I' THEN '11'
+                                            WHEN 'O' THEN '15'
+                        END odtype
+                      , ISNULL(g.deliverydtyn,'N') deliverydtyn
+                      , ISNULL(g.reserveyn,'N') reserveyn
+                 FROM gd_master g
+                   LEFT JOIN gd_item i
+                          ON i.gdcd = g.gdcd
+                   LEFT JOIN cd_master t
+                          ON t.cdtype = '09'
+                         AND t.cdcode = i.typecd
+                   LEFT JOIN gd_cnt s
+                          ON g.gdcd = s.gdcd
+                   LEFT JOIN od_reservegoods r
+                          ON g.gdcd = r.gdcd
+                         AND r.useyn = 'Y'
+                         AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+                  WHERE 1=1
+                    AND g.useyn = 'Y'
+                    AND (g.divcd = '30' OR (g.divcd = '20'
+                                            AND g.deliverydtyn = 'N'
+                                            AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')
+                                           )
+                        )
+                    AND g.newyn = 'Y'
+                    <![CDATA[
+                    AND ISNULL(s.gdcnt,99999) > 0 
+                    AND ISNULL(g.soldoutyn, 'N') <> 'Y'
+                    ]]>
+                    AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                    AND (ISNULL(g.expgrcd, '') = ''
+                          OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl
+                                      WHERE cl.ulcode = g.expgrcd AND cl.ulgrcd = #{strMEMGRPCD})
+                                    )
+                ) a
+          ORDER BY ISNULL(updt, indt) DESC
+    </select>
+
+    <select id="seasonalProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.SeasonalFoodHall">
+        SELECT sfgdcd
+             , sfshort
+             , sfhmimg_m
+             , sftag_link_m
+             , sf01_des2
+             , sfcmsyn
+             , sfname
+        <choose>
+            <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
+                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+            </when>
+            <otherwise>
+                , dbo.getMasterPrice(g.gdcd) saleprice
+            </otherwise>
+        </choose>
+          FROM seasonal_foodhall
+         WHERE sfusyn = 'Y'
+           AND (SFCMSYN = 'Y'
+                <![CDATA[
+                OR (sfstdt <= GETDATE() 
+                    AND sfeddt > GETDATE()))
+                ]]>
+           AND sftype = '02'
+         ORDER BY sfidx DESC
+    </select>
+
+    <select id="bestProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        SELECT TOP 12 a.odtype
+             , a.odtype2
+             , a.gdcd
+             , b.gdname
+             , b.unit
+             , b.gdimg
+             , b.divcd
+             , b.div1
+             , b.price1
+        <choose>
+            <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
+                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+            </when>
+            <otherwise>
+                , dbo.getMasterPrice(g.gdcd) saleprice
+            </otherwise>
+        </choose>
+             , ISNULL(b.deliverydtyn,'N') deliverydtyn
+             , ISNULL(b.soldoutyn,'N') soldoutyn
+             , ISNULL(d.gdcnt,99999) gdcnt, ISNULL(b.newyn,'N') newyn, ISNULL(b.qtysaleyn,'N') qtysaleyn
+             , b.recommendyn, a.tcount, a.tsales, b.plandate, b.thedaysyn
+             , ISNULL(t6.cdname,'미지정') AS gradedesc
+             , ISNULL(b.reserveyn,'N') reserveyn
+             , b.mgdimg1
+             , b.shortdesc
+          FROM (
+                SELECT TOP 30 *
+                  FROM (
+                        SELECT CASE g.dispatchtype WHEN 'I' THEN '11' WHEN 'O' THEN '15' END odtype
+                             , '01' odtype2, a.gdcd
+                             , SUM(a.gdcnt) tcount
+                             , SUM(a.gdcnt*a.price) tsales
+                          FROM od_goods a
+                               JOIN od_pay p
+                                 ON a.paynum = p.paynum
+                               JOIN gd_master g
+                                 ON g.gdcd = a.gdcd
+                               LEFT JOIN gd_cnt gc
+                                      ON g.gdcd = gc.gdcd
+                               LEFT JOIN od_reservegoods r
+                                      ON g.gdcd = r.gdcd
+                                     AND r.useyn = 'Y'
+                                     AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+                        <![CDATA[
+                         WHERE a.indt >= DATEADD(D,- #{basicDays} ,CONVERT(VARCHAR,GETDATE(),23))
+                         ]]>
+                           AND (ISNULL(g.expgrcd, '') = ''
+                                 OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl
+                                             WHERE cl.ulcode = g.expgrcd AND cl.ulgrcd = #{strMEMGRPCD})
+                                           )
+                           AND p.paystcd = #{paystPay}
+                           AND (g.divcd = '30' OR (g.divcd = '20' AND
+                                                   g.deliverydtyn = 'N' AND
+                                                   g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')
+                                                  )
+                               )
+                           AND g.useyn = 'Y'
+                           <if test="strMode != ''">
+                               AND g.exdiv1 = #{strMode}
+                           </if>
+                           <![CDATA[
+                           AND ISNULL(gc.gdcnt, 99999) > 0
+                           ]]>
+                           AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                         GROUP BY a.gdcd, g.dispatchtype
+                       ) a
+                 WHERE 1=1
+                 ORDER BY tsales DESC, gdcd
+               ) a
+               JOIN gd_master b
+                 ON a.gdcd = b.gdcd
+               LEFT JOIN gd_cnt d
+                      ON a.gdcd = d.gdcd
+               LEFT JOIN gd_item i
+                      ON i.gdcd = b.gdcd
+               LEFT JOIN cd_master t6
+                      ON t6.cdtype = '09'
+                     AND t6.cdcode = i.typecd
+         WHERE 1 = 1
+         ORDER BY NEWID()
+    </select>
+
+    <select id="discountProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        SELECT TOP  #{displayCount}  *
+          FROM (
+                  SELECT TOP  #{limitRank}  *
+                    FROM (
+                           SELECT g.gdcd
+                                , g.gdname
+                                , g.unit
+                                , g.price1
+                                , g.gdimg
+                                , g.mgdimg1
+                                , g.divcd
+                                , g.div1
+                                , g.indt
+                                , g.updt
+                                , g.shortdesc
+                           <choose>
+                              <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
+                                  , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                              </when>
+                              <otherwise>
+                                  , dbo.getMasterPrice(g.gdcd) saleprice
+                              </otherwise>
+                           </choose>
+                                , CASE WHEN ISNULL(g.soldoutyn,'N')='N' THEN 'N'
+                                       ELSE g.soldoutyn
+                                  END soldoutyn, ISNULL(s.gdcnt,99999) gdcnt
+                                , ISNULL(g.newyn,'N') newyn
+                                , ISNULL(g.qtysaleyn,'N') qtysaleyn
+                                , i.origin
+                                , i.producer
+                                , i.address
+                                , ISNULL(t.cdname,'미지정') AS gradedesc
+                                , g.thedaysyn
+                                , CASE g.dispatchtype WHEN 'I' THEN '11'
+                                                      WHEN 'O' THEN '15'
+                                  END odtype
+                                , ISNULL(g.deliverydtyn,'N') deliverydtyn
+                                , ISNULL(g.reserveyn,'N') reserveyn
+                            FROM gd_master g
+                              LEFT JOIN gd_item i
+                                     ON i.gdcd = g.gdcd
+                              LEFT JOIN cd_master t
+                                     ON t.cdtype = '09'
+                                    AND t.cdcode = i.typecd
+                              LEFT JOIN gd_cnt s
+                                     ON g.gdcd = s.gdcd
+                              LEFT JOIN od_reservegoods r
+                                     ON g.gdcd = r.gdcd
+                                    AND r.useyn = 'Y'
+                                    AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+                            WHERE 1=1
+                              AND g.useyn = 'Y'
+                              AND (g.divcd = '30' OR ( g.divcd = '20'
+                                                       AND g.deliverydtyn = 'N'
+                                                       AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')
+                                                     )
+                                  )
+                              AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                              AND g.saleflag IN ('P','S')
+                              <![CDATA[
+                              AND ISNULL(s.gdcnt,99999) > 0
+                              AND ISNULL(g.soldoutyn, 'N') <> 'Y'
+                              ]]>
+                              AND (ISNULL(g.expgrcd, '') = ''
+                               OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl
+                                                            WHERE cl.ulcode = g.expgrcd AND cl.ulgrcd = #{strMEMGRPCD})
+                                         )
+                          ) x
+                     WHERE 1 = 1
+                 ) xx
+         WHERE 1 = 1
+         ORDER BY newid()
+    </select>
+
+    <select id="bestReviewProd"  parameterType="java.util.Map" resultType="java.util.Map">
+         SELECT TOP 6 g.gdcd
+              , g.gdname
+              , g.price1
+              , g.mgdimg1
+              , p.bpmemid
+              , p.bpmemo
+              , g.price1
+        <choose>
+            <when test="strMEMGRPCD != '' AND strGroupSalePolicy != 'N'">
+                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+            </when>
+            <otherwise>
+                , dbo.getMasterPrice(g.gdcd) saleprice
+            </otherwise>
+        </choose>
+           FROM BEST_PRODUCTREVIEW p
+                JOIN gd_master g
+                  ON g.gdcd = p.bpgdcd
+                LEFT JOIN gd_cnt z
+                       ON z.gdcd = g.gdcd
+                LEFT JOIN od_reservegoods r
+                       ON g.gdcd = r.gdcd
+                      AND r.useyn = 'Y'
+                      AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+            WHERE 1 = 1
+              AND g.useyn = 'Y'
+              AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+              AND ISNULL(z.gdcnt,99999) > 0
+              AND g.soldoutyn = 'N'
+         ORDER BY p.bpidx desc
+    </select>
+
+    <select id="magazineNum" resultType="int">
+        SELECT TOP 1 h.zhidx
+           FROM magazine_h h
+             JOIN magazine_l l
+               ON h.zhidx = l.zlidx
+            WHERE zhusyn = 'Y'
+        ORDER BY zhidx DESC
+    </select>
+
+    <select id="magazineDetail" resultType="com.x62life.mo.model.boardcontents.MagazineLEx">
+        SELECT *
+           FROM (
+                  SELECT * FROM (
+                                  SELECT top 1 l.zlidx
+                                       , l.zlctid
+                                       , l.zlno
+                                       , l.zlcatn
+                                       , l.zltitl1
+                                       , l.zltitl2
+                                       , b.thumbimg2
+                                       , b.thumbimg3
+                                       , b.indt
+                                       , null memid
+                                       , null idx
+                                    FROM MAGAZINE_L l
+                                      JOIN BD_CONTENTS b
+                                        ON b.useyn = 'Y'
+                                       AND b.ctsidx = l.ZLCTID
+                                     WHERE b.ctscd = '51'
+                                       <![CDATA[
+                                       AND ISNULL(thumbimg2,'') <> ''
+                                       ]]>
+                                  ORDER BY zlidx DESC ) t1
+                  UNION ALL
+                  SELECT * FROM (
+                                  SELECT top 1 l.zlidx
+                                       , l.zlctid
+                                       , l.zlno
+                                       , l.zlcatn
+                                       , l.zltitl1
+                                       , l.zltitl2
+                                       , b.thumbimg2
+                                       , b.thumbimg3
+                                       , b.indt
+                                       , null memid
+                                       , null idx
+                                    FROM MAGAZINE_L l
+                                      JOIN BD_CONTENTS b
+                                        ON b.useyn = 'Y'
+                                       AND b.ctsidx = l.ZLCTID
+                                     WHERE b.ctscd = '52'
+                                       <![CDATA[
+                                       AND ISNULL(thumbimg2,'') <> ''
+                                       ]]>
+                                  ORDER BY zlidx DESC ) t2
+                  UNION ALL
+                  SELECT * FROM (
+                                  SELECT top 3 l.zlidx
+                                       , l.zlctid
+                                       , l.zlno
+                                       , l.zlcatn
+                                       , l.zltitl1
+                                       , l.zltitl2
+                                       , b.thumbimg2
+                                       , b.thumbimg3
+                                       , b.indt
+                                       , null memid
+                                       , null idx
+                                    FROM MAGAZINE_L l
+                                      JOIN BD_CONTENTS b
+                                        ON b.useyn = 'Y'
+                                       AND b.ctsidx = l.ZLCTID
+                                     WHERE b.ctscd = '53'
+                                       <![CDATA[
+                                       AND ISNULL(thumbimg2,'') <> ''
+                                       ]]>
+                                  ORDER BY zlidx DESC ) t3
+                  UNION ALL
+                  SELECT * FROM (
+                                  SELECT top 3 l.zlidx
+                                       , l.zlctid
+                                       , l.zlno
+                                       , l.zlcatn
+                                       , l.zltitl1
+                                       , l.zltitl2
+                                       , b.thumbimg2
+                                       , b.thumbimg3
+                                       , b.brdate
+                                       , b.memid
+                                       , b.idx
+                                    FROM MAGAZINE_L l
+                                      JOIN blog b
+                                        ON b.bblind = 'N'
+                                       AND b.seqno = l.ZLCTID
+                                     WHERE zlctty = '02'
+                                       <![CDATA[
+                                       AND ISNULL(thumbimg2,'') <> ''
+                                       ]]>
+                                  ORDER BY zlidx DESC ) t4
+                ) t
+          ORDER BY zlidx DESC, zlno ASC
+    </select>
+
+    <select id="eventList" parameterType="java.util.Map" resultType="com.x62life.mo.model.boardcontents.BdContents">
+        SELECT TOP 3 ctsidx
+             , title
+             , content
+             , CONVERT(VARCHAR(20),indt,111) AS indt
+             , CONVERT(VARCHAR(20), fromdate, 111) fromdate
+             , CONVERT(VARCHAR(20), todate, 111) todate
+             , thumbimg
+             , thumbimg2
+             , thumbimg3
+             <![CDATA[
+             , CASE WHEN fromdate <= GETDATE() AND GETDATE() < todate + 1 THEN 1
+                    ELSE 0
+               END ingyn
+             ]]>
+          FROM bd_contents b
+           WHERE useyn = 'Y'
+             AND ctscd = #{ctscdEvent}
+             <if test="strLoginMemCd == '' ">
+                 AND ISNULL(grpcd, '') = ''
+                 <choose>
+                     <when test="SK_CHEMICALS.indexOf('strLoginMemCd') gt 0">
+                         AND (ISNULL(grpcd, '') = 'SKCH' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
+                     </when>
+                     <when test="SK_HYNIXES.indexOf('strMEMGRPCD') gt 0">
+                         AND (ISNULL(grpcd, '') = 'SKHY' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
+                     </when>
+                     <when test="SK_HYNIXES_A.indexOf('strMEMGRPCD') gt 0">
+                         AND (ISNULL(grpcd, '') = 'SKHA' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
+                     </when>
+                     <when test="SK_EC.indexOf('strMEMGRPCD') gt 0">
+                         AND (ISNULL(grpcd, '') = '02' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
+                     </when>
+                     <when test="SK_PLANET.indexOf('strMEMGRPCD') gt 0">
+                        AND (ISNULL(grpcd, '') = '31' OR ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
+                     </when>
+                     <otherwise>
+                        AND (ISNULL(grpcd, '') = #{strMEMGRPCD} OR ISNULL(grpcd, '') = '')
+                     </otherwise>
+                 </choose>
+             </if>
+             <if test="strMEMGRPCD != 70 ">
+                 AND (ISNULL(b.grpcd, '') = ''
+                  OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl
+                                               WHERE cl.ulcode = b.grpcd AND cl.ulgrcd = #{strMEMGRPCD})
+                            )
+             </if>
+          ORDER BY ingyn DESC, ctsidx DESC
+    </select>
+</mapper>
