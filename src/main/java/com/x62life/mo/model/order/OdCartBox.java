@@ -1,8 +1,6 @@
 package com.x62life.mo.model.order;
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("odCartBox")
+/*@Alias("odCartBox")*/
 //카트 박스
 public class OdCartBox {
     private char memcd; //회원코드

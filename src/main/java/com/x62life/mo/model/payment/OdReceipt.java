@@ -1,12 +1,10 @@
 package com.x62life.mo.model.payment;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 //현금영수증
-@Alias("odReceipt")
+/*@Alias("odReceipt")*/
 public class OdReceipt {
     private char paynum; //결제번호
     private String pgtrid; //거래번호

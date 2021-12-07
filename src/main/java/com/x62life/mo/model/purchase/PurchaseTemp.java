@@ -1,10 +1,8 @@
 package com.x62life.mo.model.purchase;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-@Alias("purchaseTemp")
+/*@Alias("purchaseTemp")*/
 public class PurchaseTemp {
     private String tUsid; //등록id
     private short tSeq; //순번

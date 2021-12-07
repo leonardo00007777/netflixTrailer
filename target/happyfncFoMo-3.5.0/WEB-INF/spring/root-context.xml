@@ -8,11 +8,17 @@
 	    http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 	
 
+	<!-- db 연결 -->
 	<util:properties id="jdbc" location="classpath:config/jdbc.properties"/>
-     
     <import resource="jdbc-config.xml"/>
 	
-	
+	<!-- interceptor / 다국어 -->
+	<import resource="classpath:/spring/interceptor-config.xml" />
+	  
+	<!-- properties -->  
+<!--     <import resource="classpath:/spring/properties-config.xml" /> -->
+  	  
+  	<!-- dao 매핑 -->  
 	<mybatis:scan base-package="com.x62life.mo.dao"/>
 	
 	

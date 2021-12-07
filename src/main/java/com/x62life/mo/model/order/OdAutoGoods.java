@@ -1,8 +1,6 @@
 package com.x62life.mo.model.order;
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("odAutoGoods")
+/*@Alias("odAutoGoods")*/
 //자동주문 상품
 public class OdAutoGoods {
     private char memcd; //회원코드

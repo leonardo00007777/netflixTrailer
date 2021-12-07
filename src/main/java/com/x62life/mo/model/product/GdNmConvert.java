@@ -1,9 +1,7 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
-@Alias("gdNmConvert")
+/*@Alias("gdNmConvert")*/
 //상품 이름 변경정보
 public class GdNmConvert {
     private String gdcd; //상품코드

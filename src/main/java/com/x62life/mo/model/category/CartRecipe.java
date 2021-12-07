@@ -1,10 +1,8 @@
 package com.x62life.mo.model.category;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("CartRecipe")
+/*@Alias("CartRecipe")*/
 public class CartRecipe {
     private int hseqno;
     private String memcd;

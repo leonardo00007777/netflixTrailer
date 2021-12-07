@@ -1,10 +1,8 @@
 package com.x62life.mo.model.boardcontents;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("magazineH")
+/*@Alias("magazineH")*/
 public class MagazineH {
     private int zhidx;
     private short zhvol;

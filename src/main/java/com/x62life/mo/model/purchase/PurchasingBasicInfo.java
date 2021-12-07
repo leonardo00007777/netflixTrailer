@@ -1,9 +1,7 @@
 package com.x62life.mo.model.purchase;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
-@Alias("purchasingBasicInfo")
+/*@Alias("purchasingBasicInfo")*/
 //구매 기본정보 (POHeader)
 public class PurchasingBasicInfo {
     private String pocomp; //회사코드

@@ -1,10 +1,8 @@
 package com.x62life.mo.model.member;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("mbTalk")
+/*@Alias("mbTalk")*/
 //회원상담
 public class MbTalk {
     private int tlkidx; //순번

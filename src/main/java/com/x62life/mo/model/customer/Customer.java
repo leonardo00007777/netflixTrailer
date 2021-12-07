@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.type.Alias;
 import org.dom4j.tree.AbstractEntity;
 
-@Alias("customer")
+/*@Alias("customer")*/
 public class Customer extends AbstractEntity implements Serializable {
 /*@org.apache.ibatis.type.Alias("customer")
 public class Customer extends BaseCommonEntity implements CurrentUser {*/

@@ -1,10 +1,8 @@
 package com.x62life.mo.model.exhibition;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("mainPageSkin")
+/*@Alias("mainPageSkin")*/
 //메인페이지 컨텐츠
 public class MainPageSkin {
     private String csspath;

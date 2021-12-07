@@ -1,11 +1,9 @@
 package com.x62life.mo.model.member;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-@Alias("mbGroupDiscount")
+/*@Alias("mbGroupDiscount")*/
 //회원 그룹사 할인
 public class MbGroupDiscount {
     private String grpcd; //그룹사코드

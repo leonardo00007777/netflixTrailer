@@ -1,11 +1,10 @@
 package com.x62life.mo.model.common;
 
+import com.x62life.mo.common.util.StringUtil;
+
 import java.util.Map;
 
-import com.x62life.mo.common.util.StringUtil;
-import org.apache.ibatis.type.Alias;
-
-@Alias("paging")
+/*@Alias("paging")*/
 public class Paging {
 
 	//페이지 셋팅

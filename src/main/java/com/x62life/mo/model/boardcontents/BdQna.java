@@ -1,10 +1,8 @@
 package com.x62life.mo.model.boardcontents;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 //Qna 게시판
-@Alias("bdQna")
+/*@Alias("bdQna")*/
 public class BdQna {
     private int qnaidx; //순번
     private int pidx; //답글순번

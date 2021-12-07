@@ -2,6 +2,8 @@ package com.x62life.mo.model.product;
 
 import java.math.BigDecimal;
 //상품 이름 변경정보
+
+/*@Alias("gdConvert")*/
 public class GdConvert {
     private String gdcd; //상품코드
     private String newname;

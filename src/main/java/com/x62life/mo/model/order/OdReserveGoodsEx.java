@@ -1,11 +1,9 @@
 package com.x62life.mo.model.order;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 
 
-@Alias("odReserveGoodsEx")
+/*@Alias("odReserveGoodsEx")*/
 public class OdReserveGoodsEx extends OdReserveGoods{
     private int page; //페이지
     private char priceyn; //가격표시

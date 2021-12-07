@@ -1,10 +1,8 @@
 package com.x62life.mo.model.category;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 
-@Alias("subCategory")
+/*@Alias("subCategory")*/
 //서브 카테고리
 public class SubCategory {
     private String category; //대분류코드

@@ -1,10 +1,8 @@
 package com.x62life.mo.model.boardcontents;
 
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 //게시판 컨텐츠
-@Alias("bdContents")
+/*@Alias("bdContents")*/
 public class BdContents {
     private int ctsidx; //순번
     private char ctscd; //게시판코드

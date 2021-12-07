@@ -1,11 +1,9 @@
 package com.x62life.mo.model.order;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-@Alias("odAuto")
+/*@Alias("odAuto")*/
 //상품 자동주문
 public class OdAuto {
     private char memcd; //회원코드

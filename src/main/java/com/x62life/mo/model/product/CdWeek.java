@@ -1,10 +1,8 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 
-@Alias("cdWeek")
+/*@Alias("cdWeek")*/
 //CDWeek
 public class CdWeek {
     private BigDecimal gdyear;  // gdyear
