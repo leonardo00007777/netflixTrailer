@@ -2,3 +2,6 @@
 .project
 .classpath
 .setting
+/target/classes/
+/target/test-classes/
+.idea
