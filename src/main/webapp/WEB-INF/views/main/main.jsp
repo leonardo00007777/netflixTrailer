@@ -44,18 +44,31 @@
           <div class="kv-container">
             <div class="swiper-container swiper-dot-main" id="swiperKvA2">
               <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
-                </div>
-                <div class="swiper-slide">
-                  <a href="#"><img src="<%=_imgUrl %>/images/uploads/mainKeyVisualA2@2x.jpg" alt="샐러드기획전"></a>
-                </div>
+                <c:forEach items="${renewalBannerList}" var="renewalBannerList" varStatus="status">
+                  <div class="swiper-slide">
+                    <a href="#" id="mainBanner">
+                      <img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath01}" alt="샐러드기획전">
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath02}" alt="샐러드기획전"></a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath03}" alt="샐러드기획전"></a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath04}" alt="샐러드기획전"></a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath05}" alt="샐러드기획전"></a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath06}" alt="샐러드기획전"></a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath07}" alt="샐러드기획전"></a>
+                  </div>
+                </c:forEach>
               </div>
               <div class="swiper-kv-footer">
                 <div class="swiper-pgn-dots-main">
@@ -773,7 +786,7 @@
                        <article class="prd-item">
                          <div class="img-container">
                            <a href="#" class="prd-item-img">
-                             <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}">
+                             <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';">
                              <div class="prd-item-badge dc">
                                <span>23</span>
                                <small>%</small>
@@ -1478,3 +1491,12 @@
 
   <script src="<%=_libUrl %>swiper/swiper-bundle.min.js"></script>
   <script src="<%=_jsUrl %>main/main.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+    var test = '${renewalBannerList}';
+    console.log("111111111111111", test);
+  });
+
+</script>
