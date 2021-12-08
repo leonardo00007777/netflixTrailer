@@ -882,9 +882,13 @@
 
                <!-- 매거진 ------------------------- -->
                <section class="com-magazine" data-aos="fade-up">
-                 <a href="#">
-                   <img src="<%=_imgUrl %>/images/uploads/magazineBanner@2x.jpg" alt="매거진 - 봄날의 식탁을 좋아하세요?">
-                 </a>
+                 <c:forEach items="${magazineDetail}" var="magazine" begin="0" end="0">
+                   <c:if test="${magazine.zlidx eq magazineNum}">
+                     <a href="#">
+                       <img src="<%=_imgUrl %>images/uploads/${magazine.thumbimg3}" alt="${magazine.zltitl1}">
+                     </a>
+                   </c:if>
+                 </c:forEach>
                </section>
 
                <!-- 태그 ------------------------- -->
