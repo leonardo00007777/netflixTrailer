@@ -46,27 +46,25 @@
               <div class="swiper-wrapper">
                 <c:forEach items="${renewalBannerList}" var="renewalBannerList" varStatus="status">
                   <div class="swiper-slide">
-                    <a href="#" id="mainBanner">
-                      <img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath01}" alt="샐러드기획전">
-                    </a>
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath01}" alt="banner1"></a>
                   </div>
                   <div class="swiper-slide">
-                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath02}" alt="샐러드기획전"></a>
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath02}" alt="banner2"></a>
                   </div>
                   <div class="swiper-slide">
-                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath03}" alt="샐러드기획전"></a>
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath03}" alt="banner3"></a>
                   </div>
                   <div class="swiper-slide">
-                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath04}" alt="샐러드기획전"></a>
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath04}" alt="banner4"></a>
                   </div>
                   <div class="swiper-slide">
-                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath05}" alt="샐러드기획전"></a>
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath05}" alt="banner5"></a>
                   </div>
                   <div class="swiper-slide">
-                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath06}" alt="샐러드기획전"></a>
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath06}" alt="banner6"></a>
                   </div>
                   <div class="swiper-slide">
-                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath07}" alt="샐러드기획전"></a>
+                    <a href="#"><img src="<%=_imgUrl %>images/banner/${renewalBannerList.cbnpath07}" alt="banner7"></a>
                   </div>
                 </c:forEach>
               </div>
@@ -1492,11 +1490,3 @@
   <script src="<%=_libUrl %>swiper/swiper-bundle.min.js"></script>
   <script src="<%=_jsUrl %>main/main.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-  $(document).ready(function(){
-    var test = '${renewalBannerList}';
-    console.log("111111111111111", test);
-  });
-
-</script>
