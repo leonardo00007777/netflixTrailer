@@ -9,8 +9,8 @@ public class LoginProcess extends MbMaster {
     private String memlevel;
     private String jobtype;
     private String jobname;
-    private char  isblogger;
-    private int islocked;
+    private String  isblogger;
+    private String islocked;
     private int loginFailedCount;
 
     public String getNickn() {
@@ -53,19 +53,19 @@ public class LoginProcess extends MbMaster {
         this.jobname = jobname;
     }
 
-    public char getIsblogger() {
+    public String getIsblogger() {
         return isblogger;
     }
 
-    public void setIsblogger(char isblogger) {
+    public void setIsblogger(String isblogger) {
         this.isblogger = isblogger;
     }
 
-    public int getIslocked() {
+    public String getIslocked() {
         return islocked;
     }
 
-    public void setIslocked(int islocked) {
+    public void setIslocked(String islocked) {
         this.islocked = islocked;
     }
 

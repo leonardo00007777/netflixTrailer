@@ -34,10 +34,6 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
         
         START_TIME_THREAD_LOCAL.set(System.nanoTime());
         
-        System.out.println("================================================");
-        System.out.println("======     start Interceptor : ControllerInterceptor / preHandle       =====");
-        System.out.println("================================================");
-
         //-------------------------------------
         //이메일 진입시 ip체크
         //-------------------------------------
@@ -54,7 +50,13 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
         LOGGER.debug(">>>> PreHandle for stonUseYn : [{}]" + stonUseYn);
         LOGGER.debug(">>>> request.getScheme() : [{}]" + request.getScheme());
      
-        
+        if (!(path.startsWith("/resources/"))){
+            System.out.println("================================================");
+            System.out.println("======     start Interceptor : ControllerInterceptor / preHandle       =====");
+            System.out.println("================================================");        	
+        }
+                
+                
         //--------------------------------------------------------------------------------
         //모바일은 무조건 https 처리. order의 경우 외부에서 콜백들어오는 부분이 있어 예외처리
         //---------------------------------------------------------------------------------
