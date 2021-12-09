@@ -6,9 +6,9 @@
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
 
 <body class="page-home header-float">
-  <div class="site-container">
+<div class="site-container">
   <header class="global-header" id="global-header">
-    <div class="global-header-wrap min" id="sticky-header">
+    <div class="global-header-wrap" id="sticky-header">
       <div class="global-top" id="global-top">
         <div class="header-logo-container">
           <a href="#">
@@ -71,16 +71,15 @@
             <div class="swiper-kv-footer">
               <div class="swiper-pgn-dots-main">
               </div>
-
               <div class="swiper-btn-autoplay"><i class="swiper-icon-pause"></i></div>
             </div>
-            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+          </div>
         </div>
-        <div class="global-nav-container" style="">
+        <div class="global-nav-container">
           <div class="global-nav scroll-fixed-top" id="globalNavContainer">
             <ul class="global-nav-menu" id="mainTab">
-              <li class="menu-item"><a href="javascript:void(0);" onclick="mainBodyOn(0);"><span class="tit">메인<span></span></span></a></li>
-              <li class="menu-item active"><a href="javascript:void(0);" onclick="mainBodyOn(1);"><span class="tit">신상품<span></span></span></a></li>
+              <li class="menu-item active"><a href="javascript:void(0);" onclick="mainBodyOn(0);"><span class="tit">메인</span></a></li>
+              <li class="menu-item"><a href="javascript:void(0);" onclick="mainBodyOn(1);"><span class="tit">신상품</span></a></li>
               <li class="menu-item"><a href="javascript:void(0);" onclick="mainBodyOn(2);"><span class="tit">할인관</span></a></li>
               <li class="menu-item"><a href="javascript:void(0);" onclick="mainBodyOn(3);"><span class="tit">베스트</span></a></li>
               <li class="menu-item"><a href="javascript:void(0);" onclick="mainBodyOn(4);"><span class="tit">전문관</span></a></li>
@@ -91,9 +90,9 @@
       </section>
 
 
-      <div class="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-autoheight" id="globalNavSwiper">
-        <div class="swiper-wrapper" style="height: 1018px; transform: translate3d(-808px, 0px, 0px); transition: all 0ms ease 0s;">
-          <div class="swiper-slide swiper-slide-prev" style="width: 808px;">
+      <div class="swiper-container" id="globalNavSwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
             <!-- 메인 -->
             <!-- MD 추천상품 B ------------------------- -->
             <section class="com-new-items-b">
@@ -103,37 +102,39 @@
                   <a href="#" class="btn-all-chevron" title="전체보기"></a>
                 </div>
               </header>
-              <div class="swiper-container swiper-prd-2n swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                  <c:forEach items="${newProdList}" var="newProd">
-                  <div class="swiper-slide swiper-slide-active" style="width: 384px; margin-right: 10px;">
-                    <article class="prd-item">
-                      <div class="img-container">
-                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" alt="${newProd.unit}">
-                          <div class="prd-item-badge dc">
-                            <span>23</span>
-                            <small>%</small>
-                          </div>
-                        </a>
-                      </div>
-                      <div class="detail">
-                        <a href="#">
-                          <h4 class="prd-item-tit">${newProd.gdname}</h4>
-                          <div class="prd-item-price">
-                            <div class="price">
-                              <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProd.saleprice}"/>
-                              <span>${salePrice}</span><small>원</small>
-                            </div>
-                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProd.price1}"/>
-                            <div class="price-org">${originalPrice} 원</div>
-                          </div>
-                        </a>
-                      </div>
-                    </article>
-                  </div>
+              <div class="swiper-container swiper-prd-2n swiper-no-swiping">
+                <div class="swiper-wrapper">
+                  <c:forEach items="${newProdList}" var="newProdList">
+                    <div class="swiper-slide">
+                     <article class="prd-item">
+                       <div class="img-container">
+                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
+                           <img src="<%=_imgUrl %>images/uploads/${newProdList.mgdimg1}" alt="${newProdList.unit}">
+                           <div class="prd-item-badge dc">
+                             <span>23</span>
+                             <small>%</small>
+                           </div>
+                         </a>
+                       </div>
+                       <div class="detail">
+                         <a href="#">
+                           <h4 class="prd-item-tit">${newProdList.gdname}</h4>
+                           <div class="prd-item-price">
+                             <div class="price">
+                               <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProdList.price1}"/>
+                               <span>${originalPrice}</span><small>원</small>
+                             </div>
+                             <div class="price-org">
+                               <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProdList.saleprice}"/>
+                                 ${salePrice}
+                             </div>
+                           </div>
+                         </a>
+                       </div>
+                     </article>
+                   </div>
                   </c:forEach>
-                  <%--<div class="swiper-slide swiper-slide-next" style="width: 384px; margin-right: 10px;">
+                 <%-- <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -155,7 +156,7 @@
                       </div>
                     </article>
                   </div>--%>
-                  <%--<div class="swiper-slide" style="width: 384px; margin-right: 10px;">
+                <%--  <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -177,7 +178,7 @@
                       </div>
                     </article>
                   </div>--%>
-                  <%--<div class="swiper-slide" style="width: 384px; margin-right: 10px;">
+                  <%--<div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -200,27 +201,28 @@
                     </article>
                   </div>--%>
                 </div>
-                <div class="swiper-pgn-dots-sub swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span></div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                <div class="swiper-pgn-dots-sub"></div>
+              </div>
             </section>
 
             <!-- 오늘의 특가 B1 ------------------------- -->
-            <section class="com-today-price-b aos-init aos-animate" data-aos="fade-up">
+            <section class="com-today-price-b" data-aos="fade-up">
               <header class="today-price-header">
                 <div class="tit-top">할인받고 겟!</div>
                 <h3 class="tit">오늘의 특가</h3>
               </header>
-              <div class="swiper-container swiper-dot-sub swiper-today-price-b swiper-container-initialized swiper-container-horizontal">
+              <div class="swiper-container swiper-dot-sub swiper-today-price-b">
                 <div class="swiper-wrapper">
-                  <div class="swiper-slide swiper-slide-active" style="width: 808px;">
+                  <div class="swiper-slide">
                     <a href="#" class="today-price-item-b">
                       <div class="visual-wrapper">
                         <div class="today-price-progress" data-percent="60">
-                          <div class="today-price-circle-bg" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75"><svg version="1.1" width="100" height="100" viewBox="0 0 100 100" class="circle-progress"><circle class="circle-progress-circle" cx="50" cy="50" r="49.25" fill="none" stroke="#ddd" stroke-width="8"></circle><path d="M 15.174991026562537 84.82500897343746 A 49.25 49.25 0 1 1 84.8250089734375 84.82500897343743" class="circle-progress-value" fill="none" stroke="#00E699" stroke-width="8"></path><text class="circle-progress-text" x="50" y="50" font="16px Arial, sans-serif" text-anchor="middle" fill="#999" dy="0.4em"></text></svg></div>
-                          <div class="today-price-circle-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45"><svg version="1.1" width="100" height="100" viewBox="0 0 100 100" class="circle-progress"><defs><marker id="dot" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="strokeWidth" orient="auto" refX="5" refY="5"><circle cx="5" cy="5" r="1" fill="#fa5252" stroke="none"></circle></marker></defs><circle class="circle-progress-circle" cx="50" cy="50" r="49.25" fill="none" stroke="#ddd" stroke-width="8"></circle><path d="M 15.174991026562537 84.82500897343746 A 49.25 49.25 0 0 1 72.35903211217267 6.117928683722873" class="circle-progress-value" fill="none" stroke="#00E699" stroke-width="8" marker-end="url(#dot)"></path><text class="circle-progress-text" x="50" y="50" font="16px Arial, sans-serif" text-anchor="middle" fill="#999" dy="0.4em"></text></svg></div>
+                          <div class="today-price-circle-bg"></div>
+                          <div class="today-price-circle-bar"></div>
                         </div>
                         <div class="img-container">
-                          <div class="prd-img" style="background-image: url('<%=_imgUrl %>images/uploads/prd-img-07.jpg');" title="[채움] 유기농 노니 30입">
+                          <div class="prd-img" style="background-image: url('<%=_imgUrl %>images/uploads/prd-img-07.jpg');"
+                               title="[채움] 유기농 노니 30입">
                           </div>
                           <div class="remain">
                             <div class="today-price-remain">
@@ -241,12 +243,12 @@
                     </a>
                   </div>
                 </div>
-                <div class="swiper-pgn-dots-sub swiper-pagination-bullets swiper-pagination-lock"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span></div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                <div class="swiper-pgn-dots-sub"></div>
+              </div>
             </section>
 
             <!-- 전문관 C5 ------------------------- -->
-            <section class="com-sp-shop-c5 aos-init" data-aos="fade-up">
+            <section class="com-sp-shop-c5" data-aos="fade-up">
               <header class="main-sec-header">
                 <h3 class="tit">자연이랑 <span class="semi-bold">PICK</span></h3>
                 <div class="add-r">
@@ -255,71 +257,71 @@
               </header>
 
 
-              <div class="swiper-container swiper-sp-shop-c5 swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition: all 0ms ease 0s;">
-                  <div class="swiper-slide swiper-slide-active" style="width: 653px; margin-right: 10px;">
+              <div class="swiper-container swiper-sp-shop-c5 swiper-no-swiping">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
                     <a href="#" class="sp-shop-banner-c5">
                       <img src="<%=_imgUrl %>images/uploads/spShopBannerC5-01@2x.png" alt="일상적미식">
                     </a>
                   </div>
-                  <div class="swiper-slide swiper-slide-next" style="width: 653px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="sp-shop-banner-c5">
                       <img src="<%=_imgUrl %>images/uploads/spShopBannerC5-02@2x.png" alt="자연에서본">
                     </a>
                   </div>
-                  <div class="swiper-slide" style="width: 653px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="sp-shop-banner-c5">
                       <img src="<%=_imgUrl %>images/uploads/spShopBannerC5@2x.jpg" alt="자연's LOVE">
                     </a>
                   </div>
                 </div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+              </div>
             </section>
 
             <!-- 중간배너 A ------------------------- -->
-            <section class="com-mid-banner aos-init" data-aos="fade-up">
+            <section class="com-mid-banner" data-aos="fade-up">
               <a href="#" class="mid-banner-a">
                 <img src="<%=_imgUrl %>images/uploads/midBannerA@2x.jpg" alt="딱 3일간 회원님들께 드리는 깜짝 쿠폰팩을 받으세요!">
               </a>
             </section>
 
             <!-- 기획전 A1 ------------------------- -->
-            <section class="com-plan-shop-a1 aos-init" data-aos="fade-up">
+            <section class="com-plan-shop-a1" data-aos="fade-up">
               <header class="main-sec-header">
                 <h3 class="tit">제철의 맛</h3>
                 <div class="add-r">
                   <a href="#" class="btn-all-chevron" title="전체보기"></a>
                 </div>
               </header>
-              <div class="swiper-container swiper-dot-sub swiper-plan-shop-a2 swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition: all 0ms ease 0s;">
-                  <c:forEach items="${seasonalProdList}" var="seasonPord">
-                    <div class="swiper-slide swiper-slide-active" style="width: 808px;">
-                    <a href="#" class="plan-shop-banner-a1">
-                      <div class="img-container">
-                        <img src="<%=_imgUrl %>images/uploads/seasonalfoodhall/${seasonPord.sfhmimgM}" alt="부산 명물 대저 토마토">
-                      </div>
-                      <div class="detail">
-                        <div class="content">
-                          <div data-swiper-parallax="-200" style="transform: translate3d(0px, 0px, 0px); transition: all 0ms ease 0s;">
-                            <div class="tag">#${seasonPord.sf01Des2}</div>
-                            <div class="tit">${seasonPord.sfshort}</div>
-                            <div class="desc"></div>
-                          </div>
-                        </div>
-                        <i class="wn-icon chevron-h-20"></i>
-                      </div>
-                    </a>
-                  </div>
+              <div class="swiper-container swiper-dot-sub swiper-plan-shop-a2 swiper-no-swiping">
+                <div class="swiper-wrapper">
+                  <c:forEach items="${seasonalProdList}" var="seasonalProdList">
+                   <div class="swiper-slide">
+                     <a href="#" class="plan-shop-banner-a1">
+                       <div class="img-container">
+                         <img src="<%=_imgUrl %>images/uploads/seasonalfoodhall/${seasonalProdList.sfhmimgM}" alt="${seasonalProdList.sfshort}">
+                       </div>
+                       <div class="detail">
+                         <div class="content">
+                           <div data-swiper-parallax="-200">
+                             <div class="tag">#${seasonalProdList.sfshort}</div>
+                             <div class="tit">${seasonalProdList.sfshort}</div>
+                             <div class="desc">${seasonalProdList.sf01Des2}</div>
+                           </div>
+                         </div>
+                         <i class="wn-icon chevron-h-20"></i>
+                       </div>
+                     </a>
+                   </div>
                   </c:forEach>
-<%--                  <div class="swiper-slide swiper-slide-next" style="width: 808px;">
+                  <%--<div class="swiper-slide">
                     <a href="#" class="plan-shop-banner-a1">
                       <div class="img-container">
                         <img src="<%=_imgUrl %>images/uploads/planShopBannerA101@2x.jpg" alt="부산 명물 대저 토마토">
                       </div>
                       <div class="detail">
                         <div class="content">
-                          <div data-swiper-parallax="-200" style="transform: translate3d(200px, 0px, 0px); transition: all 0ms ease 0s;">
+                          <div data-swiper-parallax="-200">
                             <div class="tag">#단짠의 완벽한 조화</div>
                             <div class="tit">부산 명물 대저 토마토</div>
                             <div class="desc">바다의 염분을 머금어 짭짤한 맛이 나는 대저 토마토</div>
@@ -328,15 +330,15 @@
                         <i class="wn-icon chevron-h-20"></i>
                       </div>
                     </a>
-                  </div>
-                  <div class="swiper-slide" style="width: 808px;">
+                  </div>--%>
+                  <%--<div class="swiper-slide">
                     <a href="#" class="plan-shop-banner-a1">
                       <div class="img-container">
                         <img src="<%=_imgUrl %>images/uploads/planShopBannerA101@2x.jpg" alt="부산 명물 대저 토마토">
                       </div>
                       <div class="detail">
                         <div class="content">
-                          <div data-swiper-parallax="-200" style="transform: translate3d(200px, 0px, 0px); transition: all 0ms ease 0s;">
+                          <div data-swiper-parallax="-200">
                             <div class="tag">#단짠의 완벽한 조화</div>
                             <div class="tit">부산 명물 대저 토마토</div>
                             <div class="desc">바다의 염분을 머금어 짭짤한 맛이 나는 대저 토마토</div>
@@ -347,34 +349,34 @@
                     </a>
                   </div>--%>
                 </div>
-                <div class="swiper-pgn-dots-sub swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span></div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                <div class="swiper-pgn-dots-sub"></div>
+              </div>
             </section>
 
             <!-- 전문관 A3 ------------------------- -->
-            <section class="com-sp-shop-a3 aos-init" data-aos="fade-up">
+            <section class="com-sp-shop-a3" data-aos="fade-up">
               <header class="main-sec-header">
                 <h3 class="tit">자연이랑 전문관</h3>
                 <div class="add-r">
                   <a href="#" class="btn-all-chevron" title="전체보기"></a>
                 </div>
               </header>
-              <div class="swiper-container swiper-sp-shop-group swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                  <div class="swiper-slide swiper-slide-active" style="width: 808px;">
+              <div class="swiper-container swiper-sp-shop-group swiper-no-swiping">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
                     <article class="sp-shop-group">
                       <a href="#" class="sp-shop-banner-a3">
                         <div class="img-container">
                           <img src="<%=_imgUrl %>images/uploads/spShopA3lg@2x.jpg" alt="미식쌀롱">
                         </div>
-                        <div class="detail" data-swiper-parallax="-200" style="transform: translate3d(0px, 0px, 0px);">
+                        <div class="detail" data-swiper-parallax="-200">
                           <div class="tit">미식쌀롱</div>
                           <div class="desc">취향저격 쌀집</div>
                         </div>
                       </a>
-                      <div class="swiper-container swiper-sp-shop-thumb-a3 swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                        <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                          <div class="swiper-slide swiper-slide-active" style="width: 346.5px; margin-right: 10px;">
+                      <div class="swiper-container swiper-sp-shop-thumb-a3 swiper-no-swiping">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm02@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -384,7 +386,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide swiper-slide-next" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm01@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -394,7 +396,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm02@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -404,7 +406,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm02@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -414,7 +416,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm01@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -425,23 +427,23 @@
                             </a>
                           </div>
                         </div>
-                        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                      </div>
                     </article>
                   </div>
-                  <div class="swiper-slide swiper-slide-next" style="width: 808px;">
+                  <div class="swiper-slide">
                     <article class="sp-shop-group">
                       <a href="#" class="sp-shop-banner-a3">
                         <div class="img-container">
                           <img src="<%=_imgUrl %>images/uploads/spShopA3lg@2x.jpg" alt="미식쌀롱">
                         </div>
-                        <div class="detail" data-swiper-parallax="-200" style="transform: translate3d(200px, 0px, 0px);">
+                        <div class="detail" data-swiper-parallax="-200">
                           <div class="tit">미식쌀롱</div>
                           <div class="desc">취향저격 쌀집</div>
                         </div>
                       </a>
-                      <div class="swiper-container swiper-sp-shop-thumb-a3 swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                        <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                          <div class="swiper-slide swiper-slide-active" style="width: 346.5px; margin-right: 10px;">
+                      <div class="swiper-container swiper-sp-shop-thumb-a3 swiper-no-swiping">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm02@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -451,7 +453,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide swiper-slide-next" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm01@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -461,7 +463,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm02@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -471,7 +473,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm02@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -481,7 +483,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm01@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -492,23 +494,23 @@
                             </a>
                           </div>
                         </div>
-                        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                      </div>
                     </article>
                   </div>
-                  <div class="swiper-slide" style="width: 808px;">
+                  <div class="swiper-slide">
                     <article class="sp-shop-group">
                       <a href="#" class="sp-shop-banner-a3">
                         <div class="img-container">
                           <img src="<%=_imgUrl %>images/uploads/spShopA3lg@2x.jpg" alt="미식쌀롱">
                         </div>
-                        <div class="detail" data-swiper-parallax="-200" style="transform: translate3d(200px, 0px, 0px);">
+                        <div class="detail" data-swiper-parallax="-200">
                           <div class="tit">미식쌀롱</div>
                           <div class="desc">취향저격 쌀집</div>
                         </div>
                       </a>
-                      <div class="swiper-container swiper-sp-shop-thumb-a3 swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                        <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                          <div class="swiper-slide swiper-slide-active" style="width: 346.5px; margin-right: 10px;">
+                      <div class="swiper-container swiper-sp-shop-thumb-a3 swiper-no-swiping">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm02@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -518,7 +520,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide swiper-slide-next" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm01@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -528,7 +530,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm02@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -538,7 +540,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm02@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -548,7 +550,7 @@
                               </div>
                             </a>
                           </div>
-                          <div class="swiper-slide" style="width: 346.5px; margin-right: 10px;">
+                          <div class="swiper-slide">
                             <a href="#" class="sp-shop-thumb-a3">
                               <div class="img-container">
                                 <img src="<%=_imgUrl %>images/uploads/spShopA3sm01@2x.jpg" alt="행복한 젖소의 유기농 우유 생산지_범산목장 이야기">
@@ -559,49 +561,51 @@
                             </a>
                           </div>
                         </div>
-                        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                      </div>
                     </article>
                   </div>
                 </div><!-- .swiper-wrapper -->
-                <div class="swiper-pgn-dots-sub swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span></div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div><!-- /.swiper-sp-shop-group -->
+                <div class="swiper-pgn-dots-sub"></div>
+              </div><!-- /.swiper-sp-shop-group -->
             </section>
 
             <!-- 신상품 B ------------------------- -->
-            <section class="com-new-items-b aos-init" data-aos="fade-up">
+            <section class="com-new-items-b" data-aos="fade-up">
               <header class="main-sec-header">
                 <h3 class="tit">신상품</h3>
                 <div class="add-r">
                   <a href="#" class="btn-all-chevron" title="전체보기"></a>
                 </div>
               </header>
-              <div class="swiper-container swiper-prd-2n swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                  <c:forEach items="${newProdList}" var="newProd">
-                    <div class="swiper-slide swiper-slide-active" style="width: 384px; margin-right: 10px;">
-                    <article class="prd-item">
-                      <div class="img-container">
-                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" alt="${newProd.unit}">
-                        </a>
-                      </div>
-                      <div class="detail">
-                        <a href="#">
-                          <h4 class="prd-item-tit">${newProd.gdname}</h4>
-                          <div class="prd-item-price">
-                            <div class="price">
-                              <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProd.saleprice}"/>
-                              <span>${salePrice}</span><small>원</small>
-                            </div>
-                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProd.price1}"/>
-                            <div class="price-org">${originalPrice}</div>
-                          </div>
-                        </a>
-                      </div>
-                    </article>
-                  </div>
+              <div class="swiper-container swiper-prd-2n">
+                <div class="swiper-wrapper">
+                  <c:forEach items="${newProdList}" var="newProdList">
+                   <div class="swiper-slide">
+                     <article class="prd-item">
+                       <div class="img-container">
+                         <a href="#" class="prd-item-img">
+                           <img src="<%=_imgUrl %>/images/uploads/${newProdList.mgdimg1}" alt="${newProdList.gdname}">
+                         </a>
+                       </div>
+                       <div class="detail">
+                         <a href="#">
+                           <h4 class="prd-item-tit">${newProdList.gdname}</h4>
+                           <div class="prd-item-price">
+                             <div class="price">
+                               <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProdList.price1}"/>
+                               <span>${originalPrice}</span><small>원</small>
+                             </div>
+                             <div class="price-org">
+                               <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProdList.saleprice}"/>
+                                 ${salePrice}
+                             </div>
+                           </div>
+                         </a>
+                       </div>
+                     </article>
+                   </div>
                   </c:forEach>
-<%--                  <div class="swiper-slide swiper-slide-next" style="width: 384px; margin-right: 10px;">
+                  <%--<div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -618,8 +622,8 @@
                         </a>
                       </div>
                     </article>
-                  </div>
-                  <div class="swiper-slide" style="width: 384px; margin-right: 10px;">
+                  </div>--%>
+                  <%--<div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -636,8 +640,8 @@
                         </a>
                       </div>
                     </article>
-                  </div>
-                  <div class="swiper-slide" style="width: 384px; margin-right: 10px;">
+                  </div>--%>
+                  <%--<div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -656,22 +660,21 @@
                     </article>
                   </div>--%>
                 </div>
-                <div class="swiper-pgn-dots-sub swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span></div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                <div class="swiper-pgn-dots-sub"></div>
+              </div>
             </section>
 
             <!-- MD 추천상품 B ------------------------- -->
-            <section class="com-new-items-b aos-init" data-aos="fade-up">
+            <section class="com-new-items-b" data-aos="fade-up">
               <header class="main-sec-header">
                 <h3 class="tit">이 상품 어때요?</h3>
                 <div class="add-r">
                   <a href="#" class="btn-all-chevron" title="전체보기"></a>
                 </div>
               </header>
-              <div class="swiper-container swiper-prd-2n swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                  <%--<c:forEach items="${nowHotProdList}" var="hotProd">--%>
-                  <div class="swiper-slide swiper-slide-active" style="width: 384px; margin-right: 10px;">
+              <div class="swiper-container swiper-prd-2n">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -693,8 +696,7 @@
                       </div>
                     </article>
                   </div>
-                  <%--</c:forEach>--%>
-                  <div class="swiper-slide swiper-slide-next" style="width: 384px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -716,7 +718,7 @@
                       </div>
                     </article>
                   </div>
-                  <div class="swiper-slide" style="width: 384px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -738,7 +740,7 @@
                       </div>
                     </article>
                   </div>
-                  <div class="swiper-slide" style="width: 384px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -761,27 +763,27 @@
                     </article>
                   </div>
                 </div>
-                <div class="swiper-pgn-dots-sub swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span></div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                <div class="swiper-pgn-dots-sub"></div>
+              </div>
             </section>
 
 
             <!-- 할인상품 B ------------------------- -->
-            <section class="com-new-items-b aos-init" data-aos="fade-up">
+            <section class="com-new-items-b" data-aos="fade-up">
               <header class="main-sec-header">
                 <h3 class="tit">할인상품</h3>
                 <div class="add-r">
                   <a href="#" class="btn-all-chevron" title="전체보기"></a>
                 </div>
               </header>
-              <div class="swiper-container swiper-prd-2n swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                  <c:forEach items="${discountProdList}" var="discountPord">
-                    <div class="swiper-slide swiper-slide-active" style="width: 384px; margin-right: 10px;">
+              <div class="swiper-container swiper-prd-2n">
+                <div class="swiper-wrapper">
+                  <c:forEach items="${discountProdList}" var="discountProd">
+                  <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="#" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/gdimg/${discountPord.mgdimg1}" alt="${discountProd.shortdesc}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';">
+                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';">
                           <div class="prd-item-badge dc">
                             <span>23</span>
                             <small>%</small>
@@ -790,19 +792,21 @@
                       </div>
                       <div class="detail">
                         <a href="#">
-                          <h4 class="prd-item-tit">${discountPord.gdname}</h4>
+                          <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <div class="prd-item-price">
-                            <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountPord.saleprice}"/>
-                            <div class="price"><span>${salePrice}</span><small>원</small></div>
-                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountPord.price1}"/>
-                            <div class="price-org">${originalPrice}</div>
+                            <div class="price">
+                              <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
+                              <span>${salePrice}</span><small>원</small>
+                            </div>
+                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
+                            <div class="price-org">${originalPrice}원</div>
                           </div>
                         </a>
                       </div>
                     </article>
                   </div>
                   </c:forEach>
-<%--                  <div class="swiper-slide swiper-slide-next" style="width: 384px; margin-right: 10px;">
+                  <%--<div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -823,8 +827,8 @@
                         </a>
                       </div>
                     </article>
-                  </div>
-                  <div class="swiper-slide" style="width: 384px; margin-right: 10px;">
+                  </div>--%>
+                  <%--<div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -845,8 +849,8 @@
                         </a>
                       </div>
                     </article>
-                  </div>
-                  <div class="swiper-slide" style="width: 384px; margin-right: 10px;">
+                  </div>--%>
+                  <%--<div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -869,23 +873,23 @@
                     </article>
                   </div>--%>
                 </div>
-                <div class="swiper-pgn-dots-sub swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span></div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                <div class="swiper-pgn-dots-sub"></div>
+              </div>
             </section>
 
             <!-- 매거진 ------------------------- -->
-            <section class="com-magazine aos-init" data-aos="fade-up">
+            <section class="com-magazine" data-aos="fade-up">
               <c:forEach items="${magazineDetail}" var="magazine" begin="0" end="0">
-                <c:if test="${magazineNum eq magazine.zlidx}">
-                  <a href="WN_PB_MO_ETC_010100.html">
-                    <img src="<%=_imgUrl %>images/uploads/${magazine.thumbimg3}" alt="매거진 - 봄날의 식탁을 좋아하세요?">
+                <c:if test="${magazine.zlidx eq magazineNum}">
+                  <a href="#">
+                    <img src="<%=_imgUrl %>images/uploads/${magazine.thumbimg3}" alt="${magazine.zltitl1}">
                   </a>
                 </c:if>
               </c:forEach>
             </section>
 
             <!-- 태그 ------------------------- -->
-            <section class="com-tags aos-init" data-aos="fade-up">
+            <section class="com-tags" data-aos="fade-up">
               <header class="main-sec-header">
                 <h3 class="tit">오늘의 인기 #태그</h3>
               </header>
@@ -907,16 +911,16 @@
 
             <!-- 상품랭킹 B ------------------------- -->
             <!-- <section class="com-raking-b" data-aos="fade-up"> -->
-            <section class="com-raking-b aos-init" data-aos="fade-up">
+            <section class="com-raking-b" data-aos="fade-up">
               <header class="main-sec-header">
                 <h3 class="tit">금주의 야식랭킹</h3>
                 <div class="add-r">
                   <a href="#" class="btn-all-chevron" title="전체보기"></a>
                 </div>
               </header>
-              <div class="swiper-container swiper-ranking-b swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                  <div class="swiper-slide swiper-slide-active" style="width: 381.5px; margin-right: 10px;">
+              <div class="swiper-container swiper-ranking-b swiper-no-swiping">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="ranking-flag">
                         <div class="flag-shape"></div>
@@ -935,7 +939,7 @@
                       </div>
                     </a>
                   </div>
-                  <div class="swiper-slide swiper-slide-next" style="width: 381.5px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="ranking-flag">
                         <div class="flag-shape"></div>
@@ -954,7 +958,7 @@
                       </div>
                     </a>
                   </div>
-                  <div class="swiper-slide" style="width: 381.5px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="ranking-flag">
                         <div class="flag-shape"></div>
@@ -973,7 +977,7 @@
                       </div>
                     </a>
                   </div>
-                  <div class="swiper-slide" style="width: 381.5px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="ranking-flag">
                         <div class="flag-shape"></div>
@@ -993,11 +997,11 @@
                     </a>
                   </div>
                 </div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+              </div>
             </section>
 
             <!-- 꾸러미 ------------------------- -->
-            <section class="com-package aos-init" data-aos="fade-up">
+            <section class="com-package" data-aos="fade-up">
               <header class="main-sec-header">
                 <h3 class="tit">꾸러미</h3>
                 <div class="add-r">
@@ -1011,15 +1015,15 @@
 
             <hr class="spacer-m">
           </div>
-          <div class="swiper-slide swiper-slide-active" style="width: 808px;">
+          <div class="swiper-slide">
             <!-- 신상품 -->
             <div class="prd-list-tools-container">
               <div class="prd-list-tools">
                 <div class="prd-list-tags">
-                  <div class="tags-wrapper swiper-container swiper-no-swiping swiper-container-initialized swiper-container-horizontal" id="tags-swiper">
+                  <div class="tags-wrapper swiper-container swiper-no-swiping" id="tags-swiper">
                     <div class="tags swiper-wrapper">
-                      <a href="#" class="tag-item swiper-slide swiper-slide-active">전체보기</a>
-                      <a href="#" class="tag-item swiper-slide swiper-slide-next">과일·견과</a>
+                      <a href="#" class="tag-item swiper-slide">전체보기</a>
+                      <a href="#" class="tag-item swiper-slide">과일·견과</a>
                       <a href="#" class="tag-item swiper-slide">채소·버섯</a>
                       <a href="#" class="tag-item swiper-slide">쌀·잡곡</a>
                       <a href="#" class="tag-item swiper-slide">정육·계란</a>
@@ -1031,21 +1035,21 @@
                       <a href="#" class="tag-item swiper-slide">리빙·반려</a>
                       <a href="#" class="tag-item swiper-slide">정기·선물세트</a>
                     </div>
-                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                  </div>
                 </div>
                 <div class="prd-list-buttons">
-                  <button class="item btn-filter" id="btn_filter" onclick="$('#modalNewPrdFilters').modal('show')"><i class="wn-icon plp-filter">필터</i></button>
+                  <button class="item btn-filter" id="btn-filter" onclick="$('#modalNewPrdFilters').modal('show')"><i class="wn-icon plp-filter">필터</i></button>
                 </div>
               </div>
             </div>
             <section class="prd-list prd-list-tile" id="newPrdList">
               <c:forEach items="${newProdList}" var="newProd">
                 <c:choose>
-                  <c:when test="${newProd.gdcnt > 0}">
+                  <c:when test="${newProd.gdcnt gt 0}">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="#" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/${newProd.mgdimg1}&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/${newProd.mgdimg1}&quot;}" alt="제품명">
+                          <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}"}' alt="${newProd.gdname}"/>
                           <div class="prd-item-badge dc">
                             <span>15</span>
                             <small>%</small>
@@ -1063,8 +1067,10 @@
                               <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProd.saleprice}"/>
                               <span>${salePrice}</span><small>원</small>
                             </div>
-                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProd.price1}"/>
-                            <div class="price-org">${originalPrice}원</div>
+                            <div class="price-org">
+                              <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProd.price1}"/>
+                                ${originalPrice}원
+                            </div>
                           </div>
                           <div class="prd-item-label">
                             <span class="prd-label mu">${newProd.origin}</span>
@@ -1077,8 +1083,8 @@
                   <c:otherwise>
                     <article class="prd-item soldout">
                       <div class="img-container">
-                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/${newProd.mgdimg1}&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/${newProd.mgdimg1}&quot;}" alt="부여 군밤용 단택알밤 1kg(대)">
+                        <a href="#" class="prd-item-img">
+                          <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}"}' alt="${newProd.gdname}">
                           <div class="prd-item-soldout">
                             <div class="tit">일시품절</div>
                             <div class="content">
@@ -1100,12 +1106,14 @@
                               <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProd.saleprice}"/>
                               <span>${salePrice}</span><small>원</small>
                             </div>
-                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProd.price1}"/>
-                            <div class="price-org">${originalPrice}원</div>
+                            <div class="price-org">
+                              <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProd.price1}"/>
+                                ${originalPrice}원
+                            </div>
                           </div>
                           <div class="prd-item-label">
-                            <span class="prd-label mu">무농약</span>
-                            <span class="prd-label ha">한정수량</span>
+                            <span class="prd-label mu">${newProd.origin}</span>
+                            <span class="prd-label sp">${newProd.gradedesc}</span>
                           </div>
                         </a>
                       </div>
@@ -1113,123 +1121,20 @@
                   </c:otherwise>
                 </c:choose>
               </c:forEach>
-
-              <%--<article class="prd-item">
-                <div class="img-container">
-                  <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-06.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제주 구좌당근 500g">
-                  </a>
-                  <div class="prd-item-buttons">
-                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
-                  </div>
-                </div>
-                <div class="detail">
-                  <a href="#">
-                    <h4 class="prd-item-tit">제주 구좌당근 500g</h4>
-                    <div class="prd-item-price">
-                      <div class="price"><span>3,480</span><small>원</small></div>
-                      <div class="price-org">4,800원</div>
-                    </div>
-                    <div class="prd-item-label">
-                      <span class="prd-label mu">무항생제</span>
-                    </div>
-                  </a>
-                </div>
-              </article>--%>
-              <%--<article class="prd-item">
-                <div class="img-container">
-                  <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-03.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제품명제품명 2줄까지만 표시되게 하기">
-                    <div class="prd-item-badge dc">
-                      <span>15</span>
-                      <small>%</small>
-                    </div>
-                  </a>
-                  <div class="prd-item-buttons">
-                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
-                  </div>
-                </div>
-                <div class="detail">
-                  <a href="#">
-                    <h4 class="prd-item-tit">제품명제품명 2줄까지만 표시되게 하기</h4>
-                    <div class="prd-item-price">
-                      <div class="price"><span>3,480</span><small>원</small></div>
-                      <div class="price-org">4,800원</div>
-                    </div>
-                    <div class="prd-item-label">
-                      <span class="prd-label yu">유기가공</span>
-                      <span class="prd-label sp">특가상품</span>
-                    </div>
-                  </a>
-                </div>
-              </article>--%>
-              <%--<article class="prd-item">
-                <div class="img-container">
-                  <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-01.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제주 구좌당근 500g">
-                    <div class="prd-item-badge dc">
-                      <span>15</span>
-                      <small>%</small>
-                    </div>
-                  </a>
-                  <div class="prd-item-buttons">
-                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
-                  </div>
-                </div>
-                <div class="detail">
-                  <a href="#">
-                    <h4 class="prd-item-tit">제주 구좌당근 500g</h4>
-                    <div class="prd-item-price">
-                      <div class="price"><span>3,480</span><small>원</small></div>
-                      <div class="price-org">4,800원</div>
-                    </div>
-                    <div class="prd-item-label">
-                      <span class="prd-label ga">GMP</span>
-                    </div>
-                  </a>
-                </div>
-              </article>--%>
-              <%--<article class="prd-item">
-                <div class="img-container">
-                  <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-05.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제주 구좌당근 500g">
-                    <div class="prd-item-badge dc">
-                      <span>15</span>
-                      <small>%</small>
-                    </div>
-                  </a>
-                  <div class="prd-item-buttons">
-                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
-                  </div>
-                </div>
-                <div class="detail">
-                  <a href="#">
-                    <h4 class="prd-item-tit">제주 구좌당근 500g</h4>
-                    <div class="prd-item-price">
-                      <div class="price"><span>3,480</span><small>원</small></div>
-                      <div class="price-org">4,800원</div>
-                    </div>
-                    <div class="prd-item-label">
-                      <span class="prd-label mu">무농약</span>
-                      <span class="prd-label ha">한정수량</span>
-                    </div>
-                  </a>
-                </div>
-              </article>--%>
             </section>
             <div class="spacer-bottom"></div>
           </div>
 
-          <div class="swiper-slide swiper-slide-next" style="width: 808px;">
+          <div class="swiper-slide">
             <!-- 할인관 -->
             <!-- 오늘의 특가 -->
             <section class="el-container">
               <header class="px-m">
                 <h3 class="hd-ml">타임세일</h3>
               </header>
-              <div class="swiper-container swiper-prd-h swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition: all 0ms ease 0s;">
-                  <div class="swiper-slide swiper-slide-active" style="width: 753px; margin-right: 10px;">
+              <div class="swiper-container swiper-prd-h swiper-no-swiping">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -1254,7 +1159,7 @@
                       </div>
                     </article>
                   </div>
-                  <div class="swiper-slide swiper-slide-next" style="width: 753px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -1279,7 +1184,7 @@
                       </div>
                     </article>
                   </div>
-                  <div class="swiper-slide" style="width: 753px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
@@ -1305,7 +1210,7 @@
                     </article>
                   </div>
                 </div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+              </div>
             </section>
 
             <!-- 할인상품 -->
@@ -1317,10 +1222,10 @@
               <div class="prd-list-tools-container">
                 <div class="prd-list-tools">
                   <div class="prd-list-tags">
-                    <div class="tags-wrapper swiper-container swiper-no-swiping swiper-container-initialized swiper-container-horizontal" id="tags-swiper">
+                    <div class="tags-wrapper swiper-container swiper-no-swiping" id="tags-swiper">
                       <div class="tags swiper-wrapper">
-                        <a href="#" class="tag-item swiper-slide swiper-slide-active">전체보기</a>
-                        <a href="#" class="tag-item swiper-slide swiper-slide-next">과일·견과</a>
+                        <a href="#" class="tag-item swiper-slide">전체보기</a>
+                        <a href="#" class="tag-item swiper-slide">과일·견과</a>
                         <a href="#" class="tag-item swiper-slide">채소·버섯</a>
                         <a href="#" class="tag-item swiper-slide">쌀·잡곡</a>
                         <a href="#" class="tag-item swiper-slide">정육·계란</a>
@@ -1332,7 +1237,7 @@
                         <a href="#" class="tag-item swiper-slide">리빙·반려</a>
                         <a href="#" class="tag-item swiper-slide">정기·선물세트</a>
                       </div>
-                      <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                    </div>
                   </div>
                   <div class="prd-list-buttons">
                     <button class="item btn-filter" id="btn-filter" onclick="$('#modalDcPrdFilters').modal('show')"><i class="wn-icon plp-filter">필터</i></button>
@@ -1347,15 +1252,17 @@
                   <c:when test="${discountProd.gdcnt gt 0}">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}&quot;}" alt="${discountProd.gdname}">
+                        <a href="#" class="prd-item-img">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <div class="prd-item-badge dc">
                             <span>15</span>
                             <small>%</small>
                           </div>
                         </a>
                         <div class="prd-item-buttons">
-                          <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
+                          <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart">
+                            <i class="wn-icon wni-cart-w">장바구니</i>
+                          </a>
                         </div>
                       </div>
                       <div class="detail">
@@ -1366,12 +1273,14 @@
                               <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
                               <span>${salePrice}</span><small>원</small>
                             </div>
-                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
-                            <div class="price-org">${originalPrice} 원</div>
+                            <div class="price-org">
+                              <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
+                                ${originalPrice}원
+                            </div>
                           </div>
                           <div class="prd-item-label">
                             <span class="prd-label mu">${discountProd.origin}</span>
-                            <span class="prd-label ha">${discountProd.gradedesc}</span>
+                            <span class="prd-label sp">${discountProd.gradedesc}</span>
                           </div>
                         </a>
                       </div>
@@ -1380,8 +1289,8 @@
                   <c:otherwise>
                     <article class="prd-item soldout">
                       <div class="img-container">
-                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}&quot;}" alt="${discountProd.gdname}">
+                        <a href="#" class="prd-item-img">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <div class="prd-item-soldout">
                             <div class="tit">일시품절</div>
                             <div class="content">
@@ -1392,7 +1301,9 @@
                           </div>
                         </a>
                         <div class="prd-item-buttons">
-                          <button class="btn btn-bell" onclick="$('#modalRestock').modal('show')"><i class="wn-icon wni-bell-w">입고알림</i></button>
+                          <button class="btn btn-bell" onclick="$('#modalRestock').modal('show')">
+                            <i class="wn-icon wni-bell-w">입고알림</i>
+                          </button>
                         </div>
                       </div>
                       <div class="detail">
@@ -1403,28 +1314,31 @@
                               <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
                               <span>${salePrice}</span><small>원</small>
                             </div>
-                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
-                            <div class="price-org">${originalPrice} 원</div>
+                            <div class="price-org">
+                              <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
+                                ${originalPrice}원
+                            </div>
                           </div>
                           <div class="prd-item-label">
                             <span class="prd-label mu">${discountProd.origin}</span>
-                            <span class="prd-label ha">${discountProd.gradedesc}</span>
+                            <span class="prd-label sp">${discountProd.gradedesc}</span>
                           </div>
                         </a>
                       </div>
                     </article>
                   </c:otherwise>
                 </c:choose>
-
               </c:forEach>
-
               <%--<article class="prd-item">
                 <div class="img-container">
                   <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-06.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제주 구좌당근 500g">
+                    <img src="<%=_imgUrl %>images/uploads/prd-img-06.jpg"
+                         data-src='{"v":"<%=_imgUrl %>images/uploads/prd-img-01.jpg", "h":"<%=_imgUrl %>images/uploads/prd-img-01-h.jpg"}'
+                         alt="제주 구좌당근 500g">
                   </a>
                   <div class="prd-item-buttons">
-                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
+                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i
+                            class="wn-icon wni-cart-w">장바구니</i></a>
                   </div>
                 </div>
                 <div class="detail">
@@ -1443,14 +1357,17 @@
               <%--<article class="prd-item">
                 <div class="img-container">
                   <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-03.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제품명제품명 2줄까지만 표시되게 하기">
+                    <img src="<%=_imgUrl %>images/uploads/prd-img-03.jpg"
+                         data-src='{"v":"<%=_imgUrl %>images/uploads/prd-img-01.jpg", "h":"<%=_imgUrl %>images/uploads/prd-img-01-h.jpg"}'
+                         alt="제품명제품명 2줄까지만 표시되게 하기">
                     <div class="prd-item-badge dc">
                       <span>15</span>
                       <small>%</small>
                     </div>
                   </a>
                   <div class="prd-item-buttons">
-                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
+                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i
+                            class="wn-icon wni-cart-w">장바구니</i></a>
                   </div>
                 </div>
                 <div class="detail">
@@ -1470,14 +1387,17 @@
               <%--<article class="prd-item">
                 <div class="img-container">
                   <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-01.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제주 구좌당근 500g">
+                    <img src="<%=_imgUrl %>images/uploads/prd-img-01.jpg"
+                         data-src='{"v":"<%=_imgUrl %>images/uploads/prd-img-01.jpg", "h":"<%=_imgUrl %>images/uploads/prd-img-01-h.jpg"}'
+                         alt="제주 구좌당근 500g">
                     <div class="prd-item-badge dc">
                       <span>15</span>
                       <small>%</small>
                     </div>
                   </a>
                   <div class="prd-item-buttons">
-                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
+                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i
+                            class="wn-icon wni-cart-w">장바구니</i></a>
                   </div>
                 </div>
                 <div class="detail">
@@ -1496,14 +1416,17 @@
               <%--<article class="prd-item">
                 <div class="img-container">
                   <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-05.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제주 구좌당근 500g">
+                    <img src="<%=_imgUrl %>images/uploads/prd-img-05.jpg"
+                         data-src='{"v":"<%=_imgUrl %>images/uploads/prd-img-01.jpg", "h":"<%=_imgUrl %>images/uploads/prd-img-01-h.jpg"}'
+                         alt="제주 구좌당근 500g">
                     <div class="prd-item-badge dc">
                       <span>15</span>
                       <small>%</small>
                     </div>
                   </a>
                   <div class="prd-item-buttons">
-                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
+                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i
+                            class="wn-icon wni-cart-w">장바구니</i></a>
                   </div>
                 </div>
                 <div class="detail">
@@ -1524,16 +1447,16 @@
             <hr class="spacer-bottom">
           </div>
 
-          <div class="swiper-slide" style="width: 808px;">
+          <div class="swiper-slide">
             <!-- 베스트 -->
             <!-- 요즘 트랜드 #캠핑 TOP 10 -->
             <section class="se-container">
               <header class="main-sec-header mb-l">
                 <h3 class="tit">요즘 트랜드 #캠핑 TOP 10</h3>
               </header>
-              <div class="swiper-container swiper-ranking-b swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(-778px, 0px, 0px); transition: all 0ms ease 0s;">
-                  <div class="swiper-slide swiper-slide-prev" style="width: 381.5px; margin-right: 10px;">
+              <div class="swiper-container swiper-ranking-b swiper-no-swiping">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="ranking-flag">
                         <div class="flag-shape"></div>
@@ -1552,7 +1475,7 @@
                       </div>
                     </a>
                   </div>
-                  <div class="swiper-slide swiper-slide-active" style="width: 381.5px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="ranking-flag">
                         <div class="flag-shape"></div>
@@ -1571,7 +1494,7 @@
                       </div>
                     </a>
                   </div>
-                  <div class="swiper-slide swiper-slide-next" style="width: 381.5px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="ranking-flag">
                         <div class="flag-shape"></div>
@@ -1590,7 +1513,7 @@
                       </div>
                     </a>
                   </div>
-                  <div class="swiper-slide" style="width: 381.5px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="ranking-flag">
                         <div class="flag-shape"></div>
@@ -1610,7 +1533,7 @@
                     </a>
                   </div>
                 </div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+              </div>
             </section>
 
             <hr class="spacer-m">
@@ -1692,9 +1615,9 @@
               <header class="px-m">
                 <h3 class="hd-ml">코로나 예방 특집 #홈파티 TOP 10</h3>
               </header>
-              <div class="swiper-container swiper-ranking-b swiper-no-swiping swiper-container-initialized swiper-container-horizontal">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                  <div class="swiper-slide swiper-slide-active" style="width: 381.5px; margin-right: 10px;">
+              <div class="swiper-container swiper-ranking-b swiper-no-swiping">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="img-container">
                         <img src="<%=_imgUrl %>images/uploads/prd-img-02.jpg" alt="[맛집키트] 채선당 프리미엄 샤브샤브">
@@ -1709,7 +1632,7 @@
                       </div>
                     </a>
                   </div>
-                  <div class="swiper-slide swiper-slide-next" style="width: 381.5px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="img-container">
                         <img src="<%=_imgUrl %>images/uploads/prd-img-08.jpg" alt="[맛집키트] 채선당 프리미엄 샤브샤브">
@@ -1724,7 +1647,7 @@
                       </div>
                     </a>
                   </div>
-                  <div class="swiper-slide" style="width: 381.5px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="img-container">
                         <img src="<%=_imgUrl %>images/uploads/prd-img-02.jpg" alt="[맛집키트] 채선당 프리미엄 샤브샤브">
@@ -1739,7 +1662,7 @@
                       </div>
                     </a>
                   </div>
-                  <div class="swiper-slide" style="width: 381.5px; margin-right: 10px;">
+                  <div class="swiper-slide">
                     <a href="#" class="ranking-item-b">
                       <div class="img-container">
                         <img src="<%=_imgUrl %>images/uploads/prd-img-08.jpg" alt="[맛집키트] 채선당 프리미엄 샤브샤브">
@@ -1755,7 +1678,7 @@
                     </a>
                   </div>
                 </div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+              </div>
             </div>
 
             <section class="se-container">
@@ -1828,69 +1751,49 @@
             <hr class="spacer-bottom">
           </div>
 
-          <div class="swiper-slide" style="width: 808px;">
+          <div class="swiper-slide">
             <!-- 전문관 -->
             <section>
-              <div class="swiper-container swiper-dot-main swiper-container-initialized swiper-container-horizontal" id="spShopTopSwiper">
-                <div class="swiper-wrapper" style="transform: translate3d(-3232px, 0px, 0px); transition: all 0ms ease 0s;"><div class="swiper-slide swiper-slide-duplicate swiper-slide-next swiper-slide-duplicate-prev" data-swiper-slide-index="2" style="width: 808px;">
-                  <a href="#" class="sp-hero-banner">
-                    <div class="img-container">
-                      <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
-                    </div>
-                    <div class="detail">
-                      <div class="content">입맛에딱! 고기추천</div>
-                      <div class="tit">정육점</div>
-                    </div>
-                  </a>
+              <div class="swiper-container swiper-dot-main" id="spShopTopSwiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <a href="#" class="sp-hero-banner">
+                      <div class="img-container">
+                        <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
+                      </div>
+                      <div class="detail">
+                        <div class="content">입맛에딱! 고기추천</div>
+                        <div class="tit">정육점</div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#" class="sp-hero-banner">
+                      <div class="img-container">
+                        <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
+                      </div>
+                      <div class="detail">
+                        <div class="content">입맛에딱! 고기추천</div>
+                        <div class="tit">정육점</div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#" class="sp-hero-banner">
+                      <div class="img-container">
+                        <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
+                      </div>
+                      <div class="detail">
+                        <div class="content">입맛에딱! 고기추천</div>
+                        <div class="tit">정육점</div>
+                      </div>
+                    </a>
+                  </div>
                 </div>
-                  <div class="swiper-slide swiper-slide-duplicate-active" data-swiper-slide-index="0" style="width: 808px;">
-                    <a href="#" class="sp-hero-banner">
-                      <div class="img-container">
-                        <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
-                      </div>
-                      <div class="detail">
-                        <div class="content">입맛에딱! 고기추천</div>
-                        <div class="tit">정육점</div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="swiper-slide" data-swiper-slide-index="1" style="width: 808px;">
-                    <a href="#" class="sp-hero-banner">
-                      <div class="img-container">
-                        <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
-                      </div>
-                      <div class="detail">
-                        <div class="content">입맛에딱! 고기추천</div>
-                        <div class="tit">정육점</div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="swiper-slide swiper-slide-prev swiper-slide-duplicate-next" data-swiper-slide-index="2" style="width: 808px;">
-                    <a href="#" class="sp-hero-banner">
-                      <div class="img-container">
-                        <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
-                      </div>
-                      <div class="detail">
-                        <div class="content">입맛에딱! 고기추천</div>
-                        <div class="tit">정육점</div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="swiper-slide swiper-slide-duplicate swiper-slide-active" data-swiper-slide-index="0" style="width: 808px;">
-                    <a href="#" class="sp-hero-banner">
-                      <div class="img-container">
-                        <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
-                      </div>
-                      <div class="detail">
-                        <div class="content">입맛에딱! 고기추천</div>
-                        <div class="tit">정육점</div>
-                      </div>
-                    </a>
-                  </div></div>
                 <div class="swiper-footer-in">
-                  <div class="swiper-pgn-dots-main swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span></div>
+                  <div class="swiper-pgn-dots-main"></div>
                 </div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+              </div>
             </section>
             <ul class="sp-main-list">
               <li>
@@ -1930,7 +1833,7 @@
             <hr class="spacer-bottom">
           </div>
 
-          <div class="swiper-slide" style="width: 808px;">
+          <div class="swiper-slide">
             <!-- 이벤트 -->
             <section class="el-container px-m">
               <div class="form-coupon coupon-color1">
@@ -1965,14 +1868,14 @@
             </section>
 
             <section class="el-container">
-              <div class="swiper-container swiper-free swiper-mid-banner-b swiper-no-swiping swiper-container-initialized swiper-container-horizontal swiper-container-free-mode">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                  <div class="swiper-slide swiper-slide-active">
+              <div class="swiper-container swiper-free swiper-mid-banner-b swiper-no-swiping">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
                     <a href="#" class="mid-banner-b">
                       <img src="<%=_imgUrl %>images/uploads/midBannerB01@2x.jpg" alt="자연이랑 SNS 인증샷 이벤트">
                     </a>
                   </div>
-                  <div class="swiper-slide swiper-slide-next">
+                  <div class="swiper-slide">
                     <a href="#" class="mid-banner-b">
                       <img src="<%=_imgUrl %>images/uploads/midBannerB02@2x.jpg" alt="2020 자연이랑 김장대전">
                     </a>
@@ -1988,7 +1891,7 @@
                     </a>
                   </div>
                 </div>
-                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+              </div>
             </section>
 
             <section class="prm-nav-container" id="prmNavContainer">
@@ -2067,7 +1970,7 @@
             <div class="spacer-bottom"></div>
           </div>
         </div>
-        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div><!-- /.swiper-container -->
+      </div><!-- /.swiper-container -->
 
 
 
