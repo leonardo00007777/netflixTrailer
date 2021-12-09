@@ -1759,11 +1759,22 @@
                   <div class="swiper-slide">
                     <a href="#" class="sp-hero-banner">
                       <div class="img-container">
-                        <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
+                        <img src="<%=_imgUrl %>images/banner/210823_M_HM_specialist_sidedish.jpg" alt="반찬관">
                       </div>
                       <div class="detail">
-                        <div class="content">입맛에딱! 고기추천</div>
-                        <div class="tit">정육점</div>
+                        <div class="content">이 달의 반찬은?</div>
+                        <div class="tit">반찬가게</div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#" class="sp-hero-banner">
+                      <div class="img-container">
+                        <img src="<%=_imgUrl %>images/banner/210824_M_HM_specialist_dessert.jpg" alt="카페네이처">
+                      </div>
+                      <div class="detail">
+                        <div class="content">여유로운 티타임</div>
+                        <div class="tit">카페 네이처</div>
                       </div>
                     </a>
                   </div>
@@ -1781,11 +1792,44 @@
                   <div class="swiper-slide">
                     <a href="#" class="sp-hero-banner">
                       <div class="img-container">
-                        <img src="<%=_imgUrl %>images/uploads/spShopTop@2x.jpg" alt="정육점">
+                        <img src="<%=_imgUrl %>images/banner/210824_M_HM_specialist_rice_salon.jpg" alt="전문관img">
                       </div>
                       <div class="detail">
-                        <div class="content">입맛에딱! 고기추천</div>
-                        <div class="tit">정육점</div>
+                        <div class="content">취향저격 쌀집</div>
+                        <div class="tit">미식쌀롱</div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#" class="sp-hero-banner">
+                      <div class="img-container">
+                        <img src="<%=_imgUrl %>images/banner/210824_M_HM_specialist_tastyload.jpg" alt="전문관img">
+                      </div>
+                      <div class="detail">
+                        <div class="content">전국 맛집 인기 메뉴</div>
+                        <div class="tit">맛집로드</div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#" class="sp-hero-banner">
+                      <div class="img-container">
+                        <img src="<%=_imgUrl %>images/banner/210820_M_HM_specialist_ecofood.jpg" alt="전문관img">
+                      </div>
+                      <div class="detail">
+                        <div class="content">바른 먹거리 생활</div>
+                        <div class="tit">친환경 식품관</div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="#" class="sp-hero-banner">
+                      <div class="img-container">
+                        <img src="<%=_imgUrl %>images/banner/210823_M_HM_specialist_quickmeal.jpg" alt="전문관img">
+                      </div>
+                      <div class="detail">
+                        <div class="content">맛있는 한 끼</div>
+                        <div class="tit">간편식사관</div>
                       </div>
                     </a>
                   </div>
