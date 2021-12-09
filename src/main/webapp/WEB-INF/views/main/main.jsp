@@ -1039,12 +1039,12 @@
               </div>
             </div>
             <section class="prd-list prd-list-tile" id="newPrdList">
-              <%--<c:forEach items="${newProdList}" var="newProd">
+              <c:forEach items="${newProdList}" var="newProd">
                 <c:choose>
                   <c:when test="${newProd.gdcnt > 0}">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
+                        <a href="#" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/${newProd.mgdimg1}&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/${newProd.mgdimg1}&quot;}" alt="제품명">
                           <div class="prd-item-badge dc">
                             <span>15</span>
@@ -1068,7 +1068,7 @@
                           </div>
                           <div class="prd-item-label">
                             <span class="prd-label mu">${newProd.address}</span>
-                            <span class="prd-label sp">${newProd.g}/span>
+                            <span class="prd-label sp">${newProd.gradedesc}/span>
                           </div>
                         </a>
                       </div>
@@ -1112,7 +1112,7 @@
                     </article>
                   </c:otherwise>
                 </c:choose>
-              </c:forEach>--%>
+              </c:forEach>
 
               <%--<article class="prd-item">
                 <div class="img-container">
