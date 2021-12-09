@@ -5,14 +5,18 @@ import java.sql.Timestamp;
 /*@Alias("mbMaster")*/
 //회원 정보
 public class MbMaster {
-    private char memcd; //회원코드
+
+	//---------------------------------------------------------
+	// MB_MASTER 
+	//---------------------------------------------------------
+    private String memcd; //회원코드
     private String memid; //회원id
     private String mempw; //회원pw
     private String memname; //회원명
     private String grpcd; //그룹사코드
     private char gradecd; //등급
     private String empnum; //사번
-    private char memstcd; //회원상태코드
+    private String memstcd; //회원상태코드
     private Timestamp upgradedt; //승급일시
     private char residentno1; //생년월일
     private char gender; //성별
@@ -47,12 +51,121 @@ public class MbMaster {
     private char nodeductpay; //회원별 급여공제 결제불가 옵션
     private Timestamp emailynupdt; //이메일수신여부 수정일시
     private Timestamp smsynupdt; //sms수신여부 수정일시
+    private String jointype; //가입유형
+    private String snsId; //sns id
+	private String mempw_hash; //비번 hash
+    private String login_failed_count; // 로그인 실패count
+    
+    //---------------------------------------------------------
+    // memberprofile 추가
+    //---------------------------------------------------------
+	private String nickn; 
+	private String idurl;
+	private String memlevel; 
+	private String jobtype; 
+	private String jobname; 
+	private String isblogger; 
+	
+    //---------------------------------------------------------
+    // logininfo 추가
+    //---------------------------------------------------------
+	private String islocked; 
+	
+	
+    public String getMempw_hash() {
+		return mempw_hash;
+	}
 
-    public char getMemcd() {
+	public void setMempw_hash(String mempw_hash) {
+		this.mempw_hash = mempw_hash;
+	}
+
+	public String getLogin_failed_count() {
+		return login_failed_count;
+	}
+
+	public void setLogin_failed_count(String login_failed_count) {
+		this.login_failed_count = login_failed_count;
+	}
+
+	public String getNickn() {
+		return nickn;
+	}
+
+	public void setNickn(String nickn) {
+		this.nickn = nickn;
+	}
+
+	public String getIdurl() {
+		return idurl;
+	}
+
+	public void setIdurl(String idurl) {
+		this.idurl = idurl;
+	}
+
+	public String getMemlevel() {
+		return memlevel;
+	}
+
+	public void setMemlevel(String memlevel) {
+		this.memlevel = memlevel;
+	}
+
+	public String getJobtype() {
+		return jobtype;
+	}
+
+	public void setJobtype(String jobtype) {
+		this.jobtype = jobtype;
+	}
+
+	public String getJobname() {
+		return jobname;
+	}
+
+	public void setJobname(String jobname) {
+		this.jobname = jobname;
+	}
+
+	public String getIsblogger() {
+		return isblogger;
+	}
+
+	public void setIsblogger(String isblogger) {
+		this.isblogger = isblogger;
+	}
+
+	public String getIslocked() {
+		return islocked;
+	}
+
+	public void setIslocked(String islocked) {
+		this.islocked = islocked;
+	}
+
+	public String getSnsId() {
+		return snsId;
+	}
+
+	public void setSnsId(String snsId) {
+		this.snsId = snsId;
+	}
+
+    
+    public String getJointype() {
+		return jointype;
+	}
+
+	public void setJointype(String jointype) {
+		this.jointype = jointype;
+	}
+
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
@@ -104,11 +217,11 @@ public class MbMaster {
         this.empnum = empnum;
     }
 
-    public char getMemstcd() {
+    public String getMemstcd() {
         return memstcd;
     }
 
-    public void setMemstcd(char memstcd) {
+    public void setMemstcd(String memstcd) {
         this.memstcd = memstcd;
     }
 

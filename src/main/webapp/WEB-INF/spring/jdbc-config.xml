@@ -18,6 +18,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="mapperLocations" value="classpath:mybatis/sqlmaps/**/*.xml" />
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="typeAliasesPackage" value="com.x62life.mo.dao"/>
     </bean>
      
     <bean id="sqlSession"

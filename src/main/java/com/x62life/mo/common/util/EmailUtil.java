@@ -26,7 +26,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.x62life.mo.common.exception.UserServiceException;
+import com.x62life.mo.common.exception.MemberServiceException;
 
 public class EmailUtil {
 
@@ -277,7 +277,7 @@ public class EmailUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Address toAddress(String str) throws UserServiceException {
+	public static Address toAddress(String str) throws MemberServiceException {
 		if(str == null) {
 			return null;
 		}
@@ -286,7 +286,7 @@ public class EmailUtil {
 			iAddress = new InternetAddress(str);
 		} catch(AddressException error)
 		{
-			throw new UserServiceException("InternetAddressException",error);
+			throw new MemberServiceException("InternetAddressException",error);
 		}
 		return iAddress;
 	}
@@ -297,7 +297,7 @@ public class EmailUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Address[] toAddress(String[] str) throws UserServiceException {				
+	public static Address[] toAddress(String[] str) throws MemberServiceException {				
 		if(str == null) {
 			return null;			
 		}
@@ -309,7 +309,7 @@ public class EmailUtil {
 			addresses[i] = new InternetAddress(str[i]);
 			}
 			catch(AddressException error){
-				throw new UserServiceException("TOAddress Exception",error);
+				throw new MemberServiceException("TOAddress Exception",error);
 			}
 		}
 		
@@ -322,7 +322,7 @@ public class EmailUtil {
 	 * @param str
 	 * @throws Exception
 	 */
-	protected void setToRecipients(MimeMessage message, String[] str) throws UserServiceException {
+	protected void setToRecipients(MimeMessage message, String[] str) throws MemberServiceException {
 		setRecipients(message, Message.RecipientType.TO, str);
 	}
 	
@@ -332,7 +332,7 @@ public class EmailUtil {
 	 * @param addr
 	 * @throws Exception
 	 */
-	protected void setToRecipients(MimeMessage message, Address[] addr) throws UserServiceException {
+	protected void setToRecipients(MimeMessage message, Address[] addr) throws MemberServiceException {
 		setRecipients(message, Message.RecipientType.TO, addr);
 	}
 	
@@ -342,7 +342,7 @@ public class EmailUtil {
 	 * @param str
 	 * @throws Exception
 	 */
-	protected void setCcRecipients(MimeMessage message, String[] str) throws UserServiceException {
+	protected void setCcRecipients(MimeMessage message, String[] str) throws MemberServiceException {
 		setRecipients(message, Message.RecipientType.CC, str);
 	}
 	
@@ -352,7 +352,7 @@ public class EmailUtil {
 	 * @param addr
 	 * @throws Exception
 	 */
-	protected void setCcRecipients(MimeMessage message, Address[] addr) throws UserServiceException {
+	protected void setCcRecipients(MimeMessage message, Address[] addr) throws MemberServiceException {
 		setRecipients(message, Message.RecipientType.CC, addr);
 	}
 	
@@ -362,7 +362,7 @@ public class EmailUtil {
 	 * @param str
 	 * @throws Exception
 	 */
-	protected void setBccRecipients(MimeMessage message, String[] str) throws UserServiceException {
+	protected void setBccRecipients(MimeMessage message, String[] str) throws MemberServiceException {
 		setRecipients(message, Message.RecipientType.BCC, str);
 	}
 	
@@ -372,7 +372,7 @@ public class EmailUtil {
 	 * @param addr
 	 * @throws Exception
 	 */
-	protected void setBccRecipients(MimeMessage message, Address[] addr) throws UserServiceException {
+	protected void setBccRecipients(MimeMessage message, Address[] addr) throws MemberServiceException {
 		setRecipients(message, Message.RecipientType.BCC, addr);
 	}
 	
@@ -383,7 +383,7 @@ public class EmailUtil {
 	 * @param str
 	 * @throws Exception
 	 */
-	protected void setRecipients(MimeMessage message, RecipientType type, String[] str) throws UserServiceException {		
+	protected void setRecipients(MimeMessage message, RecipientType type, String[] str) throws MemberServiceException {		
 		setRecipients(message, type, toAddress(str));
 	}
 	
@@ -394,11 +394,11 @@ public class EmailUtil {
 	 * @param addr
 	 * @throws Exception
 	 */
-	protected void setRecipients(MimeMessage message, RecipientType type, Address[] addr) throws UserServiceException {				
+	protected void setRecipients(MimeMessage message, RecipientType type, Address[] addr) throws MemberServiceException {				
 		try {
 			message.setRecipients(type, addr);
 		} catch (MessagingException error) {
-			throw new UserServiceException("RecepientMessage Exception",error);
+			throw new MemberServiceException("RecepientMessage Exception",error);
 		}
 	}
 	
@@ -416,7 +416,7 @@ public class EmailUtil {
 	 */
 	public void send(String[] to, String[] cc, String[] bcc
 			, String fromEmailAddress, String fromName
-			, String subject, String strTextOnly, String strMessage) throws UserServiceException {
+			, String subject, String strTextOnly, String strMessage) throws MemberServiceException {
 		
 		send(toAddress(to), toAddress(cc), toAddress(bcc), fromEmailAddress, fromName, subject, strTextOnly, strMessage);
 	}
@@ -435,7 +435,7 @@ public class EmailUtil {
 	 */
 	public void send(Address[] toAddr, Address[] ccAddr, Address[] bccAddr
 			, String fromEmailAddress, String fromName
-			, String subject, String strTextOnly, String strMessage) throws UserServiceException {
+			, String subject, String strTextOnly, String strMessage) throws MemberServiceException {
 		
 		Session mailSession = getSession();		
 		
@@ -479,11 +479,11 @@ public class EmailUtil {
 		message.setHeader("X-Mailer", "sendhtml");
 		message.saveChanges();
 		}catch(MessagingException error){
-			throw new UserServiceException("MessagingException",error);
+			throw new MemberServiceException("MessagingException",error);
 		}
 		catch(UnsupportedEncodingException encError)
 		{
-			throw new UserServiceException("Unsupported Encoding Exception",encError);
+			throw new MemberServiceException("Unsupported Encoding Exception",encError);
 		}
 		
 		sendMessages(mailSession, message, allAddr);			
@@ -496,7 +496,7 @@ public class EmailUtil {
 	 * @param toAddr
 	 * @throws Exception
 	 */
-	protected void sendMessages(Session mailSession, MimeMessage message, Address[] toAddr) throws UserServiceException {
+	protected void sendMessages(Session mailSession, MimeMessage message, Address[] toAddr) throws MemberServiceException {
 		Address[] tempToAddr=toAddr;
 		try{
 		Transport transport = mailSession.getTransport("smtp");		
@@ -510,11 +510,11 @@ public class EmailUtil {
 		transport.close();
 		}catch(NoSuchProviderException error)
 		{
-			throw new UserServiceException("No Provider Exception",error);
+			throw new MemberServiceException("No Provider Exception",error);
 		}
 		catch(MessagingException msg)
 		{
-			throw new UserServiceException("Messaging exception while sending email",msg);
+			throw new MemberServiceException("Messaging exception while sending email",msg);
 		}
 	}
 }
