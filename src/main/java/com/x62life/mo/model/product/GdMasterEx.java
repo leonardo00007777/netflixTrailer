@@ -26,6 +26,7 @@ public class GdMasterEx extends GdMaster{
     private long discountPrice;
     private String preOrderInfo;
     private String soldOutFlag;
+    private String gradedesc;
 
     public String getGdcnt() {
         return gdcnt;
@@ -201,5 +202,13 @@ public class GdMasterEx extends GdMaster{
 
     public void setSoldOutFlag(String soldOutFlag) {
         this.soldOutFlag = soldOutFlag;
+    }
+
+    public String getGradedesc() {
+        return gradedesc;
+    }
+
+    public void setGradedesc(String gradedesc) {
+        this.gradedesc = gradedesc;
     }
 }

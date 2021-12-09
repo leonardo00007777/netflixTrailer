@@ -260,16 +260,14 @@
                       , g.indt
                       , g.updt
                       , g.shortdesc
-                      <if test="strMEMGRPCD != null">
-                         <choose>
-                            <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
-                                , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-                            </when>
-                            <otherwise>
-                                , dbo.getMasterPrice(g.gdcd) saleprice
-                            </otherwise>
-                         </choose>
-                      </if>
+                      <choose>
+                          <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                              , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                          </when>
+                          <otherwise>
+                              , dbo.getMasterPrice(g.gdcd) saleprice
+                          </otherwise>
+                      </choose>
                       , CASE WHEN ISNULL(g.soldoutyn,'N')='N' THEN 'N'
                              ELSE g.soldoutyn
                         END soldoutyn
@@ -321,23 +319,28 @@
 
     <select id="seasonalProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.SeasonalFoodHall">
         /*seasonalProdList 계절상품 */
-        SELECT sfgdcd
+        SELECT sfname
+             , sf01_tit2
+             , sf01_tit3
+             , sf03_titl
+             , sf04_titl
+             , sfnote
+             , sfgdcd
              , sfshort
              , sfhmimg_m
              , sftag_link_m
              , sf01_des2
+             , sf01_des3
              , sfcmsyn
              , sfname
-             <if test="strMEMGRPCD != null">
-                <choose>
-                   <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
-                       , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-                   </when>
-                   <otherwise>
-                       , dbo.getMasterPrice(g.gdcd) saleprice
-                   </otherwise>
-                </choose>
-             </if>
+             <choose>
+                 <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                     , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},sfgdcd) saleprice
+                 </when>
+                 <otherwise>
+                     , dbo.getMasterPrice(sfgdcd) saleprice
+                 </otherwise>
+             </choose>
           FROM seasonal_foodhall
          WHERE sfusyn = 'Y'
            AND (SFCMSYN = 'Y'
@@ -360,16 +363,14 @@
              , b.divcd
              , b.div1
              , b.price1
-             <if test="strMEMGRPCD != null">
-                <choose>
-                   <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
-                       , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-                   </when>
-                   <otherwise>
-                       , dbo.getMasterPrice(g.gdcd) saleprice
-                   </otherwise>
-                </choose>
-             </if>
+             <choose>
+                 <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                     , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},a.gdcd) saleprice
+                 </when>
+                 <otherwise>
+                     , dbo.getMasterPrice(a.gdcd) saleprice
+                 </otherwise>
+             </choose>
              , ISNULL(b.deliverydtyn,'N') deliverydtyn
              , ISNULL(b.soldoutyn,'N') soldoutyn
              , ISNULL(d.gdcnt,99999) gdcnt, ISNULL(b.newyn,'N') newyn, ISNULL(b.qtysaleyn,'N') qtysaleyn
@@ -452,16 +453,14 @@
                                 , g.indt
                                 , g.updt
                                 , g.shortdesc
-                                <if test="strMEMGRPCD != null">
-                                   <choose>
-                                      <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
-                                          , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-                                      </when>
-                                      <otherwise>
-                                          , dbo.getMasterPrice(g.gdcd) saleprice
-                                      </otherwise>
-                                   </choose>
-                                </if>
+                                <choose>
+                                    <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                                        , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                                    </when>
+                                    <otherwise>
+                                        , dbo.getMasterPrice(g.gdcd) saleprice
+                                    </otherwise>
+                                </choose>
                                 , CASE WHEN ISNULL(g.soldoutyn,'N')='N' THEN 'N'
                                        ELSE g.soldoutyn
                                   END soldoutyn, ISNULL(s.gdcnt,99999) gdcnt
@@ -525,16 +524,14 @@
               , p.bpmemid
               , p.bpmemo
               , g.price1
-              <if test="strMEMGRPCD != null">
-                 <choose>
-                    <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
-                        , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
-                    </when>
-                    <otherwise>
-                        , dbo.getMasterPrice(g.gdcd) saleprice
-                    </otherwise>
-                 </choose>
-              </if>
+              <choose>
+                  <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                    , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                  </when>
+                  <otherwise>
+                    , dbo.getMasterPrice(g.gdcd) saleprice
+                  </otherwise>
+              </choose>
            FROM BEST_PRODUCTREVIEW p
                 JOIN gd_master g
                   ON g.gdcd = p.bpgdcd
