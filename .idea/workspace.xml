@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="happyfncFoMo:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8a612698-62c5-4b1d-906f-4712620c7dc6" name="Changes" comment="[20211209] mainPage 작업">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master_lch" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="davinci000777 &lt;yckim2001@naver.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/main/MainController.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="JPA Structure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="JPA Structure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="false" />
+    <option name="FILTER_DEBUG" value="false" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectId" id="21IsqjhTWma1d8GVwearuadPp8y" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/resources/images/uploads" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.3853854" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images\uploads" />
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images\gdimg" />
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images" />
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images\banner" />
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\config" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql" />
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql\main" />
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\category" />
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql\event\eventList" />
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql\login" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.x62life.mo.model.gdmaster" />
+      <recent name="com.x62life.mo.dao.category" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Tomcat 9.0.54" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.54" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="1.8" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER" value="false" />
+      <option name="COMMON_VM_ARGUMENTS" value="-Dfile.encoding=UTF-8" />
+      <deployment>
+        <artifact name="happyfncFoMo:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="3ccfb033-74c7-4eb0-8e11-57e5c7b23ba0" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="50395" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="happyfncFoMo:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings />
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8a612698-62c5-4b1d-906f-4712620c7dc6" name="Changes" comment="" />
+      <created>1637640130543</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1637640130543</updated>
+      <workItem from="1637640131923" duration="26000" />
+      <workItem from="1637640204570" duration="1827000" />
+      <workItem from="1637642271874" duration="14150000" />
+      <workItem from="1637712471681" duration="7757000" />
+      <workItem from="1637721178936" duration="18695000" />
+      <workItem from="1637797828054" duration="2308000" />
+      <workItem from="1637800179820" duration="20398000" />
+      <workItem from="1637884857173" duration="21686000" />
+      <workItem from="1638143683461" duration="24560000" />
+      <workItem from="1638230186977" duration="24935000" />
+      <workItem from="1638316497812" duration="24600000" />
+      <workItem from="1638403170510" duration="26035000" />
+      <workItem from="1638489528397" duration="22276000" />
+      <workItem from="1638747898402" duration="4000" />
+      <workItem from="1638748046364" duration="1163000" />
+      <workItem from="1638752694068" duration="1749000" />
+      <workItem from="1638755007450" duration="18883000" />
+      <workItem from="1638834706313" duration="26507000" />
+      <workItem from="1638921550259" duration="14946000" />
+      <workItem from="1638942326997" duration="8959000" />
+      <workItem from="1639007702894" duration="9098000" />
+      <workItem from="1639022620225" duration="379000" />
+      <workItem from="1639023015629" duration="565000" />
+      <workItem from="1639023595481" duration="566000" />
+    </task>
+    <task id="LOCAL-00037" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
+      <created>1638407704040</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1638407704040</updated>
+    </task>
+    <task id="LOCAL-00038" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
+      <created>1638407843302</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1638407843302</updated>
+    </task>
+    <task id="LOCAL-00039" summary="[20211202] pom.xml.bak 삭제">
+      <created>1638407946360</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1638407946360</updated>
+    </task>
+    <task id="LOCAL-00040" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
+      <created>1638411866189</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1638411866189</updated>
+    </task>
+    <task id="LOCAL-00041" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
+      <created>1638411908677</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1638411908677</updated>
+    </task>
+    <task id="LOCAL-00042" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
+      <created>1638432675220</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1638432675220</updated>
+    </task>
+    <task id="LOCAL-00043" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
+      <created>1638434985028</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1638434985028</updated>
+    </task>
+    <task id="LOCAL-00044" summary="[20211203] Model Class Alias 작업">
+      <created>1638493659977</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1638493659977</updated>
+    </task>
+    <task id="LOCAL-00045" summary="[20211203] sql 작업">
+      <created>1638513923839</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1638513923839</updated>
+    </task>
+    <task id="LOCAL-00046" summary="[20211203] sql 작업">
+      <created>1638520789658</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1638520789658</updated>
+    </task>
+    <task id="LOCAL-00047" summary="[20211206] impl 정리">
+      <created>1638754132328</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1638754132328</updated>
+    </task>
+    <task id="LOCAL-00048" summary="[20211206] impl 정리">
+      <created>1638756470048</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1638756470048</updated>
+    </task>
+    <task id="LOCAL-00049" summary="[20211206] impl 정리">
+      <created>1638756537192</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1638756537192</updated>
+    </task>
+    <task id="LOCAL-00050" summary="[20211206] impl 정리">
+      <created>1638761499969</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1638761499969</updated>
+    </task>
+    <task id="LOCAL-00051" summary="[20211206] impl 정리">
+      <created>1638761716181</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1638761716181</updated>
+    </task>
+    <task id="LOCAL-00052" summary="[20211206] mainController 작업">
+      <created>1638772356912</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1638772356912</updated>
+    </task>
+    <task id="LOCAL-00053" summary="[20211206] mainController 작업">
+      <created>1638772471608</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1638772471608</updated>
+    </task>
+    <task id="LOCAL-00054" summary="[20211206] mainController 작업">
+      <created>1638772495775</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1638772495776</updated>
+    </task>
+    <task id="LOCAL-00055" summary="[20211206] mainController 작업">
+      <created>1638772583019</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1638772583019</updated>
+    </task>
+    <task id="LOCAL-00056" summary="[20211206] mainController 작업">
+      <created>1638772689005</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1638772689005</updated>
+    </task>
+    <task id="LOCAL-00057" summary="[20211206] model 변경">
+      <created>1638772725969</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1638772725969</updated>
+    </task>
+    <task id="LOCAL-00058" summary="[20211206] model 변경">
+      <created>1638772859744</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1638772859744</updated>
+    </task>
+    <task id="LOCAL-00059" summary="[20211206] model 변경">
+      <created>1638773035099</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1638773035099</updated>
+    </task>
+    <task id="LOCAL-00060" summary="[20211206] model 변경">
+      <created>1638773216645</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1638773216645</updated>
+    </task>
+    <task id="LOCAL-00061" summary="[20211206] model 변경">
+      <created>1638773392800</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1638773392801</updated>
+    </task>
+    <task id="LOCAL-00062" summary="[20211206] MainController 작업">
+      <created>1638774223980</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1638774223980</updated>
+    </task>
+    <task id="LOCAL-00063" summary="[20211206] MainController 작업">
+      <created>1638774240499</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1638774240499</updated>
+    </task>
+    <task id="LOCAL-00064" summary="[20211206] MainController 작업">
+      <created>1638774454150</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1638774454150</updated>
+    </task>
+    <task id="LOCAL-00065" summary="[20211206] MainController 작업">
+      <created>1638774527641</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1638774527641</updated>
+    </task>
+    <task id="LOCAL-00066" summary="[20211206] MainController 작업">
+      <created>1638776460646</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1638776460646</updated>
+    </task>
+    <task id="LOCAL-00067" summary="[20211207] Model Alias 주석처리">
+      <created>1638835864997</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1638835864998</updated>
+    </task>
+    <task id="LOCAL-00068" summary="[20211207] main sql 추가">
+      <created>1638837430619</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1638837430619</updated>
+    </task>
+    <task id="LOCAL-00069" summary="[20211207] db properties 설정 변경">
+      <created>1638839159724</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1638839159724</updated>
+    </task>
+    <task id="LOCAL-00070" summary="[20211207] MainController.class 작업">
+      <created>1638848769605</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1638848769605</updated>
+    </task>
+    <task id="LOCAL-00071" summary="[20211207] git ignore">
+      <created>1638849144381</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1638849144381</updated>
+    </task>
+    <task id="LOCAL-00072" summary="[20211207] git ignore">
+      <created>1638849371372</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1638849371373</updated>
+    </task>
+    <task id="LOCAL-00073" summary="[20211207] SsoDao 삭제">
+      <created>1638851227071</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1638851227071</updated>
+    </task>
+    <task id="LOCAL-00074" summary="[20211207] SsoDao 삭제">
+      <created>1638851754347</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1638851754347</updated>
+    </task>
+    <task id="LOCAL-00075" summary="[20211207] SsoDao 삭제">
+      <created>1638851952110</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1638851952110</updated>
+    </task>
+    <task id="LOCAL-00076" summary="[20211207] img 파일 추가">
+      <created>1638856857361</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1638856857362</updated>
+    </task>
+    <task id="LOCAL-00077" summary="[20211207] 카멜케이스 추가">
+      <created>1638861046650</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1638861046650</updated>
+    </task>
+    <task id="LOCAL-00078" summary="[20211207] 카멜케이스 추가">
+      <created>1638861097212</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1638861097212</updated>
+    </task>
+    <task id="LOCAL-00079" summary="[20211207] main page 작업">
+      <created>1638867244234</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1638867244234</updated>
+    </task>
+    <task id="LOCAL-00080" summary="[20211208] banner, 할인 상품 작업">
+      <created>1638937747133</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1638937747133</updated>
+    </task>
+    <task id="LOCAL-00081" summary="[20211208] banner 작업">
+      <created>1638940498573</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1638940498573</updated>
+    </task>
+    <task id="LOCAL-00082" summary="[20211208] banner 작업">
+      <created>1638950833518</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1638950833519</updated>
+    </task>
+    <task id="LOCAL-00083" summary="[20211208] 매거진 작업">
+      <created>1638952371621</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1638952371621</updated>
+    </task>
+    <task id="LOCAL-00084" summary="[20211209] mainPage 작업">
+      <created>1639022713545</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1639022713545</updated>
+    </task>
+    <task id="LOCAL-00085" summary="[20211209] mainPage 작업">
+      <created>1639022936436</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1639022936436</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master_lch" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/master" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="RELOAD_CONTEXT" value="false" />
+    <MESSAGE value="[20211130] 컨트롤러, sql 수정" />
+    <MESSAGE value="[20211130] 상품목록조회 컨트롤러 추가" />
+    <MESSAGE value="[20211130] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업" />
+    <MESSAGE value="[20211201] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업" />
+    <MESSAGE value="[20211202] pom.xml.bak 삭제" />
+    <MESSAGE value="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업" />
+    <MESSAGE value="[20211203] Model Class Alias 작업" />
+    <MESSAGE value="[20211203] sql 작업" />
+    <MESSAGE value="[20211206] impl 정리" />
+    <MESSAGE value="[20211206] mainController 작업" />
+    <MESSAGE value="[20211206] model 변경" />
+    <MESSAGE value="[20211206] MainController 작업" />
+    <MESSAGE value="[20211207] Model Alias 주석처리" />
+    <MESSAGE value="[20211207] main sql 추가" />
+    <MESSAGE value="[20211207] db properties 설정 변경" />
+    <MESSAGE value="[20211207] MainController.class 작업" />
+    <MESSAGE value="[20211207] git ignore" />
+    <MESSAGE value="[20211207] SsoDao 삭제" />
+    <MESSAGE value="[20211207] img 파일 추가" />
+    <MESSAGE value="[20211207] 카멜케이스 추가" />
+    <MESSAGE value="[20211207] main page 작업" />
+    <MESSAGE value="[20211208] banner, 할인 상품 작업" />
+    <MESSAGE value="[20211208] banner 작업" />
+    <MESSAGE value="[20211208] 매거진 작업" />
+    <MESSAGE value="[20211209] mainPage 작업" />
+    <option name="LAST_COMMIT_MESSAGE" value="[20211209] mainPage 작업" />
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1039,7 +1039,7 @@
               </div>
             </div>
             <section class="prd-list prd-list-tile" id="newPrdList">
-              <c:forEach items="${newProdList}" var="newProd">
+              <%--<c:forEach items="${newProdList}" var="newProd">
                 <c:choose>
                   <c:when test="${newProd.gdcnt > 0}">
                     <article class="prd-item">
@@ -1112,7 +1112,7 @@
                     </article>
                   </c:otherwise>
                 </c:choose>
-              </c:forEach>
+              </c:forEach>--%>
 
               <%--<article class="prd-item">
                 <div class="img-container">
