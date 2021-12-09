@@ -104,7 +104,7 @@
                 </div>
                 <div class="img-container">
                   <div class="img-square thumb-6">
-                    <div class="img-crop" style="background-image: url(./images/uploads/prd-img-02.jpg);"></div>
+                    <div class="img-crop" style="background-image: url(<%=_imgUrl %>/images/uploads/prd-img-02.jpg);"></div>
                   </div>
                 </div>
               </a>
@@ -185,7 +185,7 @@
                 </div>
                 <div class="img-container">
                   <div class="img-square thumb-6">
-                    <div class="img-crop" style="background-image: url(./images/uploads/prd-img-02.jpg);"></div>
+                    <div class="img-crop" style="background-image: url(<%=_imgUrl %>/images/uploads/prd-img-02.jpg);"></div>
                   </div>
                 </div>
               </a>
@@ -246,17 +246,3 @@
     </div>
   </div><!-- /.site-container -->
 
-
-  <script src="<%=_libUrl %>/jquery/jquery.min.js"></script>
-  <script src="<%=_libUrl %>/jquery/jquery-ui.min.js"></script>
-  <script src="<%=_libUrl %>/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<%=_libUrl %>/swiper/swiper-bundle.min.js"></script>
-  <script src="<%=_libUrl %>/waypoints/jquery.waypoints.min.js"></script>
-  <script src="<%=_libUrl %>/waypoints/shortcuts/sticky.min.js"></script>
-
-  <script src="<%=_jsUrl %>/ui.js"></script>
-  <script src="<%=_jsUrl %>/main.js"></script>
-
-</body>
-
-</html>
