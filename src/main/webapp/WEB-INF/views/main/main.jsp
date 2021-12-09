@@ -1067,8 +1067,8 @@
                             <div class="price-org">${originalPrice}원</div>
                           </div>
                           <div class="prd-item-label">
-                            <span class="prd-label mu">${newProd.address}</span>
-                            <span class="prd-label sp">${newProd.gradedesc}/span>
+                            <span class="prd-label mu">${newProd.origin}</span>
+                            <span class="prd-label sp">${newProd.gradedesc}</span>
                           </div>
                         </a>
                       </div>
@@ -1342,65 +1342,83 @@
             </section>
 
             <section class="prd-list prd-list-tile" id="dcPrdList">
-              <article class="prd-item">
-                <div class="img-container">
-                  <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-01.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제품명">
-                    <div class="prd-item-badge dc">
-                      <span>15</span>
-                      <small>%</small>
-                    </div>
-                  </a>
-                  <div class="prd-item-buttons">
-                    <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
-                  </div>
-                </div>
-                <div class="detail">
-                  <a href="#">
-                    <h4 class="prd-item-tit">제품명제품명 2줄까지만 표시되게 하기</h4>
-                    <div class="prd-item-price">
-                      <div class="price"><span>3,480</span><small>원</small></div>
-                      <div class="price-org">4,800원</div>
-                    </div>
-                    <div class="prd-item-label">
-                      <span class="prd-label mu">무농약</span>
-                      <span class="prd-label sp">특가상품</span>
-                    </div>
-                  </a>
-                </div>
-              </article>
-              <article class="prd-item soldout">
-                <div class="img-container">
-                  <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
-                    <img src="<%=_imgUrl %>images/uploads/prd-img-05.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="부여 군밤용 단택알밤 1kg(대)">
-                    <div class="prd-item-soldout">
-                      <div class="tit">일시품절</div>
-                      <div class="content">
-                        2020-10-29
-                        <br>
-                        입고예정
+              <c:forEach items="${discountProdList}" var="discountProd">
+                <c:choose>
+                  <c:when test="${discountProd.gdcnt gt 0}">
+                    <article class="prd-item">
+                      <div class="img-container">
+                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}&quot;}" alt="${discountProd.gdname}">
+                          <div class="prd-item-badge dc">
+                            <span>15</span>
+                            <small>%</small>
+                          </div>
+                        </a>
+                        <div class="prd-item-buttons">
+                          <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
+                        </div>
                       </div>
-                    </div>
-                  </a>
-                  <div class="prd-item-buttons">
-                    <button class="btn btn-bell" onclick="$('#modalRestock').modal('show')"><i class="wn-icon wni-bell-w">입고알림</i></button>
-                  </div>
-                </div>
-                <div class="detail">
-                  <a href="#">
-                    <h4 class="prd-item-tit">부여 군밤용 단택알밤 1kg(대)</h4>
-                    <div class="prd-item-price">
-                      <div class="price"><span>3,480</span><small>원</small></div>
-                      <div class="price-org">3,480원</div>
-                    </div>
-                    <div class="prd-item-label">
-                      <span class="prd-label mu">무농약</span>
-                      <span class="prd-label ha">한정수량</span>
-                    </div>
-                  </a>
-                </div>
-              </article>
-              <article class="prd-item">
+                      <div class="detail">
+                        <a href="#">
+                          <h4 class="prd-item-tit">${discountProd.gdname}</h4>
+                          <div class="prd-item-price">
+                            <div class="price">
+                              <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
+                              <span>${salePrice}</span><small>원</small>
+                            </div>
+                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
+                            <div class="price-org">${originalPrice} 원</div>
+                          </div>
+                          <div class="prd-item-label">
+                            <span class="prd-label mu">${discountProd.origin}</span>
+                            <span class="prd-label ha">${discountProd.gradedesc}</span>
+                          </div>
+                        </a>
+                      </div>
+                    </article>
+                  </c:when>
+                  <c:otherwise>
+                    <article class="prd-item soldout">
+                      <div class="img-container">
+                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}&quot;}" alt="${discountProd.gdname}">
+                          <div class="prd-item-soldout">
+                            <div class="tit">일시품절</div>
+                            <div class="content">
+                              2020-10-29
+                              <br>
+                              입고예정
+                            </div>
+                          </div>
+                        </a>
+                        <div class="prd-item-buttons">
+                          <button class="btn btn-bell" onclick="$('#modalRestock').modal('show')"><i class="wn-icon wni-bell-w">입고알림</i></button>
+                        </div>
+                      </div>
+                      <div class="detail">
+                        <a href="#">
+                          <h4 class="prd-item-tit">${discountProd.gdname}</h4>
+                          <div class="prd-item-price">
+                            <div class="price">
+                              <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
+                              <span>${salePrice}</span><small>원</small>
+                            </div>
+                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
+                            <div class="price-org">${originalPrice} 원</div>
+                          </div>
+                          <div class="prd-item-label">
+                            <span class="prd-label mu">${discountProd.origin}</span>
+                            <span class="prd-label ha">${discountProd.gradedesc}</span>
+                          </div>
+                        </a>
+                      </div>
+                    </article>
+                  </c:otherwise>
+                </c:choose>
+
+              </c:forEach>
+
+              <%--<article class="prd-item">
                 <div class="img-container">
                   <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
                     <img src="<%=_imgUrl %>images/uploads/prd-img-06.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제주 구좌당근 500g">
@@ -1421,8 +1439,8 @@
                     </div>
                   </a>
                 </div>
-              </article>
-              <article class="prd-item">
+              </article>--%>
+              <%--<article class="prd-item">
                 <div class="img-container">
                   <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
                     <img src="<%=_imgUrl %>images/uploads/prd-img-03.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제품명제품명 2줄까지만 표시되게 하기">
@@ -1448,8 +1466,8 @@
                     </div>
                   </a>
                 </div>
-              </article>
-              <article class="prd-item">
+              </article>--%>
+              <%--<article class="prd-item">
                 <div class="img-container">
                   <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
                     <img src="<%=_imgUrl %>images/uploads/prd-img-01.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제주 구좌당근 500g">
@@ -1474,8 +1492,8 @@
                     </div>
                   </a>
                 </div>
-              </article>
-              <article class="prd-item">
+              </article>--%>
+              <%--<article class="prd-item">
                 <div class="img-container">
                   <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
                     <img src="<%=_imgUrl %>images/uploads/prd-img-05.jpg" data-src="{&quot;v&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01.jpg&quot;, &quot;h&quot;:&quot;<%=_imgUrl %>images/uploads/prd-img-01-h.jpg&quot;}" alt="제주 구좌당근 500g">
@@ -1501,7 +1519,7 @@
                     </div>
                   </a>
                 </div>
-              </article>
+              </article>--%>
             </section>
             <hr class="spacer-bottom">
           </div>
