@@ -11,10 +11,26 @@ $(function() {
 /* Key Event */
 function initBnbFooter() {
 
-//	$("#footerMypage").on("click", function(e) {
-//
-//	});
+	//	$("#footerMypage").on("click", function(e) {
+	//
+	//	});
 
+	
+	//<a href="javascript;;" id="a_click">click!</a>
+
+   $("#a_click").click(function() { 
+	   alert("click event"); 
+	}); 
+
+	// unbind로 기존 click 이벤트 해제 
+	$("#a_click").unbind("click"); // click 이벤트만 해제 
+	//$("#a_click").unbind(""); // 전체 해제
+	
+	// bind로 이벤트 등록
+	$("#a_click").bind("click", function() { 
+		alert("click event2");
+	});
+	
 }
 //------------------------------------------
 // footer URL
@@ -22,6 +38,9 @@ function initBnbFooter() {
 function goBnbUrl(_num) {
 	//alert("footer = " + _num);
 	var url = "/common/footertimeline";
+	
+	// login 유무활용 
+	//common.cannotAccess();
 	
 	switch (_num) {
 		case 0:
