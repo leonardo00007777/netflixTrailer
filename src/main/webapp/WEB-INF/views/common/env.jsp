@@ -9,12 +9,14 @@
 	response.setDateHeader("Expires", 0);
 	response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
 	
- 	String _jsUrl 		   = "/js/";
-    String _cssUrl 	   = "/css/";
-    String _httpUrl 	   = "/html/";
-    String _libUrl 		   = "/lib/";
-    String _imgUrl 	   = "/";
-    String _servletUrl = "/m/";
+	//request.getRequestURL() 
+ 	
+	String _jsUrl 		   =  "http://192.168.0.91:7080/happyfncFoMo/" + "/resources/js/";
+    String _cssUrl 	   =   "http://192.168.0.91:7080/happyfncFoMo/"   + "/resources/css/";
+    String _httpUrl 	   =   "http://192.168.0.91:7080/happyfncFoMo/"   +"/resources/html/";
+    String _libUrl 		   =   "http://192.168.0.91:7080/happyfncFoMo/"   +"/resources/lib/";
+    String _imgUrl 	   =   "http://192.168.0.91:7080/happyfncFoMo/"   +"/resources/";
+    String _servletUrl =   "http://192.168.0.91:7080/happyfncFoMo/"   +"/m/";
     String _dummStr = "";
     
 %>

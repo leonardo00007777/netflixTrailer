@@ -40,6 +40,10 @@
     }); //jQuery Ready */
   </script>
 
+=======3======
+<%= request.getRequestURL() %>
+-------------3--------------
+
     <div class="global-bottom">
       <ul class="global-bottom-menu">
         <li class="gbm-item active">
