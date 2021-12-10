@@ -17,6 +17,7 @@
   <script src="<%=_jsUrl %>main/main.js"></script>     
   <script src="<%=_jsUrl %>ui-main.js"></script>     
   <script src="<%=_jsUrl %>common/footer.js"></script>     
+  <script src="<%=_jsUrl %>common/common.validation.js"></script>     
             
   <script>
 /*     $(function () {
