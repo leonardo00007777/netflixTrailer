@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x62life.mo.dao.main.MainDao">
+<!--    'System        : m.62life.com
+    'Program       :
+    'Title         : 자연이랑모바일 - 상품 카테고리별 보기
+    'File          : item_list_m.asp
+    'Program Type  : asp
+    'Analyst       :
+    'Author        : hwkim
+    'Date Started  : 20170124
+    'Last Modified :
+    'Called By     :
+    'Parameters    :
+    'Purpose       :
+    'Version       :
+    '
+    'Modified   Author  V/M     Reason For Modification
+    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+    '20170124   hwkim   0.9     처음 작성 - 옵션 상품 목록 제외 처리
+    '20170227   hwkim   0.9.1   상품 없을 때 안내 표시 처리 버그 수정
+    '20170314   hwkim   0.9.2   정렬기능 붙임. 일부 수정 item_sort_list_m 으로 부터
+    '20170327   hwkim   -       가격표시 디자인 변경
+    '20170420   hwkim   0.9.3   당일발송 주문 담기 처리 추가. / thedaysyn
+    '20170613   hwkim   0.9.4   당일발송 주문 담기 처리 제외 (1차범위)
+    '20171107   hwkim   -       웹페이지 타이틀 상품명 추가. 공유에 활용
+    '20180114   hwkim   0.9.5   상품표시 레이아웃 개선
+    '20180612   hwkim   -       상품 상세 A/B 테스트 제거
+    '20180706   hyeok   -       직거래 상품 표시 버그 수정
+    '20180710   hwkim   0.9.6   새로운 Swipe 라이브러리 변경
+    '20180803   hwkim   0.9.7   상품등급 라벨 표시, 할인율 사각형스티커 변경 등
+    '20180808   hwkim   0.9.8   신속, 업체직송 표시 통합
+    '20180905   hwkim   0.9.9   카테고리 두개 통합 지정 기능 추가 - ','로 구분
+    '20181023   hwkim   1.0.0   상품명 표시 특수문자에 의한 분리규칙 추가
+    '20190927   hwkim   1.1     상품 정렬조건에 '판매량 순' 추가
+    '20200224   chhyeon -       정확도 순에서 판매량 순으로 기본값 변경
+    '20200225   chhyeon -       orderBy 예외값 입력 시 문제방지 코드 추가.
+    '20200324   sykim   1.1.1   상품정보 단일화(gd_master & od_reservegoods > gd_master) 적용.
+    '20201116   sykim   -       2020-11-16~20 간 일반회원 활성화 이벤트로 특정상품만 일반회원에게 노출하도록 설정. >> ONLY_NORMAL_GROUP_PRODUCT
+    '20210204   chhyeon 1.1.2   사용자 정의 (고객)그룹 표시 제한 방식 적용
+    '20210310   hwkim   -       스마트 패드 너비에서 x2 나열 시 높이 레이아웃 조정
+    '20210604   chhyeon         고객사할인, 할인율 태그 미반영 수정, 코드 리팩토링
+    '20210728   hnjang          품절상품 정렬 변경
+    '20210906   hnjang  1.1.3   배송유형별(자연이랑,업체직송) 분류 기능 추가-->
+
+    <select id="itemList" resultType="com.x62life.mo.model.product.GdMasterEx" parameterType="java.util.Map">
+       SELECT a.exdiv1, a.exdiv2, b.subcatdesc 
+           FROM ( 
+                 SELECT DISTINCT gdcd
+                               , exdiv1
+                               , exdiv2
+                   FROM ( 
+                         SELECT g.gdcd
+                              , ISNULL(n.div1,g.exdiv1) exdiv1
+                              , ISNULL(n.div2,g.exdiv2) exdiv2
+                           FROM gd_master g 
+                                LEFT JOIN gd_another_category n
+                                       ON g.gdcd = n.gdcd
+                                      AND n.div1 = #{strExdiv1}
+                            WHERE g.useyn = 'Y'
+                              AND (g.divcd = '30' OR (g.divcd = '20' AND g.deliverydtyn = 'N' AND
+                                                      g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94')
+                                                     )
+                                  )
+                              AND g.gdcd IN (SELECT gdcd FROM gd_master
+                                              WHERE useyn = 'Y'
+                                                AND exdiv1 = #{strExDiv1}
+                                             UNION
+                                             SELECT gdcd FROM gd_another_category  /*'추가노출 카테고리에 해당하는 상품 추가.*/
+                                              WHERE div1 = #{strExDiv1}
+                                            )
+                              AND (ISNULL(g.expgrcd, '') = ''
+                                    OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl
+                                                WHERE cl.ulcode = g.expgrcd
+                                                  AND cl.ulgrcd = #{strMEMGRPCD})
+                                  )
+                              <if test="OPT != ''">
+                              AND ISNULL(g.optionp,'N') = 'N'
+                              </if>
+                              <if test="dispatchtype != ''">
+                              AND dispatchtype = #{dispatchtype}
+                              </if>
+                         UNION ALL 
+                         SELECT gdcd
+                              , exdiv1
+                              , exdiv2
+                           FROM gd_master 
+                          WHERE useyn = 'Y' 
+                            AND (divcd = '30' OR (divcd = '20' AND deliverydtyn = 'N' AND 
+                                                  gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94') 
+                                                 ) 
+                                ) 
+                            AND ISNULL(optionp,'N') = 'N' 
+                            AND exdiv1 = #{strExdiv1} 
+                            AND (ISNULL(expgrcd, '') = '' 
+                                  OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl 
+                                              WHERE cl.ulcode = expgrcd AND cl.ulgrcd = #{strMEMGRPCD}))
+                            <if test="dispatchtype != ''">
+                            AND dispatchtype = #{dispatchtype}
+                            </if>
+                        ) b 
+                ) a 
+                LEFT JOIN exsubmenu b
+                       ON a.exdiv1 = b.cat1
+                      AND a.exdiv2 = b.cat2
+          WHERE 1 = 1 
+        <if test="customFilterProduct != '' ">
+            AND a.gdcd NOT IN
+            <foreach collection="customFilterProduct" item="customFilterProduct" open="(" separator="," close=")">
+                #{customFilterProduct}
+            </foreach>
+        </if>
+          GROUP BY exdiv1, exdiv2, subcatdesc 
+          ORDER BY exdiv1, exdiv2 
+    </select>
+
+
+</mapper>

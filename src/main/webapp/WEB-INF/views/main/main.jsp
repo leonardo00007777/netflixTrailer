@@ -1023,7 +1023,7 @@
                   <div class="tags-wrapper swiper-container swiper-no-swiping" id="tags-swiper">
                     <div class="tags swiper-wrapper">
                       <a href="#" class="tag-item swiper-slide">전체보기</a>
-                      <a href="#" class="tag-item swiper-slide">과일·견과</a>
+                      <a href="javascript:void(0);" class="tag-item swiper-slide" onclick="reloadProd('01')">과일·견과</a>
                       <a href="#" class="tag-item swiper-slide">채소·버섯</a>
                       <a href="#" class="tag-item swiper-slide">쌀·잡곡</a>
                       <a href="#" class="tag-item swiper-slide">정육·계란</a>
@@ -2481,3 +2481,17 @@
       </div>
     </div>
   </div>
+
+<script>
+  function reloadProd(prodCd){
+    var prodCd = prodCd;
+    console.log("1111111111111", prodCd);
+    $.ajax({
+      url : "/main/reloadProduct",
+      data : {"prodCd": prodCd},
+      success: function (data) {
+        alert("성공!!!");
+      }
+    })
+  }
+</script>

@@ -10,7 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a612698-62c5-4b1d-906f-4712620c7dc6" name="Changes" comment="[20211209] mainPage 작업">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mybatis/sqlmaps/x62lifeSql/category/itemList.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/main/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/main/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/dao/category/CategoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/dao/category/CategoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/impl/CategoryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +100,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/resources/images/banner" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/mybatis/sqlmaps/x62lifeSql/category" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.17" />
@@ -103,11 +109,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql\category" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images\banner" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images\uploads" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images\gdimg" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images" />
-      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\config" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql" />
@@ -127,9 +133,8 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="Tomcat 9.0.54" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.54" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="1.8" nameIsGenerated="true">
+    <configuration name="Tomcat 9.0.54" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.54" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER" value="false" />
-      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/" />
       <option name="COMMON_VM_ARGUMENTS" value="-Dfile.encoding=UTF-8" />
       <deployment>
         <artifact name="happyfncFoMo:war exploded">
@@ -139,7 +144,7 @@
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="3ccfb033-74c7-4eb0-8e11-57e5c7b23ba0" />
+        <option name="BASE_DIRECTORY_NAME" value="9143e0d2-75b8-4428-b87b-018f67257cde" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -147,7 +152,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="50395" />
+        <option name="DEBUG_PORT" value="64799" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -216,17 +221,35 @@
         </option>
       </method>
     </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
-      <deployment />
-      <server-settings />
-      <predefined_log_file enabled="true" id="Tomcat" />
-      <predefined_log_file enabled="true" id="Tomcat Catalina" />
-      <predefined_log_file id="Tomcat Manager" />
-      <predefined_log_file id="Tomcat Host Manager" />
-      <predefined_log_file id="Tomcat Localhost Access" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration default="true" type="aws.lambda" factoryName="Local">
+      <option name="credentialProviderId" />
+      <option name="regionId" />
+      <option name="debugHost" value="localhost" />
+      <option name="environmentVariables">
+        <map />
+      </option>
+      <option name="handler" />
+      <option name="image" value="false" />
+      <option name="logicalFunctionName" />
+      <option name="memorySize" value="128" />
+      <option name="pathMappings">
+        <list />
+      </option>
+      <option name="platform" />
+      <option name="runtime" />
+      <option name="templateFile" />
+      <option name="timeout" value="300" />
+      <option name="useTemplate" value="false" />
+      <option name="input" />
+      <option name="inputIsFile" value="false" />
+      <sam>
+        <option name="additionalBuildArgs" />
+        <option name="additionalLocalArgs" />
+        <option name="buildInContainer" value="false" />
+        <option name="dockerNetwork" />
+        <option name="skipImagePull" value="false" />
+      </sam>
+      <method v="2" />
     </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -263,13 +286,7 @@
       <workItem from="1639023595481" duration="1668000" />
       <workItem from="1639025289693" duration="649000" />
       <workItem from="1639034348192" duration="2853000" />
-    </task>
-    <task id="LOCAL-00040" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
-      <created>1638411866189</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1638411866189</updated>
+      <workItem from="1639109010252" duration="3994000" />
     </task>
     <task id="LOCAL-00041" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
       <created>1638411908677</created>
@@ -607,7 +624,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639027676941</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="[20211209] mainPage 작업">
+      <created>1639037863627</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1639037863627</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

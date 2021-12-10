@@ -13,16 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/main")
 public class MainController {
 
 	@Autowired
@@ -122,180 +121,13 @@ public class MainController {
 		return mv;
 	}
 
-
-
-	/**
-	 * <pre>
-	 * 1. MethodName : Main / 신상품
-	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : 신상품 페이지로 이동한다.
-	 * 4. 작성자       : jckim
-	 * 5. 작성일       : 2021. 10. 11.
-	 * </pre>
-	 *
-	 * @param request
-	 * @param commandMap
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/newprdlist")
-	public ModelAndView newPrdList(HttpServletRequest request, Map<String, Object> commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView();
-
-		try {
-			//System.out.println("MAIN : " + SessionsAdmin.isLoginAdmin(request));
-
-			mv.setViewName("/main/newPrdList");
-
-			//mv.addObject("commandMap", commandMap);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return mv;
-	}
-
-	/**
-	 * <pre>
-	 * 1. MethodName : Main / 베스트
-	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : 베스트 페이지로 이동한다.
-	 * 4. 작성자       : jckim
-	 * 5. 작성일       : 2021. 10. 11.
-	 * </pre>
-	 *
-	 * @param request
-	 * @param commandMap
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/bestprdlist")
-	public ModelAndView bestPrdList(HttpServletRequest request, Map<String, Object> commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView();
-
-		//System.out.println("MAIN : " + SessionsAdmin.isLoginAdmin(request));
-
-		mv.setViewName("/main/bestPrdList");
-
-		mv.addObject("commandMap", commandMap);
-
-		return mv;
-	}
-
-	/**
-	 * <pre>
-	 * 1. MethodName : Main / 할인관
-	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : 할인관 페이지로 이동한다.
-	 * 4. 작성자       : jckim
-	 * 5. 작성일       : 2021. 10. 11.
-	 * </pre>
-	 *
-	 * @param request
-	 * @param commandMap
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/dcprdlist")
-	public ModelAndView dcPrdList(HttpServletRequest request, Map<String, Object> commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView();
-
-		//System.out.println("MAIN : " + SessionsAdmin.isLoginAdmin(request));
-
-		mv.setViewName("/main/dcPrdList");
-
-		mv.addObject("commandMap", commandMap);
-
-		return mv;
-	}
-
-	/**
-	 * <pre>
-	 * 1. MethodName : Main / 전문관
-	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : 전문관 페이지로 이동한다.
-	 * 4. 작성자       : jckim
-	 * 5. 작성일       : 2021. 10. 11.
-	 * </pre>
-	 *
-	 * @param request
-	 * @param commandMap
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/proprdlist")
-	public ModelAndView proPrdList(HttpServletRequest request, Map<String, Object> commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView();
-
-		//System.out.println("MAIN : " + SessionsAdmin.isLoginAdmin(request));
-
-		mv.setViewName("/main/proPrdList");
-
-		mv.addObject("commandMap", commandMap);
-
-		return mv;
-	}
-
-	/**
-	 * <pre>
-	 * 1. MethodName : Main / 이벤트
-	 * 2. ClassName  : MainController.java
-	 * 3. Comment    : 이벤트 페이지로 이동한다.
-	 * 4. 작성자       : jckim
-	 * 5. 작성일       : 2021. 10. 11.
-	 * </pre>
-	 *
-	 * @param request
-	 * @param commandMap
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/eventprdlist")
-	public ModelAndView eventPrdList(HttpServletRequest request, Map<String, Object> commandMap) throws Exception {
-		ModelAndView mv = new ModelAndView();
-
-		//System.out.println("MAIN : " + SessionsAdmin.isLoginAdmin(request));
-
-		mv.setViewName("/main/eventPrdList");
-
-		mv.addObject("commandMap", commandMap);
-
-		return mv;
-	}
-/*
-	@RequestMapping("/oneDaySpecial")
-	public ModelAndView oneDaySpecial(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-		ModelAndView modelAndView = new ModelAndView();
-
-		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("strMEMGRPCD", null);
-		paramMap.put("strGroupSalePolicy","Y");
-
-		List<OneDaySpecialEx> oneDaySpecialList = mainService.oneDaySpecialList(paramMap);
-		model.addAttribute("oneDaySpecialList", oneDaySpecialList);
-		modelAndView.setViewName("/main/main");
-
-		return modelAndView;
-	}
-
-	*//*첫구매 이벤트 대상자 체크*//*
+	@RequestMapping(value = "/main/reloadProduct")
 	@ResponseBody
-	@RequestMapping(value = "/firstBuyEventCheck", method = { RequestMethod.POST })
-	public Map<String,Object> firstBuyEventCheck(@RequestParam("strLoginMemCd") String strLoginMemCd) throws Exception{
+	public List<GdMasterEx> reloadProduct(@RequestParam Map<String, Object> paramMap) throws Exception{
+		System.out.println("1111111111111111" +  paramMap.get("prodCd"));
+		List<GdMasterEx> newProdList = mainService.newProdList(paramMap);
 
-		Map<String, Object> resultMap = mainService.checkEventTarget(strLoginMemCd);
 
-		return resultMap;
+		return newProdList;
 	}
-
-	*//*첫구매 이벤트 대상자 세일 금액 *//*
-	@ResponseBody
-	@RequestMapping(value = "/eventTargetPayment", method = { RequestMethod.POST })
-	public Map<String, Object> eventTargetPayment(@RequestParam Map<String,Object> paramMap) throws Exception {
-
-		Map<String, Object> resultMap = mainService.eventTargetPayment(paramMap);
-
-		return resultMap;
-	}*/
 }
