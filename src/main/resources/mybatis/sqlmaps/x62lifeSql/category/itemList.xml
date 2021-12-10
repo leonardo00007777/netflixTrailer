@@ -43,8 +43,10 @@
     '20210728   hnjang          품절상품 정렬 변경
     '20210906   hnjang  1.1.3   배송유형별(자연이랑,업체직송) 분류 기능 추가-->
 
-    <select id="itemList" resultType="com.x62life.mo.model.product.GdMasterEx" parameterType="java.util.Map">
-       SELECT a.exdiv1, a.exdiv2, b.subcatdesc 
+    <select id="categoryList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+       SELECT a.exdiv1
+            , a.exdiv2
+            , b.subcatdesc
            FROM ( 
                  SELECT DISTINCT gdcd
                                , exdiv1
@@ -74,10 +76,10 @@
                                                 WHERE cl.ulcode = g.expgrcd
                                                   AND cl.ulgrcd = #{strMEMGRPCD})
                                   )
-                              <if test="OPT != ''">
+                              <if test="OPT != null ">
                               AND ISNULL(g.optionp,'N') = 'N'
                               </if>
-                              <if test="dispatchtype != ''">
+                              <if test="dispatchtype != null ">
                               AND dispatchtype = #{dispatchtype}
                               </if>
                          UNION ALL 
@@ -95,7 +97,7 @@
                             AND (ISNULL(expgrcd, '') = '' 
                                   OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl 
                                               WHERE cl.ulcode = expgrcd AND cl.ulgrcd = #{strMEMGRPCD}))
-                            <if test="dispatchtype != ''">
+                            <if test="dispatchtype != null ">
                             AND dispatchtype = #{dispatchtype}
                             </if>
                         ) b 
@@ -104,7 +106,7 @@
                        ON a.exdiv1 = b.cat1
                       AND a.exdiv2 = b.cat2
           WHERE 1 = 1 
-        <if test="customFilterProduct != '' ">
+        <if test="customFilterProduct != null  ">
             AND a.gdcd NOT IN
             <foreach collection="customFilterProduct" item="customFilterProduct" open="(" separator="," close=")">
                 #{customFilterProduct}
@@ -114,5 +116,235 @@
           ORDER BY exdiv1, exdiv2 
     </select>
 
+    <select id="categoryDesc" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT subcatdesc 
+          FROM exsubmenu
+           WHERE cat1 = #{strExDiv1}
+             AND cat2 = #{strExDiv2}
+    </select>
 
+    <select id="prodListPaging" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(gdcd) CNT 
+          FROM ( 
+                SELECT g.gdcd 
+                  FROM gd_master g 
+                 WHERE 1 = 1 
+                   AND g.useyn = 'Y' 
+                   AND (g.divcd = '30' OR (g.divcd = '20' AND 
+                                           g.deliverydtyn = 'N' AND 
+                                           g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94') 
+                                          ) 
+                       ) 
+                   AND (ISNULL(g.expgrcd, '') = '' 
+                         OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl 
+                                     WHERE cl.ulcode = g.expgrcd AND cl.ulgrcd = #{strMEMGRPCD})
+                        )
+                        <if test="strExDiv1 != null ">
+                            AND g.gdcd IN (SELECT gdcd FROM gd_master
+                                            WHERE useyn = 'Y'
+                                              AND exdiv1 = #{strExDiv1}
+                        </if>
+                                            <if test="strExDiv2 != null ">
+                                              AND exdiv2 = #{strExDiv2}
+                                            </if>
+                                            UNION
+                                            SELECT gdcd FROM gd_another_category  /*'추가노출 카테고리에 해당하는 상품 추가.*/
+                                                         WHERE div1 = #{strExDiv1}
+                                            <if test="strExDiv2 != null ">
+                                              AND exdiv2 = #{strExDiv2}
+                                            </if>
+                                           )
+              <if test="listingMode == 'OPT'">
+                  AND ISNULL(g.optionp,'N') = 'N'
+              </if>
+              <if test="dispatchtype != null ">
+                  AND g.dispatchtype =#{dispatchtype}
+              </if>
+              ) a
+         WHERE 1 = 1 
+    </select>
+    
+    <select id="prodListAll" parameterType=" java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        SELECT a.* 
+          FROM ( 
+                SELECT g.gdcd
+                     , gdname
+                     , g.gdimg
+                     , g.gdimg2
+                     , g.gdimg3
+                     , g.gdimg4
+                     , g.mgdimg1
+                     , g.dispatchtype 
+                     , g.priceyn
+                     , ISNULL(g.qtysaleyn,'N') qtysaleyn
+                     , g.price1
+                     <choose>
+                         <when test="strMEMGRPCD != null and strGroupSalePolicy != 'N'">
+                             , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
+                         </when>
+                         <otherwise>
+                             , dbo.getMasterPrice(g.gdcd) saleprice
+                         </otherwise>
+                     </choose>
+                     , g.div1
+                     , g.div2
+                     , g.divcd
+                     , ISNULL(s.gdcnt,99999) gdcnt
+                     , g.minqty
+                     , g.maxqty
+                     , g.shortdesc 
+                     , ISNULL(t.cdname,'미정') AS typename 
+                     , ISNULL(g.recommendyn,'N') recommendyn 
+                     , ISNULL(g.newyn,'N') newyn 
+                     , ISNULL(g.deliverydtyn,'N') deliverydtyn 
+                     , ISNULL(g.thedaysyn,'N') thedaysyn 
+                     , ISNULL(g.soldoutyn,'N') soldoutyn 
+                     , CONVERT(CHAR(10),g.plandate,120) plandate 
+                     , ISNULL(g.reserveyn,'N') reserveyn 
+                     , g.explain 
+                     , g.unit 
+                     , i.address
+                     , i.origin
+                     , i.producer
+                     , ISNULL(r.od_from,'') od_from
+                     , ISNULL(r.od_to,'') od_to
+                     , ISNULL(r.dlv_from,'') dlv_from
+                     , ISNULL(r.dlv_to,'') dlv_to
+                     , CASE WHEN ISNULL(r.packunit,'') = '' THEN ''
+                            ELSE r.packunit
+                       END packunit
+                     , g.expdt 
+                     , g.vat 
+                     , g.limitdelivery
+                     , g.bestbeforedate
+                     , g.packaging
+                     , g.handling
+                     , g.precaution1
+                     , g.precaution2
+                     , g.importnote
+                     , g.addinformation
+                     , g.testidx
+                     , g.optionp 
+                     , g.indt 
+                     , g.updt 
+                     , g.subgdcd1
+                     , g.subgdcd2
+                     , g.subgdcd3
+                     , g.subgdcd4
+                     , g.subgdcd5
+                     , CASE g.dispatchtype WHEN 'I' THEN '11'
+                                           WHEN 'O' THEN '15'
+                       END odtype
+                     , CASE WHEN r.type IS NOT NULL THEN r.type
+                            ELSE '01'
+                       END odtype2
+                     , g.scode
+                     , g.suprice
+                     , g.exdiv1
+                     , g.exdiv2
+                     , m.catdesc
+                  FROM gd_master g 
+                       LEFT JOIN gd_item i
+                              ON i.gdcd = g.gdcd
+                       LEFT JOIN cd_master t
+                              ON t.cdtype = '09'
+                             AND t.cdcode = i.typecd
+                       LEFT JOIN gd_cnt s
+                              ON g.gdcd = s.gdcd
+                       LEFT JOIN od_reservegoods r
+                              ON g.gdcd = r.gdcd
+                             AND r.useyn = 'Y'
+                             <![CDATA[
+                             AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                             AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                             ]]>
+                       LEFT JOIN exmenu m ON g.exdiv1 = m.cat1 
+                 WHERE 1=1 
+                   AND g.useyn = 'Y' 
+                   AND (g.divcd = '30' OR (g.divcd = '20' 
+                                         AND g.deliverydtyn = 'N' 
+                                         AND g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94') 
+                                        ) 
+                       ) 
+                   AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL)) 
+                   AND (ISNULL(g.expgrcd, '') = '' 
+                         OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl 
+                                     WHERE cl.ulcode = g.expgrcd AND cl.ulgrcd = #{strMEMGRPCD})
+                       )
+                <if test="strExDiv1 !+ null">
+                    AND g.gdcd IN (SELECT gdcd FROM gd_master
+                                                WHERE useyn = 'Y'
+                                                  AND exdiv1 = #{strExDiv1}
+                </if>
+                                                <if test="strExDiv2 != null">
+                                                  AND exdiv2 = #{strExDiv2}
+                                                </if>
+                                   UNION
+                                   SELECT gdcd FROM gd_another_category  /*'추가노출 카테고리에 해당하는 상품 추가.*/
+                                                WHERE div1 = #{strExDiv1}
+                                                <if test="strExDiv2 != null ">
+                                                  AND div2 = #{strExDiv2}
+                                                </if>
+                                   )
+                <if test="listingMode == 'OPT'">
+                    AND ISNULL(g.optionp,'N') = 'N'
+                </if>
+                <if test="dispatchtype != null">
+                    AND g.dispatchtype =#{dispatchtype}
+                </if>
+               ) a 
+          <if test="orderBy == '' ">
+             LEFT JOIN ( SELECT k.gdcd
+                              , RANK() OVER (ORDER BY k.gdprice DESC) yrank
+                              , RANK() OVER (ORDER BY k.gdsum DESC) xrank
+                          FROM (
+                                SELECT gdcd
+                                     , SUM(price*gdcnt) gdprice
+                                     , SUM(gdcnt) gdsum
+                                FROM od_goods
+                                <![CDATA[
+                                 WHERE indt >= DATEADD(d,-7,getdate())
+                                   AND indt <= GETDATE()
+                                ]]>
+                                GROUP BY gdcd
+                               ) k
+                        ) z
+                    ON z.gdcd = a.gdcd
+         </if>
+         WHERE 1=1 
+        /*' 상품 정렬 문자열 생성*/
+        <![CDATA[
+        ORDER BY (CASE WHEN gdcnt <= 0 Then 1 Else 0 End)
+        ]]>
+         <choose>
+             <when test="orderBy == 'PD' ">
+                 /*'높은가격순*/
+                 , saleprice DESC
+             </when>
+             <when test="orderBy == 'PU'">
+                 /*'낮은가격순*/
+                , saleprice
+             </when>
+             <when test="orderBy == 'PI'">
+                 /*'신상품순*/
+                 , a.indt DESC
+             </when>
+             <when test="orderBy == 'PP'">
+                 /*'할인율순*/
+                 , (dbo.getProductPrice(#{strMEMGRPCD}, #{strGroupSalePolicy}, a.gdcd) / a.price1), a.gdcd
+             </when>
+             <when test="orderBy = 'PN'">
+                 /*'상품명순*/
+                 , a.gdname
+             </when>
+             <when test="orderBy == '' ">
+                 , ISNULL(xrank,99999), exdiv1, exdiv2, gdcd
+             </when>
+             <otherwise>
+                 ,exdiv1, exdiv2, gdcd
+             </otherwise>
+         </choose>
+        OFFSET  ${intPageOffset} ROWS
+         FETCH NEXT  #{intPagePerItem} ROWS ONLY
+    </select>
 </mapper>
