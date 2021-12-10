@@ -9,12 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a612698-62c5-4b1d-906f-4712620c7dc6" name="Changes" comment="[20211210] resource 경로 변경">
+    <list default="true" id="8a612698-62c5-4b1d-906f-4712620c7dc6" name="Changes" comment="[20211210] CategoryController 작업">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/category/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/category/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/dao/category/CategoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/dao/category/CategoryDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/CategoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/impl/CategoryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/sqlmaps/x62lifeSql/category/itemList.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/sqlmaps/x62lifeSql/category/itemList.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -285,13 +281,6 @@
       <workItem from="1639025289693" duration="649000" />
       <workItem from="1639034348192" duration="2853000" />
       <workItem from="1639109010252" duration="3994000" />
-    </task>
-    <task id="LOCAL-00042" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
-      <created>1638432675220</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1638432675220</updated>
     </task>
     <task id="LOCAL-00043" summary="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업">
       <created>1638434985028</created>
@@ -629,7 +618,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639118592363</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="[20211210] CategoryController 작업">
+      <created>1639124346207</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1639124346207</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -692,7 +688,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="RELOAD_CONTEXT" value="false" />
-    <MESSAGE value="[20211130] 상품목록조회 컨트롤러 추가" />
     <MESSAGE value="[20211130] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업" />
     <MESSAGE value="[20211201] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업" />
     <MESSAGE value="[20211202] pom.xml.bak 삭제" />
@@ -717,7 +712,8 @@
     <MESSAGE value="[20211208] 매거진 작업" />
     <MESSAGE value="[20211209] mainPage 작업" />
     <MESSAGE value="[20211210] resource 경로 변경" />
-    <option name="LAST_COMMIT_MESSAGE" value="[20211210] resource 경로 변경" />
+    <MESSAGE value="[20211210] CategoryController 작업" />
+    <option name="LAST_COMMIT_MESSAGE" value="[20211210] CategoryController 작업" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">

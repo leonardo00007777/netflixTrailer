@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.x62life.mo.dao.main.MainDao">
+<mapper namespace="com.x62life.mo.dao.category.CategoryDao">
 <!--    'System        : m.62life.com
     'Program       :
     'Title         : 자연이랑모바일 - 상품 카테고리별 보기
@@ -123,7 +123,7 @@
              AND cat2 = #{strExDiv2}
     </select>
 
-    <select id="prodListPaging" parameterType="java.util.Map" resultType="int">
+    <select id="prodListPaging" parameterType="java.util.Map" resultType="java.lang.Integer">
         SELECT COUNT(gdcd) CNT 
           FROM ( 
                 SELECT g.gdcd 
@@ -164,7 +164,7 @@
          WHERE 1 = 1 
     </select>
     
-    <select id="prodListAll" parameterType=" java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="prodListAll" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
         SELECT a.* 
           FROM ( 
                 SELECT g.gdcd
@@ -344,7 +344,7 @@
                  ,exdiv1, exdiv2, gdcd
              </otherwise>
          </choose>
-        OFFSET  ${intPageOffset} ROWS
+        OFFSET  #{intPageOffset} ROWS
          FETCH NEXT  #{intPagePerItem} ROWS ONLY
     </select>
 </mapper>
