@@ -1,46 +1,67 @@
 /* jQuery Ready */
 $(function() {
 
-	//initGnbKeyEvent();
+	gnbSub.initKeyEvent();
+	
 });
 
 //-------------------------------------------------------------------
-//						common - validation
+//							gnb Sub
 //-------------------------------------------------------------------
-var keyEvent = function() {
+var gnbSub = function() {
 
 	return {
 		cannotAccess : function() {
 			 alert('접근할 수 없습니다. 권한이 부족합니다.');
 			
 		},
+		
+		//-------------------------------
+		// Key Event 
+		//-------------------------------
+		initKeyEvent : function() {
 			
+			$("#gnbBtnCart").on("click", function(e) {
+				alert("장바구니 이동 ...");
+				//WN_PB_MO_ORD_010101.html
+				
+				gnbSub.goUrl("cart");
+				
+			});
+			
+		},
+		
+		//-------------------------------
+		// go URL
+		//-------------------------------
+		goUrl : function(_url) {
+			alert("goUrl ,  _url = " + _url);
+			var url = "/cart";
+			
+			// login 유무활용 
+			//common.cannotAccess();
+			
+			switch (_url) {
+				case "cart":
+					url = "/cartlist";
+					break;
+					
+				case "alarm":
+					url = "/alarm";
+					break
+					
+				default:
+					break;
+			}
+		 
+			let f = document.createElement('form');
+			 f.setAttribute('method', 'post');
+			 f.setAttribute('action', url);
+			 document.body.appendChild(f);
+			 f.submit();
+			
+		}
 	}
-	
 }();
 
-//
-///* Key Event */
-//function initGnbKeyEvent() {
-//
-//	//	$("#footerMypage").on("click", function(e) {
-//	//
-//	//	});
-//
-//	
-//	//<a href="javascript;;" id="a_click">click!</a>
-//
-//   $("#a_click").click(function() { 
-//	   alert("click event"); 
-//	}); 
-//
-//	// unbind로 기존 click 이벤트 해제 
-//	$("#a_click").unbind("click"); // click 이벤트만 해제 
-//	//$("#a_click").unbind(""); // 전체 해제
-//	
-//	// bind로 이벤트 등록
-//	$("#a_click").bind("click", function() { 
-//		alert("click event2");
-//	});
-//	
-//}
+

@@ -19,7 +19,7 @@
    
   <script src="<%=_jsUrl %>common/footer.js"></script>     
   <script src="<%=_jsUrl %>common/validation.js"></script>     
-  <script src="<%=_jsUrl %>common/keyEvent.js"></script>     
+  <script src="<%=_jsUrl %>common/gnbSub.js"></script>     
   <script src="<%=_jsUrl %>common/dataEvent.js"></script>     
             
   <script>
