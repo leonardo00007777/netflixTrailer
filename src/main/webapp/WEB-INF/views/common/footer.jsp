@@ -16,6 +16,7 @@
   <script src="<%=_jsUrl %>ui.js"></script>
   <script src="<%=_jsUrl %>main/main.js"></script>     
   <script src="<%=_jsUrl %>ui-main.js"></script>    
+  <script src="<%=_jsUrl %>ui-cart.js"></script>    
    
   <script src="<%=_jsUrl %>common/footer.js"></script>     
   <script src="<%=_jsUrl %>common/validation.js"></script>     
@@ -43,31 +44,31 @@
     <div class="global-bottom">
       <ul class="global-bottom-menu">
         <li class="gbm-item active">
-          <a href="javascript:void(0)" onClick="javascript:goBnbUrl(0)">
+          <a href="javascript:void(0)" onClick="javascript:footer.goUrl(0)">
             <i class="wn-icon wni-home"></i>
             <!-- <span class="tit">홈</span> -->
           </a>
         </li>
         <li class="gbm-item">
-          <a href="javascript:void(0)" onClick="javascript:goBnbUrl(1)">
+          <a href="javascript:void(0)" onClick="javascript:footer.goUrl(1)">
             <i class="wn-icon wni-history" id="footerTimeline"></i>
             <!-- <span class="tit">타임라인</span> -->
           </a>
         </li>
         <li class="gbm-item">
-          <a href="javascript:void(0)" onClick="javascript:goBnbUrl(2)">
+          <a href="javascript:void(0)" onClick="javascript:footer.goUrl(2)">
             <i class="wn-icon wni-menu" id="footerCategory"></i>
             <!-- <span class="tit">카테고리</span> -->
           </a>
         </li>
         <li class="gbm-item">
-          <a href="javascript:void(0)" onClick="javascript:goBnbUrl(3)">
+          <a href="javascript:void(0)" onClick="javascript:footer.goUrl(3)">
             <i class="wn-icon wni-search" id="footerSearch"></i>
             <!-- <span class="tit">검색</span> -->
           </a>
         </li>
         <li class="gbm-item">
-          <a href="javascript:void(0)" onClick="javascript:goBnbUrl(4)">
+          <a href="javascript:void(0)" onClick="javascript:footer.goUrl(4)">
             <i class="wn-icon wni-user" id="footerMypage"></i>
             <span class="tit">마이자연</span>
           </a>

@@ -83,7 +83,7 @@
                     <div class="prd-thumb">
                       <div class="img-container">
                         <a href="#" class="prd-img thumb-7">
-                          <img src="./images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
+                          <img src="<%=_imgUrl %>/images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
                         </a>
                         <div class="label-bottom sand">추가할인</div>
                       </div>
@@ -120,7 +120,7 @@
                     <div class="prd-thumb">
                       <div class="img-container">
                         <a href="#" class="prd-img thumb-7">
-                          <img src="./images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
+                          <img src="<%=_imgUrl %>/images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
                         </a>
                         <div class="label-bottom sand">추가할인</div>
                       </div>
@@ -235,7 +235,7 @@
                     <div class="prd-thumb">
                       <div class="img-container">
                         <a href="#" class="prd-img thumb-7">
-                          <img src="./images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
+                          <img src="<%=_imgUrl %>/images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
                         </a>
                         <div class="label-bottom sand">추가할인</div>
                       </div>
@@ -350,7 +350,7 @@
                     <div class="prd-thumb">
                       <div class="img-container">
                         <a href="#" class="prd-img thumb-7">
-                          <img src="./images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
+                          <img src="<%=_imgUrl %>/images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
                         </a>
                         <div class="label-bottom sand">추가할인</div>
                       </div>
@@ -594,3 +594,4 @@
       </div>
     </div>
   </div>
+

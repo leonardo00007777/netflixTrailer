@@ -32,4 +32,10 @@
    <link rel="stylesheet" href="<%=_cssUrl %>home.css<%=_dummStr %>"/>
    <link rel="stylesheet" href="<%=_cssUrl %>display.css<%=_dummStr %>"/>
    <link rel="stylesheet" href="<%=_cssUrl %>promotion.css<%=_dummStr %>"/>  
+   <link rel="stylesheet" href="<%=_cssUrl %>order.css<%=_dummStr %>"/>  
+   <link rel="stylesheet" href="<%=_cssUrl %>mypage.css<%=_dummStr %>"/>  
+   
 </head>
+
+  
+  
