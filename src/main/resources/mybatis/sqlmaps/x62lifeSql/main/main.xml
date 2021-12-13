@@ -701,4 +701,159 @@
              </if>
           ORDER BY ingyn DESC, ctsidx DESC
     </select>
+
+
+    <select id="newProdListPagingAjax" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/#{intPagePerItem}) maxPage
+             , COUNT(gdcd) CNT
+          FROM (
+              SELECT g.gdcd
+                FROM gd_master g
+                  LEFT JOIN gd_item i
+                         ON i.gdcd = g.gdcd
+                  LEFT JOIN cd_master t
+                         ON t.cdtype = '09'
+                        AND t.cdcode = i.typecd
+                  LEFT JOIN od_reservegoods r
+                         ON g.gdcd = r.gdcd
+                        AND r.useyn = 'Y'
+                        AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+                 WHERE 1=1
+                   AND g.useyn = 'Y'
+                   AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                   AND (g.divcd = '30' OR ( g.divcd = '20'
+                                            AND g.deliverydtyn = 'N'
+                                            AND g.gdcd NOT IN ('A3','A4','A7','A8'
+                                                              ,'B2','B3','C3','G9'
+                                                              ,'H6','H9','P9','R6'
+                                                              ,'R9','T1','T2','T3'
+                                                              ,'Z02','Z21','Z22','Z25'
+                                                              ,'Z26','Z94')
+                                          )
+                      )
+                   AND g.newyn = 'Y'
+                   AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                   AND (ISNULL(g.expgrcd, '') = ''
+                        OR EXISTS (SELECT cl.ulgrcd
+                                     FROM customgrp_l cl
+                                      WHERE cl.ulcode = g.expgrcd
+                                      <if test="strMEMGRPCD != null">
+                                        AND cl.ulgrcd = #{strMEMGRPCD}
+                                      </if>
+                                  )
+                       )
+                   <if test="dispatchtype != null">
+                      AND g.dispatchtype =#{dispatchtype}
+                   </if>
+              ) x
+    </select>
+
+    <select id="newProdListAjax" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT *
+             <!--, dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},gdcd) saleprice -->
+          FROM (
+                <choose>
+                    <when test='orderby == "PP" or orderby == null or orderby == ""'>
+                       SELECT FLOOR( (ROW_NUMBER() OVER (ORDER BY (<![CDATA[ CASE WHEN gdcnt <= 0 ]]> THEN 1  ELSE 0 END ), 1 - (a.saleprice1/a.price1) DESC)-1)/ #{intPagePerItem} + 1) AS cPage
+                    </when>
+                    <when test='orderby == "PB"'>
+                       SELECT FLOOR((ROW_NUMBER() OVER (ORDER BY (<![CDATA[ CASE WHEN gdcnt <= 0 ]]> THEN 1 ELSE 0 END), a.bestcnt DESC)-1)/ #{intPagePerItem} + 1) AS cPage
+                    </when>
+                    <when test='orderby == "PI"'>
+                       SELECT FLOOR((ROW_NUMBER() OVER ( ORDER BY (<![CDATA[ CASE WHEN gdcnt <= 0 ]]> THEN 1 ELSE 0 END), newyn, ISNULL(updt, indt) DESC ) - 1 ) / #{intPagePerItem} + 1) AS cPage
+                    </when>
+                    <when test='orderby == "PN" '>
+                       SELECT FLOOR((ROW_NUMBER() OVER (ORDER BY (<![CDATA[ CASE WHEN gdcnt <= 0 ]]> THEN 1 ELSE 0 END), a.gdname)-1)/ #{intPagePerItem} + 1) AS cPage
+                    </when>
+                    <when test='orderby == "PU" '>
+                       SELECT FLOOR((ROW_NUMBER() OVER (ORDER BY (<![CDATA[ CASE WHEN gdcnt <= 0 THEN ]]> 1 ELSE 0 END), a.saleprice1 ASC)-1)/ #{intPagePerItem} + 1) AS cPage
+                    </when>
+                    <when test='orderby == "PD" '>
+                       SELECT FLOOR((ROW_NUMBER() OVER (ORDER BY (<![CDATA[ CASE WHEN gdcnt <= 0 THEN ]]> 1 ELSE 0 END), a.saleprice1 DESC)-1)/ #{intPagePerItem} + 1) AS cPage
+                    </when>
+                </choose>
+                 , a.*
+                   FROM (
+                          SELECT g.gdcd
+                               , g.gdname
+                               , g.unit
+                               , g.price1
+                               , g.gdimg
+                               , g.mgdimg1
+                               , g.divcd
+                               , g.div1
+                               , g.indt
+                               , g.updt
+                               , g.shortdesc
+                               , ISNULL(g.soldoutyn,'N') soldoutyn
+                               , ISNULL(s.gdcnt,99999) gdcnt
+                               , ISNULL(g.newyn,'N') newyn
+                               , ISNULL(g.qtysaleyn,'N') qtysaleyn
+                               , g.recommendyn
+                               , i.origin
+                               , i.producer
+                               , i.address
+                               , ISNULL(t.cdname,'미지정') AS gradedesc
+                               , g.thedaysyn
+                               , CASE g.dispatchtype WHEN 'I' THEN '11'
+                                                     WHEN 'O' THEN '15'
+                                 END odtype
+                               , ISNULL(g.deliverydtyn,'N') deliverydtyn
+                               , ISNULL(g.reserveyn,'N') reserveyn
+                               , dbo.getMasterPrice(g.gdcd) AS saleprice1
+                               <if test='orderby == "PB"'>
+                               , bestcnt
+                               </if>
+                            FROM gd_master g
+                              LEFT JOIN gd_item i
+                                     ON i.gdcd = g.gdcd
+                              LEFT JOIN cd_master t
+                                     ON t.cdtype = '09'
+                                    AND t.cdcode = i.typecd
+                              LEFT JOIN gd_cnt s
+                                     ON g.gdcd = s.gdcd
+                              LEFT JOIN od_reservegoods r
+                                     ON g.gdcd = r.gdcd
+                                    AND r.useyn = 'Y'
+                                    AND CONVERT(VARCHAR,GETDATE(),23) BETWEEN r.od_from AND r.od_to
+                          <if test='orderby == "PB"'>
+                              LEFT JOIN (SELECT gdcd AS bgdcd
+                                              , SUM(gdcnt) bestcnt
+                                           FROM od_goods
+                                           <![CDATA[
+                                            WHERE indt >= CONVERT(DATETIME, GETDATE() - 1 , 21)
+                                            ]]>
+                                           GROUP BY gdcd) b
+                                     ON g.gdcd = b.bgdcd
+                          </if>
+                             WHERE 1=1
+                               AND g.useyn = 'Y'
+                               AND (g.divcd = '30' OR ( g.divcd = '20'
+                                                        AND g.deliverydtyn = 'N'
+                                                        AND g.gdcd NOT IN ('A3','A4','A7','A8'
+                                                                           ,'B2','B3','C3','G9'
+                                                                           ,'H6','H9','P9','R6'
+                                                                           ,'R9','T1','T2','T3'
+                                                                           ,'Z02','Z21','Z22','Z25'
+                                                                           ,'Z26','Z94')
+                                                       )
+                                    )
+                               AND g.newyn = 'Y'
+                               AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+                               AND (ISNULL(g.expgrcd, '') = ''
+                                    OR EXISTS (SELECT cl.ulgrcd
+                                                 FROM customgrp_l cl
+                                                  WHERE cl.ulcode = g.expgrcd
+                                                  <if test="strMEMGRPCD != null and strMEMGRPCD != ''">
+                                                    AND cl.ulgrcd = #{strMEMGRPCD}
+                                                  </if>
+                                               )
+                                   )
+                             <if test="dispatchtype != null and dispatchtype != ''">
+                               AND g.dispatchtype = #{dispatchtype}
+                             </if>
+                          ) a
+              ) AS pl
+        WHERE cPage = #{intPage}
+    </select>
 </mapper>

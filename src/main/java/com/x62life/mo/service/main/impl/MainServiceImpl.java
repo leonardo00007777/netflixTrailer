@@ -91,4 +91,14 @@ public class MainServiceImpl implements MainService {
     public List<BdContents> eventList(Map<String, Object> paramMap){
         return mainDao.eventList(paramMap);
     }
+
+    @Override
+    public Map<String, Object> newProdListPagingAjax(Map<String, Object> paramMap){
+        return mainDao.newProdListPagingAjax(paramMap);
+    }
+
+    @Override
+    public List<Map<String, Object>> newProdListAjax(Map<String, Object> paramMap){
+        return mainDao.newProdListAjax(paramMap);
+    }
 }
