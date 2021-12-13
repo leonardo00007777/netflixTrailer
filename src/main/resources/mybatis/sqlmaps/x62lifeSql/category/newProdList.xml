@@ -43,7 +43,7 @@
     '20210728   hnjang          품절상품 정렬 변경
     '20210906   hnjang  1.1.3   배송유형별(자연이랑,업체직송) 분류 기능 추가-->
 
-    <select id="categoryList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="newPrdCategoryList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
        SELECT a.exdiv1
             , a.exdiv2
             , b.subcatdesc

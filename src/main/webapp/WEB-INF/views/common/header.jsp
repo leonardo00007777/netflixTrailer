@@ -27,15 +27,16 @@
    <link rel="stylesheet" href="<%=_libUrl %>jquery/css/jquery-ui.min.css"/>
    <link rel="stylesheet" href="<%=_libUrl %>swiper/swiper-bundle.min.css"/>
    <link rel="stylesheet" href="<%=_libUrl %>aos/aos.css"/>
-   <link rel="stylesheet" href="<%=_cssUrl %>lib.css<%=_dummStr %>"/>
-   <link rel="stylesheet" href="<%=_cssUrl %>main.css<%=_dummStr %>"/>
-   <link rel="stylesheet" href="<%=_cssUrl %>home.css<%=_dummStr %>"/>
-   <link rel="stylesheet" href="<%=_cssUrl %>display.css<%=_dummStr %>"/>
-   <link rel="stylesheet" href="<%=_cssUrl %>promotion.css<%=_dummStr %>"/>  
-   <link rel="stylesheet" href="<%=_cssUrl %>order.css<%=_dummStr %>"/>  
-   <link rel="stylesheet" href="<%=_cssUrl %>mypage.css<%=_dummStr %>"/>  
+   <link rel="stylesheet" href="<%=_cssUrl %>lib.css"/>
+   <link rel="stylesheet" href="<%=_cssUrl %>main.css"/>
+   <link rel="stylesheet" href="<%=_cssUrl %>home.css"/>
+   <link rel="stylesheet" href="<%=_cssUrl %>display.css"/>
+   <link rel="stylesheet" href="<%=_cssUrl %>promotion.css"/>
+   <link rel="stylesheet" href="<%=_cssUrl %>order.css"/>
+   <link rel="stylesheet" href="<%=_cssUrl %>mypage.css"/>
    
 </head>
+<body>
 
   
   

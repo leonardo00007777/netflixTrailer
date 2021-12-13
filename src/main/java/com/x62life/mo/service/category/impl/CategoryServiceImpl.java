@@ -28,6 +28,18 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	public List<GdMasterEx> prodListAll(Map<String, Object> paramMap){
+		int intPagePeritem = 30;
+		paramMap.put("intPagePerItem", intPagePeritem);
+
+		if(paramMap.get("intPage") == null || (int)paramMap.get("intPage") == 0){
+			paramMap.put("intPage", 1);
+
+		}
+
+		int intPageOffset = ((int)paramMap.get("intPage") - 1) * (int)paramMap.get("intPagePerItem");
+
+		paramMap.put("intPageOffset", intPageOffset);
+
 		return categoryDao.prodListAll(paramMap);
 	}
 }

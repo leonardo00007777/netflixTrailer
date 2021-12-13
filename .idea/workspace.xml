@@ -10,10 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a612698-62c5-4b1d-906f-4712620c7dc6" name="Changes" comment="[20211213] CategoryController 작업">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/happyfncFoMo_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/happyfncFoMo_war_exploded.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/category/newProdList.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/category/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/category/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/main/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/main/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/dao/main/MainDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/dao/main/MainDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/category/impl/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/main/MainService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/main/MainService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/main/impl/MainServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/x62life/mo/service/main/impl/MainServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/sqlmaps/x62lifeSql/category/itemList.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/sqlmaps/x62lifeSql/category/newProdList.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis/sqlmaps/x62lifeSql/main/main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis/sqlmaps/x62lifeSql/main/main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/env.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/env.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/header.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/header.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/env.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main/main.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +106,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/mybatis/sqlmaps/x62lifeSql/category" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/WEB-INF/category" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.17" />
@@ -105,18 +115,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\WEB-INF\category" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql\category" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images\banner" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images\uploads" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images\gdimg" />
-      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\resources\images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\webapp\WEB-INF\views" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql\main" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\category" />
       <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql\event\eventList" />
-      <recent name="C:\Users\rain1492\IdeaProjects\happyfncFoMo\src\main\resources\mybatis\sqlmaps\x62lifeSql\login" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.x62life.mo.model.gdmaster" />
@@ -692,7 +702,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="RELOAD_CONTEXT" value="false" />
-    <MESSAGE value="[20211130] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업" />
     <MESSAGE value="[20211201] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업" />
     <MESSAGE value="[20211202] pom.xml.bak 삭제" />
     <MESSAGE value="[20211202] 컨트롤러,Service, ServiceImpl, DAO, Mapper 매핑 작업" />
@@ -717,34 +726,16 @@
     <MESSAGE value="[20211209] mainPage 작업" />
     <MESSAGE value="[20211210] resource 경로 변경" />
     <MESSAGE value="[20211210] CategoryController 작업" />
-    <option name="LAST_COMMIT_MESSAGE" value="[20211210] CategoryController 작업" />
+    <MESSAGE value="[20211213] CategoryController 작업" />
+    <option name="LAST_COMMIT_MESSAGE" value="[20211213] CategoryController 작업" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/category/CategoryController.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/category/CategoryController.java</url>
-          <line>26</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/category/CategoryController.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/x62life/mo/controller/category/CategoryController.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.util.LinkedHashMap$Entry" memberName="value" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

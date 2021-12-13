@@ -20,6 +20,7 @@ public class CategoryController {
     @RequestMapping("/main/newProdList")
     public ModelAndView newProdList(Model model, @RequestParam Map<String, Object> paramMap) throws Exception{
         ModelAndView modelAndView = new ModelAndView();
+
         List<GdMasterEx> categoryList = categoryService.categoryList(paramMap);
         model.addAttribute("categoryList", categoryList);
 

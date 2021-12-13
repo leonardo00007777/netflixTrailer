@@ -121,13 +121,21 @@ public class MainController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/main/reloadProduct")
+	@RequestMapping(value = "/main/newProdListPagingAjax")
 	@ResponseBody
-	public List<GdMasterEx> reloadProduct(@RequestParam Map<String, Object> paramMap) throws Exception{
-		System.out.println("1111111111111111" +  paramMap.get("prodCd"));
-		List<GdMasterEx> newProdList = mainService.newProdList(paramMap);
+	public Map<String, Object> newProdListPagingAjax(@RequestParam Map<String, Object> paramMap) throws Exception{
 
+		Map<String, Object> newProdListPagingAjax = mainService.newProdListPagingAjax(paramMap);
 
-		return newProdList;
+		return newProdListPagingAjax;
+	}
+
+	@RequestMapping("/main/newProdListAjax")
+	@ResponseBody
+	public List<Map<String, Object>> newProdListAjax(@RequestParam Map<String, Object> paramMap) throws Exception{
+		System.out.println(paramMap);
+		List<Map<String, Object>> newProdListAjax = mainService.newProdListAjax(paramMap);
+
+		return newProdListAjax;
 	}
 }

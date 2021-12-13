@@ -16,14 +16,14 @@
     String _imgUrl 	   = "/resources/";
     String _servletUrl = "/m/";
     String _dummStr = ""; */
-    
-    
-	String _jsUrl 		   =  "http://192.168.0.91:7080/happyfncFoMo" + "/resources/js/";
-    String _cssUrl 	   =   "http://192.168.0.91:7080/happyfncFoMo"   + "/resources/css/";
-    String _httpUrl 	   =   "http://192.168.0.91:7080/happyfncFoMo"   +"/resources/html/";
-    String _libUrl 		   =   "http://192.168.0.91:7080/happyfncFoMo"   +"/resources/lib/";
-    String _imgUrl 	   =   "http://192.168.0.91:7080/happyfncFoMo"   +"/resources/";
-    String _servletUrl =   "http://192.168.0.91:7080/happyfncFoMo"   +"/m/";    
+
+	String _jsUrl 	   =  "/resources/js/";
+	String _cssUrl 	   = "/resources/css/";
+	String _httpUrl    = "/resources/html/";
+	String _libUrl 	= "/resources/lib/";
+	String _imgUrl 	   = "/resources/";
+	String _servletUrl = "/m/";
+	String _dummStr = "";
 %>
 
  

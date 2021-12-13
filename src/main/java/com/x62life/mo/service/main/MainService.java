@@ -39,4 +39,8 @@ public interface MainService {
     List<MagazineLEx> magazineDetail();
 
     List<BdContents> eventList(Map<String, Object> paramMap);
+
+    Map<String, Object> newProdListPagingAjax(Map<String, Object> paramMap);
+
+    List<Map<String, Object>> newProdListAjax(Map<String, Object> paramMap);
 }

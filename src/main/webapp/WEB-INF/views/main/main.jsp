@@ -5,7 +5,6 @@
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
 
-<body class="page-home header-float">
 <div class="site-container">
   <header class="global-header" id="global-header">
     <div class="global-header-wrap" id="sticky-header">
@@ -1023,7 +1022,7 @@
                   <div class="tags-wrapper swiper-container swiper-no-swiping" id="tags-swiper">
                     <div class="tags swiper-wrapper">
                       <a href="#" class="tag-item swiper-slide">전체보기</a>
-                      <a href="javascript:void(0);" class="tag-item swiper-slide" onclick="reloadProd('01')">과일·견과</a>
+                      <a href="javascript:void(0);" class="tag-item swiper-slide" onclick="sendParam('01')">과일·견과</a>
                       <a href="#" class="tag-item swiper-slide">채소·버섯</a>
                       <a href="#" class="tag-item swiper-slide">쌀·잡곡</a>
                       <a href="#" class="tag-item swiper-slide">정육·계란</a>
@@ -2280,32 +2279,38 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="" value="" checked>
-                      <span class="label">자연이랑 추천순</span>
+                      <input type="radio" name="radio-order" id="orderByNew" value="PI" checked>
+                      <span class="label">신상품순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="" value="">
+                      <input type="radio" name="radio-order" id="orderByHot" value="PB">
+                      <span class="label">인기순</span>
+                    </label>
+                  </div>
+                  <div class="item">
+                    <label class="radio">
+                      <input type="radio" name="radio-order" id="orderByDc" value="PP">
+                      <span class="label">할인율순</span>
+                    </label>
+                  </div>
+                  <div class="item">
+                    <label class="radio">
+                      <input type="radio" name="radio-order" id="orderByNm" value="PN">
                       <span class="label">상품명순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="" value="">
-                      <span class="label">인기상품순</span>
+                      <input type="radio" name="radio-order" id="orderByLowPrc" value="PU">
+                      <span class="label">낮은가격순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="" value="">
-                      <span class="label">낮은 가격순</span>
-                    </label>
-                  </div>
-                  <div class="item">
-                    <label class="radio">
-                      <input type="radio" name="radio-order" id="" value="">
-                      <span class="label">높은 가격순</span>
+                      <input type="radio" name="radio-order" id="orderByHighPrc" value="PD">
+                      <span class="label">높은가격순</span>
                     </label>
                   </div>
                 </div>
@@ -2481,17 +2486,50 @@
       </div>
     </div>
   </div>
-
+<script
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
 <script>
-  function reloadProd(prodCd){
-    var prodCd = prodCd;
-    console.log("1111111111111", prodCd);
+  $("input[name='radio-order']").click(function (){
+    var orderby = $("input[name='radio-order']:checked").val();
+    var intPagePerItem = 20;
+    var intPageSize = 999;
+    var intMaxPage = 0;
+    var intTotalCount = 0;
+    var strMEMGRPCD = '';
+    var dispatchtype = '';
+    var intPage = 1;
     $.ajax({
-      url : "/main/reloadProduct",
-      data : {"prodCd": prodCd},
+      url : "/main/newProdListPagingAjax",
+      data: { "orderby" : orderby
+            , "intPagePerItem" : intPagePerItem
+            , "intPageSize" : intPageSize
+            , "intMaxPage" : intMaxPage
+            , "intTotalCount" : intTotalCount
+            },
       success: function (data) {
-        alert("성공!!!");
+        console.log("!!!!!!!!!!!!!!!!", data);
       }
-    })
+    });
+
+    $.ajax({
+      url : "/main/newProdListAjax",
+      data: { "orderby" : orderby
+            , "strMEMGRPCD" : strMEMGRPCD
+            , "dispatchtype" : dispatchtype
+            , "intPagePerItem" : intPagePerItem
+            , "intPage" : intPage
+            },
+      success: function (data) {
+        console.log("@@@@@@@@@@@@@@@@", data);
+      }
+    });
+  });
+  function sendParam(categoryCd){
+    $.ajax({
+      url : "/main/newProdList",
+      data : {"prodCd": categoryCd}
+    });
   }
 </script>
