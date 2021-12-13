@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
-  <title>마이자연이랑 - 자연이랑</title>
-  <link rel="stylesheet" href="./lib/jquery/css/jquery-ui.min.css">
-  <link rel="stylesheet" href="./lib/swiper/swiper-bundle.min.css">
-  <link rel="stylesheet" href="./css/lib.css">
-  <link rel="stylesheet" href="./css/main.css">
-  <link rel="stylesheet" href="./css/mypage.css">
-</head>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page session="false" %>
+
 <body>
   <div style="position: absolute; top: 12%; left: 12%; right: 12%; bottom:52%; background: rgba(255, 0, 0, 0.3); color: #F23045; font-size: 2.2rem; z-index: 999; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 700;">
     디자인 수정중
@@ -373,29 +367,3 @@
       </ul>
     </div>
   </div><!-- /.site-container -->
-
-
-  <script src="./lib/jquery/jquery.min.js"></script>
-  <script src="./lib/jquery/jquery-ui.min.js"></script>
-  <script src="./lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="./lib/swiper/swiper-bundle.min.js"></script>
-  <script src="./lib/waypoints/jquery.waypoints.min.js"></script>
-  <script src="./lib/waypoints/shortcuts/sticky.min.js"></script>
-
-  <script src="./js/ui.js"></script>
-  <script src="./js/main.js"></script>
-  <script>
-    $(function() {
-      //팝업 시연용 테스트 코드 입니다.
-      //실제 개발시 사용하지 마시고 삭제해주세요
-      var queryString = window.location.search;
-      var urlParams = new URLSearchParams(queryString);
-      if(urlParams.has('modalID')) {
-        var modalSelector = "#" + urlParams.get('modalID');
-        $(modalSelector).modal('show');
-      }
-    });//jQuery Ready
-
-  </script>
-</body>
-</html>

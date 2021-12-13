@@ -1,14 +1,14 @@
 /* jQuery Ready */
 $(function() {
 
-	footer.initKeyEvent();
+	gnbSub.initKeyEvent();
 	
 });
 
 //----------------------------------------------------------------------------------------------------
-//														Footer
+//							gnb Sub
 //----------------------------------------------------------------------------------------------------
-var footer = function() {
+var gnbSub = function() {
 
 	return {
 		cannotAccess : function() {
@@ -21,7 +21,12 @@ var footer = function() {
 		//------------------------------------------------------------
 		initKeyEvent : function() {
 			
-			$("#aaaa").on("click", function(e) {
+			$("#gnbBtnCart").on("click", function(e) {
+				alert("장바구니 이동 ...");
+				
+				// login 유무활용 
+				// common.cannotAccess();				
+				gnbSub.goUrl("cart");
 				
 			});
 			
@@ -30,50 +35,31 @@ var footer = function() {
 		//------------------------------------------------------------
 		// go URL
 		//------------------------------------------------------------
-		goUrl : function(_num) {
-			//alert("footer = " + _num);
-			var url = "/common/footertimeline";
+		goUrl : function(_url) {
+			alert("goUrl ,  _url = " + _url);
+			var url = "/cart";
 			
-			// login 유무활용 
-			//common.cannotAccess();
-			
-			switch (_num) {
-				case 0:
-					url = "/main";
+			switch (_url) {
+				case "cart":
+					url = "/cartlist";
 					break;
-				case 1:
-					url = "/common/footertimeline";
-					break;
-				case 2:
-					url = "/common/footercategory";
-					break;
-				case 3:
-					url = "/common/footersearch";
-					break;
-				case 4:
-					url = "/common/footermypage";
-					break;
+					
+				case "alarm":
+					url = "/alarm";
+					break
+					
 				default:
 					break;
 			}
-		    
+		 
 			let f = document.createElement('form');
-		    
-		    f.setAttribute('method', 'post');
-		    f.setAttribute('action', url);
-		    document.body.appendChild(f);
-		    
-		    f.submit();
+			 f.setAttribute('method', 'post');
+			 f.setAttribute('action', url);
+			 document.body.appendChild(f);
+			 f.submit();
+			
 		}
 	}
 }();
-
-
-
-
-
-
-
-
 
 

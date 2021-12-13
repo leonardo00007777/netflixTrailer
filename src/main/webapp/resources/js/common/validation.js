@@ -1,14 +1,14 @@
 /* jQuery Ready */
 $(function() {
 
-	initBnbFooter();
+	//initBnbFooter();
 	
 });
 
 //-------------------------------------------------------------------
 //						common - validation
 //-------------------------------------------------------------------
-var common = function() {
+var validation = function() {
 
 	return {
 		cannotAccess : function() {

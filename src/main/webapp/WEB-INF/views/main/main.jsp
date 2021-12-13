@@ -20,7 +20,7 @@
             <i class="wn-icon wni-bell" onclick="$('#modalNotification').modal('show')">Notification</i>
             <span class="circle-badge"></span>
           </a>
-          <a href="WN_PB_MO_ORD_010101.html" class="menu-item">
+          <a href="javascript:void(0)" class="menu-item"  id="gnbBtnCart">>
             <i class="wn-icon wni-cart">장바구니</i>
             <span class="num-badge">9</span>
           </a>
