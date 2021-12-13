@@ -6,11 +6,13 @@
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
 
 <body>
-  <div class="site-container bg-gray">
+  <div class="site-container bg-gray" id="timelineWrapper">
     <header class="local-header">
       <div class="fixed-top">
         <div class="local-top">
-          <a href="review_home.html" class="btn-prev"><i class="wn-icon wni-arrow-left"></i></a>
+        	<button class="btn-prev"  id="backBtn">
+	         	<i class="wn-icon wni-arrow-left"></i>
+	        </button>
           <div class="h-row">
             <div class="h-col h-tit">
               <h1 class="page-tit text-center">타임라인</h1>
