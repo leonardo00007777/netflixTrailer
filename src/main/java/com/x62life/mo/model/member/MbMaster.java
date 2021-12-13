@@ -55,8 +55,9 @@ public class MbMaster {
     private String snsId; //sns id
 	private String mempw_hash; //비번 hash
     private String login_failed_count; // 로그인 실패count
-    
-    //---------------------------------------------------------
+    private Boolean  isLoggedIn; // 로그인 유무
+
+	//---------------------------------------------------------
     // memberprofile 추가
     //---------------------------------------------------------
 	private String nickn; 
@@ -72,6 +73,14 @@ public class MbMaster {
 	private String islocked; 
 	
 	
+	
+	public Boolean getIsLoggedIn() {
+		return isLoggedIn;
+	}
+	
+	public void setIsLoggedIn(Boolean isLoggedIn) {
+		this.isLoggedIn = isLoggedIn;
+	}
     public String getMempw_hash() {
 		return mempw_hash;
 	}

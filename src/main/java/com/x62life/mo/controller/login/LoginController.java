@@ -1,12 +1,12 @@
 package com.x62life.mo.controller.login;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +18,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.x62life.mo.common.util.CookiesUtil;
-import com.x62life.mo.model.login.LoginProcess;
 import com.x62life.mo.model.member.MbMaster;
 import com.x62life.mo.service.login.LoginService;
 import com.x62life.mo.service.member.MemberService;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping(value = "/login")
@@ -38,13 +40,91 @@ public class LoginController {
     
 	@Autowired Properties configProperties;
 	
+	@Value("#{configProperties['loginFormUrl']}") 
+	private String loginFormUrl;
+
 	@Value("#{configProperties['cookieDomain']}") 
 	private String sCookieDomain;
-
+	
 	protected static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);	
 
-
 	
+    /**
+     * 로그인 페이지
+     *
+     * @param memberInfo
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/loginForm.do")
+    public ModelAndView loginForm(HttpServletRequest request
+													            , MbMaster memberInfo
+													            , Model model) throws Exception {
+        //LOGGER.debug("로그인 폼 진입");
+        model.addAttribute("mbrId", memberInfo.getMemid());
+        model.addAttribute("mbrNo", memberInfo.getMempw());
+
+        // 회원 확인
+//        String sMbrPasswd = loginService.selectMbrInfo(memberInfo.getMbrNo());
+//
+//        model.addAttribute("mbrPasswd", sMbrPasswd);
+//        model.addAttribute("testMbrNo", memberInfo.getMbrNo());
+//
+//        //이전 페이지 주소 호출
+//        String referer = (String)userContext.getAttribute(Constants.REDIRECT_URL);
+//
+//        if (referer == null || "".equals(referer)) {
+//            referer = RequestContext.getCurrent("baseUrl") + config.get("mainUrl");
+//        }
+//
+//        if (referer != null && !referer.contains(request.getServerName())) {
+//            referer = RequestContext.getCurrent("baseUrl") + referer;
+//            if (referer.indexOf("logout.do") > -1) {
+//                referer = RequestContext.getCurrent("baseUrl") + config.get("mainUrl");
+//            }
+//        }
+//
+//        if(!TextUtil.isEmpty(referer) && referer.contains("mainRecommYn")) { // 큐레이션 redirect 처리로 추가
+//            referer = RequestContext.getCurrent("baseUrl") + config.get("mainUrl") + "?mainRecommYn=Y";
+//        }
+//
+//        //인앱브라우저 등으로 들어와서
+//        request.setAttribute("referer", referer);
+//        userContext.setAttribute("referer", referer);
+
+        return new ModelAndView("login/loginForm");
+    }
+
+    
+    /**
+     * 로그인 여부 체크 Ajax
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/loginCheckJson.do", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public Object loginCheckJson(HttpServletRequest request,
+                                 HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+        json.put("result", true);
+        
+        HttpSession session = request.getSession();		
+        MbMaster sessionMember = (MbMaster) session.getAttribute("sessionMember");
+
+        if (sessionMember == null || !sessionMember.getIsLoggedIn()) {
+            json.put("result", false);
+            json.put("url", loginFormUrl);
+
+            return json;
+        }
+        return json;
+    }
+    
 //	@RequestMapping(value="/login", method=RequestMethod.GET)
 //	public String login(ModelMap model, HttpServletRequest request)
 //	{

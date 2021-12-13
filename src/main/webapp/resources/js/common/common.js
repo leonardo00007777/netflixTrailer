@@ -77,9 +77,9 @@ var common = function() {
 		},
 		
 		
-		//-----------------------------------------------------------------------------------------------------
+		//---------------------------------------
 		// go URL
-		//-----------------------------------------------------------------------------------------------------
+		//---------------------------------------
 		goUrl : function(_url) {
 			alert("goUrl ,  _url = " + _url);
 			var url = "/cart";
@@ -104,6 +104,47 @@ var common = function() {
 			 f.submit();
 		},
 
+		//---------------------------------------
+		// 로그인 유무
+		//---------------------------------------
+	    isLogin : function(){
+	    	
+	    	var url= "login/loginCheckJson.do";
+	        var loginResult = false;
+	        
+	        var checkLoginStatus = sessionStorage.getItem("checkLoginStatus");
+	        if(checkLoginStatus == null || checkLoginStatus == "undefined"){
+	        	
+	            $.ajax({
+	                type: "POST",
+	                url: url,
+	                data: null,
+	                dataType : 'json',
+	                async: false,
+	                cache: false,
+	                success: function(data) {
+	                    loginResult = data.result;
+	                    sessionStorage.setItem("checkLoginStatus", data.result);
+	                },
+	                error : function() {
+	                    loginResult = false;
+	                    sessionStorage.removeItem("checkLoginStatus");
+	                }
+	            });
+	        }else{
+	        	loginResult = JSON.parse(sessionStorage.getItem("checkLoginStatus"));
+
+	        	if(loginResult != false ){
+	        		if(sessionStorage.getItem("byIsNotLoginFirPurBan") == "done"){
+	        			//비로그인 -> 로그인와서 처음 행위
+	        			sessionStorage.removeItem("firstPurchaseBanInfo");
+	        			sessionStorage.removeItem("byIsNotLoginFirPurBan");
+	        		}
+	        	}
+	        }
+	        return loginResult;
+	    },
+	    
 		/* ******************************************************************
 		 * 필수 스크립트 모음
 		 ****************************************************************** */
