@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -125,17 +126,13 @@ public class MainController {
 	@ResponseBody
 	public Map<String, Object> newProdListPagingAjax(@RequestParam Map<String, Object> paramMap) throws Exception{
 
+		Map<String, Object> resultMap = new HashMap<>();
 		Map<String, Object> newProdListPagingAjax = mainService.newProdListPagingAjax(paramMap);
-
-		return newProdListPagingAjax;
-	}
-
-	@RequestMapping("/main/newProdListAjax")
-	@ResponseBody
-	public List<Map<String, Object>> newProdListAjax(@RequestParam Map<String, Object> paramMap) throws Exception{
-		System.out.println(paramMap);
 		List<Map<String, Object>> newProdListAjax = mainService.newProdListAjax(paramMap);
 
-		return newProdListAjax;
+		resultMap.put("newProdListPagingAjax",newProdListPagingAjax);
+		resultMap.put("newProdListAjax", newProdListAjax);
+
+		return resultMap;
 	}
 }

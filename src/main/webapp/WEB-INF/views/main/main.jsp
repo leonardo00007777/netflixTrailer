@@ -2507,24 +2507,23 @@
             , "intPageSize" : intPageSize
             , "intMaxPage" : intMaxPage
             , "intTotalCount" : intTotalCount
-            },
-      success: function (data) {
-        console.log("!!!!!!!!!!!!!!!!", data);
-      }
-    });
-
-    $.ajax({
-      url : "/main/newProdListAjax",
-      data: { "orderby" : orderby
             , "strMEMGRPCD" : strMEMGRPCD
             , "dispatchtype" : dispatchtype
             , "intPagePerItem" : intPagePerItem
             , "intPage" : intPage
             },
       success: function (data) {
-        console.log("@@@@@@@@@@@@@@@@", data);
+        console.log("!!!!!!!!!!!!!!!!", data.newProdListAjax);
+        console.log("%%%%%%%%%%%%%%%%%", data.newProdListPagingAjax);
+        var maxPage = data.newProdListPagingAjax.maxPage;
+        console.log("@@@@@@@@@@@@@@@@@@@@" , maxPage);
+        data.newProdListAjax.forEach(function (el, i){
+          console.log(el);
+        })
       }
     });
+
+
   });
   function sendParam(categoryCd){
     $.ajax({
