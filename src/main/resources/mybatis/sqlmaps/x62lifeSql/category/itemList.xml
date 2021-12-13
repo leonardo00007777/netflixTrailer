@@ -16,7 +16,7 @@
     'Version       :
     '
     'Modified   Author  V/M     Reason For Modification
-    '-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;&#45;&#45;  &#45;&#45;&#45;&#45;    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+
     '20170124   hwkim   0.9     처음 작성 - 옵션 상품 목록 제외 처리
     '20170227   hwkim   0.9.1   상품 없을 때 안내 표시 처리 버그 수정
     '20170314   hwkim   0.9.2   정렬기능 붙임. 일부 수정 item_sort_list_m 으로 부터
@@ -74,13 +74,16 @@
                               AND (ISNULL(g.expgrcd, '') = ''
                                     OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl
                                                 WHERE cl.ulcode = g.expgrcd
-                                                  AND cl.ulgrcd = #{strMEMGRPCD})
+                                                  <if test="strMEMGRPCD != null">
+                                                  AND cl.ulgrcd = #{strMEMGRPCD}
+                                                  </if>
+                                              )
                                   )
-                              <if test="OPT != null ">
-                              AND ISNULL(g.optionp,'N') = 'N'
+                              <if test="listingMode != null and listingMode == 'OPT' ">
+                                AND ISNULL(g.optionp,'N') = 'N'
                               </if>
                               <if test="dispatchtype != null ">
-                              AND dispatchtype = #{dispatchtype}
+                                AND dispatchtype = #{dispatchtype}
                               </if>
                          UNION ALL 
                          SELECT gdcd
@@ -96,7 +99,12 @@
                             AND exdiv1 = #{strExdiv1} 
                             AND (ISNULL(expgrcd, '') = '' 
                                   OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl 
-                                              WHERE cl.ulcode = expgrcd AND cl.ulgrcd = #{strMEMGRPCD}))
+                                              WHERE cl.ulcode = expgrcd
+                                                <if test="strMEMGRPCD != null">
+                                                 AND cl.ulgrcd = #{strMEMGRPCD}
+                                                </if>
+                                             )
+                                )
                             <if test="dispatchtype != null ">
                             AND dispatchtype = #{dispatchtype}
                             </if>
@@ -123,45 +131,58 @@
              AND cat2 = #{strExDiv2}
     </select>
 
-    <select id="prodListPaging" parameterType="java.util.Map" resultType="java.lang.Integer">
-        SELECT COUNT(gdcd) CNT 
-          FROM ( 
-                SELECT g.gdcd 
-                  FROM gd_master g 
-                 WHERE 1 = 1 
-                   AND g.useyn = 'Y' 
-                   AND (g.divcd = '30' OR (g.divcd = '20' AND 
-                                           g.deliverydtyn = 'N' AND 
-                                           g.gdcd NOT IN ('A3','A4','A7','A8','B2','B3','C3','G9','H6','H9','P9','R6','R9','T1','T2','T3','Z02','Z21','Z22','Z25','Z26','Z94') 
-                                          ) 
-                       ) 
-                   AND (ISNULL(g.expgrcd, '') = '' 
-                         OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl 
-                                     WHERE cl.ulcode = g.expgrcd AND cl.ulgrcd = #{strMEMGRPCD})
-                        )
-                        <if test="strExDiv1 != null ">
-                            AND g.gdcd IN (SELECT gdcd FROM gd_master
-                                            WHERE useyn = 'Y'
-                                              AND exdiv1 = #{strExDiv1}
-                        </if>
-                                            <if test="strExDiv2 != null ">
-                                              AND exdiv2 = #{strExDiv2}
-                                            </if>
-                                            UNION
-                                            SELECT gdcd FROM gd_another_category  /*'추가노출 카테고리에 해당하는 상품 추가.*/
-                                                         WHERE div1 = #{strExDiv1}
-                                            <if test="strExDiv2 != null ">
-                                              AND exdiv2 = #{strExDiv2}
-                                            </if>
+    <select id="prodListPaging" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(gdcd) CNT
+          FROM (
+                SELECT g.gdcd
+                     , CASE g.dispatchtype WHEN 'I' THEN '11'
+                                           WHEN 'O' THEN '15'
+                       END odtype
+                 FROM gd_master g
+                  WHERE 1 = 1
+                    AND g.useyn = 'Y'
+                    AND (g.divcd = '30' OR (g.divcd = '20'
+                                            AND g.deliverydtyn = 'N'
+                                            AND  g.gdcd NOT IN ( 'A3','A4','A7','A8'
+                                                                ,'B2','B3','C3','G9'
+                                                                ,'H6','H9','P9','R6'
+                                                                ,'R9','T1','T2','T3'
+                                                                ,'Z02','Z21','Z22','Z25'
+                                                                ,'Z26','Z94')
                                            )
-              <if test="listingMode == 'OPT'">
-                  AND ISNULL(g.optionp,'N') = 'N'
-              </if>
-              <if test="dispatchtype != null ">
-                  AND g.dispatchtype =#{dispatchtype}
-              </if>
-              ) a
-         WHERE 1 = 1 
+                        )
+                    AND ( ISNULL(g.expgrcd, '') = ''
+                          OR EXISTS (SELECT cl.ulgrcd
+                                       FROM customgrp_l cl
+                                        WHERE cl.ulcode = g.expgrcd
+                                       <if test="strMEMGRPCD != null">
+                                          AND cl.ulgrcd = #{strMEMGRPCD}
+                                       </if>
+                                     )
+                        )
+                  <if test="strExDiv1 != null">
+                    AND g.gdcd IN ( SELECT gdcd
+                                      FROM gd_master
+                                       WHERE useyn = 'Y'
+                                         AND exdiv1 = #{strExDiv1}
+                                       <if test="strExDiv2 != null">
+                                         AND exdiv2 = #{strExDiv2}
+                                       </if>
+                                    UNION
+                                    SELECT gdcd
+                                      FROM gd_another_category /*'추가노출 카테고리에 해당하는 상품 추가.*/
+                                       WHERE div1 = #{strExDiv1}
+                                         AND div2 = #{strExDiv2}
+                                  )
+                  </if>
+                  <if test="listingMode == 'OPT'">
+                      AND ISNULL(g.optionp,'N') = 'N'
+                  </if>
+                  <if test="dispatchtype != null">
+                      AND g.dispatchtype = #{dispatchtype}
+                  </if>
+            ) a
+         WHERE 1 = 1
     </select>
     
     <select id="prodListAll" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
@@ -269,13 +290,16 @@
                    AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL)) 
                    AND (ISNULL(g.expgrcd, '') = '' 
                          OR EXISTS (SELECT cl.ulgrcd FROM customgrp_l cl 
-                                     WHERE cl.ulcode = g.expgrcd AND cl.ulgrcd = #{strMEMGRPCD})
+                                     WHERE cl.ulcode = g.expgrcd
+                                     <if test="strMEMGRPCD != null">
+                                       AND cl.ulgrcd = #{strMEMGRPCD}
+                                     </if>
+                                    )
                        )
-                <if test="strExDiv1 !+ null">
+                <if test="strExDiv1 != null">
                     AND g.gdcd IN (SELECT gdcd FROM gd_master
                                                 WHERE useyn = 'Y'
                                                   AND exdiv1 = #{strExDiv1}
-                </if>
                                                 <if test="strExDiv2 != null">
                                                   AND exdiv2 = #{strExDiv2}
                                                 </if>
@@ -286,14 +310,15 @@
                                                   AND div2 = #{strExDiv2}
                                                 </if>
                                    )
-                <if test="listingMode == 'OPT'">
+                </if>
+                <if test="listingMode != null  and listingMode == 'OPT'">
                     AND ISNULL(g.optionp,'N') = 'N'
                 </if>
                 <if test="dispatchtype != null">
                     AND g.dispatchtype =#{dispatchtype}
                 </if>
-               ) a 
-          <if test="orderBy == '' ">
+            ) a
+          <if test="orderBy == null or orderBy == '' ">
              LEFT JOIN ( SELECT k.gdcd
                               , RANK() OVER (ORDER BY k.gdprice DESC) yrank
                               , RANK() OVER (ORDER BY k.gdsum DESC) xrank
