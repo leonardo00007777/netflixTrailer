@@ -1,6 +1,7 @@
 package com.x62life.mo.controller.member;
 
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,9 +10,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.x62life.mo.model.member.MbMaster;
 import com.x62life.mo.service.member.MemberService;
@@ -25,6 +29,68 @@ public class MemberController
 	@Autowired
 	private MemberService memberService;
 	
+    /**
+     * 회원가입 페이지
+     *
+     * @param memberInfo
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/joinmember")
+	public ModelAndView joinmember(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		
+		logger.info("/member/joinMember");
+
+		paramMap.put("test", null);
+		
+		mv.setViewName("/member/joinMember");
+
+		return mv;
+    }
+    
+    /**
+     * 회원가입 페이지 (일반가입 / 간편가입 선택화면)
+     *
+     * @param memberInfo
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/joinmemberchoice")
+    public ModelAndView joinmemberchoice(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
+    	ModelAndView mv = new ModelAndView();
+    	
+    	logger.info("/member/joinMemberChoice");
+    	
+    	paramMap.put("test", null);
+    	
+    	mv.setViewName("/member/joinMemberChoice");
+    	
+    	return mv;
+    }
+    
+    /**
+     * 회원가입 폼
+     *
+     * @param memberInfo
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/joinmemberform")
+    public ModelAndView joinmemberform(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
+    	ModelAndView mv = new ModelAndView();
+    	
+    	logger.info("/member/joinMemberForm");
+    	
+    	paramMap.put("test", null);
+    	
+    	mv.setViewName("/member/joinMemberForm");
+    	
+    	return mv;
+    }
 	
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response, MbMaster memberParam)

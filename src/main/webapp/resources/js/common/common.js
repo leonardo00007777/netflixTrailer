@@ -80,16 +80,22 @@ var common = function() {
 	        	common.goMappingUrl("/login/login");
 	        });
 	        
-		    
 		    //---------------------------------------------
-		    // Join Member
+		    // Join Member (일반회원/간편회원) 선택
 		    //---------------------------------------------
 	        $("#joinMemberGroup").find("#btnJoinMember").bind("click", function() {
-	        	common.goMappingUrl("/member/joinmember");
+	        	common.goMappingUrl("/member/joinmemberchoice");
 		    	
 		    });
+	        
+	        //---------------------------------------------
+	        // Join Member Form 
+	        //---------------------------------------------
+	        $("#joinMemberForm").bind("click", function() {
+	        	common.goMappingUrl("/member/joinmemberform");
+	        	
+	        });
 		},
-		
 		
 		//---------------------------------------
 		// go URL
