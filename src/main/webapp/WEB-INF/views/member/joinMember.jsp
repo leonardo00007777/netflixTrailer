@@ -74,9 +74,15 @@
                   </div>
                 </li>
               </ul>
-              <div class="button-group mt-30">
-                <a href="WN_PB_MO_MEM_010000.html" class="button bt-green bt-l">회원가입</a>
-                <a href="WN_PB_MO_MYP_000100.html" class="button bt-green bt-l">로그인</a>
+              <div class="button-group mt-30" id="joinMemberGroup">
+<!--                 <a href="WN_PB_MO_MEM_010000.html" class="button bt-green bt-l">회원가입</a>
+                <a href="WN_PB_MO_MYP_000100.html" class="button bt-green bt-l">로그인</a> -->
+		        	<button class="button bt-green bt-l"  id="btnJoinMember">
+		        	    회원가입
+			        </button>
+		        	<button class="button bt-green bt-l"  id="btnLogin">
+		        	    로그인
+			        </button>
               </div>
             </div>
           </section>

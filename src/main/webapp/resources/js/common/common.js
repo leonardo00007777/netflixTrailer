@@ -36,9 +36,7 @@ var common = function() {
 		//-----------------------------------------------------------------------------------------------------
 		initKeyEvent : function() {
 			
-			
-			
-			$("#aaaa").on("click", function(e) {
+			$("#test").on("click", function(e) {
 				//alert("장바구니 이동 ...");
 				
 				// login 유무활용 
@@ -47,8 +45,9 @@ var common = function() {
 				
 			});
 			
-			
+			//---------------------------------------------
 		    // <--- BACK
+			//---------------------------------------------
 		    $("#backBtn").bind("click", function() {
 		    	
 		    	//alert("timeline Back....");
@@ -74,6 +73,21 @@ var common = function() {
 				//		    	// history.back();		    	
 		    });
 		    
+			//---------------------------------------------
+		    // Login
+			//---------------------------------------------
+	        $("#joinMemberGroup").find("#btnLogin").bind("click", function() {
+	        	common.goMappingUrl("/login/login");
+	        });
+	        
+		    
+		    //---------------------------------------------
+		    // Join Member
+		    //---------------------------------------------
+	        $("#joinMemberGroup").find("#btnJoinMember").bind("click", function() {
+	        	common.goMappingUrl("/member/joinmember");
+		    	
+		    });
 		},
 		
 		
@@ -81,7 +95,7 @@ var common = function() {
 		// go URL
 		//---------------------------------------
 		goUrl : function(_url) {
-			alert("goUrl ,  _url = " + _url);
+			//alert("goUrl ,  _url = " + _url);
 			var url = "/cart";
 			
 			switch (_url) {
@@ -102,6 +116,16 @@ var common = function() {
 			 f.setAttribute('action', url);
 			 document.body.appendChild(f);
 			 f.submit();
+		},
+		
+		goMappingUrl : function(_url) {
+			//alert("goMappingUrl ,  _url = " + _url);
+			
+			let f = document.createElement('form');
+			f.setAttribute('method', 'post');
+			f.setAttribute('action', _url);
+			document.body.appendChild(f);
+			f.submit();
 		},
 
 		//---------------------------------------
