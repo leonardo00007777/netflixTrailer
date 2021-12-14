@@ -103,6 +103,8 @@ var swiperOptionDotSub = {
 	pagination: {
 		el: '.swiper-pgn-dots-sub',
 	},
+	observer: true,	// 추가
+	observeParents: true,	// 추가
 };
 
 $(function() {
@@ -590,6 +592,7 @@ function prodFilter(orderby){
 				html += '</article>';
 
 				$('#newPrdList').append(html);
+
 			});
 		}
 	});
