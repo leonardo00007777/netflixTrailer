@@ -22,7 +22,7 @@ var gnbSub = function() {
 		initKeyEvent : function() {
 			
 			$("#gnbBtnCart").on("click", function(e) {
-				alert("장바구니 이동 ...");
+				//alert("장바구니 이동 ...");
 				
 				// login 유무활용 
 				// common.cannotAccess();				
@@ -36,7 +36,7 @@ var gnbSub = function() {
 		// go URL
 		//------------------------------------------------------------
 		goUrl : function(_url) {
-			alert("goUrl ,  _url = " + _url);
+			//alert("goUrl ,  _url = " + _url);
 			var url = "/cart";
 			
 			switch (_url) {
