@@ -575,7 +575,7 @@ function prodFilter(orderby){
 				html +=			'<h4 class="prd-item-tit">' + el.gdname +'</h4>';
 				html +=			'<div class="prd-item-price">';
 				html +=				'<div class="price">';
-				html +=					'<span>' + parseInt(el.saleprice)+'</span><small>원</small>';
+				html +=					'<span>' + parseInt(el.saleprice1)+'</span><small>원</small>';
 				html +=				'</div>';
 				html +=				'<div class="price-org">';
 				html +=					el.price1 + '원';
