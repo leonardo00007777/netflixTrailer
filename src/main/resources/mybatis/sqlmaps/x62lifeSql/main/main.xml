@@ -261,7 +261,7 @@
                       , g.updt
                       , g.shortdesc
                       <choose>
-                          <when test='strMEMGRPCD != null and strGroupSalePolicy != "N"'>
+                          <when test='strMEMGRPCD != null and strMEMGRPCD != "" and strGroupSalePolicy != "N"'>
                               , dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},g.gdcd) saleprice
                           </when>
                           <otherwise>

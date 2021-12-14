@@ -2279,37 +2279,37 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByNew" value="PI" checked>
+                      <input type="radio" name="radio-order" id="orderByNew" value="PI" onclick="prodFilter(this.value)" checked>
                       <span class="label">신상품순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByHot" value="PB">
+                      <input type="radio" name="radio-order" id="orderByHot" value="PB" onclick="prodFilter(this.value)">
                       <span class="label">인기순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByDc" value="PP">
+                      <input type="radio" name="radio-order" id="orderByDc" value="PP" onclick="prodFilter(this.value)">
                       <span class="label">할인율순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByNm" value="PN">
+                      <input type="radio" name="radio-order" id="orderByNm" value="PN" onclick="prodFilter(this.value)">
                       <span class="label">상품명순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByLowPrc" value="PU">
+                      <input type="radio" name="radio-order" id="orderByLowPrc" value="PU" onclick="prodFilter(this.value)">
                       <span class="label">낮은가격순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByHighPrc" value="PD">
+                      <input type="radio" name="radio-order" id="orderByHighPrc" value="PD" onclick="prodFilter(this.value)">
                       <span class="label">높은가격순</span>
                     </label>
                   </div>
@@ -2492,37 +2492,6 @@
         crossorigin="anonymous"></script>
 <script>
   $("input[name='radio-order']").click(function (){
-    var orderby = $("input[name='radio-order']:checked").val();
-    var intPagePerItem = 20;
-    var intPageSize = 999;
-    var intMaxPage = 0;
-    var intTotalCount = 0;
-    var strMEMGRPCD = '';
-    var dispatchtype = '';
-    var intPage = 1;
-    $.ajax({
-      url : "/main/newProdListPagingAjax",
-      data: { "orderby" : orderby
-            , "intPagePerItem" : intPagePerItem
-            , "intPageSize" : intPageSize
-            , "intMaxPage" : intMaxPage
-            , "intTotalCount" : intTotalCount
-            , "strMEMGRPCD" : strMEMGRPCD
-            , "dispatchtype" : dispatchtype
-            , "intPagePerItem" : intPagePerItem
-            , "intPage" : intPage
-            },
-      success: function (data) {
-        console.log("!!!!!!!!!!!!!!!!", data.newProdListAjax);
-        console.log("%%%%%%%%%%%%%%%%%", data.newProdListPagingAjax);
-        var maxPage = data.newProdListPagingAjax.maxPage;
-        console.log("@@@@@@@@@@@@@@@@@@@@" , maxPage);
-        data.newProdListAjax.forEach(function (el, i){
-          console.log(el);
-        })
-      }
-    });
-
 
   });
   function sendParam(categoryCd){
