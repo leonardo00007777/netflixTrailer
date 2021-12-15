@@ -122,18 +122,18 @@ public class MainController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/main/newProdListAjax")
+	@RequestMapping(value = "/main/prodListAjax")
 	@ResponseBody
 	public Map<String, Object> newProdListAjax(@RequestParam Map<String, Object> paramMap) throws Exception{
 
 		System.out.println(paramMap);
 
 		Map<String, Object> resultMap = new HashMap<>();
-		Map<String, Object> newProdListPagingAjax = mainService.newProdListPagingAjax(paramMap);
-		List<Map<String, Object>> newProdListAjax = mainService.newProdListAjax(paramMap);
+		Map<String, Object> prodListPagingAjax = mainService.prodListPagingAjax(paramMap);
+		List<Map<String, Object>> prodListAjax = mainService.prodListAjax(paramMap);
 
-		resultMap.put("newProdListPagingAjax",newProdListPagingAjax);
-		resultMap.put("newProdListAjax", newProdListAjax);
+		resultMap.put("prodListPagingAjax",prodListPagingAjax);
+		resultMap.put("prodListAjax", prodListAjax);
 
 		return resultMap;
 	}

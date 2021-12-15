@@ -703,7 +703,7 @@
     </select>
 
 
-    <select id="newProdListPagingAjax" parameterType="java.util.Map" resultType="java.util.Map">
+    <select id="prodListPagingAjax" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT CEILING( CAST(COUNT(1) AS FLOAT)/#{intPagePerItem}) maxPage
              , COUNT(gdcd) CNT
           FROM (
@@ -748,7 +748,7 @@
               ) x
     </select>
 
-    <select id="newProdListAjax" parameterType="java.util.Map" resultType="java.util.Map">
+    <select id="prodListAjax" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT *
              <!--, dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},gdcd) saleprice -->
           FROM (
