@@ -113,8 +113,7 @@ public class LoginController {
         JSONObject json = new JSONObject();
         json.put("result", true);
         
-        HttpSession session = request.getSession();		
-        MbMaster sessionMember = (MbMaster) session.getAttribute("sessionMember");
+        MbMaster sessionMember = (MbMaster) request.getSession().getAttribute("sessionMember");
 
         if (sessionMember == null || !sessionMember.getIsLoggedIn()) {
             json.put("result", false);
