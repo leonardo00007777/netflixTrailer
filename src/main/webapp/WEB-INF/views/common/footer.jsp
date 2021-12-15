@@ -23,8 +23,7 @@
   <script src="<%=_jsUrl %>common/footer.js"></script>     
   <script src="<%=_jsUrl %>common/validation.js"></script>     
   <script src="<%=_jsUrl %>common/gnbSub.js"></script>     
-  <script src="<%=_jsUrl %>common/dataEvent.js"></script>     
-            
+  <script src="<%=_jsUrl %>common/dataEvent.js"></script>
   <script>
 /*     $(function () {
       //팝업 & 탭 시연용 테스트 코드 입니다.

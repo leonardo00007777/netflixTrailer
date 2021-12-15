@@ -1060,13 +1060,17 @@
               <c:forEach items="${newProdList}" var="newProd">
                 <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProd.saleprice}"/>
                 <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProd.price1}"/>
+                <fmt:formatNumber type="number"
+                                  maxFractionDigits="0"
+                                  var="discountRate"
+                                  value="${newProd.discountRate+((newProd.discountRate%1>0.5)?(1-(newProd.discountRate%1))%1:-(newProd.discountRate%1))}"
+                />
                 <c:choose>
                   <c:when test="${newProd.gdcnt gt 0}">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="#" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}"}' alt="${newProd.gdname}"/>
-                          <fmt:formatNumber value="${newProd.discountRate}" var="discountRate" maxFractionDigits="0"/>
                           <c:if test="${discountRate > 0}">
                             <div class="prd-item-badge dc">
                               <span>${discountRate}</span>
@@ -1278,7 +1282,11 @@
               <c:forEach items="${discountProdList}" var="discountProd">
                 <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
                 <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
-                <fmt:formatNumber value="${discountProd.discountRate}" var="discountRate" maxFractionDigits="0"/>
+                <fmt:formatNumber type="number"
+                                  maxFractionDigits="0"
+                                  var="discountRate"
+                                  value="${discountProd.discountRate+((discountProd.discountRate%1>0.5)?(1-(discountProd.discountRate%1))%1:-(discountProd.discountRate%1))}"
+                />
                 <c:choose>
                   <c:when test="${discountProd.gdcnt gt 0}">
                     <article class="prd-item">
@@ -2242,7 +2250,7 @@
               </div>
               <div class="swiper-mkp-control">
                 <div class="swiper-btn-autoplay"><i class="swiper-icon-pause"></i></div>
-                <div class="pages"></div>
+                <div class="discountProd.discountRate"></div>
               </div>
             </div>
             <footer class="wn-marketing-footer">
@@ -2323,37 +2331,37 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="orderByNew" value="PI" onclick="newProdFilter();" checked>
+                      <input type="radio" name="orderByNew" id="newProdOrderByNew" value="PI" onclick="newProdFilter();" checked>
                       <span class="label">신상품순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="orderByHot" value="PB" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByHot" value="PB" onclick="newProdFilter();">
                       <span class="label">인기순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="orderByDc" value="PP" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByDc" value="PP" onclick="newProdFilter();">
                       <span class="label">할인율순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="orderByNm" value="PN" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByNm" value="PN" onclick="newProdFilter();">
                       <span class="label">상품명순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="orderByLowPrc" value="PU" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByLowPrc" value="PU" onclick="newProdFilter();">
                       <span class="label">낮은가격순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="orderByHighPrc" value="PD" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByHighPrc" value="PD" onclick="newProdFilter();">
                       <span class="label">높은가격순</span>
                     </label>
                   </div>
@@ -2364,19 +2372,19 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="dispatchNew" id="deliveryAll"  value="" onclick="newProdFilter();" checked>
+                      <input type="radio" name="newProdDispatch" id="deliveryAll"  value="" onclick="newProdFilter();" checked>
                       <span class="label">전체</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="dispatchNew" id="selfDelivery" value="I" onclick="newProdFilter();">
+                      <input type="radio" name="newProdDispatch" id="selfDelivery" value="I" onclick="newProdFilter();">
                       <span class="label">자연이랑 발송</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="dispatchNew" id="companyDelivery" value="O" onclick="newProdFilter();">
+                      <input type="radio" name="newProdDispatch" id="companyDelivery" value="O" onclick="newProdFilter();">
                       <span class="label">업체 직송</span>
                     </label>
                   </div>
@@ -2432,7 +2440,7 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByDis" id="orderByDisRecent" value="PP" onclick="discountProdFilter()" checked>
+                      <input type="radio" name="orderByDis" id="orderByDisRate" value="PP" onclick="discountProdFilter()" checked>
                       <span class="label">할인율순</span>
                     </label>
                   </div>
@@ -2473,7 +2481,7 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="dispatchDis" id="" value="" checked onclick="discountProdFilter()">
+                      <input type="radio" name="dispatchDis" id="dispatchDisAll" value="" checked onclick="discountProdFilter()">
                       <span class="label">전체</span>
                     </label>
                   </div>
@@ -2536,18 +2544,3 @@
       </div>
     </div>
   </div>
-<script
-        src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-        crossorigin="anonymous"></script>
-<script>
-  $("input[name='radio-order']").click(function (){
-
-  });
-  function sendParam(categoryCd){
-    $.ajax({
-      url : "/main/newProdList",
-      data : {"prodCd": categoryCd}
-    });
-  }
-</script>

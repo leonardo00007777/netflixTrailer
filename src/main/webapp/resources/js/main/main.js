@@ -583,9 +583,9 @@ function newProdFilter(){
 				html +=	  '<div class="img-container">';
 				html +=		'<a href="#" class="prd-item-img">';
 				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
-				if(parseInt(el.discountrate) > 0){
+				if(Math.round(el.discountrate) > 0){
 					html +=			'<div class="prd-item-badge dc">';
-					html +=				'<span>'+ parseInt(el.discountrate) + '</span>';
+					html +=				'<span>'+ Math.round(el.discountrate) + '</span>';
 					html +=				'<small>%</small>';
 					html +=			'</div>';
 				}
@@ -677,9 +677,9 @@ function discountProdFilter(){
 				html +=	  '<div class="img-container">';
 				html +=		'<a href="#" class="prd-item-img">';
 				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
-				if(parseInt(el.discountrate) > 0){
+				if(Math.round(el.discountrate) > 0){
 					html +=			'<div class="prd-item-badge dc">';
-					html +=				'<span>'+ parseInt(el.discountrate) + '</span>';
+					html +=				'<span>'+ Math.round(el.discountrate) + '</span>';
 					html +=				'<small>%</small>';
 					html +=			'</div>';
 				}
