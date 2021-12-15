@@ -122,9 +122,11 @@ public class MainController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/main/newProdListPagingAjax")
+	@RequestMapping(value = "/main/newProdListAjax")
 	@ResponseBody
-	public Map<String, Object> newProdListPagingAjax(@RequestParam Map<String, Object> paramMap) throws Exception{
+	public Map<String, Object> newProdListAjax(@RequestParam Map<String, Object> paramMap) throws Exception{
+
+		System.out.println(paramMap);
 
 		Map<String, Object> resultMap = new HashMap<>();
 		Map<String, Object> newProdListPagingAjax = mainService.newProdListPagingAjax(paramMap);

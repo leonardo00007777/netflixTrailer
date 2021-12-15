@@ -534,7 +534,9 @@ function changeClose(selector) {
 	$(selector).removeClass("open");
 }
 
-function prodFilter(orderby){
+function prodFilter(){
+	var orderby = '';
+	var deliveryType = '';
 	var intPagePerItem = 20;
 	var intPageSize = 999;
 	var intMaxPage = 0;
@@ -542,9 +544,25 @@ function prodFilter(orderby){
 	var strMEMGRPCD = null;
 	var dispatchtype = '';
 	var intPage = 1;
-	var imgUrl = '/resources/';
+	var imgUrl = 'resources/images/gdimg/';
+
+	$('input[name="radio-order"]').each(function() {
+		var checked = $(this).prop('checked');
+		if(checked) {
+			orderby = $(this).val();
+		}
+	});
+
+	$('input[name="radio-shipping"]').each(function() {
+		var checked = $(this).prop('checked');
+		if(checked) {
+			deliveryType = $(this).val();
+		}
+	});
+
 	$.ajax({
-		url : "/main/newProdListPagingAjax",
+		url : "/main/newProdListAjax",
+
 		data: { "orderby" : orderby
 			, "intPagePerItem" : intPagePerItem
 			, "intPageSize" : intPageSize
@@ -554,7 +572,9 @@ function prodFilter(orderby){
 			, "dispatchtype" : dispatchtype
 			, "intPagePerItem" : intPagePerItem
 			, "intPage" : intPage
+			, "deliveryType" : deliveryType
 		},
+
 		success: function (data) {
 			$('#newPrdList').empty();
 			data.newProdListAjax.forEach(function (el, i){
@@ -562,7 +582,7 @@ function prodFilter(orderby){
 				html += '<article class="prd-item">';
 				html +=	  '<div class="img-container">';
 				html +=		'<a href="#" class="prd-item-img">';
-				html +=			'<img src="resources/images/gdimg/' + el.mgdimg1 + '"alt="'+ el.gdname + '"/>';
+				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
 				html +=			'<div class="prd-item-badge dc">';
 				html +=				'<span>15</span>';
 				html +=				'<small>%</small>';

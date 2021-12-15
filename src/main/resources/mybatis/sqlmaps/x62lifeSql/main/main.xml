@@ -753,7 +753,7 @@
              <!--, dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},gdcd) saleprice -->
           FROM (
                 <choose>
-                    <when test='orderby == "PP" or orderby == null or orderby == ""'>
+                    <when test='orderby == null or orderby == "" or orderby == "PP" '>
                        SELECT FLOOR( (ROW_NUMBER() OVER (ORDER BY (<![CDATA[ CASE WHEN gdcnt <= 0 ]]> THEN 1  ELSE 0 END ), 1 - (a.saleprice1/a.price1) DESC)-1)/ #{intPagePerItem} + 1) AS cPage
                     </when>
                     <when test='orderby == "PB"'>
