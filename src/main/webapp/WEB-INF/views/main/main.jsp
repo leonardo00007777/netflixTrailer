@@ -2279,37 +2279,37 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByNew" value="PI" onclick="prodFilter(this.value)" checked>
+                      <input type="radio" name="radio-order" id="orderByNew" value="PI" onclick="prodFilter();" checked>
                       <span class="label">신상품순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByHot" value="PB" onclick="prodFilter(this.value)">
+                      <input type="radio" name="radio-order" id="orderByHot" value="PB" onclick="prodFilter();">
                       <span class="label">인기순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByDc" value="PP" onclick="prodFilter(this.value)">
+                      <input type="radio" name="radio-order" id="orderByDc" value="PP" onclick="prodFilter();">
                       <span class="label">할인율순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByNm" value="PN" onclick="prodFilter(this.value)">
+                      <input type="radio" name="radio-order" id="orderByNm" value="PN" onclick="prodFilter();">
                       <span class="label">상품명순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByLowPrc" value="PU" onclick="prodFilter(this.value)">
+                      <input type="radio" name="radio-order" id="orderByLowPrc" value="PU" onclick="prodFilter();">
                       <span class="label">낮은가격순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-order" id="orderByHighPrc" value="PD" onclick="prodFilter(this.value)">
+                      <input type="radio" name="radio-order" id="orderByHighPrc" value="PD" onclick="prodFilter();">
                       <span class="label">높은가격순</span>
                     </label>
                   </div>
@@ -2320,19 +2320,19 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-shipping" id="" value="" checked>
+                      <input type="radio" name="radio-shipping" id="deliveryAll"  value="" onclick="prodFilter();" checked>
                       <span class="label">전체</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-shipping" id="" value="">
+                      <input type="radio" name="radio-shipping" id="selfDelivery" value="I" onclick="prodFilter();">
                       <span class="label">자연이랑 발송</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="radio-shipping" id="" value="">
+                      <input type="radio" name="radio-shipping" id="companyDelivery" value="O" onclick="prodFilter();">
                       <span class="label">업체 직송</span>
                     </label>
                   </div>
