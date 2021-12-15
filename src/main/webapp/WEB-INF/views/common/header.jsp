@@ -38,5 +38,18 @@
 </head>
 <body>
 
+<c:set var="cookieDomain"><spring:eval expression='@configProperties["cookieDomain"]' /></c:set>
+<c:set var="devURL"><spring:eval expression='@configProperties["devURL"]' /></c:set>
+
+
+<script>
+
+	//---------------------------------------------------------------------------
+	// Global  Variables
+	//---------------------------------------------------------------------------
+	var _cookieDomain = '<c:out value="${cookieDomain}" />';
+	var _devURL = '<c:out value="${devURL}" />';
+	
+</script>
   
   

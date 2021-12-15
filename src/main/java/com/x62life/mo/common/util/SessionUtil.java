@@ -5,15 +5,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.x62life.mo.model.common.SSOUser;
+import com.x62life.mo.model.member.MbMaster;
 
 public class SessionUtil {
 
-	public static SSOUser currentSSOUser(){
+	public static MbMaster currentSessionMember(){
 		ServletRequestAttributes serviceRequestAttr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession httpSession = serviceRequestAttr.getRequest().getSession();
+		HttpSession session = serviceRequestAttr.getRequest().getSession();
 		
-		return (SSOUser)httpSession.getAttribute("ssoUser");
+		return (MbMaster)session.getAttribute("sessionMember");
 	}
 	
 	

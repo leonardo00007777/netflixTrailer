@@ -19,9 +19,10 @@
             </div>
             <div class="h-col h-menu">
               <div class="global-top-menu">
-                <a href="#" class="menu-item">
-                  <i class="wn-icon wni-cart">장바구니</i>
-                </a>
+		          <a href="javascript:void(0)" class="menu-item"  id="gnbBtnCart">
+		            <i class="wn-icon wni-cart">장바구니</i>
+		            <span class="num-badge">9</span>
+		          </a>
               </div>
             </div>
           </div>

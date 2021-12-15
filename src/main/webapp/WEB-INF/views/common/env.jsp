@@ -32,21 +32,3 @@
 */
 
 %>
-
- 
-
- <%-- <spring:eval expression="@configProperties['cookieDomain']" var="aaaa"/> --%>
-<!-- <script>
-
-	//console.log("cookieDomain===" + "${aaaa}");
-	
-	// javascript 로 properties 활용
-
-	//<c:set var="aa">
-	//    <spring:eval expression="@configProperties['cookieDomain']"/>
-	//</c:set>
-	// var bb = '<c:out value="${aa}" />';
-	//alert("bb= "+bb);
-	
-</script>
-  -->

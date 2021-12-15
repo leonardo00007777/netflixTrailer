@@ -18,9 +18,10 @@
             </div>
             <div class="h-col h-menu">
               <div class="global-top-menu">
-                <a href="#" class="menu-item">
-                  <i class="wn-icon wni-cart">장바구니</i>
-                </a>
+		          <a href="javascript:void(0)" class="menu-item"  id="gnbBtnCart">
+		            <i class="wn-icon wni-cart">장바구니</i>
+		            <span class="num-badge">9</span>
+		          </a>
               </div>
             </div>
           </div>
@@ -74,9 +75,15 @@
                   </div>
                 </li>
               </ul>
-              <div class="button-group mt-30">
-                <a href="WN_PB_MO_MEM_010000.html" class="button bt-green bt-l">회원가입</a>
-                <a href="WN_PB_MO_MYP_000100.html" class="button bt-green bt-l">로그인</a>
+              <div class="button-group mt-30" id="joinMemberGroup">
+<!--                 <a href="WN_PB_MO_MEM_010000.html" class="button bt-green bt-l">회원가입</a>
+                <a href="WN_PB_MO_MYP_000100.html" class="button bt-green bt-l">로그인</a> -->
+		        	<button class="button bt-green bt-l"  id="btnJoinMember">
+		        	    회원가입
+			        </button>
+		        	<button class="button bt-green bt-l"  id="btnLogin">
+		        	    로그인
+			        </button>
               </div>
             </div>
           </section>
