@@ -104,30 +104,44 @@
               <div class="swiper-container swiper-prd-2n swiper-no-swiping">
                 <div class="swiper-wrapper">
                   <c:forEach items="${newProdList}" var="newProdList">
+                    <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProdList.price1}"/>
+                    <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProdList.saleprice}"/>
                     <div class="swiper-slide">
                      <article class="prd-item">
                        <div class="img-container">
                          <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
                            <img src="<%=_imgUrl %>images/uploads/${newProdList.mgdimg1}" alt="${newProdList.unit}">
-                           <div class="prd-item-badge dc">
-                             <span>23</span>
-                             <small>%</small>
-                           </div>
+                           <fmt:formatNumber value="${newProdList.discountRate}" var="discountRate" maxFractionDigits="0"/>
+                           <c:if test="${discountRate > 0}">
+                             <div class="prd-item-badge dc">
+                               <span>${discountRate}</span>
+                               <small>%</small>
+                             </div>
+                           </c:if>
                          </a>
                        </div>
                        <div class="detail">
                          <a href="#">
                            <h4 class="prd-item-tit">${newProdList.gdname}</h4>
-                           <div class="prd-item-price">
-                             <div class="price">
-                               <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProdList.price1}"/>
-                               <span>${originalPrice}</span><small>원</small>
-                             </div>
-                             <div class="price-org">
-                               <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProdList.saleprice}"/>
-                                 ${salePrice}
-                             </div>
-                           </div>
+                           <c:choose>
+                             <c:when test="${newProdList.price1 ne newProdList.saleprice}">
+                               <div class="prd-item-price">
+                                 <div class="price">
+                                   <span>${salePrice}</span><small>원</small>
+                                 </div>
+                                 <div class="price-org">
+                                     ${originalPrice}
+                                 </div>
+                               </div>
+                             </c:when>
+                             <c:otherwise>
+                               <div class="prd-item-price">
+                                 <div class="price">
+                                   <span>${salePrice}</span><small>원</small>
+                                 </div>
+                               </div>
+                             </c:otherwise>
+                           </c:choose>
                          </a>
                        </div>
                      </article>
@@ -604,6 +618,7 @@
                      </article>
                    </div>
                   </c:forEach>
+
                   <%--<div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
@@ -1043,16 +1058,21 @@
             </div>
             <section class="prd-list prd-list-tile" id="newPrdList">
               <c:forEach items="${newProdList}" var="newProd">
+                <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProd.saleprice}"/>
+                <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProd.price1}"/>
                 <c:choose>
                   <c:when test="${newProd.gdcnt gt 0}">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="#" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}"}' alt="${newProd.gdname}"/>
-                          <div class="prd-item-badge dc">
-                            <span>15</span>
-                            <small>%</small>
-                          </div>
+                          <fmt:formatNumber value="${newProd.discountRate}" var="discountRate" maxFractionDigits="0"/>
+                          <c:if test="${discountRate > 0}">
+                            <div class="prd-item-badge dc">
+                              <span>${discountRate}</span>
+                              <small>%</small>
+                            </div>
+                          </c:if>
                         </a>
                         <div class="prd-item-buttons">
                           <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
@@ -1061,16 +1081,25 @@
                       <div class="detail">
                         <a href="#">
                           <h4 class="prd-item-tit">${newProd.gdname}</h4>
-                          <div class="prd-item-price">
-                            <div class="price">
-                              <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProd.saleprice}"/>
-                              <span>${salePrice}</span><small>원</small>
-                            </div>
-                            <div class="price-org">
-                              <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProd.price1}"/>
-                                ${originalPrice}원
-                            </div>
-                          </div>
+                          <c:choose>
+                            <c:when test="${newProd.price1 ne newProd.saleprice}">
+                              <div class="prd-item-price">
+                                <div class="price">
+                                  <span>${salePrice}</span><small>원</small>
+                                </div>
+                                <div class="price-org">
+                                    ${originalPrice} 원
+                                </div>
+                              </div>
+                            </c:when>
+                            <c:otherwise>
+                              <div class="prd-item-price">
+                                <div class="price">
+                                  <span>${originalPrice}</span><small>원</small>
+                                </div>
+                              </div>
+                            </c:otherwise>
+                          </c:choose>
                           <div class="prd-item-label">
                             <span class="prd-label mu">${newProd.origin}</span>
                             <span class="prd-label sp">${newProd.gradedesc}</span>
@@ -1247,16 +1276,21 @@
 
             <section class="prd-list prd-list-tile" id="dcPrdList">
               <c:forEach items="${discountProdList}" var="discountProd">
+                <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
+                <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
+                <fmt:formatNumber value="${discountProd.discountRate}" var="discountRate" maxFractionDigits="0"/>
                 <c:choose>
                   <c:when test="${discountProd.gdcnt gt 0}">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="#" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
-                          <div class="prd-item-badge dc">
-                            <span>15</span>
-                            <small>%</small>
-                          </div>
+                          <c:if test="${discountRate > 0}">
+                            <div class="prd-item-badge dc">
+                              <span>${discountRate}</span>
+                              <small>%</small>
+                            </div>
+                          </c:if>
                         </a>
                         <div class="prd-item-buttons">
                           <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart">
@@ -1267,16 +1301,25 @@
                       <div class="detail">
                         <a href="#">
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
-                          <div class="prd-item-price">
-                            <div class="price">
-                              <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
-                              <span>${salePrice}</span><small>원</small>
-                            </div>
-                            <div class="price-org">
-                              <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
-                                ${originalPrice}원
-                            </div>
-                          </div>
+                          <c:choose>
+                            <c:when test="${discountProd.price1 ne discountProd.saleprice}">
+                              <div class="prd-item-price">
+                                <div class="price">
+                                  <span>${salePrice}</span><small>원</small>
+                                </div>
+                                <div class="price-org">
+                                    ${originalPrice} 원
+                                </div>
+                              </div>
+                            </c:when>
+                            <c:otherwise>
+                              <div class="prd-item-price">
+                                <div class="price">
+                                  <span>${originalPrice}</span><small>원</small>
+                                </div>
+                              </div>
+                            </c:otherwise>
+                          </c:choose>
                           <div class="prd-item-label">
                             <span class="prd-label mu">${discountProd.origin}</span>
                             <span class="prd-label sp">${discountProd.gradedesc}</span>
@@ -1310,11 +1353,9 @@
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <div class="prd-item-price">
                             <div class="price">
-                              <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
                               <span>${salePrice}</span><small>원</small>
                             </div>
                             <div class="price-org">
-                              <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
                                 ${originalPrice}원
                             </div>
                           </div>
@@ -1903,7 +1944,10 @@
             </section>
 
             <section class="mt-m px-m">
-              <button class="btn-view-down" onclick="clickPrdViewMore();"><span class="label">쿠폰 더보기</span><i class="wn-icon chevron-v-16 green"></i></button>
+              <button class="btn-view-down" onclick="clickPrdViewMore();">
+                <span class="label">쿠폰 더보기</span>
+                <i class="wn-icon chevron-v-16 green"></i>
+              </button>
             </section>
 
             <section class="el-container">

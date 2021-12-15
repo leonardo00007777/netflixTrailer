@@ -583,10 +583,12 @@ function newProdFilter(){
 				html +=	  '<div class="img-container">';
 				html +=		'<a href="#" class="prd-item-img">';
 				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
-				html +=			'<div class="prd-item-badge dc">';
-				html +=				'<span>15</span>';
-				html +=				'<small>%</small>';
-				html +=			'</div>';
+				if(parseInt(el.discountrate) > 0){
+					html +=			'<div class="prd-item-badge dc">';
+					html +=				'<span>'+ parseInt(el.discountrate) + '</span>';
+					html +=				'<small>%</small>';
+					html +=			'</div>';
+				}
 				html +=		'</a>';
 				html +=		'<div class="prd-item-buttons">';
 				html +=			'<a href="javascript:void(0)" onClick="$("#modalBuyOption").modal("show")" class="btn btn-cart"> <i class="wn-icon wni-cart-w">장바구니</i></a>';
@@ -595,14 +597,22 @@ function newProdFilter(){
 				html +=	'<div class="detail">';
 				html +=		'<a href="#">';
 				html +=			'<h4 class="prd-item-tit">' + el.gdname +'</h4>';
-				html +=			'<div class="prd-item-price">';
-				html +=				'<div class="price">';
-				html +=					'<span>' + parseInt(el.saleprice1)+'</span><small>원</small>';
-				html +=				'</div>';
-				html +=				'<div class="price-org">';
-				html +=					el.price1 + '원';
-				html +=				'</div>';
-				html +=			'</div>';
+				if(parseInt(el.price1) == (el.saleprice1)){
+					html +=			'<div class="prd-item-price">';
+					html +=				'<div class="price">';
+					html +=					'<span>' + el.price1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'</span><small>원</small>';
+					html +=				'</div>';
+					html +=			'</div>';
+				}else {
+					html +=			'<div class="prd-item-price">';
+					html +=				'<div class="price">';
+					html +=					'<span>' + el.saleprice1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'</span><small>원</small>';
+					html +=				'</div>';
+					html +=				'<div class="price-org">';
+					html +=					el.price1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+					html +=				'</div>';
+					html +=			'</div>';
+				}
 				html +=			'<div class="prd-item-label">';
 				html +=				'<span class="prd-label mu">' + el.origin + '</span>';
 				html +=				'<span class="prd-label sp">' + el.gradedesc + '</span>';
@@ -667,10 +677,12 @@ function discountProdFilter(){
 				html +=	  '<div class="img-container">';
 				html +=		'<a href="#" class="prd-item-img">';
 				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
-				html +=			'<div class="prd-item-badge dc">';
-				html +=				'<span>15</span>';
-				html +=				'<small>%</small>';
-				html +=			'</div>';
+				if(parseInt(el.discountrate) > 0){
+					html +=			'<div class="prd-item-badge dc">';
+					html +=				'<span>'+ parseInt(el.discountrate) + '</span>';
+					html +=				'<small>%</small>';
+					html +=			'</div>';
+				}
 				html +=		'</a>';
 				html +=		'<div class="prd-item-buttons">';
 				html +=			'<a href="javascript:void(0)" onClick="$("#modalBuyOption").modal("show")" class="btn btn-cart"> <i class="wn-icon wni-cart-w">장바구니</i></a>';
@@ -679,14 +691,22 @@ function discountProdFilter(){
 				html +=	'<div class="detail">';
 				html +=		'<a href="#">';
 				html +=			'<h4 class="prd-item-tit">' + el.gdname +'</h4>';
-				html +=			'<div class="prd-item-price">';
-				html +=				'<div class="price">';
-				html +=					'<span>' + parseInt(el.saleprice1)+'</span><small>원</small>';
-				html +=				'</div>';
-				html +=				'<div class="price-org">';
-				html +=					el.price1 + '원';
-				html +=				'</div>';
-				html +=			'</div>';
+				if(parseInt(el.price1) == (el.saleprice1)){
+					html +=			'<div class="prd-item-price">';
+					html +=				'<div class="price">';
+					html +=					'<span>' + el.price1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'</span><small>원</small>';
+					html +=				'</div>';
+					html +=			'</div>';
+				}else {
+					html +=			'<div class="prd-item-price">';
+					html +=				'<div class="price">';
+					html +=					'<span>' + el.saleprice1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'</span><small>원</small>';
+					html +=				'</div>';
+					html +=				'<div class="price-org">';
+					html +=					el.price1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+					html +=				'</div>';
+					html +=			'</div>';
+				}
 				html +=			'<div class="prd-item-label">';
 				html +=				'<span class="prd-label mu">' + el.origin + '</span>';
 				html +=				'<span class="prd-label sp">' + el.gradedesc + '</span>';

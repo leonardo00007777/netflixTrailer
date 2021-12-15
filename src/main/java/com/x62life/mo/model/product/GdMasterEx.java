@@ -27,6 +27,7 @@ public class GdMasterEx extends GdMaster{
     private String preOrderInfo;
     private String soldOutFlag;
     private String gradedesc;
+    private BigDecimal discountRate;
 
     public String getGdcnt() {
         return gdcnt;
@@ -210,5 +211,13 @@ public class GdMasterEx extends GdMaster{
 
     public void setGradedesc(String gradedesc) {
         this.gradedesc = gradedesc;
+    }
+
+    public BigDecimal getDiscountRate() {
+        return discountRate;
+    }
+
+    public void setDiscountRate(BigDecimal discountRate) {
+        this.discountRate = discountRate;
     }
 }

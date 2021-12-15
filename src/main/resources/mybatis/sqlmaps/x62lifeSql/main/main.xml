@@ -248,6 +248,7 @@
     <select id="newProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
         /*newProdList 신상품*/
         SELECT TOP 8 *
+            , (a.price1 - a.saleprice) / a.price1 * 100 AS discountrate
            FROM (
                  SELECT g.gdcd
                       , g.gdname
@@ -355,6 +356,7 @@
     <select id="bestProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
         /* bestProdList 인기상품*/
         SELECT TOP 12 a.odtype
+             , (b.price1 - saleprice) / b.price1 * 100 AS discountrate
              , a.odtype2
              , a.gdcd
              , b.gdname
@@ -439,6 +441,7 @@
     <select id="discountProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
         /*discountProdList 할인상품*/
         SELECT TOP (#{displayCount})  *
+             , (xx.price1 - xx.saleprice) / xx.price1 * 100 AS discountrate
           FROM (
                   SELECT TOP (#{limitRank})  *
                     FROM (
@@ -518,6 +521,7 @@
     <select id="bestReviewProd"  parameterType="java.util.Map" resultType="java.util.Map">
          /*bestReviewProd 베스트 리뷰상품*/
          SELECT TOP 6 g.gdcd
+              , (g.price1 - saleprice) / g.price1 * 100 AS discountrate
               , g.gdname
               , g.price1
               , g.mgdimg1
@@ -773,6 +777,7 @@
                     </when>
                 </choose>
                  , a.*
+                 , (a.price1 - a.saleprice1) / a.price1 * 100 AS discountrate
                    FROM (
                           SELECT g.gdcd
                                , g.gdname
