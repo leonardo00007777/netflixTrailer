@@ -534,7 +534,7 @@ function changeClose(selector) {
 	$(selector).removeClass("open");
 }
 
-function prodFilter(){
+function newProdFilter(){
 	var orderby = '';
 	var deliveryType = '';
 	var intPagePerItem = 20;
@@ -546,14 +546,14 @@ function prodFilter(){
 	var intPage = 1;
 	var imgUrl = 'resources/images/gdimg/';
 
-	$('input[name="radio-order"]').each(function() {
+	$('input[name="orderByNew"]').each(function() {
 		var checked = $(this).prop('checked');
 		if(checked) {
 			orderby = $(this).val();
 		}
 	});
 
-	$('input[name="radio-shipping"]').each(function() {
+	$('input[name="dispatchNew"]').each(function() {
 		var checked = $(this).prop('checked');
 		if(checked) {
 			deliveryType = $(this).val();
@@ -561,7 +561,7 @@ function prodFilter(){
 	});
 
 	$.ajax({
-		url : "/main/newProdListAjax",
+		url : "/main/prodListAjax",
 
 		data: { "orderby" : orderby
 			, "intPagePerItem" : intPagePerItem
@@ -577,7 +577,7 @@ function prodFilter(){
 
 		success: function (data) {
 			$('#newPrdList').empty();
-			data.newProdListAjax.forEach(function (el, i){
+			data.prodListAjax.forEach(function (el, i){
 				var html = '';
 				html += '<article class="prd-item">';
 				html +=	  '<div class="img-container">';
@@ -612,6 +612,90 @@ function prodFilter(){
 				html += '</article>';
 
 				$('#newPrdList').append(html);
+
+			});
+		}
+	});
+}
+
+function discountProdFilter(){
+	var orderby = '';
+	var deliveryType = '';
+	var intPagePerItem = 20;
+	var intPageSize = 999;
+	var intMaxPage = 0;
+	var intTotalCount = 0;
+	var strMEMGRPCD = null;
+	var dispatchtype = '';
+	var intPage = 1;
+	var imgUrl = 'resources/images/gdimg/';
+
+	$('input[name="orderByDis"]').each(function() {
+		var checked = $(this).prop('checked');
+		if(checked) {
+			orderby = $(this).val();
+		}
+	});
+
+	$('input[name="dispatchDis"]').each(function() {
+		var checked = $(this).prop('checked');
+		if(checked) {
+			deliveryType = $(this).val();
+		}
+	});
+
+	$.ajax({
+		url : "/main/prodListAjax",
+
+		data: { "orderby" : orderby
+			, "intPagePerItem" : intPagePerItem
+			, "intPageSize" : intPageSize
+			, "intMaxPage" : intMaxPage
+			, "intTotalCount" : intTotalCount
+			, "strMEMGRPCD" : strMEMGRPCD
+			, "dispatchtype" : dispatchtype
+			, "intPagePerItem" : intPagePerItem
+			, "intPage" : intPage
+			, "deliveryType" : deliveryType
+		},
+
+		success: function (data) {
+			$('#dcPrdList').empty();
+			data.prodListAjax.forEach(function (el, i){
+				var html = '';
+				html += '<article class="prd-item">';
+				html +=	  '<div class="img-container">';
+				html +=		'<a href="#" class="prd-item-img">';
+				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
+				html +=			'<div class="prd-item-badge dc">';
+				html +=				'<span>15</span>';
+				html +=				'<small>%</small>';
+				html +=			'</div>';
+				html +=		'</a>';
+				html +=		'<div class="prd-item-buttons">';
+				html +=			'<a href="javascript:void(0)" onClick="$("#modalBuyOption").modal("show")" class="btn btn-cart"> <i class="wn-icon wni-cart-w">장바구니</i></a>';
+				html +=		'</div>';
+				html +=	  '</div>';
+				html +=	'<div class="detail">';
+				html +=		'<a href="#">';
+				html +=			'<h4 class="prd-item-tit">' + el.gdname +'</h4>';
+				html +=			'<div class="prd-item-price">';
+				html +=				'<div class="price">';
+				html +=					'<span>' + parseInt(el.saleprice1)+'</span><small>원</small>';
+				html +=				'</div>';
+				html +=				'<div class="price-org">';
+				html +=					el.price1 + '원';
+				html +=				'</div>';
+				html +=			'</div>';
+				html +=			'<div class="prd-item-label">';
+				html +=				'<span class="prd-label mu">' + el.origin + '</span>';
+				html +=				'<span class="prd-label sp">' + el.gradedesc + '</span>';
+				html +=			'</div>';
+				html +=		'</a>';
+				html +=	'</div>';
+				html += '</article>';
+
+				$('#dcPrdList').append(html);
 
 			});
 		}

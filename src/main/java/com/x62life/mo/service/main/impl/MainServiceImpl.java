@@ -93,12 +93,12 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public Map<String, Object> newProdListPagingAjax(Map<String, Object> paramMap){
-        return mainDao.newProdListPagingAjax(paramMap);
+    public Map<String, Object> prodListPagingAjax(Map<String, Object> paramMap){
+        return mainDao.prodListPagingAjax(paramMap);
     }
 
     @Override
-    public List<Map<String, Object>> newProdListAjax(Map<String, Object> paramMap){
-        return mainDao.newProdListAjax(paramMap);
+    public List<Map<String, Object>> prodListAjax(Map<String, Object> paramMap){
+        return mainDao.prodListAjax(paramMap);
     }
 }
