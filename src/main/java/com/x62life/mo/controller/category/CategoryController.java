@@ -1,14 +1,20 @@
 package com.x62life.mo.controller.category;
 
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.GdPipn;
+import com.x62life.mo.model.product.GdSugar;
 import com.x62life.mo.service.category.CategoryService;
+import org.bouncycastle.math.raw.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +39,55 @@ public class CategoryController {
         List<GdMasterEx> prodListAll = categoryService.prodListAll(paramMap);
         model.addAttribute("prodListAll", prodListAll);
 
-        modelAndView.setViewName("/category/newProdList");
+        return modelAndView;
+    }
+
+    @RequestMapping("/main/itemDetail")
+    public ModelAndView itemDetail(Model model, @RequestParam Map<String, Object> paramMap) throws Exception{
+        ModelAndView modelAndView = new ModelAndView();
+
+        if(paramMap.get("strOdtype2") == null  || paramMap.get("strOdtype2").equals("")){
+            paramMap.put("strOdtype2", "%");
+        }
+
+        model.addAttribute("paramMap", paramMap);
+
+        List<GdMasterEx> itemDetail = categoryService.itemDetail(paramMap);
+        model.addAttribute("itemDetail", itemDetail);
+
+        List<Map<String, Object>> itemDetailSetProdConfiguration = categoryService.itemDetailSetProdConfiguration(paramMap);
+        model.addAttribute("itemDetailSetProdConfiguration", itemDetailSetProdConfiguration);
+
+        Map<String, Object> itemDlvDeadlineMsg = categoryService.itemDlvDeadlineMsg(paramMap);
+        model.addAttribute("itemDlvDeadlineMsg", itemDlvDeadlineMsg);
+
+        List<GdSugar> fruitsSugarInfo = categoryService.fruitsSugarInfo((String)paramMap.get("strGDCD"));
+        model.addAttribute("fruitsSugarInfo", fruitsSugarInfo);
+
+        List<GdPipn> basicDetailInfo = categoryService.basicDetailInfo((String) paramMap.get("strGDCD"));
+        model.addAttribute("basicDetailInfo", basicDetailInfo);
+
+        List<GdPipn> usePpCode = categoryService.usePpCode((String)paramMap.get("strGDCD"));
+        model.addAttribute("usePpCode", usePpCode);
+
+        modelAndView.setViewName("category/itemDetail");
 
         return modelAndView;
+    }
+
+    @RequestMapping("/main/getCartOrderType")
+    @ResponseBody
+    public Map<String, Object> getCartOrderType(@RequestParam String gdcd) {
+        Map<String, Object> getCartOrderType = categoryService.getCartOrderType(gdcd);
+
+        return getCartOrderType;
+    }
+
+    @RequestMapping("/main/isRightAwayEnableDay")
+    @ResponseBody
+    public String isRightAwayEnableDay(@RequestParam String datex) {
+        String isRightAwayEnableDay = categoryService.isRightAwayEnableDay(datex);
+
+        return isRightAwayEnableDay;
     }
 }

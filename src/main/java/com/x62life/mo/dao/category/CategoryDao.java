@@ -1,6 +1,8 @@
 package com.x62life.mo.dao.category;
 
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.GdPipn;
+import com.x62life.mo.model.product.GdSugar;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +17,20 @@ public interface CategoryDao {
     int prodListPaging(Map<String, Object> paramMap);
 
     List<GdMasterEx> prodListAll(Map<String, Object> paramMap);
+
+    List<GdMasterEx> itemDetail(Map<String, Object> paramMap);
+
+    List<Map<String, Object>> itemDetailSetProdConfiguration(Map<String, Object> paramMap);
+
+    Map<String, Object> itemDlvDeadlineMsg(Map<String, Object> paramMap);
+
+    List<GdSugar> fruitsSugarInfo(String strGDCD);
+
+    List<GdPipn> basicDetailInfo(String strGDCD);
+
+    List<GdPipn> usePpCode(String strGDCD);
+
+    Map<String, Object> getCartOrderType(String gdcd);
+
+    String isRightAwayEnableDay(String datex);
 }

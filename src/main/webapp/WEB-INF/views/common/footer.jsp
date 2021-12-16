@@ -3,9 +3,7 @@
 <%@include file="/WEB-INF/views/common/env.jsp"%>  
    <!-- ------------------------------------------------------------------------------------------------------------------------ -->
    <!--  JS   -->
-   <!-- ------------------------------------------------------------------------------------------------------------------------ -->    
-  <script src="<%=_libUrl %>jquery/jquery.min.js"></script>
-  <script src="<%=_libUrl %>jquery/jquery-ui.min.js"></script>
+   <!-- ------------------------------------------------------------------------------------------------------------------------ -->
   <script src="<%=_libUrl %>bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="<%=_libUrl %>swiper/swiper-bundle.min.js"></script>
   <script src="<%=_libUrl %>waypoints/jquery.waypoints.min.js"></script>  
@@ -17,7 +15,7 @@
   <script src="<%=_jsUrl %>main/main.js"></script>     
   <script src="<%=_jsUrl %>ui-main.js"></script>    
   <script src="<%=_jsUrl %>ui-cart.js"></script>    
-   
+  <script src="<%=_jsUrl%>ui-prd-detail.js"></script>
   <script src="<%=_jsUrl %>common/common.js"></script>     
   <script src="<%=_jsUrl %>common/ajax.js"></script>     
   <script src="<%=_jsUrl %>common/footer.js"></script>     
