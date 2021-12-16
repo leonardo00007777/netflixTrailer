@@ -603,7 +603,7 @@
                    <div class="swiper-slide">
                      <article class="prd-item">
                        <div class="img-container">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
                            <img src="<%=_imgUrl %>/images/uploads/${newProdList.mgdimg1}" alt="${newProdList.gdname}">
                            <c:if test="${discountRate > 0 }">
                              <div class="prd-item-badge dc">
