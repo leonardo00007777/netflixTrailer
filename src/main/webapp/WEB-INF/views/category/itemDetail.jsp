@@ -197,9 +197,7 @@
                 <tr>
                   <th>배송정보</th>
                   <td>
-                    <c:if test="${paramMap.strOdType eq '15'}">
-
-                    </c:if>
+                    ${paramMap.strOdtype}
                     <br>
                     <a href="#" class="button bt-xs bt-outline bt-brown btn-spec"><span>배송비 절약상품 담기</span> <i class="wn-icon chevron-h-16 brown"></i></a>
                   </td>

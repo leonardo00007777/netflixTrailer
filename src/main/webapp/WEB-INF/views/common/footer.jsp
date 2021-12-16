@@ -22,6 +22,7 @@
   <script src="<%=_jsUrl %>common/validation.js"></script>     
   <script src="<%=_jsUrl %>common/gnbSub.js"></script>     
   <script src="<%=_jsUrl %>common/dataEvent.js"></script>
+  <script src="<%=_jsUrl %>goods/itemDetail.js"></script>
 
 
     <div class="global-bottom">
