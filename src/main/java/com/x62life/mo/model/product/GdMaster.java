@@ -10,28 +10,28 @@ public class GdMaster {
     private String gdcd; //상품코드
     private String gdname; //상품명
     private String unit; //단위
-    private char divcd; //구분
-    private char div1; //카테고리
+    private String divcd; //구분
+    private String div1; //카테고리
     private BigDecimal price1; //가격
     private int point1; //포인트
     private String gdimg; //상품이미지1
     private String explain; //상품 설명
-    private char priceyn; //가격표시
-    private char useyn; //판매여부
-    private char newyn; //신상품표시
+    private String priceyn; //가격표시
+    private String useyn; //판매여부
+    private String newyn; //신상품표시
     private Date indt; //입력일
     private Date updt; //최종수정
-    private char recommendyn; //추천상품 표시
+    private String recommendyn; //추천상품 표시
     private BigDecimal qprice;
     private BigDecimal rprice;
-    private char vat; //과세여부
+    private String vat; //과세여부
     private String div2; //하위 카테고리
     private String updid; //수정자
-    private char deliverydtyn; //배송일자동지정
+    private String deliverydtyn; //배송일자동지정
     private BigDecimal saleprice; // 할인지정가
-    private char saleflag; //할인유형
+    private String saleflag; //할인유형
     private int salepercent; //할인율
-    private char soldoutyn; // 일시중지
+    private String soldoutyn; // 일시중지
     private String gdimg2; //상품이미지2
     private String gdimg3;//상품이미지3
     private String gdimg4;//상품이미지4
@@ -41,8 +41,8 @@ public class GdMaster {
     private String subgdcd4; //연관상품4
     private String subgdcd5; //연관상품5
     private String shortdesc; //간략설명
-    private char qtysaleyn;  //수량구매할인
-    private char favorteyn; //즐겨찾기
+    private String qtysaleyn;  //수량구매할인
+    private String favorteyn; //즐겨찾기
     private String expdt; //유효기간(최대)
     private String packaging; //상품구성및 포장(포장단위별 용량/중량,수량)
     private String handling; //보관 또는 취급방법
@@ -52,19 +52,19 @@ public class GdMaster {
     private String importnote; //식품위생법 수입신고여부
     private int testidx; //안전성테스트 일련번호
     private String bestbeforedate; //유통기한 또는 품질유지기한(농축수산물만)
-    private char easybreakyn; //배송주의상품
+    private String easybreakyn; //배송주의상품
     private String plandate; //재판매예정일
-    private char dispatchtype; //발송유형
-    private char thedaysyn; //당일발송상품
-    private char active; //사용여부
-    private char optionp; //옵션상품여부
+    private String dispatchtype; //발송유형
+    private String thedaysyn; //당일발송상품
+    private String active; //사용여부
+    private String optionp; //옵션상품여부
     private String mpcode; //메인상품코드
     private String mgdimg1; //M 이미지 1
     private String mgdimg2; //M 이미지 2
     private int minqty; //최소주문수량
     private int maxqty; //최대주문수량
     private String limitdelivery; //배송지역제한
-    private char reserveyn; //예약주문상품
+    private String reserveyn; //예약주문상품
     private BigDecimal suprice; //공급가
     private String scode; // 공급자코드
     private BigDecimal suvat;
@@ -95,19 +95,19 @@ public class GdMaster {
         this.unit = unit;
     }
 
-    public char getDivcd() {
+    public String getDivcd() {
         return divcd;
     }
 
-    public void setDivcd(char divcd) {
+    public void setDivcd(String divcd) {
         this.divcd = divcd;
     }
 
-    public char getDiv1() {
+    public String getDiv1() {
         return div1;
     }
 
-    public void setDiv1(char div1) {
+    public void setDiv1(String div1) {
         this.div1 = div1;
     }
 
@@ -143,27 +143,27 @@ public class GdMaster {
         this.explain = explain;
     }
 
-    public char getPriceyn() {
+    public String getPriceyn() {
         return priceyn;
     }
 
-    public void setPriceyn(char priceyn) {
+    public void setPriceyn(String priceyn) {
         this.priceyn = priceyn;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
-    public char getNewyn() {
+    public String getNewyn() {
         return newyn;
     }
 
-    public void setNewyn(char newyn) {
+    public void setNewyn(String newyn) {
         this.newyn = newyn;
     }
 
@@ -183,11 +183,11 @@ public class GdMaster {
         this.updt = updt;
     }
 
-    public char getRecommendyn() {
+    public String getRecommendyn() {
         return recommendyn;
     }
 
-    public void setRecommendyn(char recommendyn) {
+    public void setRecommendyn(String recommendyn) {
         this.recommendyn = recommendyn;
     }
 
@@ -207,11 +207,11 @@ public class GdMaster {
         this.rprice = rprice;
     }
 
-    public char getVat() {
+    public String getVat() {
         return vat;
     }
 
-    public void setVat(char vat) {
+    public void setVat(String vat) {
         this.vat = vat;
     }
 
@@ -231,11 +231,11 @@ public class GdMaster {
         this.updid = updid;
     }
 
-    public char getDeliverydtyn() {
+    public String getDeliverydtyn() {
         return deliverydtyn;
     }
 
-    public void setDeliverydtyn(char deliverydtyn) {
+    public void setDeliverydtyn(String deliverydtyn) {
         this.deliverydtyn = deliverydtyn;
     }
 
@@ -247,11 +247,11 @@ public class GdMaster {
         this.saleprice = saleprice;
     }
 
-    public char getSaleflag() {
+    public String getSaleflag() {
         return saleflag;
     }
 
-    public void setSaleflag(char saleflag) {
+    public void setSaleflag(String saleflag) {
         this.saleflag = saleflag;
     }
 
@@ -263,11 +263,11 @@ public class GdMaster {
         this.salepercent = salepercent;
     }
 
-    public char getSoldoutyn() {
+    public String getSoldoutyn() {
         return soldoutyn;
     }
 
-    public void setSoldoutyn(char soldoutyn) {
+    public void setSoldoutyn(String soldoutyn) {
         this.soldoutyn = soldoutyn;
     }
 
@@ -343,19 +343,19 @@ public class GdMaster {
         this.shortdesc = shortdesc;
     }
 
-    public char getQtysaleyn() {
+    public String getQtysaleyn() {
         return qtysaleyn;
     }
 
-    public void setQtysaleyn(char qtysaleyn) {
+    public void setQtysaleyn(String qtysaleyn) {
         this.qtysaleyn = qtysaleyn;
     }
 
-    public char getFavorteyn() {
+    public String getFavorteyn() {
         return favorteyn;
     }
 
-    public void setFavorteyn(char favorteyn) {
+    public void setFavorteyn(String favorteyn) {
         this.favorteyn = favorteyn;
     }
 
@@ -431,11 +431,11 @@ public class GdMaster {
         this.bestbeforedate = bestbeforedate;
     }
 
-    public char getEasybreakyn() {
+    public String getEasybreakyn() {
         return easybreakyn;
     }
 
-    public void setEasybreakyn(char easybreakyn) {
+    public void setEasybreakyn(String easybreakyn) {
         this.easybreakyn = easybreakyn;
     }
 
@@ -447,35 +447,35 @@ public class GdMaster {
         this.plandate = plandate;
     }
 
-    public char getDispatchtype() {
+    public String getDispatchtype() {
         return dispatchtype;
     }
 
-    public void setDispatchtype(char dispatchtype) {
+    public void setDispatchtype(String dispatchtype) {
         this.dispatchtype = dispatchtype;
     }
 
-    public char getThedaysyn() {
+    public String getThedaysyn() {
         return thedaysyn;
     }
 
-    public void setThedaysyn(char thedaysyn) {
+    public void setThedaysyn(String thedaysyn) {
         this.thedaysyn = thedaysyn;
     }
 
-    public char getActive() {
+    public String getActive() {
         return active;
     }
 
-    public void setActive(char active) {
+    public void setActive(String active) {
         this.active = active;
     }
 
-    public char getOptionp() {
+    public String getOptionp() {
         return optionp;
     }
 
-    public void setOptionp(char optionp) {
+    public void setOptionp(String optionp) {
         this.optionp = optionp;
     }
 
@@ -527,11 +527,11 @@ public class GdMaster {
         this.limitdelivery = limitdelivery;
     }
 
-    public char getReserveyn() {
+    public String getReserveyn() {
         return reserveyn;
     }
 
-    public void setReserveyn(char reserveyn) {
+    public void setReserveyn(String reserveyn) {
         this.reserveyn = reserveyn;
     }
 

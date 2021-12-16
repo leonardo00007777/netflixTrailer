@@ -101,4 +101,9 @@ public class MainServiceImpl implements MainService {
     public List<Map<String, Object>> prodListAjax(Map<String, Object> paramMap){
         return mainDao.prodListAjax(paramMap);
     }
+
+    @Override
+    public List<GdMasterEx> optionProdViwYn(String strGDCD) {
+        return mainDao.optionProdViwYn(strGDCD);
+    }
 }

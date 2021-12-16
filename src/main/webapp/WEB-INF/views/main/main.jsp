@@ -593,26 +593,48 @@
               <div class="swiper-container swiper-prd-2n">
                 <div class="swiper-wrapper">
                   <c:forEach items="${newProdList}" var="newProdList">
+                    <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProdList.price1}"/>
+                    <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProdList.saleprice}"/>
+                    <fmt:formatNumber type="number"
+                                      maxFractionDigits="0"
+                                      var="discountRate"
+                                      value="${newProdList.discountRate+((newProdList.discountRate%1>0.5)?(1-(newProdList.discountRate%1))%1:-(newProdList.discountRate%1))}"
+                    />
                    <div class="swiper-slide">
                      <article class="prd-item">
                        <div class="img-container">
-                         <a href="#" class="prd-item-img">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
                            <img src="<%=_imgUrl %>/images/uploads/${newProdList.mgdimg1}" alt="${newProdList.gdname}">
+                           <c:if test="${discountRate > 0 }">
+                             <div class="prd-item-badge dc">
+                               <span>${discountRate}</span>
+                               <small>%</small>
+                             </div>
+                           </c:if>
                          </a>
                        </div>
                        <div class="detail">
                          <a href="#">
                            <h4 class="prd-item-tit">${newProdList.gdname}</h4>
-                           <div class="prd-item-price">
-                             <div class="price">
-                               <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProdList.price1}"/>
-                               <span>${originalPrice}</span><small>원</small>
-                             </div>
-                             <div class="price-org">
-                               <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProdList.saleprice}"/>
-                                 ${salePrice}
-                             </div>
-                           </div>
+                           <c:choose>
+                             <c:when test="${newProdList.price1 ne newProdList.saleprice}">
+                               <div class="prd-item-price">
+                                 <div class="price">
+                                   <span>${salePrice}</span><small>원</small>
+                                 </div>
+                                 <div class="price-org">
+                                     ${originalPrice}
+                                 </div>
+                               </div>
+                             </c:when>
+                             <c:otherwise>
+                               <div class="prd-item-price">
+                                 <div class="price">
+                                   <span>${salePrice}</span><small>원</small>
+                                 </div>
+                               </div>
+                             </c:otherwise>
+                           </c:choose>
                          </a>
                        </div>
                      </article>
@@ -793,28 +815,48 @@
               <div class="swiper-container swiper-prd-2n">
                 <div class="swiper-wrapper">
                   <c:forEach items="${discountProdList}" var="discountProd">
+                    <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
+                    <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
+                    <fmt:formatNumber type="number"
+                                      maxFractionDigits="0"
+                                      var="discountRate"
+                                      value="${discountProd.discountRate+((discountProd.discountRate%1>0.5)?(1-(discountProd.discountRate%1))%1:-(discountProd.discountRate%1))}"
+                    />
                   <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';">
-                          <div class="prd-item-badge dc">
-                            <span>23</span>
-                            <small>%</small>
-                          </div>
+                          <c:if test="${discountRate > 0 }">
+                            <div class="prd-item-badge dc">
+                              <span>${discountRate}</span>
+                              <small>%</small>
+                            </div>
+                          </c:if>
                         </a>
                       </div>
                       <div class="detail">
                         <a href="#">
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
-                          <div class="prd-item-price">
-                            <div class="price">
-                              <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${discountProd.saleprice}"/>
-                              <span>${salePrice}</span><small>원</small>
-                            </div>
-                            <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${discountProd.price1}"/>
-                            <div class="price-org">${originalPrice}원</div>
-                          </div>
+                          <c:choose>
+                            <c:when test="${discountProd.price1 ne discountProd.saleprice}">
+                              <div class="prd-item-price">
+                                <div class="price">
+                                  <span>${salePrice}</span><small>원</small>
+                                </div>
+                                <div class="price-org">
+                                    ${originalPrice}
+                                </div>
+                              </div>
+                            </c:when>
+                            <c:otherwise>
+                              <div class="prd-item-price">
+                                <div class="price">
+                                  <span>${salePrice}</span><small>원</small>
+                                </div>
+                              </div>
+                            </c:otherwise>
+                          </c:choose>
                         </a>
                       </div>
                     </article>

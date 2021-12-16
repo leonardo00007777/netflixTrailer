@@ -34,7 +34,11 @@
    <link rel="stylesheet" href="<%=_cssUrl %>promotion.css"/>
    <link rel="stylesheet" href="<%=_cssUrl %>order.css"/>
    <link rel="stylesheet" href="<%=_cssUrl %>mypage.css"/>
-   
+  <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+  <!--  js v3.5.1   -->
+  <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+   <script src="<%=_libUrl %>jquery/jquery.min.js"/>
+   <script src="<%=_libUrl %>jquery/jquery-ui.min.js"/>
 </head>
 <body>
 

@@ -582,7 +582,7 @@ function newProdFilter(){
 				html += '<article class="prd-item">';
 				html +=	  '<div class="img-container">';
 				html +=		'<a href="#" class="prd-item-img">';
-				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
+				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '" onerror="this.src=\'<%=_imgUrl %>images/gdimg/noimage.gif\';"/>';
 				if(Math.round(el.discountrate) > 0){
 					html +=			'<div class="prd-item-badge dc">';
 					html +=				'<span>'+ Math.round(el.discountrate) + '</span>';
@@ -676,7 +676,7 @@ function discountProdFilter(){
 				html += '<article class="prd-item">';
 				html +=	  '<div class="img-container">';
 				html +=		'<a href="#" class="prd-item-img">';
-				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
+				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"onerror="this.src=\'<%=_imgUrl %>images/gdimg/noimage.gif\';"/>';
 				if(Math.round(el.discountrate) > 0){
 					html +=			'<div class="prd-item-badge dc">';
 					html +=				'<span>'+ Math.round(el.discountrate) + '</span>';
@@ -720,4 +720,52 @@ function discountProdFilter(){
 			});
 		}
 	});
+}
+
+function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype) {
+	if(strGdtype == null || strGdtype == '' && strOdtype == '12'){
+		strGdtype = '01';
+	}
+	if(strOdtype == null || strOdtype == '') {
+		strOdtype = getCartOrderType(gdcd, strOdtype);
+	}
+	if( strOdtype == "RESERVE"){
+		strOdtype = '12';
+	} else if(strOdtype == "QUICK"){
+		strOdtype = '11';
+	} else if(strOdtype == "SP"){
+		// 특수형식 주문일 경우, 현재는 예약주문으로!
+		strOdtype = '12';
+	}
+	var preOrderInfo = 'N';
+	if(strOdtype == '12' || strOdtype == '15'){
+		preOrderInfo = 'Y';
+	}
+	var lastTitle;
+	switch (strOdtype) {
+		case '02' :
+			lastTitle = "지정일 배송 상품"
+			break;
+		case '11' :
+			lastTitle = "일반주문 상품"
+			break;
+		case '12' :
+			if(strOdtype == '01'){
+				lastTitle = "예약주문 상품"
+			} else if(strOdtype == '02') {
+				lastTitle = "명절주문 상품"
+			}
+			break;
+		case '15' :
+			lastTitle = "업체직배송 상품"
+			break;
+		default :
+			lastTitle = "일반주문 상품"
+			break;
+	}
+
+	location.href = "/main/itemDetail?" + "strGDCD=" + gdcd + "&strOdtype=" + strOdtype +
+		            "&strOdtype2=" + strOdtype2 + "&strGdtype=" + strGdtype +
+		            "&preOrderInfo=" + preOrderInfo + "&lastTitle=" + lastTitle;
+
 }

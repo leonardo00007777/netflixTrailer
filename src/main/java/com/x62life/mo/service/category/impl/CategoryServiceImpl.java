@@ -2,6 +2,8 @@ package com.x62life.mo.service.category.impl;
 
 import com.x62life.mo.dao.category.CategoryDao;
 import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.GdPipn;
+import com.x62life.mo.model.product.GdSugar;
 import com.x62life.mo.service.category.CategoryService;
 import org.springframework.stereotype.Service;
 
@@ -15,18 +17,22 @@ public class CategoryServiceImpl implements CategoryService{
 	@Resource(name="categoryDao")
 	private CategoryDao categoryDao;
 
+	@Override
 	public List<GdMasterEx> categoryList(Map<String, Object> paramMap){
 		return categoryDao.categoryList(paramMap);
 	}
 
+	@Override
 	public String categoryDesc(Map<String, Object> paramMap){
 		return categoryDao.categoryDesc(paramMap);
 	}
 
+	@Override
 	public int prodListPaging(Map<String, Object> paramMap){
 		return categoryDao.prodListPaging(paramMap);
 	}
 
+	@Override
 	public List<GdMasterEx> prodListAll(Map<String, Object> paramMap){
 		int intPagePeritem = 30;
 		paramMap.put("intPagePerItem", intPagePeritem);
@@ -41,5 +47,46 @@ public class CategoryServiceImpl implements CategoryService{
 		paramMap.put("intPageOffset", intPageOffset);
 
 		return categoryDao.prodListAll(paramMap);
+	}
+
+	@Override
+	public List<GdMasterEx> itemDetail(Map<String, Object> paramMap){
+		return categoryDao.itemDetail(paramMap);
+	}
+
+	@Override
+	public List<Map<String, Object>> itemDetailSetProdConfiguration(Map<String, Object> paramMap){
+		return categoryDao.itemDetailSetProdConfiguration(paramMap);
+	}
+
+	@Override
+	public Map<String, Object> itemDlvDeadlineMsg(Map<String, Object> paramMap) {
+		return categoryDao.itemDlvDeadlineMsg(paramMap);
+	}
+
+
+	@Override
+	public List<GdSugar> fruitsSugarInfo(String strGDCD) {
+		return categoryDao.fruitsSugarInfo(strGDCD);
+	}
+
+	@Override
+	public List<GdPipn> basicDetailInfo(String strGDCD) {
+		return categoryDao.basicDetailInfo(strGDCD);
+	}
+
+	@Override
+	public List<GdPipn> usePpCode(String strGDCD) {
+		return categoryDao.basicDetailInfo(strGDCD);
+	}
+
+	@Override
+	public Map<String, Object> getCartOrderType(String strGDCD){
+		return categoryDao.getCartOrderType(strGDCD);
+	}
+
+	@Override
+	public String isRightAwayEnableDay(String datex) {
+		return categoryDao.isRightAwayEnableDay(datex);
 	}
 }

@@ -17,7 +17,7 @@ public class GdMasterEx extends GdMaster{
     private String odFrom;
     private String odTo;
     private String dlvFrom;
-    private char alltimesale; //상시판매
+    private String alltimesale; //상시판매
     private String smenucd;
     private String smenudesc;
     private String catDesc;
@@ -133,11 +133,11 @@ public class GdMasterEx extends GdMaster{
         this.dlvFrom = dlvFrom;
     }
 
-    public char getAlltimesale() {
+    public String getAlltimesale() {
         return alltimesale;
     }
 
-    public void setAlltimesale(char alltimesale) {
+    public void setAlltimesale(String alltimesale) {
         this.alltimesale = alltimesale;
     }
 
