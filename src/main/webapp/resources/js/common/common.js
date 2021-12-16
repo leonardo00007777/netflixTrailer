@@ -74,27 +74,41 @@ var common = function() {
 		    });
 		    
 			//---------------------------------------------
-		    // Login
+		    // Login / 회원가입 
 			//---------------------------------------------
 	        $("#joinMemberGroup").find("#btnLogin").bind("click", function() {
 	        	common.goMappingUrl("/login/login");
 	        });
-	        
-		    //---------------------------------------------
 		    // Join Member (일반회원/간편회원) 선택
-		    //---------------------------------------------
 	        $("#joinMemberGroup").find("#btnJoinMember").bind("click", function() {
 	        	common.goMappingUrl("/member/joinmemberchoice");
-		    	
 		    });
-	        
-	        //---------------------------------------------
 	        // Join Member Form 
-	        //---------------------------------------------
 	        $("#joinMemberForm").bind("click", function() {
 	        	common.goMappingUrl("/member/joinmemberform");
-	        	
 	        });
+	        
+	        //---------------------------------------------
+	        // 팝업
+	        //---------------------------------------------
+	        $("#pop1").bind("click", function() {
+	        	common.modalShowHide("modalConfirm", "show");
+	        });
+	        $("#pop2").bind("click", function() {
+	        	common.modalShowHide("modalAlert", "show");
+	        });
+	        $("#pop3").bind("click", function() {
+	        	common.modalShowHide("modalAlertTitle", "show");
+	        });
+	        
+		},
+	    //---------------------------------------
+		// Modal
+		//---------------------------------------
+		// confirm / alert 
+		modalShowHide : function(_targetId, _showHide) {
+			
+			$('#' + _targetId).modal(_showHide);
 		},
 		
 		//---------------------------------------

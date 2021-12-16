@@ -24,23 +24,7 @@
   <script src="<%=_jsUrl %>common/validation.js"></script>     
   <script src="<%=_jsUrl %>common/gnbSub.js"></script>     
   <script src="<%=_jsUrl %>common/dataEvent.js"></script>
-  <script>
-/*     $(function () {
-      //팝업 & 탭 시연용 테스트 코드 입니다.
-      //실제 개발시 사용하지 마시고 삭제해주세요
-      var queryString = window.location.search;
-      var urlParams = new URLSearchParams(queryString);
-      if (urlParams.has('modalID')) {
-        var modalSelector = "#" + urlParams.get('modalID');
-        $(modalSelector).modal('show');
-      }
-      if (urlParams.has('tabID')) {
-        var tabSelector = "#" + urlParams.get('tabID');
-        $(tabSelector).tab('show');
-      }
-      //시연용 코드 끝
-    }); //jQuery Ready */
-  </script>
+
 
     <div class="global-bottom">
       <ul class="global-bottom-menu">

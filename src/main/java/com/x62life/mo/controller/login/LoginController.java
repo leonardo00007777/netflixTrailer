@@ -123,34 +123,11 @@ public class LoginController {
         }
         return json;
     }
-    
-//	@RequestMapping(value="/login", method=RequestMethod.GET)
-//	public String login(ModelMap model, HttpServletRequest request)
-//	{
-//		LOGGER.info("/login");
-//		
-//		HttpSession session = request.getSession();		
-//		MbMaster sessionMember = (MbMaster) session.getAttribute("sessionMember");
-//		
-//		if (null != sessionMember && sessionMember.getMemid().length() > 0) {
-//			
-//        	boolean isValidMember = memberService.isValidMember(sessionMember);
-//        	if (isValidMember) {
-//        		return "redirect:main/main";
-//        	} else {
-//        		session.setAttribute("sessionMember", null);
-//        	}
-//		}
-//		
-//		return "login";
-//	}
-//	
-//	
-	
 	
 	@RequestMapping(value = "/login")
-	public String login_post(@RequestParam Map<String, Object> paramMap, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public String login(@RequestParam Map<String, Object> paramMap, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
+		// Validation 
 		/*
 		 * if (userParam.getEmail_address() == null ||
 		 * "".equals(userParam.getEmail_address()) ) { return null; }
@@ -160,7 +137,7 @@ public class LoginController {
 		 */
     	
 		
-		// validation 후, session 생성
+		// Validation 후, session 생성
 		MbMaster memberInfo = new MbMaster();
 		memberInfo.setJointype((String)paramMap.get("joinType"));
 		memberInfo.setMemid((String)paramMap.get("memId"));
@@ -190,7 +167,7 @@ public class LoginController {
 	}
 	
     @RequestMapping("/loginProcess")
-    public ModelAndView getMemberInfo(Model model, HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView loginProcess(Model model, HttpServletRequest request, HttpServletResponse response){
         ModelAndView modelAndView = new ModelAndView();
 
         //---------------- TEST -------------------------
@@ -211,6 +188,29 @@ public class LoginController {
         modelAndView.setViewName("/main/main");
         return modelAndView;
     }
+    
+// 	@RequestMapping(value="/login", method=RequestMethod.GET)
+// 	public String login(ModelMap model, HttpServletRequest request)
+// 	{
+// 		LOGGER.info("/login");
+// 		
+// 		HttpSession session = request.getSession();		
+// 		MbMaster sessionMember = (MbMaster) session.getAttribute("sessionMember");
+// 		
+// 		if (null != sessionMember && sessionMember.getMemid().length() > 0) {
+// 			
+//         	boolean isValidMember = memberService.isValidMember(sessionMember);
+//         	if (isValidMember) {
+//         		return "redirect:main/main";
+//         	} else {
+//         		session.setAttribute("sessionMember", null);
+//         	}
+// 		}
+// 		
+// 		return "login";
+// 	}
+ //	
+ //	
     
 	// log out
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

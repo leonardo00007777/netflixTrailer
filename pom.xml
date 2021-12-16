@@ -413,6 +413,19 @@
             <version>1.2</version>
         </dependency>
         
+		<!--For Spring JUnit + mockito test-->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-core</artifactId>
+		    <version>2.21.0</version>
+		</dependency>
+        
 		<!-- Tiles (header,footer ..) -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
