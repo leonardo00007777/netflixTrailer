@@ -73,10 +73,10 @@
               <span>${discountRate}</span><small>%</small>
             </div>
             <div class="price">
-              <span>${itemDetail.saleprice}</span><small>원</small>
+              <span><fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" /></span><small>원</small>
             </div>
             <div class="price-org">
-              <span>${itemDetail.price1}</span><small>원</small>
+              <span><fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" /></span><small>원</small>
             </div>
 <%--            <c:if test="">
               <div class="dc-tag">
@@ -205,8 +205,8 @@
                         <c:choose>
                           <c:when test="${itemDetail.delpol eq '02'}">
                             <c:choose>
-                              <c:when test="${salePrice lt itemDetail.limamt}">
-                                ${dlvPrice}원(${freeDlvPrc}이상 무료배송)
+                              <c:when test="${itemDetail.saleprice lt itemDetail.limamt}">
+                                <fmt:formatNumber value="${itemDetail.delcharge}" pattern="#,###" />원 ( <fmt:formatNumber value="${itemDetail.limamt}" pattern="#,###" />이상 무료배송)
                               </c:when>
                               <c:otherwise>
                                 무료배송
@@ -214,7 +214,7 @@
                             </c:choose>
                           </c:when>
                           <c:when test="${itemDetail.delpol eq '03'}">
-                            ${dlvPrice}원
+                            <fmt:formatNumber value="${itemDetail.delcharge}" pattern="#,###" />원
                           </c:when>
                           <c:otherwise>
                             무료배송
@@ -224,7 +224,7 @@
                       <c:otherwise>
                         <c:choose>
                           <c:when test="${paramMap.strGDCD ne 'A3' and paramMap.strGDCD ne 'B2' and itemDetail.saleprice lt paramMap.minimumOrderPrice}">
-                            ${paramMap.deliveryCharge}원(${paramMap.minimumOrderPrice}원 이상 무료 )
+                            <fmt:formatNumber value="${paramMap.deliveryCharge}" pattern="#,###" />원 ( <fmt:formatNumber value="${paramMap.minimumOrderPrice}" pattern="#,###"/> 원 이상 무료 )
                           </c:when>
                           <c:otherwise>
                             무료
@@ -245,29 +245,43 @@
                 <br>
                 미리 주문하시면 발송일에 맞춰 배송됩니다.
               </div>
-              <div class="bg-gray pa-m mt-10">
-                <table class="table-basic-spec">
-                  <tr>
-                    <th>사전주문기간</th>
-                    <td>2020-08-01 ~2020-08-15</td>
-                  </tr>
-                  <tr>
-                    <th>발송일</th>
-                    <td>2020-08-24</td>
-                  </tr>
-                </table>
-              </div>
+              <c:choose>
+                <c:when test="${itemDetail.reserveyn eq 'Y'}">
+                  <div class="bg-gray pa-m mt-10">
+                    <table class="table-basic-spec">
+                      <tr>
+                        <th>사전주문기간</th>
+                        <td>${itemDetail.odFrom} ~ ${itemDetail.odTo}</td>
+                      </tr>
+                      <tr>
+                        <th>배송기간</th>
+                        <td>${itemDetail.dlvFrom} ~ ${itemDetail.dlvTo}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </c:when>
+                <c:when test="${itemDetail.deliverydtyn eq 'Y'}">
+                  <div class="bg-gray pa-m mt-10">
+                    <table class="table-basic-spec">
+                      <tr>
+                        <th>배송기간</th>
+                        <td>${itemDetail.odFrom} ~ ${itemDetail.odTo}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </c:when>
+              </c:choose>
             </section>
             <!-- 상품 프로모션 배너 -->
             <section class="prd-promo-banner">
-              <img src="./images/uploads/prdDetailNoticeBanner.png" alt="싱싱하지 않으면 환불, 신선보장">
+              <img src="<%=_imgUrl%>images/banner/prdDetailNoticeBanner.png" alt="싱싱하지 않으면 환불, 신선보장">
             </section>
-
+              ${itemDetail.explain}
             <!-- 인증마크 -->
             <section class="pdp-add-info">
               <div class="pdp-add-info-mu">
                 <div class="img-container">
-                  <img src="./images/uploads/pdpBannerEl01.png" alt="">
+                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl01.png" alt="">
                 </div>
                 <div class="detail">
                   <div class="tit">무농약 농산물 인증</div>
@@ -281,7 +295,7 @@
             <section class="pdp-add-info">
               <div class="pdp-add-info-safe">
                 <div class="img-container">
-                  <img src="./images/uploads/pdpBannerEl02.png" alt="">
+                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl02.png" alt="">
                 </div>
                 <div class="detail">
                   <div class="tit">자연이랑에서<br>안심하고 구매하세요! </div>
@@ -295,7 +309,7 @@
               <div class="hr"></div>
               <div class="pdp-add-info-brix">
                 <div class="img-container">
-                  <img src="./images/uploads/pdpBannerEl03.png" alt="11.4brix">
+                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl03.png" alt="11.4brix">
                 </div>
                 <div class="detail">
                   <div class="tit">최근측정당도</div>
