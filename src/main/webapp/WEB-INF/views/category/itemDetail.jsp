@@ -51,8 +51,6 @@
         </div>
       </section>
       <c:forEach items="${itemDetail}" var="itemDetail">
-        <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${itemDetail.saleprice}"/>
-        <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${itemDetail.price1}"/>
         <fmt:formatNumber type="number"
                           maxFractionDigits="0"
                           var="discountRate"
@@ -75,10 +73,10 @@
               <span>${discountRate}</span><small>%</small>
             </div>
             <div class="price">
-              <span>${salePrice}</span><small>원</small>
+              <span>${itemDetail.saleprice}</span><small>원</small>
             </div>
             <div class="price-org">
-              <span>${originalPrice}</span><small>원</small>
+              <span>${itemDetail.price1}</span><small>원</small>
             </div>
 <%--            <c:if test="">
               <div class="dc-tag">
@@ -160,7 +158,12 @@
       <div class="swiper-container swiper-prd-detail" id="prdDetailSwiper">
         <div class="swiper-wrapper">
           <c:forEach items="${itemDetail}" var="itemDetail">
-          <!-- 상품정보 컨텐츠 -->
+            <fmt:formatNumber type="number"
+                              maxFractionDigits="0"
+                              var="discountRate"
+                              value="${itemDetail.discountRate + ((itemDetail.discountRate%1>0.5)?(1-(itemDetail.discountRate%1))%1:-(itemDetail.discountRate%1))}"
+            />
+            <!-- 상품정보 컨텐츠 -->
             <article class="swiper-slide prd-detail-slide">
             <!-- 상품 기본 정보 -->
             <section class="pdp-basic-spec">
@@ -197,7 +200,38 @@
                 <tr>
                   <th>배송정보</th>
                   <td>
-                    ${paramMap.strOdtype}
+                    <c:choose>
+                      <c:when test="${paramMap.strOdtype eq '15'}">
+                        <c:choose>
+                          <c:when test="${itemDetail.delpol eq '02'}">
+                            <c:choose>
+                              <c:when test="${salePrice lt itemDetail.limamt}">
+                                ${dlvPrice}원(${freeDlvPrc}이상 무료배송)
+                              </c:when>
+                              <c:otherwise>
+                                무료배송
+                              </c:otherwise>
+                            </c:choose>
+                          </c:when>
+                          <c:when test="${itemDetail.delpol eq '03'}">
+                            ${dlvPrice}원
+                          </c:when>
+                          <c:otherwise>
+                            무료배송
+                          </c:otherwise>
+                        </c:choose>
+                      </c:when>
+                      <c:otherwise>
+                        <c:choose>
+                          <c:when test="${paramMap.strGDCD ne 'A3' and paramMap.strGDCD ne 'B2' and itemDetail.saleprice lt paramMap.minimumOrderPrice}">
+                            ${paramMap.deliveryCharge}원(${paramMap.minimumOrderPrice}원 이상 무료 )
+                          </c:when>
+                          <c:otherwise>
+                            무료
+                          </c:otherwise>
+                        </c:choose>
+                      </c:otherwise>
+                    </c:choose>
                     <br>
                     <a href="#" class="button bt-xs bt-outline bt-brown btn-spec"><span>배송비 절약상품 담기</span> <i class="wn-icon chevron-h-16 brown"></i></a>
                   </td>

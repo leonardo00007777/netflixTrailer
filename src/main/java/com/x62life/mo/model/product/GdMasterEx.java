@@ -1,6 +1,7 @@
 package com.x62life.mo.model.product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /*@Alias("gdMasterEx")*/
 public class GdMasterEx extends GdMaster{
@@ -28,6 +29,10 @@ public class GdMasterEx extends GdMaster{
     private String soldOutFlag;
     private String gradedesc;
     private BigDecimal discountRate;
+    private String delpol;
+    private BigDecimal limamt;
+    private BigDecimal delcharge; //배송비
+
 
     public String getGdcnt() {
         return gdcnt;
@@ -90,7 +95,7 @@ public class GdMasterEx extends GdMaster{
     }
 
     public void setGroupsaleprice(BigDecimal groupsaleprice) {
-        this.groupsaleprice = groupsaleprice;
+        this.groupsaleprice = groupsaleprice.setScale(0, RoundingMode.DOWN);
     }
 
     public int getIsgroupsale() {
@@ -219,5 +224,29 @@ public class GdMasterEx extends GdMaster{
 
     public void setDiscountRate(BigDecimal discountRate) {
         this.discountRate = discountRate;
+    }
+
+    public String getDelpol() {
+        return delpol;
+    }
+
+    public void setDelpol(String delpol) {
+        this.delpol = delpol;
+    }
+
+    public BigDecimal getLimamt() {
+        return limamt;
+    }
+
+    public void setLimamt(BigDecimal limamt) {
+        this.limamt = limamt.setScale(0, RoundingMode.DOWN);
+    }
+
+    public BigDecimal getDelcharge() {
+        return delcharge;
+    }
+
+    public void setDelcharge(BigDecimal delcharge) {
+        this.delcharge = delcharge.setScale(0, RoundingMode.DOWN);
     }
 }

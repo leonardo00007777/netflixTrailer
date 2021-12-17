@@ -49,6 +49,8 @@ public class CategoryController {
         if(paramMap.get("strOdtype2") == null  || paramMap.get("strOdtype2").equals("")){
             paramMap.put("strOdtype2", "%");
         }
+        paramMap.put("minimumOrderPrice", "40000");
+        paramMap.put("deliveryCharge", "3000");
 
         model.addAttribute("paramMap", paramMap);
 
