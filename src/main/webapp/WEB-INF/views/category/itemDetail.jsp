@@ -203,7 +203,7 @@
                     <c:choose>
                       <c:when test="${paramMap.strOdtype eq '15'}">
                         <c:choose>
-                          <c:when test="${itemDetail.delpol eq '02'}">
+                          <c:when test="${itemDetail.delpol ne null or itemDetail.delpol ne '' and itemDetail.delpol eq '02'}">
                             <c:choose>
                               <c:when test="${itemDetail.saleprice lt itemDetail.limamt}">
                                 <fmt:formatNumber value="${itemDetail.delcharge}" pattern="#,###" />원 ( <fmt:formatNumber value="${itemDetail.limamt}" pattern="#,###" />이상 무료배송)
@@ -213,7 +213,7 @@
                               </c:otherwise>
                             </c:choose>
                           </c:when>
-                          <c:when test="${itemDetail.delpol eq '03'}">
+                          <c:when test="${itemDetail.delpol ne null or itemDetail.delpol ne '' and itemDetail.delpol eq '03'}">
                             <fmt:formatNumber value="${itemDetail.delcharge}" pattern="#,###" />원
                           </c:when>
                           <c:otherwise>
