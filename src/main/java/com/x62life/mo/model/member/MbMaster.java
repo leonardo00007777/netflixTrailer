@@ -56,23 +56,6 @@ public class MbMaster {
 	private String mempw_hash; //비번 hash
     private String login_failed_count; // 로그인 실패count
     private Boolean  isLoggedIn; // 로그인 유무
-
-	//---------------------------------------------------------
-    // memberprofile 추가
-    //---------------------------------------------------------
-	private String nickn; 
-	private String idurl;
-	private String memlevel; 
-	private String jobtype; 
-	private String jobname; 
-	private String isblogger; 
-	
-    //---------------------------------------------------------
-    // logininfo 추가
-    //---------------------------------------------------------
-	private String islocked; 
-	
-	
 	
 	public Boolean getIsLoggedIn() {
 		return isLoggedIn;
@@ -97,62 +80,6 @@ public class MbMaster {
 		this.login_failed_count = login_failed_count;
 	}
 
-	public String getNickn() {
-		return nickn;
-	}
-
-	public void setNickn(String nickn) {
-		this.nickn = nickn;
-	}
-
-	public String getIdurl() {
-		return idurl;
-	}
-
-	public void setIdurl(String idurl) {
-		this.idurl = idurl;
-	}
-
-	public String getMemlevel() {
-		return memlevel;
-	}
-
-	public void setMemlevel(String memlevel) {
-		this.memlevel = memlevel;
-	}
-
-	public String getJobtype() {
-		return jobtype;
-	}
-
-	public void setJobtype(String jobtype) {
-		this.jobtype = jobtype;
-	}
-
-	public String getJobname() {
-		return jobname;
-	}
-
-	public void setJobname(String jobname) {
-		this.jobname = jobname;
-	}
-
-	public String getIsblogger() {
-		return isblogger;
-	}
-
-	public void setIsblogger(String isblogger) {
-		this.isblogger = isblogger;
-	}
-
-	public String getIslocked() {
-		return islocked;
-	}
-
-	public void setIslocked(String islocked) {
-		this.islocked = islocked;
-	}
-
 	public String getSnsId() {
 		return snsId;
 	}
@@ -161,7 +88,6 @@ public class MbMaster {
 		this.snsId = snsId;
 	}
 
-    
     public String getJointype() {
 		return jointype;
 	}
