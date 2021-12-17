@@ -16,10 +16,10 @@ public class BdQnaCrm {
     private String content; //(문의/답변)내용
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private String updid; //공개여부
-    private char categoryCode; //문의분류
-    private char subcategoryCode; //문의분류
+    private String categoryCode; //문의분류
+    private String subcategoryCode; //문의분류
     private String keyword; //키워드
     private String attachpath; //첨부파일
     private String grpcd; //그룹코드
@@ -112,11 +112,11 @@ public class BdQnaCrm {
         this.updt = updt;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
@@ -128,19 +128,19 @@ public class BdQnaCrm {
         this.updid = updid;
     }
 
-    public char getcategoryCode() {
+    public String getcategoryCode() {
         return categoryCode;
     }
 
-    public void setcategoryCode(char categoryCode) {
+    public void setcategoryCode(String categoryCode) {
         this.categoryCode = categoryCode;
     }
 
-    public char getSubcategoryCode() {
+    public String getSubcategoryCode() {
         return subcategoryCode;
     }
 
-    public void setSubcategoryCode(char subcategoryCode) {
+    public void setSubcategoryCode(String subcategoryCode) {
         this.subcategoryCode = subcategoryCode;
     }
 

@@ -3,6 +3,7 @@ package com.x62life.mo.model.product;
 import org.apache.ibatis.type.Alias;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 /*@Alias("gdMaster")*/
 //상품 마스터
@@ -116,7 +117,7 @@ public class GdMaster {
     }
 
     public void setPrice1(BigDecimal price1) {
-        this.price1 = price1;
+        this.price1 = price1.setScale(0, RoundingMode.DOWN);
     }
 
     public int getPoint1() {
@@ -244,7 +245,7 @@ public class GdMaster {
     }
 
     public void setSaleprice(BigDecimal saleprice) {
-        this.saleprice = saleprice;
+        this.saleprice = saleprice.setScale(0, RoundingMode.DOWN);
     }
 
     public String getSaleflag() {
@@ -540,7 +541,7 @@ public class GdMaster {
     }
 
     public void setSuprice(BigDecimal suprice) {
-        this.suprice = suprice;
+        this.suprice = suprice.setScale(0, RoundingMode.DOWN);
     }
 
     public String getScode() {

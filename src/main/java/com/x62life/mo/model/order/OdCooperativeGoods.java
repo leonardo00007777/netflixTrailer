@@ -16,7 +16,7 @@ public class OdCooperativeGoods {
     private String div2; //하위카테고리
     private BigDecimal price; //판매가격
     private BigDecimal saleprice; //할인판매가격
-    private char saleflag; //할인유형
+    private String saleflag; //할인유형
     private short salepercent; //할인율
     private int point; //구매포인트
     private int deposit; //구매예치금
@@ -25,15 +25,15 @@ public class OdCooperativeGoods {
     private Timestamp toorder; //주문종료일시
     private Timestamp fromdelive; //배송예정시작일시
     private Timestamp todelive; //배송예정종료일시
-    private char pausesale; //일시판매중지여부
+    private String pausesale; //일시판매중지여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
     private String memid; //수정id
     private String explain; //상품설명
-    private char newflag; //신규상품여부
-    private char recomflag; //추천상품여부
-    private char shipfee; //배송비부과여부
-    private char useyn; //사용여부
+    private String newflag; //신규상품여부
+    private String recomflag; //추천상품여부
+    private String shipfee; //배송비부과여부
+    private String useyn; //사용여부
     private String picture1; //이미지1
     private String picture2; //이미지2
     private String picture3; //이미지3
@@ -125,11 +125,11 @@ public class OdCooperativeGoods {
         this.saleprice = saleprice;
     }
 
-    public char getSaleflag() {
+    public String getSaleflag() {
         return saleflag;
     }
 
-    public void setSaleflag(char saleflag) {
+    public void setSaleflag(String saleflag) {
         this.saleflag = saleflag;
     }
 
@@ -197,11 +197,11 @@ public class OdCooperativeGoods {
         this.todelive = todelive;
     }
 
-    public char getPausesale() {
+    public String getPausesale() {
         return pausesale;
     }
 
-    public void setPausesale(char pausesale) {
+    public void setPausesale(String pausesale) {
         this.pausesale = pausesale;
     }
 
@@ -237,35 +237,35 @@ public class OdCooperativeGoods {
         this.explain = explain;
     }
 
-    public char getNewflag() {
+    public String getNewflag() {
         return newflag;
     }
 
-    public void setNewflag(char newflag) {
+    public void setNewflag(String newflag) {
         this.newflag = newflag;
     }
 
-    public char getRecomflag() {
+    public String getRecomflag() {
         return recomflag;
     }
 
-    public void setRecomflag(char recomflag) {
+    public void setRecomflag(String recomflag) {
         this.recomflag = recomflag;
     }
 
-    public char getShipfee() {
+    public String getShipfee() {
         return shipfee;
     }
 
-    public void setShipfee(char shipfee) {
+    public void setShipfee(String shipfee) {
         this.shipfee = shipfee;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

@@ -109,7 +109,7 @@
                     <div class="swiper-slide">
                      <article class="prd-item">
                        <div class="img-container">
-                         <a href="WN_PB_MO_GDS_020201.html" class="prd-item-img">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
                            <img src="<%=_imgUrl %>images/uploads/${newProdList.mgdimg1}" alt="${newProdList.unit}">
                            <fmt:formatNumber value="${newProdList.discountRate}" var="discountRate" maxFractionDigits="0"/>
                            <c:if test="${discountRate > 0}">
@@ -121,7 +121,7 @@
                          </a>
                        </div>
                        <div class="detail">
-                         <a href="#">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')">
                            <h4 class="prd-item-tit">${newProdList.gdname}</h4>
                            <c:choose>
                              <c:when test="${newProdList.price1 ne newProdList.saleprice}">
@@ -130,7 +130,7 @@
                                    <span>${salePrice}</span><small>원</small>
                                  </div>
                                  <div class="price-org">
-                                     ${originalPrice}
+                                     ${originalPrice}원
                                  </div>
                                </div>
                              </c:when>
@@ -593,8 +593,6 @@
               <div class="swiper-container swiper-prd-2n">
                 <div class="swiper-wrapper">
                   <c:forEach items="${newProdList}" var="newProdList">
-                    <fmt:formatNumber type="number" maxFractionDigits="0" var="originalPrice" value="${newProdList.price1}"/>
-                    <fmt:formatNumber type="number" maxFractionDigits="0" var="salePrice" value="${newProdList.saleprice}"/>
                     <fmt:formatNumber type="number"
                                       maxFractionDigits="0"
                                       var="discountRate"
@@ -603,7 +601,7 @@
                    <div class="swiper-slide">
                      <article class="prd-item">
                        <div class="img-container">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
                            <img src="<%=_imgUrl %>/images/uploads/${newProdList.mgdimg1}" alt="${newProdList.gdname}">
                            <c:if test="${discountRate > 0 }">
                              <div class="prd-item-badge dc">
@@ -614,16 +612,16 @@
                          </a>
                        </div>
                        <div class="detail">
-                         <a href="#">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')">
                            <h4 class="prd-item-tit">${newProdList.gdname}</h4>
                            <c:choose>
                              <c:when test="${newProdList.price1 ne newProdList.saleprice}">
                                <div class="prd-item-price">
                                  <div class="price">
-                                   <span>${salePrice}</span><small>원</small>
+                                   <span><fmt:formatNumber value="${newProdList.saleprice}" pattern="#,###" /></span><small>원</small>
                                  </div>
                                  <div class="price-org">
-                                     ${originalPrice}
+                                   <fmt:formatNumber value="${newProdList.price1}" pattern="#,###" />원
                                  </div>
                                </div>
                              </c:when>
@@ -825,8 +823,8 @@
                   <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="javascript:void(0)" onclick="" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';">
                           <c:if test="${discountRate > 0 }">
                             <div class="prd-item-badge dc">
                               <span>${discountRate}</span>
@@ -836,7 +834,7 @@
                         </a>
                       </div>
                       <div class="detail">
-                        <a href="#">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" >
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${discountProd.price1 ne discountProd.saleprice}">
@@ -1111,7 +1109,7 @@
                   <c:when test="${newProd.gdcnt gt 0}">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="#" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}"}' alt="${newProd.gdname}"/>
                           <c:if test="${discountRate > 0}">
                             <div class="prd-item-badge dc">
@@ -1125,7 +1123,7 @@
                         </div>
                       </div>
                       <div class="detail">
-                        <a href="#">
+                        <a href="javascript:void(0)" onclick="itemDetail('${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}')">
                           <h4 class="prd-item-tit">${newProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${newProd.price1 ne newProd.saleprice}">
@@ -1333,8 +1331,8 @@
                   <c:when test="${discountProd.gdcnt gt 0}">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="#" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <c:if test="${discountRate > 0}">
                             <div class="prd-item-badge dc">
                               <span>${discountRate}</span>
@@ -1349,7 +1347,7 @@
                         </div>
                       </div>
                       <div class="detail">
-                        <a href="#">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')">
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${discountProd.price1 ne discountProd.saleprice}">
@@ -1382,7 +1380,7 @@
                     <article class="prd-item soldout">
                       <div class="img-container">
                         <a href="#" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/KakaoTalk_20180514_104607728.jpg';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <div class="prd-item-soldout">
                             <div class="tit">일시품절</div>
                             <div class="content">

@@ -1,14 +1,15 @@
 package com.x62life.mo.model.payment;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 //결제정보
 /*@Alias("odPay")*/
 public class OdPay {
-    private char paynum; //결제번호
-    private char memcd; //회원코드
-    private char paycd; //결제수단
-    private char pgcd; //결제대행사
+    private String paynum; //결제번호
+    private String memcd; //회원코드
+    private String paycd; //결제수단
+    private String pgcd; //결제대행사
     private short bnkidx; //은행코드
     private String bnkuser; //입금자
     private BigDecimal payprice; //결제금액
@@ -16,55 +17,55 @@ public class OdPay {
     private BigDecimal dpsprice; //예치금
     private BigDecimal dlvprice; //배송비
     private BigDecimal ttlprice; //주문금액
-    private char fixdt; //등록일자
-    private char paystcd; //결제상태
+    private String fixdt; //등록일자
+    private String paystcd; //결제상태
     private Timestamp paydt; //결제등록일시
     private Timestamp updt; //수정일시
-    private char paystcds; //결제상태
+    private String paystcds; //결제상태
     private BigDecimal tvos; //공급가
     private BigDecimal ttax; //과세
     private BigDecimal tvat; //부가세
     private String updid; //수정자id
-    private char hideyn; //주문내역숨김여부 Y:숨김, N:보임 쇼핑몰의 주문/배송 목록과 주문결제 화면의 배송지선택 목록에서 숨김/보임 처리
+    private String hideyn; //주문내역숨김여부 Y:숨김, N:보임 쇼핑몰의 주문/배송 목록과 주문결제 화면의 배송지선택 목록에서 숨김/보임 처리
     private String insuno; //보증보험번호
     private BigDecimal pntprice; //sk포인트(회원포인트)
     private BigDecimal accprice; //적립금 - 상품할인가로 적용.
     private BigDecimal bnpprice; //베네피아
     private String device; //device
-    private char prepaynum; //임시결제번호
+    private String prepaynum; //임시결제번호
     private String draftnum; //기안번호 유형별 주문등록에서 사용(주문유형이 판촉/마케팅 관련일 경우, 등록할 수 있음)
     private String drafttitle; //기안제목
     private String drafter; //기안자
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
-    public char getPaycd() {
+    public String getPaycd() {
         return paycd;
     }
 
-    public void setPaycd(char paycd) {
+    public void setPaycd(String paycd) {
         this.paycd = paycd;
     }
 
-    public char getPgcd() {
+    public String getPgcd() {
         return pgcd;
     }
 
-    public void setPgcd(char pgcd) {
+    public void setPgcd(String pgcd) {
         this.pgcd = pgcd;
     }
 
@@ -97,7 +98,7 @@ public class OdPay {
     }
 
     public void setBntprice(BigDecimal bntprice) {
-        this.bntprice = bntprice;
+        this.bntprice = bntprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getDpsprice() {
@@ -105,7 +106,7 @@ public class OdPay {
     }
 
     public void setDpsprice(BigDecimal dpsprice) {
-        this.dpsprice = dpsprice;
+        this.dpsprice = dpsprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getDlvprice() {
@@ -113,7 +114,7 @@ public class OdPay {
     }
 
     public void setDlvprice(BigDecimal dlvprice) {
-        this.dlvprice = dlvprice;
+        this.dlvprice = dlvprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getTtlprice() {
@@ -121,22 +122,22 @@ public class OdPay {
     }
 
     public void setTtlprice(BigDecimal ttlprice) {
-        this.ttlprice = ttlprice;
+        this.ttlprice = ttlprice.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getFixdt() {
+    public String getFixdt() {
         return fixdt;
     }
 
-    public void setFixdt(char fixdt) {
+    public void setFixdt(String fixdt) {
         this.fixdt = fixdt;
     }
 
-    public char getPaystcd() {
+    public String getPaystcd() {
         return paystcd;
     }
 
-    public void setPaystcd(char paystcd) {
+    public void setPaystcd(String paystcd) {
         this.paystcd = paystcd;
     }
 
@@ -156,11 +157,11 @@ public class OdPay {
         this.updt = updt;
     }
 
-    public char getPaystcds() {
+    public String getPaystcds() {
         return paystcds;
     }
 
-    public void setPaystcds(char paystcds) {
+    public void setPaystcds(String paystcds) {
         this.paystcds = paystcds;
     }
 
@@ -169,7 +170,7 @@ public class OdPay {
     }
 
     public void setTvos(BigDecimal tvos) {
-        this.tvos = tvos;
+        this.tvos = tvos.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getTtax() {
@@ -177,7 +178,7 @@ public class OdPay {
     }
 
     public void setTtax(BigDecimal ttax) {
-        this.ttax = ttax;
+        this.ttax = ttax.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getTvat() {
@@ -185,7 +186,7 @@ public class OdPay {
     }
 
     public void setTvat(BigDecimal tvat) {
-        this.tvat = tvat;
+        this.tvat = tvat.setScale(0, RoundingMode.DOWN);
     }
 
     public String getUpdid() {
@@ -196,11 +197,11 @@ public class OdPay {
         this.updid = updid;
     }
 
-    public char getHideyn() {
+    public String getHideyn() {
         return hideyn;
     }
 
-    public void setHideyn(char hideyn) {
+    public void setHideyn(String hideyn) {
         this.hideyn = hideyn;
     }
 
@@ -217,7 +218,7 @@ public class OdPay {
     }
 
     public void setPntprice(BigDecimal pntprice) {
-        this.pntprice = pntprice;
+        this.pntprice = pntprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getAccprice() {
@@ -225,7 +226,7 @@ public class OdPay {
     }
 
     public void setAccprice(BigDecimal accprice) {
-        this.accprice = accprice;
+        this.accprice = accprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnpprice() {
@@ -233,7 +234,7 @@ public class OdPay {
     }
 
     public void setBnpprice(BigDecimal bnpprice) {
-        this.bnpprice = bnpprice;
+        this.bnpprice = bnpprice.setScale(0, RoundingMode.DOWN);
     }
 
     public String getDevice() {
@@ -244,11 +245,11 @@ public class OdPay {
         this.device = device;
     }
 
-    public char getPrepaynum() {
+    public String getPrepaynum() {
         return prepaynum;
     }
 
-    public void setPrepaynum(char prepaynum) {
+    public void setPrepaynum(String prepaynum) {
         this.prepaynum = prepaynum;
     }
 

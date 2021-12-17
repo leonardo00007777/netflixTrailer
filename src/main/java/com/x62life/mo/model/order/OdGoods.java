@@ -1,13 +1,14 @@
 package com.x62life.mo.model.order;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("odGoods")*/
 //주문상품
 public class OdGoods {
-    private char paynum; //결제번호
-    private char ordnum; //주문번호
+    private String paynum; //결제번호
+    private String ordnum; //주문번호
     private String gdcd; //상품코드
     private String gdname; //상품명
     private BigDecimal price; //가격
@@ -21,19 +22,19 @@ public class OdGoods {
     private BigDecimal sprice; //공급단가
     private BigDecimal oprice; //판매단가
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 
-    public char getOrdnum() {
+    public String getOrdnum() {
         return ordnum;
     }
 
-    public void setOrdnum(char ordnum) {
+    public void setOrdnum(String ordnum) {
         this.ordnum = ordnum;
     }
 
@@ -98,7 +99,7 @@ public class OdGoods {
     }
 
     public void setTax(BigDecimal tax) {
-        this.tax = tax;
+        this.tax = tax.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getVat() {
@@ -106,7 +107,7 @@ public class OdGoods {
     }
 
     public void setVat(BigDecimal vat) {
-        this.vat = vat;
+        this.vat = vat.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getVos() {
@@ -114,7 +115,7 @@ public class OdGoods {
     }
 
     public void setVos(BigDecimal vos) {
-        this.vos = vos;
+        this.vos = vos.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getSprice() {
@@ -122,7 +123,7 @@ public class OdGoods {
     }
 
     public void setSprice(BigDecimal sprice) {
-        this.sprice = sprice;
+        this.sprice = sprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getOprice() {
@@ -130,6 +131,6 @@ public class OdGoods {
     }
 
     public void setOprice(BigDecimal oprice) {
-        this.oprice = oprice;
+        this.oprice = oprice.setScale(0, RoundingMode.DOWN);
     }
 }

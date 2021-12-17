@@ -3,26 +3,26 @@ package com.x62life.mo.model.boardcontents;
 
 /*@Alias("bdNoticeEx")*/
 public class BdNoticeEx extends BdFaq{
-    private char cdtype;
-    private char cdcode;
+    private String cdtype;
+    private String cdcode;
     private String cdname;
-    private char useyn;
+    private String useyn;
     private String cdval1;
     private String cdval2;
 
-    public char getCdtype() {
+    public String getCdtype() {
         return cdtype;
     }
 
-    public void setCdtype(char cdtype) {
+    public void setCdtype(String cdtype) {
         this.cdtype = cdtype;
     }
 
-    public char getCdcode() {
+    public String getCdcode() {
         return cdcode;
     }
 
-    public void setCdcode(char cdcode) {
+    public void setCdcode(String cdcode) {
         this.cdcode = cdcode;
     }
 
@@ -35,12 +35,12 @@ public class BdNoticeEx extends BdFaq{
     }
 
     @Override
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
     @Override
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

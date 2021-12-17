@@ -1,30 +1,31 @@
 package com.x62life.mo.model.payment;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 //현금영수증
 /*@Alias("odReceipt")*/
 public class OdReceipt {
-    private char paynum; //결제번호
+    private String paynum; //결제번호
     private String pgtrid; //거래번호
     private BigDecimal cash; //현금연수증 금액
-    private char rcpcd; //현금영수증가입분류코드
+    private String rcpcd; //현금영수증가입분류코드
     private String rcpinfo; //현금영수증가입정보
-    private char rcpstcd; //현금영수증상태코드
+    private String rcpstcd; //현금영수증상태코드
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
     private BigDecimal suprice; //공급가
     private BigDecimal notaxprice; //비과세
     private BigDecimal taxprice; //과세
     private BigDecimal vat; //부가세
-    private char useopt; //현금영수증발행용도
+    private String useopt; //현금영수증발행용도
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 
@@ -41,14 +42,14 @@ public class OdReceipt {
     }
 
     public void setCash(BigDecimal cash) {
-        this.cash = cash;
+        this.cash = cash.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getRcpcd() {
+    public String getRcpcd() {
         return rcpcd;
     }
 
-    public void setRcpcd(char rcpcd) {
+    public void setRcpcd(String rcpcd) {
         this.rcpcd = rcpcd;
     }
 
@@ -60,11 +61,11 @@ public class OdReceipt {
         this.rcpinfo = rcpinfo;
     }
 
-    public char getRcpstcd() {
+    public String getRcpstcd() {
         return rcpstcd;
     }
 
-    public void setRcpstcd(char rcpstcd) {
+    public void setRcpstcd(String rcpstcd) {
         this.rcpstcd = rcpstcd;
     }
 
@@ -89,7 +90,7 @@ public class OdReceipt {
     }
 
     public void setSuprice(BigDecimal suprice) {
-        this.suprice = suprice;
+        this.suprice = suprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getNotaxprice() {
@@ -97,7 +98,7 @@ public class OdReceipt {
     }
 
     public void setNotaxprice(BigDecimal notaxprice) {
-        this.notaxprice = notaxprice;
+        this.notaxprice = notaxprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getTaxprice() {
@@ -105,7 +106,7 @@ public class OdReceipt {
     }
 
     public void setTaxprice(BigDecimal taxprice) {
-        this.taxprice = taxprice;
+        this.taxprice = taxprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getVat() {
@@ -113,14 +114,14 @@ public class OdReceipt {
     }
 
     public void setVat(BigDecimal vat) {
-        this.vat = vat;
+        this.vat = vat.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getUseopt() {
+    public String getUseopt() {
         return useopt;
     }
 
-    public void setUseopt(char useopt) {
+    public void setUseopt(String useopt) {
         this.useopt = useopt;
     }
 }

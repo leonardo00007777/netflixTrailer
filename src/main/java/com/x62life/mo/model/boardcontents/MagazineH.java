@@ -6,13 +6,13 @@ import java.sql.Timestamp;
 public class MagazineH {
     private int zhidx;
     private short zhvol;
-    private char zhyyyy;
-    private char zhmm;
+    private String zhyyyy;
+    private String zhmm;
     private String zhtitle;
     private String zhdesc;
     private String zhtimg;
     private String zhtype;
-    private char zhusyn;
+    private String zhusyn;
     private String zhupid;
     private Timestamp zhindt;
     private Timestamp zhupdt;
@@ -36,19 +36,19 @@ public class MagazineH {
         this.zhvol = zhvol;
     }
 
-    public char getZhyyyy() {
+    public String getZhyyyy() {
         return zhyyyy;
     }
 
-    public void setZhyyyy(char zhyyyy) {
+    public void setZhyyyy(String zhyyyy) {
         this.zhyyyy = zhyyyy;
     }
 
-    public char getZhmm() {
+    public String getZhmm() {
         return zhmm;
     }
 
-    public void setZhmm(char zhmm) {
+    public void setZhmm(String zhmm) {
         this.zhmm = zhmm;
     }
 
@@ -84,11 +84,11 @@ public class MagazineH {
         this.zhtype = zhtype;
     }
 
-    public char getZhusyn() {
+    public String getZhusyn() {
         return zhusyn;
     }
 
-    public void setZhusyn(char zhusyn) {
+    public void setZhusyn(String zhusyn) {
         this.zhusyn = zhusyn;
     }
 

@@ -15,7 +15,7 @@ public class DiscussionBoard {
     private short oppose;
     private short replies;
     private Timestamp todate; //종료일시
-    private char useyn;
+    private String useyn;
 
     public int getIdx() {
         return idx;
@@ -97,11 +97,11 @@ public class DiscussionBoard {
         this.todate = todate;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 }

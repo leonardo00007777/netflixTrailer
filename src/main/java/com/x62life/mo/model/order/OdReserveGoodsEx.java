@@ -1,15 +1,16 @@
 package com.x62life.mo.model.order;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 /*@Alias("odReserveGoodsEx")*/
 public class OdReserveGoodsEx extends OdReserveGoods{
     private int page; //페이지
-    private char priceyn; //가격표시
-    private char newyn; //신규상품 여부
-    private char recommendyn; //추천여부
-    private char qtysaleyn; //수량구매할인
+    private String priceyn; //가격표시
+    private String newyn; //신규상품 여부
+    private String recommendyn; //추천여부
+    private String qtysaleyn; //수량구매할인
     private BigDecimal price1; //상품가격1
     private BigDecimal saleprice; //세일가격
     private BigDecimal groupsaleprice; //그룹(임직원)세일가격
@@ -18,8 +19,8 @@ public class OdReserveGoodsEx extends OdReserveGoods{
     private String mgdimg1; //모바일 상품 이미지1
     private String cdcode; //공통코드, 코드
     private String cdname; //코드명
-    private char deliverydtyn; //배송일자동지정여부
-    private char soldoutyn; //품절여부
+    private String deliverydtyn; //배송일자동지정여부
+    private String soldoutyn; //품절여부
     private int gdcnt; //상품개수
     private String origin; // 원산지
     private String producer; //생산자
@@ -27,7 +28,7 @@ public class OdReserveGoodsEx extends OdReserveGoods{
     private String gradedesc;
     private String smenucd; //서브메뉴코드
     private String smenudesc; //서브메뉴이름
-    private char thedaysyn; //당일발송상품 여부
+    private String thedaysyn; //당일발송상품 여부
     private String shortdesc; // 간략설명
     private String gdimg2; // 상품이미지2
     private String gdimg3;// 상품이미지3
@@ -38,7 +39,7 @@ public class OdReserveGoodsEx extends OdReserveGoods{
     private String subgdcd4; // 서브상품코드4
     private String subgdcd5; // 서브상품코드5
     private String expdt;
-    private char vat;        //부가세여부
+    private String vat;        //부가세여부
     private String dlvFrom;
     private String dlvTo;
     private String gdtype;
@@ -51,11 +52,11 @@ public class OdReserveGoodsEx extends OdReserveGoods{
     private String precaution2;
     private String addinformation;
     private int testidx;
-    private char dispatchtype;
+    private String dispatchtype;
     private String plandate;
-    private char optionp;
+    private String optionp;
     private String mpcode;
-    private char alltimesale;
+    private String alltimesale;
     private int delpol;
     private BigDecimal limamt;
     private BigDecimal delcharge;
@@ -73,37 +74,37 @@ public class OdReserveGoodsEx extends OdReserveGoods{
         this.page = page;
     }
 
-    public char getPriceyn() {
+    public String getPriceyn() {
         return priceyn;
     }
 
-    public void setPriceyn(char priceyn) {
+    public void setPriceyn(String priceyn) {
         this.priceyn = priceyn;
     }
 
     @Override
-    public char getNewyn() {
+    public String getNewyn() {
         return newyn;
     }
 
     @Override
-    public void setNewyn(char newyn) {
+    public void setNewyn(String newyn) {
         this.newyn = newyn;
     }
 
-    public char getRecommendyn() {
+    public String getRecommendyn() {
         return recommendyn;
     }
 
-    public void setRecommendyn(char recommendyn) {
+    public void setRecommendyn(String recommendyn) {
         this.recommendyn = recommendyn;
     }
 
-    public char getQtysaleyn() {
+    public String getQtysaleyn() {
         return qtysaleyn;
     }
 
-    public void setQtysaleyn(char qtysaleyn) {
+    public void setQtysaleyn(String qtysaleyn) {
         this.qtysaleyn = qtysaleyn;
     }
 
@@ -112,7 +113,7 @@ public class OdReserveGoodsEx extends OdReserveGoods{
     }
 
     public void setPrice1(BigDecimal price1) {
-        this.price1 = price1;
+        this.price1 = price1.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getSaleprice() {
@@ -120,7 +121,7 @@ public class OdReserveGoodsEx extends OdReserveGoods{
     }
 
     public void setSaleprice(BigDecimal saleprice) {
-        this.saleprice = saleprice;
+        this.saleprice = saleprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getGroupsaleprice() {
@@ -128,7 +129,7 @@ public class OdReserveGoodsEx extends OdReserveGoods{
     }
 
     public void setGroupsaleprice(BigDecimal groupsaleprice) {
-        this.groupsaleprice = groupsaleprice;
+        this.groupsaleprice = groupsaleprice.setScale(0, RoundingMode.DOWN);
     }
 
     public int getIsgroupsale() {
@@ -171,19 +172,19 @@ public class OdReserveGoodsEx extends OdReserveGoods{
         this.cdname = cdname;
     }
 
-    public char getDeliverydtyn() {
+    public String getDeliverydtyn() {
         return deliverydtyn;
     }
 
-    public void setDeliverydtyn(char deliverydtyn) {
+    public void setDeliverydtyn(String deliverydtyn) {
         this.deliverydtyn = deliverydtyn;
     }
 
-    public char getSoldoutyn() {
+    public String getSoldoutyn() {
         return soldoutyn;
     }
 
-    public void setSoldoutyn(char soldoutyn) {
+    public void setSoldoutyn(String soldoutyn) {
         this.soldoutyn = soldoutyn;
     }
 
@@ -243,11 +244,11 @@ public class OdReserveGoodsEx extends OdReserveGoods{
         this.smenudesc = smenudesc;
     }
 
-    public char getThedaysyn() {
+    public String getThedaysyn() {
         return thedaysyn;
     }
 
-    public void setThedaysyn(char thedaysyn) {
+    public void setThedaysyn(String thedaysyn) {
         this.thedaysyn = thedaysyn;
     }
 
@@ -331,11 +332,11 @@ public class OdReserveGoodsEx extends OdReserveGoods{
         this.expdt = expdt;
     }
 
-    public char getVat() {
+    public String getVat() {
         return vat;
     }
 
-    public void setVat(char vat) {
+    public void setVat(String vat) {
         this.vat = vat;
     }
 
@@ -439,11 +440,11 @@ public class OdReserveGoodsEx extends OdReserveGoods{
         this.testidx = testidx;
     }
 
-    public char getDispatchtype() {
+    public String getDispatchtype() {
         return dispatchtype;
     }
 
-    public void setDispatchtype(char dispatchtype) {
+    public void setDispatchtype(String dispatchtype) {
         this.dispatchtype = dispatchtype;
     }
 
@@ -455,11 +456,11 @@ public class OdReserveGoodsEx extends OdReserveGoods{
         this.plandate = plandate;
     }
 
-    public char getOptionp() {
+    public String getOptionp() {
         return optionp;
     }
 
-    public void setOptionp(char optionp) {
+    public void setOptionp(String optionp) {
         this.optionp = optionp;
     }
 
@@ -472,12 +473,12 @@ public class OdReserveGoodsEx extends OdReserveGoods{
     }
 
     @Override
-    public char getAlltimesale() {
+    public String getAlltimesale() {
         return alltimesale;
     }
 
     @Override
-    public void setAlltimesale(char alltimesale) {
+    public void setAlltimesale(String alltimesale) {
         this.alltimesale = alltimesale;
     }
 

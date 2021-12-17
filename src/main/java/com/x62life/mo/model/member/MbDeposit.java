@@ -1,26 +1,27 @@
 package com.x62life.mo.model.member;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("mbDeposit")*/
 //회원 예치금
 public class MbDeposit {
-    private char memcd; //회원번호
+    private String memcd; //회원번호
     private int dpsidx; //예치금순번
-    private char dpscd; //예치금구분
+    private String dpscd; //예치금구분
     private String title; //예치금사용내용
     private BigDecimal dpsprice; //예치금
-    private char dpsstcd; //예치금상태
-    private char paynum; //결제번호
+    private String dpsstcd; //예치금상태
+    private String paynum; //결제번호
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
@@ -32,11 +33,11 @@ public class MbDeposit {
         this.dpsidx = dpsidx;
     }
 
-    public char getDpscd() {
+    public String getDpscd() {
         return dpscd;
     }
 
-    public void setDpscd(char dpscd) {
+    public void setDpscd(String dpscd) {
         this.dpscd = dpscd;
     }
 
@@ -53,22 +54,22 @@ public class MbDeposit {
     }
 
     public void setDpsprice(BigDecimal dpsprice) {
-        this.dpsprice = dpsprice;
+        this.dpsprice = dpsprice.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getDpsstcd() {
+    public String getDpsstcd() {
         return dpsstcd;
     }
 
-    public void setDpsstcd(char dpsstcd) {
+    public void setDpsstcd(String dpsstcd) {
         this.dpsstcd = dpsstcd;
     }
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 

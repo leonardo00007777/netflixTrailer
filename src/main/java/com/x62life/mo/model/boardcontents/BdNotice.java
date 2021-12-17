@@ -10,7 +10,7 @@ public class BdNotice {
     private short important; //게시순위
     private String indt; //등록일시
     private Timestamp updt; //수정일시
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private String grpcd; //그룹코드
 
     public int getNtcidx() {
@@ -68,11 +68,11 @@ public class BdNotice {
         this.updt = updt;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

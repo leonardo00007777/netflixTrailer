@@ -1,6 +1,7 @@
 package com.x62life.mo.model.standardinfo;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 /*@Alias("supplierProductInfo")*/
 //공급자 상품정보
@@ -19,9 +20,9 @@ public class SupplierProductInfo {
     private short samcda; //최소대응일수
     private short samada; //최대대응일수
     private short sabust; //안전재고일수
-    private char safgqr; //q/r
-    private char safome; //예측방법
-    private char sauseyn; //사용여부
+    private String safgqr; //q/r
+    private String safome; //예측방법
+    private String sauseyn; //사용여부
 
     public String getSacomp() {
         return sacomp;
@@ -52,7 +53,7 @@ public class SupplierProductInfo {
     }
 
     public void setSacost(BigDecimal sacost) {
-        this.sacost = sacost;
+        this.sacost = sacost.setScale(0, RoundingMode.DOWN);
     }
 
     public String getauthNo() {
@@ -76,7 +77,7 @@ public class SupplierProductInfo {
     }
 
     public void setaddressNum(BigDecimal addressNum) {
-        this.addressNum = addressNum;
+        this.addressNum = addressNum.setScale(0, RoundingMode.DOWN);
     }
 
     public int getSaqtor() {
@@ -135,27 +136,27 @@ public class SupplierProductInfo {
         this.sabust = sabust;
     }
 
-    public char getSafgqr() {
+    public String getSafgqr() {
         return safgqr;
     }
 
-    public void setSafgqr(char safgqr) {
+    public void setSafgqr(String safgqr) {
         this.safgqr = safgqr;
     }
 
-    public char getSafome() {
+    public String getSafome() {
         return safome;
     }
 
-    public void setSafome(char safome) {
+    public void setSafome(String safome) {
         this.safome = safome;
     }
 
-    public char getSauseyn() {
+    public String getSauseyn() {
         return sauseyn;
     }
 
-    public void setSauseyn(char sauseyn) {
+    public void setSauseyn(String sauseyn) {
         this.sauseyn = sauseyn;
     }
 }

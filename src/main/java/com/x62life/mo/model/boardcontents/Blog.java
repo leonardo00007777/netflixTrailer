@@ -17,7 +17,7 @@ public class Blog {
     private short breplies; //댓글건수 댓글건수
     private int bviews; //조회수 조회수
     private String bnoticelv;
-    private char bblind; //blind처리 blind처리
+    private String bblind; //blind처리 blind처리
     private String btrackback;
     private String thumbimg; //썸네일이미지명 썸네일이미지명
 
@@ -125,11 +125,11 @@ public class Blog {
         this.bnoticelv = bnoticelv;
     }
 
-    public char getBblind() {
+    public String getBblind() {
         return bblind;
     }
 
-    public void setBblind(char bblind) {
+    public void setBblind(String bblind) {
         this.bblind = bblind;
     }
 

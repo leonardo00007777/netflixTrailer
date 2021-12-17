@@ -4,9 +4,9 @@ package com.x62life.mo.model.product;
 //세트상품
 public class GdSet {
     private String gdcd;
-    private char gdsetyn;
-    private char gdatoyn;
-    private char gdtckyn;
+    private String gdsetyn;
+    private String gdatoyn;
+    private String gdtckyn;
 
     public String getGdcd() {
         return gdcd;
@@ -16,27 +16,27 @@ public class GdSet {
         this.gdcd = gdcd;
     }
 
-    public char getGdsetyn() {
+    public String getGdsetyn() {
         return gdsetyn;
     }
 
-    public void setGdsetyn(char gdsetyn) {
+    public void setGdsetyn(String gdsetyn) {
         this.gdsetyn = gdsetyn;
     }
 
-    public char getGdatoyn() {
+    public String getGdatoyn() {
         return gdatoyn;
     }
 
-    public void setGdatoyn(char gdatoyn) {
+    public void setGdatoyn(String gdatoyn) {
         this.gdatoyn = gdatoyn;
     }
 
-    public char getGdtckyn() {
+    public String getGdtckyn() {
         return gdtckyn;
     }
 
-    public void setGdtckyn(char gdtckyn) {
+    public void setGdtckyn(String gdtckyn) {
         this.gdtckyn = gdtckyn;
     }
 }

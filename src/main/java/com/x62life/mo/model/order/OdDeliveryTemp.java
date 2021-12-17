@@ -3,45 +3,45 @@ package com.x62life.mo.model.order;
 /*@Alias("odDeliveryTemp")*/
 //배송지 정보 임시
 public class OdDeliveryTemp {
-    private char paynum; //임시결제번호
-    private char ordnum; //임시주문번호
-    private char memcd; //회원번호
+    private String paynum; //임시결제번호
+    private String ordnum; //임시주문번호
+    private String memcd; //회원번호
     private String rcvname; //수신자명
-    private char zipcd; //우편번호
+    private String zipcd; //우편번호
     private String addr1; //주소1
     private String addr2; //주소2
     private String telno; //전화번호
     private String hpno; //휴대전화
     private String dlvmsg; //배송메세지
     private String rcvmsg; //수신자메세지
-    private char hideyn; //숨김여부
+    private String hideyn; //숨김여부
     private byte[] addr1Enc; //주소1 enc
     private byte[] addr2Enc; //주소2 enc
     private byte[] telnoEnc; //전화번호 enc
     private byte[] hpnoEnc; //휴대전화 enc
     private String sndname; //주문자명
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 
-    public char getOrdnum() {
+    public String getOrdnum() {
         return ordnum;
     }
 
-    public void setOrdnum(char ordnum) {
+    public void setOrdnum(String ordnum) {
         this.ordnum = ordnum;
     }
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
@@ -53,11 +53,11 @@ public class OdDeliveryTemp {
         this.rcvname = rcvname;
     }
 
-    public char getZipcd() {
+    public String getZipcd() {
         return zipcd;
     }
 
-    public void setZipcd(char zipcd) {
+    public void setZipcd(String zipcd) {
         this.zipcd = zipcd;
     }
 
@@ -109,11 +109,11 @@ public class OdDeliveryTemp {
         this.rcvmsg = rcvmsg;
     }
 
-    public char getHideyn() {
+    public String getHideyn() {
         return hideyn;
     }
 
-    public void setHideyn(char hideyn) {
+    public void setHideyn(String hideyn) {
         this.hideyn = hideyn;
     }
 

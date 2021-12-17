@@ -6,23 +6,23 @@ import java.sql.Timestamp;
 //회원상담
 public class MbTalk {
     private int tlkidx; //순번
-    private char memcd; //회원번호
-    private char divcd1; //상담분류
-    private char divcd2; //상담구분
-    private char tlkstcd; //상담상태
+    private String memcd; //회원번호
+    private String divcd1; //상담분류
+    private String divcd2; //상담구분
+    private String tlkstcd; //상담상태
     private String content; //상담내용
-    private char useyn; //잔액
+    private String useyn; //잔액
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
-    private char tlkcd; //상담사코드
-    private char chargeCd; //담당자지정
+    private String tlkcd; //상담사코드
+    private String chargeCd; //담당자지정
     private Timestamp chargeDt; //담당자지정일시
     private String resultMent; //처리내용
-    private char resultCd; //처리상태
+    private String resultCd; //처리상태
     private Timestamp resultDt; //처리일시
     private String keyword; //키워드
     private int reputation; //평점
-    private char paynum; //결제번호
+    private String paynum; //결제번호
 
     public int getTlkidx() {
         return tlkidx;
@@ -32,35 +32,35 @@ public class MbTalk {
         this.tlkidx = tlkidx;
     }
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
-    public char getDivcd1() {
+    public String getDivcd1() {
         return divcd1;
     }
 
-    public void setDivcd1(char divcd1) {
+    public void setDivcd1(String divcd1) {
         this.divcd1 = divcd1;
     }
 
-    public char getDivcd2() {
+    public String getDivcd2() {
         return divcd2;
     }
 
-    public void setDivcd2(char divcd2) {
+    public void setDivcd2(String divcd2) {
         this.divcd2 = divcd2;
     }
 
-    public char getTlkstcd() {
+    public String getTlkstcd() {
         return tlkstcd;
     }
 
-    public void setTlkstcd(char tlkstcd) {
+    public void setTlkstcd(String tlkstcd) {
         this.tlkstcd = tlkstcd;
     }
 
@@ -72,11 +72,11 @@ public class MbTalk {
         this.content = content;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
@@ -96,19 +96,19 @@ public class MbTalk {
         this.updt = updt;
     }
 
-    public char getTlkcd() {
+    public String getTlkcd() {
         return tlkcd;
     }
 
-    public void setTlkcd(char tlkcd) {
+    public void setTlkcd(String tlkcd) {
         this.tlkcd = tlkcd;
     }
 
-    public char getChargeCd() {
+    public String getChargeCd() {
         return chargeCd;
     }
 
-    public void setChargeCd(char chargeCd) {
+    public void setChargeCd(String chargeCd) {
         this.chargeCd = chargeCd;
     }
 
@@ -128,11 +128,11 @@ public class MbTalk {
         this.resultMent = resultMent;
     }
 
-    public char getResultCd() {
+    public String getResultCd() {
         return resultCd;
     }
 
-    public void setResultCd(char resultCd) {
+    public void setResultCd(String resultCd) {
         this.resultCd = resultCd;
     }
 
@@ -160,11 +160,11 @@ public class MbTalk {
         this.reputation = reputation;
     }
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 }

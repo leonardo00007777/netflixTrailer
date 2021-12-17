@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 public class MbJoinHistory {
     private int idx; //순번
     private Timestamp indt; //등록일시
-    private char pcertdi; //인증키
+    private String pcertdi; //인증키
 
     public int getIdx() {
         return idx;
@@ -25,11 +25,11 @@ public class MbJoinHistory {
         this.indt = indt;
     }
 
-    public char getPcertdi() {
+    public String getPcertdi() {
         return pcertdi;
     }
 
-    public void setPcertdi(char pcertdi) {
+    public void setPcertdi(String pcertdi) {
         this.pcertdi = pcertdi;
     }
 }

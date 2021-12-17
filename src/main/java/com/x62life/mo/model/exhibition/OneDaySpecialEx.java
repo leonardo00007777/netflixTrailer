@@ -1,6 +1,7 @@
 package com.x62life.mo.model.exhibition;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 /*@Alias("oneDaySpecialEx")*/
@@ -16,14 +17,14 @@ public class OneDaySpecialEx extends OneDaySpecial{
     private String odtype; //발송 유형
     private String odtype2;
     private BigDecimal price1; // 상품가격1
-    private char soldoutyn; //품절 여부
+    private String soldoutyn; //품절 여부
     private int gdcnt; //상품 개수
     private String mhmimg1;
     private String title;
     private String subtitle;
     private int cnt;
     private BigDecimal saleprice;
-    private char lastyn;
+    private String lastyn;
     private String endtime;
 
     public String getGdname() {
@@ -103,14 +104,14 @@ public class OneDaySpecialEx extends OneDaySpecial{
     }
 
     public void setPrice1(BigDecimal price1) {
-        this.price1 = price1;
+        this.price1 = price1.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getSoldoutyn() {
+    public String getSoldoutyn() {
         return soldoutyn;
     }
 
-    public void setSoldoutyn(char soldoutyn) {
+    public void setSoldoutyn(String soldoutyn) {
         this.soldoutyn = soldoutyn;
     }
 
@@ -159,14 +160,14 @@ public class OneDaySpecialEx extends OneDaySpecial{
     }
 
     public void setSaleprice(BigDecimal saleprice) {
-        this.saleprice = saleprice;
+        this.saleprice = saleprice.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getLastyn() {
+    public String getLastyn() {
         return lastyn;
     }
 
-    public void setLastyn(char lastyn) {
+    public void setLastyn(String lastyn) {
         this.lastyn = lastyn;
     }
 

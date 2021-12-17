@@ -9,7 +9,7 @@ public class SubCategory {
     private String smenucd; //서브메뉴코드
     private String subCategory; //중분류코드
     private String smenudesc; //서브메뉴명
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
     private String userid; //작업자id
@@ -46,11 +46,11 @@ public class SubCategory {
         this.smenudesc = smenudesc;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

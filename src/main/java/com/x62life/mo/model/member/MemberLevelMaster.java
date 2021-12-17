@@ -1,27 +1,28 @@
 package com.x62life.mo.model.member;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("memberLevelMaster")*/
 //회원 멤버십 등급 정보
 public class MemberLevelMaster {
-    private char mvcode; //멤버쉽등급
+    private String mvcode; //멤버쉽등급
     private String mvlevel; //멤버쉽등급명
     private String mvdesc; //멤버쉽등급설명
     private String mvcond; //멤버쉽혜택조건
     private BigDecimal mvpntr; //멤버쉽적립률
     private BigDecimal mvdisr; //멤버쉽할인율
-    private char mvuse; //사용여부
+    private String mvuse; //사용여부
     private Timestamp mvindt; //등록일시
     private String mvicon; //멤버쉽icon
     private String mvimg; //멤버쉽img
 
-    public char getMvcode() {
+    public String getMvcode() {
         return mvcode;
     }
 
-    public void setMvcode(char mvcode) {
+    public void setMvcode(String mvcode) {
         this.mvcode = mvcode;
     }
 
@@ -54,7 +55,7 @@ public class MemberLevelMaster {
     }
 
     public void setMvpntr(BigDecimal mvpntr) {
-        this.mvpntr = mvpntr;
+        this.mvpntr = mvpntr.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getMvdisr() {
@@ -62,14 +63,14 @@ public class MemberLevelMaster {
     }
 
     public void setMvdisr(BigDecimal mvdisr) {
-        this.mvdisr = mvdisr;
+        this.mvdisr = mvdisr.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getMvuse() {
+    public String getMvuse() {
         return mvuse;
     }
 
-    public void setMvuse(char mvuse) {
+    public void setMvuse(String mvuse) {
         this.mvuse = mvuse;
     }
 

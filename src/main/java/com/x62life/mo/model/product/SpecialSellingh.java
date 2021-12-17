@@ -38,7 +38,7 @@ public class SpecialSellingh {
     private String shurlm9; //메뉴9 링크 url
     private String shurlm10; //메뉴10 링크 url
     private String shltoty; //주문유형
-    private char isud; //사용자정의 카테고리 
+    private String isud; //사용자정의 카테고리 
     private String udcat01; //사용자정의 카테고리1
     private String udcat02; //사용자정의 카테고리2
     private String udcat03; //사용자정의 카테고리3
@@ -59,7 +59,7 @@ public class SpecialSellingh {
     private String udcatc08; //사용자정의 카테고리2 링크 url
     private String udcatc09; //사용자정의 카테고리1 링크 url
     private String udcatc10; //사용자정의 카테고리2 링크 url
-    private char isusecat; //카테고리분류
+    private String isusecat; //카테고리분류
     private String grpcd; //적용고객
     private String shimg1url; //기획전 배너1 링크 url
     private String shimg2url; //기획전 배너2 링크 url
@@ -67,8 +67,8 @@ public class SpecialSellingh {
     private int shrcp2seq; //레시피2블로그 순번
     private int shrcp3seq; //레시피3블로그 순번
     private int shrcp4seq; //레시피4블로그 순번
-    private char shrcptype; //레시피 표시유형
-    private char shhideyn; //목록숨김여부
+    private String shrcptype; //레시피 표시유형
+    private String shhideyn; //목록숨김여부
     private String mhimg1; //모바일용 기획전 배너1 이미지명
     private String mhimg2; //모바일용 기획전 배너2 이미지명
     private String mhimg1url; //모바일용 기획전 배너1 링크 url
@@ -343,11 +343,11 @@ public class SpecialSellingh {
         this.shltoty = shltoty;
     }
 
-    public char getIsud() {
+    public String getIsud() {
         return isud;
     }
 
-    public void setIsud(char isud) {
+    public void setIsud(String isud) {
         this.isud = isud;
     }
 
@@ -511,11 +511,11 @@ public class SpecialSellingh {
         this.udcatc10 = udcatc10;
     }
 
-    public char getIsusecat() {
+    public String getIsusecat() {
         return isusecat;
     }
 
-    public void setIsusecat(char isusecat) {
+    public void setIsusecat(String isusecat) {
         this.isusecat = isusecat;
     }
 
@@ -575,19 +575,19 @@ public class SpecialSellingh {
         this.shrcp4seq = shrcp4seq;
     }
 
-    public char getShrcptype() {
+    public String getShrcptype() {
         return shrcptype;
     }
 
-    public void setShrcptype(char shrcptype) {
+    public void setShrcptype(String shrcptype) {
         this.shrcptype = shrcptype;
     }
 
-    public char getShhideyn() {
+    public String getShhideyn() {
         return shhideyn;
     }
 
-    public void setShhideyn(char shhideyn) {
+    public void setShhideyn(String shhideyn) {
         this.shhideyn = shhideyn;
     }
 

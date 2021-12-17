@@ -6,13 +6,13 @@ import java.sql.Timestamp;
 public class MagazineL {
     private int zlidx;
     private short zlctty;
-    private char zlctid;
-    private char zlno;
+    private String zlctid;
+    private String zlno;
     private String zlcatc;
     private String zlcatn;
     private String zlsecc;
     private String zlsecn;
-    private char zltitl1;
+    private String zltitl1;
     private String zltitl2;
     private Timestamp zltimg;
     private Timestamp zlusyn;
@@ -36,19 +36,19 @@ public class MagazineL {
         this.zlctty = zlctty;
     }
 
-    public char getZlctid() {
+    public String getZlctid() {
         return zlctid;
     }
 
-    public void setZlctid(char zlctid) {
+    public void setZlctid(String zlctid) {
         this.zlctid = zlctid;
     }
 
-    public char getZlno() {
+    public String getZlno() {
         return zlno;
     }
 
-    public void setZlno(char zlno) {
+    public void setZlno(String zlno) {
         this.zlno = zlno;
     }
 
@@ -84,11 +84,11 @@ public class MagazineL {
         this.zlsecn = zlsecn;
     }
 
-    public char getZltitl1() {
+    public String getZltitl1() {
         return zltitl1;
     }
 
-    public void setZltitl1(char zltitl1) {
+    public void setZltitl1(String zltitl1) {
         this.zltitl1 = zltitl1;
     }
 

@@ -7,13 +7,13 @@ import java.sql.Timestamp;
 public class OdPromotion {
     private int idx; //(k1)
     private String certificateno; //인증번호(k2)
-    private char status; //상품권상태코드
+    private String status; //상품권상태코드
     private String rcvname; //받는사람
     private String addr1; //배송지 주소1
     private String addr2; //배송지 주소2
     private String zipcd; //우편번호
     private String telno; //전화번호
-    private char hpno; //휴대전화번호
+    private String hpno; //휴대전화번호
     private String email; //전자우편주소(이메일)
     private String dlvmsg; //배송기사 메시지
     private String rcvmsg; //보내는사람 메시지
@@ -39,11 +39,11 @@ public class OdPromotion {
         this.certificateno = certificateno;
     }
 
-    public char getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(char status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -87,11 +87,11 @@ public class OdPromotion {
         this.telno = telno;
     }
 
-    public char getHpno() {
+    public String getHpno() {
         return hpno;
     }
 
-    public void setHpno(char hpno) {
+    public void setHpno(String hpno) {
         this.hpno = hpno;
     }
 

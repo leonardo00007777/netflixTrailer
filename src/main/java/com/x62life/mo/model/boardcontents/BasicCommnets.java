@@ -17,9 +17,9 @@ public class BasicCommnets {
     private Timestamp rdatex;
     private short ragree;
     private short roppose;
-    private char rblind;
+    private String rblind;
     private String device;
-    private char grade;
+    private String grade;
 
     public int getRseqno() {
         return rseqno;
@@ -125,11 +125,11 @@ public class BasicCommnets {
         this.roppose = roppose;
     }
 
-    public char getRblind() {
+    public String getRblind() {
         return rblind;
     }
 
-    public void setRblind(char rblind) {
+    public void setRblind(String rblind) {
         this.rblind = rblind;
     }
 
@@ -141,11 +141,11 @@ public class BasicCommnets {
         this.device = device;
     }
 
-    public char getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(char grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 }

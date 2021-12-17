@@ -10,7 +10,7 @@ public class OdAutoPayStop {
     private int stpidx; //자동주문일시중단일련번호
     private String startdt; //변경기간시작일
     private String enddt; //변경기간종료일
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
     private String updid; //수정자
@@ -55,11 +55,11 @@ public class OdAutoPayStop {
         this.enddt = enddt;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

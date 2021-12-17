@@ -1,6 +1,7 @@
 package com.x62life.mo.model.product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 //상품변경정보
 /*@Alias("productChangeInfo")*/
@@ -9,17 +10,17 @@ public class ProductChangeInfo {
     private String applyType; //배송일지정상품
     private Timestamp applyDate; //적용일자
     private BigDecimal applyPrice; //적용가격
-    private char applyYn; //판매여부
-    private char applySalepolicy; //할인유형
+    private String applyYn; //판매여부
+    private String applySalepolicy; //할인유형
     private int applySalevalue; //할인값
-    private char applySoldout; //일시품절
-    private char applyStockupdate; //재고유형
+    private String applySoldout; //일시품절
+    private String applyStockupdate; //재고유형
     private int applyStockvalue; //재고수량
-    private char applyDaily; //매일수량추가
+    private String applyDaily; //매일수량추가
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
     private String updid; //수정자
-    private char doneyn; //실행여부
+    private String doneyn; //실행여부
     private String applyMpcode; //메인상품코드
     private BigDecimal applySuprice; //공급가
     private BigDecimal applySuvat;
@@ -56,19 +57,19 @@ public class ProductChangeInfo {
         this.applyPrice = applyPrice;
     }
 
-    public char getapplyYn() {
+    public String getapplyYn() {
         return applyYn;
     }
 
-    public void setapplyYn(char applyYn) {
+    public void setapplyYn(String applyYn) {
         this.applyYn = applyYn;
     }
 
-    public char getapplySalepolicy() {
+    public String getapplySalepolicy() {
         return applySalepolicy;
     }
 
-    public void setapplySalepolicy(char applySalepolicy) {
+    public void setapplySalepolicy(String applySalepolicy) {
         this.applySalepolicy = applySalepolicy;
     }
 
@@ -80,19 +81,19 @@ public class ProductChangeInfo {
         this.applySalevalue = applySalevalue;
     }
 
-    public char getapplySoldout() {
+    public String getapplySoldout() {
         return applySoldout;
     }
 
-    public void setapplySoldout(char applySoldout) {
+    public void setapplySoldout(String applySoldout) {
         this.applySoldout = applySoldout;
     }
 
-    public char getapplyStockupdate() {
+    public String getapplyStockupdate() {
         return applyStockupdate;
     }
 
-    public void setapplyStockupdate(char applyStockupdate) {
+    public void setapplyStockupdate(String applyStockupdate) {
         this.applyStockupdate = applyStockupdate;
     }
 
@@ -104,11 +105,11 @@ public class ProductChangeInfo {
         this.applyStockvalue = applyStockvalue;
     }
 
-    public char getapplyDaily() {
+    public String getapplyDaily() {
         return applyDaily;
     }
 
-    public void setapplyDaily(char applyDaily) {
+    public void setapplyDaily(String applyDaily) {
         this.applyDaily = applyDaily;
     }
 
@@ -136,11 +137,11 @@ public class ProductChangeInfo {
         this.updid = updid;
     }
 
-    public char getDoneyn() {
+    public String getDoneyn() {
         return doneyn;
     }
 
-    public void setDoneyn(char doneyn) {
+    public void setDoneyn(String doneyn) {
         this.doneyn = doneyn;
     }
 
@@ -157,7 +158,7 @@ public class ProductChangeInfo {
     }
 
     public void setapplySuprice(BigDecimal applySuprice) {
-        this.applySuprice = applySuprice;
+        this.applySuprice = applySuprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getapplySuvat() {
@@ -165,6 +166,6 @@ public class ProductChangeInfo {
     }
 
     public void setapplySuvat(BigDecimal applySuvat) {
-        this.applySuvat = applySuvat;
+        this.applySuvat = applySuvat.setScale(0, RoundingMode.DOWN);
     }
 }

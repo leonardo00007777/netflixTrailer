@@ -5,20 +5,20 @@ import java.sql.Timestamp;
 /*@Alias("odAutoDlv")*/
 //자동주문 배송
 public class OdAutoDlv {
-    private char memcd; //회원코드
+    private String memcd; //회원코드
     private int autoidx; //자동주문결제일련번호
     private int dlvidx; //배송지일시변경일련번호
-    private char startdt; //변경기간시작일
-    private char enddt; //변경기간종료일
+    private String startdt; //변경기간시작일
+    private String enddt; //변경기간종료일
     private String rcvname; //수신자
-    private char zipcd; //우편번호
+    private String zipcd; //우편번호
     private String addr1; //주소
     private String addr2; //상세주소
     private String telno; //전화번호
     private String hpno; //휴대전화번호
     private String dlvmsg; //배송메세지
     private String rcvmsg; //수신자메세지
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
     private String updid; //수정자
@@ -27,11 +27,11 @@ public class OdAutoDlv {
     private byte[] telnoEnc; //영문전화번호
     private byte[] hpnoEnc; //영문휴대폰번호
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
@@ -51,19 +51,19 @@ public class OdAutoDlv {
         this.dlvidx = dlvidx;
     }
 
-    public char getStartdt() {
+    public String getStartdt() {
         return startdt;
     }
 
-    public void setStartdt(char startdt) {
+    public void setStartdt(String startdt) {
         this.startdt = startdt;
     }
 
-    public char getEnddt() {
+    public String getEnddt() {
         return enddt;
     }
 
-    public void setEnddt(char enddt) {
+    public void setEnddt(String enddt) {
         this.enddt = enddt;
     }
 
@@ -75,11 +75,11 @@ public class OdAutoDlv {
         this.rcvname = rcvname;
     }
 
-    public char getZipcd() {
+    public String getZipcd() {
         return zipcd;
     }
 
-    public void setZipcd(char zipcd) {
+    public void setZipcd(String zipcd) {
         this.zipcd = zipcd;
     }
 
@@ -131,11 +131,11 @@ public class OdAutoDlv {
         this.rcvmsg = rcvmsg;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

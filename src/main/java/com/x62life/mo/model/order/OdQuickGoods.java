@@ -9,22 +9,22 @@ public class OdQuickGoods {
     private String gdcd; //상품코드
     private String gdnm; //상품명
     private String unit; //단위
-    private char divcd; //상품구분
-    private char divcd1; //카테고리
+    private String divcd; //상품구분
+    private String divcd1; //카테고리
     private float masterPrice; //가격
     private float applyPrice; //가격
     private float point; //포인트
     private float stockNum; //재고량
     private String odFrom; //판매기간 from
     private String odTo; //판매기간 to
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
     private Timestamp candt; //취소일시
     private String gdExplain; //상품설명
-    private char type; //상품유형
-    private char newyn; //신상품여부
-    private char recommandyn; //추천상품여부
+    private String type; //상품유형
+    private String newyn; //신상품여부
+    private String recommandyn; //추천상품여부
     private String divcd2; //하위카테고리
     private String updid; //수정자id
 
@@ -60,19 +60,19 @@ public class OdQuickGoods {
         this.unit = unit;
     }
 
-    public char getDivcd() {
+    public String getDivcd() {
         return divcd;
     }
 
-    public void setDivcd(char divcd) {
+    public void setDivcd(String divcd) {
         this.divcd = divcd;
     }
 
-    public char getDivcd1() {
+    public String getDivcd1() {
         return divcd1;
     }
 
-    public void setDivcd1(char divcd1) {
+    public void setDivcd1(String divcd1) {
         this.divcd1 = divcd1;
     }
 
@@ -124,11 +124,11 @@ public class OdQuickGoods {
         this.odTo = odTo;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
@@ -164,27 +164,27 @@ public class OdQuickGoods {
         this.gdExplain = gdExplain;
     }
 
-    public char getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(char type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public char getNewyn() {
+    public String getNewyn() {
         return newyn;
     }
 
-    public void setNewyn(char newyn) {
+    public void setNewyn(String newyn) {
         this.newyn = newyn;
     }
 
-    public char getRecommandyn() {
+    public String getRecommandyn() {
         return recommandyn;
     }
 
-    public void setRecommandyn(char recommandyn) {
+    public void setRecommandyn(String recommandyn) {
         this.recommandyn = recommandyn;
     }
 

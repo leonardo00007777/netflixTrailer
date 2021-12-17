@@ -8,7 +8,7 @@ public class MiddleCategory {
     private String category; //대분류코드
     private String subCategory; //중분류코드
     private String subCatName; //중분류명
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
 
@@ -36,11 +36,11 @@ public class MiddleCategory {
         this.subCatName = subCatName;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

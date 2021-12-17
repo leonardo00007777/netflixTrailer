@@ -1,12 +1,13 @@
 package com.x62life.mo.model.category;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /*@Alias("cartRecipeEx")*/
 public class CartRecipeEx extends CartRecipe{
     private String gdname; //상품이름
-    private char useyn; //사용여부
-    private char soldoutyn; //품절여부
+    private String useyn; //사용여부
+    private String soldoutyn; //품절여부
     private int gdcnt; //상품개수
     private String gdimg; //상품이미지
     private BigDecimal price1; //상품가격1
@@ -24,19 +25,19 @@ public class CartRecipeEx extends CartRecipe{
         this.gdname = gdname;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
-    public char getSoldoutyn() {
+    public String getSoldoutyn() {
         return soldoutyn;
     }
 
-    public void setSoldoutyn(char soldoutyn) {
+    public void setSoldoutyn(String soldoutyn) {
         this.soldoutyn = soldoutyn;
     }
 
@@ -61,7 +62,7 @@ public class CartRecipeEx extends CartRecipe{
     }
 
     public void setPrice1(BigDecimal price1) {
-        this.price1 = price1;
+        this.price1 = price1.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getPrice() {
@@ -69,7 +70,7 @@ public class CartRecipeEx extends CartRecipe{
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = price.setScale(0, RoundingMode.DOWN);
     }
 
     public String getMemname() {

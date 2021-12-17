@@ -9,13 +9,13 @@ public class EventCalendar {
     private String vcevent; //이벤트 제목
     private String vcwhere;
     private String vctype; //이벤트 구분
-    private char chopen;
+    private String chopen;
     private Timestamp dtsdate; //이벤트 시작일시
     private Timestamp dtrdate; //이벤트 종료일시
     private String vcdesc; //이벤트 내용
-    private char chrepeat;
-    private char chrtype;
-    private char chdtype;
+    private String chrepeat;
+    private String chrtype;
+    private String chdtype;
     private int infortime;
 
     public int getIdschedule() {
@@ -58,11 +58,11 @@ public class EventCalendar {
         this.vctype = vctype;
     }
 
-    public char getChopen() {
+    public String getChopen() {
         return chopen;
     }
 
-    public void setChopen(char chopen) {
+    public void setChopen(String chopen) {
         this.chopen = chopen;
     }
 
@@ -90,27 +90,27 @@ public class EventCalendar {
         this.vcdesc = vcdesc;
     }
 
-    public char getChrepeat() {
+    public String getChrepeat() {
         return chrepeat;
     }
 
-    public void setChrepeat(char chrepeat) {
+    public void setChrepeat(String chrepeat) {
         this.chrepeat = chrepeat;
     }
 
-    public char getChrtype() {
+    public String getChrtype() {
         return chrtype;
     }
 
-    public void setChrtype(char chrtype) {
+    public void setChrtype(String chrtype) {
         this.chrtype = chrtype;
     }
 
-    public char getChdtype() {
+    public String getChdtype() {
         return chdtype;
     }
 
-    public void setChdtype(char chdtype) {
+    public void setChdtype(String chdtype) {
         this.chdtype = chdtype;
     }
 

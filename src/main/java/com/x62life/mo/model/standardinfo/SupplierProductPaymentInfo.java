@@ -1,6 +1,7 @@
 package com.x62life.mo.model.standardinfo;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 /*@Alias("supplierProductPaymentInfo")*/
 //공급자 결제 정보
@@ -87,7 +88,7 @@ public class SupplierProductPaymentInfo {
     }
 
     public void setMaqtag(BigDecimal maqtag) {
-        this.maqtag = maqtag;
+        this.maqtag = maqtag.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getMacost() {
@@ -95,7 +96,7 @@ public class SupplierProductPaymentInfo {
     }
 
     public void setMacost(BigDecimal macost) {
-        this.macost = macost;
+        this.macost = macost.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getMaqttd() {
@@ -103,7 +104,7 @@ public class SupplierProductPaymentInfo {
     }
 
     public void setMaqttd(BigDecimal maqttd) {
-        this.maqttd = maqttd;
+        this.maqttd = maqttd.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getMacomm() {
@@ -111,6 +112,6 @@ public class SupplierProductPaymentInfo {
     }
 
     public void setMacomm(BigDecimal macomm) {
-        this.macomm = macomm;
+        this.macomm = macomm.setScale(0, RoundingMode.DOWN);
     }
 }

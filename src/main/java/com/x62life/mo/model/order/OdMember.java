@@ -3,10 +3,10 @@ package com.x62life.mo.model.order;
 /*@Alias("odMember")*/
 //주문회원 정보
 public class OdMember {
-    private char paynum; //결제번호
-    private char memcd; //회원번호
+    private String paynum; //결제번호
+    private String memcd; //회원번호
     private String grpcd; //그룹사코드
-    private char gradecd; //등급
+    private String gradecd; //등급
     private String empnum; //사번
     private String memname; //회원명
     private String telno; //전화번호
@@ -16,19 +16,19 @@ public class OdMember {
     private byte[] hpnoenc; //휴대전화 enc
     private byte[] emailenc; //이메일 enc
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
@@ -40,11 +40,11 @@ public class OdMember {
         this.grpcd = grpcd;
     }
 
-    public char getGradecd() {
+    public String getGradecd() {
         return gradecd;
     }
 
-    public void setGradecd(char gradecd) {
+    public void setGradecd(String gradecd) {
         this.gradecd = gradecd;
     }
 

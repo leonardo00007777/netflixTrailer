@@ -8,7 +8,7 @@ public class BdFaq {
     private String divcd; //구분
     private String title; //질문내용
     private byte[] content; //답변내용
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private int rcount; //조회수
     private int marks; //만족도
     private int totalmarks; //만족도합계
@@ -17,7 +17,7 @@ public class BdFaq {
     private Timestamp updt; //수정일시
     private String memcd; //등록자코드
     private String storyon; //faq story 게시
-    private char start; //첫화면게시
+    private String start; //첫화면게시
     private int page;
     private int maxpage;
     private int cnt;
@@ -54,11 +54,11 @@ public class BdFaq {
         this.content = content;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
@@ -126,11 +126,11 @@ public class BdFaq {
         this.storyon = storyon;
     }
 
-    public char getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(char start) {
+    public void setStart(String start) {
         this.start = start;
     }
 

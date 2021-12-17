@@ -18,7 +18,7 @@ public class PurchasingBasicInfo {
     private String ponote; //요청사항(메모)
     private String pousid; //수정id
     private Timestamp poupdt; //수정일시
-    private char poexfl; //추출여부
+    private String poexfl; //추출여부
     private Timestamp poexdt; //추출여부등록일시
     private String portno; //구매주문번호(반품처리)
 
@@ -134,11 +134,11 @@ public class PurchasingBasicInfo {
         this.poupdt = poupdt;
     }
 
-    public char getPoexfl() {
+    public String getPoexfl() {
         return poexfl;
     }
 
-    public void setPoexfl(char poexfl) {
+    public void setPoexfl(String poexfl) {
         this.poexfl = poexfl;
     }
 

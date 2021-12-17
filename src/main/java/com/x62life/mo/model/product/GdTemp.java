@@ -1,6 +1,7 @@
 package com.x62life.mo.model.product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 //상품 예외 입고 임시저장
 /*@Alias("gdTemp")*/
@@ -79,7 +80,7 @@ public class GdTemp {
     }
 
     public void settUcost(BigDecimal tUcost) {
-        this.tUcost = tUcost;
+        this.tUcost = tUcost.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal gettCost() {
@@ -87,7 +88,7 @@ public class GdTemp {
     }
 
     public void settCost(BigDecimal tCost) {
-        this.tCost = tCost;
+        this.tCost = tCost.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal gettVat() {
@@ -95,7 +96,7 @@ public class GdTemp {
     }
 
     public void settVat(BigDecimal tVat) {
-        this.tVat = tVat;
+        this.tVat = tVat.setScale(0, RoundingMode.DOWN);
     }
 
     public Timestamp gettUpdt() {

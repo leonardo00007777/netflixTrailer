@@ -11,7 +11,7 @@ public class MembershipHistory {
     private Timestamp indt; //등록일시
     private String memcd; //회원번호
     private String memid; //회원id
-    private char withdraw; //탈퇴여부
+    private String withdraw; //탈퇴여부
     private Timestamp wddt; //탈퇴일시
 
     public int getIdx() {
@@ -62,11 +62,11 @@ public class MembershipHistory {
         this.memid = memid;
     }
 
-    public char getWithdraw() {
+    public String getWithdraw() {
         return withdraw;
     }
 
-    public void setWithdraw(char withdraw) {
+    public void setWithdraw(String withdraw) {
         this.withdraw = withdraw;
     }
 

@@ -1,6 +1,7 @@
 package com.x62life.mo.model.product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /*@Alias("gdMasterEx")*/
 public class GdMasterEx extends GdMaster{
@@ -17,6 +18,7 @@ public class GdMasterEx extends GdMaster{
     private String odFrom;
     private String odTo;
     private String dlvFrom;
+    private String dvlTo;
     private String alltimesale; //상시판매
     private String smenucd;
     private String smenudesc;
@@ -28,6 +30,10 @@ public class GdMasterEx extends GdMaster{
     private String soldOutFlag;
     private String gradedesc;
     private BigDecimal discountRate;
+    private String delpol;
+    private BigDecimal limamt;
+    private BigDecimal delcharge; //배송비
+
 
     public String getGdcnt() {
         return gdcnt;
@@ -90,7 +96,7 @@ public class GdMasterEx extends GdMaster{
     }
 
     public void setGroupsaleprice(BigDecimal groupsaleprice) {
-        this.groupsaleprice = groupsaleprice;
+        this.groupsaleprice = groupsaleprice.setScale(0, RoundingMode.DOWN);
     }
 
     public int getIsgroupsale() {
@@ -131,6 +137,14 @@ public class GdMasterEx extends GdMaster{
 
     public void setDlvFrom(String dlvFrom) {
         this.dlvFrom = dlvFrom;
+    }
+
+    public String getDvlTo() {
+        return dvlTo;
+    }
+
+    public void setDvlTo(String dvlTo) {
+        this.dvlTo = dvlTo;
     }
 
     public String getAlltimesale() {
@@ -219,5 +233,29 @@ public class GdMasterEx extends GdMaster{
 
     public void setDiscountRate(BigDecimal discountRate) {
         this.discountRate = discountRate;
+    }
+
+    public String getDelpol() {
+        return delpol;
+    }
+
+    public void setDelpol(String delpol) {
+        this.delpol = delpol;
+    }
+
+    public BigDecimal getLimamt() {
+        return limamt;
+    }
+
+    public void setLimamt(BigDecimal limamt) {
+        this.limamt = limamt.setScale(0, RoundingMode.DOWN);
+    }
+
+    public BigDecimal getDelcharge() {
+        return delcharge;
+    }
+
+    public void setDelcharge(BigDecimal delcharge) {
+        this.delcharge = delcharge.setScale(0, RoundingMode.DOWN);
     }
 }

@@ -13,11 +13,11 @@ public class CPesticideResidue {
     private String testitem; //품목명
     private String testproducer; //생산자(명)
     private String efapflag; //친환경구분 (cd_master.cdtype:09 [10:유기농산물, 20:무농약농산물, 40:저농약농산물])
-    private char testjudge; //판정결과 (g/b)
+    private String testjudge; //판정결과 (g/b)
     private String testpath; //성적서파일명 (위치)
     private Date regdate; //등록일시
     private String regid; //등록자
-    private char useyn; //사용여부
+    private String useyn; //사용여부
 
     public int getTestidx() {
         return testidx;
@@ -83,11 +83,11 @@ public class CPesticideResidue {
         this.efapflag = efapflag;
     }
 
-    public char getTestjudge() {
+    public String getTestjudge() {
         return testjudge;
     }
 
-    public void setTestjudge(char testjudge) {
+    public void setTestjudge(String testjudge) {
         this.testjudge = testjudge;
     }
 
@@ -115,11 +115,11 @@ public class CPesticideResidue {
         this.regid = regid;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 }

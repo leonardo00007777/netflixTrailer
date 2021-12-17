@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 public class InicisPay {
     private int inidx; //id
     private String tid; //각 거래를 나타내는 40자리 고유번호.
-    private char paynum; //자연이랑 결제번호.
+    private String paynum; //자연이랑 결제번호.
     private Timestamp indt; //입력시간.
     private String resultcode; //결과코드.
     private String applydate; //결제승인 날짜. 값 형식: yyyymmdd
@@ -43,11 +43,11 @@ public class InicisPay {
         this.tid = tid;
     }
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 
