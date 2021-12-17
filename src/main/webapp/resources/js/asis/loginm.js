@@ -22,32 +22,26 @@ var loginm = function() {
 		//------------------------------------------------------------
 		initKeyEvent : function() {
 
-			/*    var userid = getCookie("62userid");
+		    var userid = getCookie("62userid");
 
-			    // 가져온 쿠키값이 있으면
-			    if(userid != "") {
-			        //document.getElementById("loginuserid").value = userid;
-			        //document.getElementById("saveuserid").checked = true;
-			        document.getElementById("loginpassword").focus();
-			    } else {
-			        document.getElementById("loginuserid").focus();
-			    }
-
-				//이벤트 등록
-				$("#loginpassword").keypress(function(e){
-					if(e.keyCode === 13){
-						loginSubmit();
-						//e.preventDefault();
-					}
-				});
-			    */
-
-			$("#_id").on("click", function(e) {
-				//common.wlog("home_utilbar_review_toast_pop");
-				//location.href=_baseUrl+"mypage/getGdasList.do";
-				common.init(2);
-			});
-			
+		    // 가져온 쿠키값이 있으면
+		    if(userid != "") {
+		        $('#loginpassword').focus();
+		    } else {
+		    	$('#loginuserid').focus();
+		    }
+		      
+	        // 로그인 id/pw 처리
+	        $("#loginuserid, #loginpassword").on("keyup", function(e){
+	            if(e.keyCode == 13) {
+	                if(validLogin($("#loginuserid"), $("#loginpassword"))) {
+	                    //inquireCash(_this.giftType_cultureLand, $("#loginuserid").val(), $("#loginpassword").val());
+	                	loginm.loginSubmit();
+	                	
+	                }
+	            }
+	        });
+	        
 		},
 		
 		//------------------------------------------------------------
@@ -86,17 +80,15 @@ var loginm = function() {
 			
 			// 가져온 쿠키값이 있으면
 			if(userid != "") {
-			    //document.getElementById("loginuserid").value = userid;
-			    //document.getElementById("saveuserid").checked = true;
 			    document.getElementById("loginpassword").focus();
 			} else {
 			    document.getElementById("loginuserid").focus();
 			}
 			
-			//이벤트 등록
+			// 로그인처리
 			$("#loginpassword").keypress(function(e){
 				if(e.keyCode === 13){
-					loginSubmit();
+					loginm.loginSubmit();
 					//e.preventDefault();
 				}
 			});

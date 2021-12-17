@@ -39,7 +39,7 @@ public class HomeController {
 	public ModelAndView home(Locale locale, Model model) {
 		 ModelAndView mv = new ModelAndView();
 		 
-		 mv.setViewName("main/main");
+		 mv.setViewName("/main/main");
 		
 		return mv;
 	}	

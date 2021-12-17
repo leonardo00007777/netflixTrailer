@@ -6,6 +6,7 @@
 %>
 <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <%-- <script src="<%=_jsUrl %>asis/dataEvent.js"></script>   --%>   
+<script src="<%=_jsUrl %>asis/loginm.js"></script>
 
 <body class="page-login header-float">
   <div class="site-container">
@@ -30,10 +31,11 @@
               <input type="text" class="input-login" id="loginuserid" placeholder="아이디">
               <input type="password" class="input-login" id="loginpassword" placeholder="비밀번호">
               <label class="checkbox mt-s">
-                <input type="checkbox" name="" checked>
+                <input type="checkbox"  id="chk01" name="autologin" id="autologin" checked="checked" value="Y" title="자동로그인 선택">
                 <span class="label">자동 로그인</span>
               </label>
-              <button class="button bt-green bt-l w-100 btn-login" onclick="javascript:loginCheck();">로그인</button>
+                                      
+              <button class="button bt-green bt-l w-100 btn-login"  onclick="javascript:mlogin.login.doLogin();"  onclick="javascript:loginCheck();">로그인</button>
             </section>
 
             <section class="management-box">
@@ -77,4 +79,4 @@
     </div>
   </div>
 
-<script src="<%=_jsUrl %>login/login.js"></script>
+
