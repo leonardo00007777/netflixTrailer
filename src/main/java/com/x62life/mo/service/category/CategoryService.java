@@ -32,4 +32,6 @@ public interface CategoryService {
     Map<String, Object> getCartOrderType(String strGDCD);
 
     String isRightAwayEnableDay(String datex);
+
+    String radiationTestInfo(String testidx);
 }

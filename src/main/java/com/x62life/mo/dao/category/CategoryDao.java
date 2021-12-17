@@ -33,4 +33,6 @@ public interface CategoryDao {
     Map<String, Object> getCartOrderType(String gdcd);
 
     String isRightAwayEnableDay(String datex);
+
+    String radiationTestInfo(String testidx);
 }

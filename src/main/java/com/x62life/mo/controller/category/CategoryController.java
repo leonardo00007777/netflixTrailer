@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,5 +88,13 @@ public class CategoryController {
         String isRightAwayEnableDay = categoryService.isRightAwayEnableDay(datex);
 
         return isRightAwayEnableDay;
+    }
+
+    @RequestMapping("/main/radiationTestInfo")
+    @ResponseBody
+    public String radiationTestInfo (@RequestParam String testidx){
+        String radiationTestInfo = categoryService.radiationTestInfo(testidx);
+
+        return radiationTestInfo;
     }
 }

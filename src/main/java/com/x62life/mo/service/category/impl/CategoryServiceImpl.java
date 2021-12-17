@@ -89,4 +89,9 @@ public class CategoryServiceImpl implements CategoryService{
 	public String isRightAwayEnableDay(String datex) {
 		return categoryDao.isRightAwayEnableDay(datex);
 	}
+
+	@Override
+	public String radiationTestInfo(String testidx){
+		return categoryDao.radiationTestInfo(testidx);
+	}
 }

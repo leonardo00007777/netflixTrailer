@@ -18,6 +18,7 @@ public class GdSugar {
     private String gaimag;
     private Timestamp gaindt;
     private String gausid;
+    private String fruitsSugar;
 
     public int getGaidx() {
         return gaidx;
@@ -121,5 +122,13 @@ public class GdSugar {
 
     public void setGausid(String gausid) {
         this.gausid = gausid;
+    }
+
+    public String getFruitsSugar() {
+        return fruitsSugar;
+    }
+
+    public void setFruitsSugar(String fruitsSugar) {
+        this.fruitsSugar = fruitsSugar;
     }
 }

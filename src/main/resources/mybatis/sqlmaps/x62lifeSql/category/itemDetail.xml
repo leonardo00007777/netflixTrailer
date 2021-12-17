@@ -193,12 +193,19 @@
            WHERE w.sasuno = #{strItemScode} 
              AND w.saartc = #{strGDCD}
     </select>
-    
+
+    <select id="radiationTestInfo" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT testpath
+          FROM c_pesticide_residue
+           WHERE testidx = #{testidx}
+    </select>
+
     <select id="fruitsSugarInfo" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdSugar">
          SELECT TOP 1 gasuga
               , gasug1
               , gasug2
-              , gasug3 
+              , gasug3
+              , ROUND(((gasug1 + gasug2 + gasug3) / 3)/gasuga , 1) AS fruitsSugar
           FROM gd_sugar 
            WHERE gagdcd = #{strGDCD} 
           ORDER BY gadate DESC

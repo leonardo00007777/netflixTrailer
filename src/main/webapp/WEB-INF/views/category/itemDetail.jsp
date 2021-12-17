@@ -281,7 +281,7 @@
             <section class="pdp-add-info">
               <div class="pdp-add-info-mu">
                 <div class="img-container">
-                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl01.png" alt="">
+                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl01.png" alt="" style="width: 104px; height: 104px; !important;">
                 </div>
                 <div class="detail">
                   <div class="tit">무농약 농산물 인증</div>
@@ -292,19 +292,22 @@
               </div>
             </section>
             <!-- 안정성 검사 결과 -->
+          <c:if test="${itemDetail.testidx ne '0' or itemDetail.testidx ne ''}">
             <section class="pdp-add-info">
               <div class="pdp-add-info-safe">
                 <div class="img-container">
-                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl02.png" alt="">
+                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl02.png" alt="방사능 측정 결과">
                 </div>
                 <div class="detail">
-                  <div class="tit">자연이랑에서<br>안심하고 구매하세요! </div>
+                  <div class="tit">자연이랑에서<br>안심하고 구매하세요! ${itemDetail.testidx} </div>
                   <div class="content">이 상품은 (방사능 또는 잔류농약) 검사 결과 안정성이 검증 된 상품입니다.</div>
-                  <a href="#" class="btn-go">방사능 측정 결과 보기</a>
+                  <a href="javascript:void(0);" onclick="radiationTestInfo('11');" class="btn-go">방사능 측정 결과 보기</a>
                 </div>
               </div>
             </section>
+          </c:if>
             <!-- 최근측정당도 -->
+          <c:if test="${paramMap.strGdtype eq '01'}">
             <section class="pdp-add-info">
               <div class="hr"></div>
               <div class="pdp-add-info-brix">
@@ -317,12 +320,33 @@
                     고객님의 구매에 도움을 드리기 위해 판매되는 동일한 상품을 샘플링하여
                     측정했으며, 농산물의 특성상 받으신 상품 당도와는 차이날 수 있습니다.
                     <div class="text">
-                      <p><em>11.4 brix(표준10) * 표준당도보다 더 달아요.</em></p>
+                      <c:forEach items="${fruitsSugarInfo}" var="sugarInfo">
+                        <c:if test="${sugarInfo.gasuga ne null and sugarInfo.gasuga ne ''}">
+                          <c:choose>
+                            <c:when test="${sugarInfo.fruitsSugar gt '1.1'}">
+                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도보다 더 달아요.</em></p>
+                            </c:when>
+                            <c:when test="${sugarInfo.fruitsSugar gt '1.05'}">
+                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도보다 약간 달아요.</em></p>
+                            </c:when>
+                            <c:when test="${sugarInfo.fruitsSugar gt '0.95'}">
+                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도와 비슷해요.</em></p>
+                            </c:when>
+                            <c:when test="${sugarInfo.fruitsSugar gt '0.90'}">
+                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도보다 약간 낮아요.</em></p>
+                            </c:when>
+                            <c:otherwise>
+                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도보다 더 낮아요.</em></p>
+                            </c:otherwise>
+                          </c:choose>
+                        </c:if>
+                      </c:forEach>
                     </div>
                   </div>
                 </div>
               </div>
             </section>
+          </c:if>
 
             <!-- 상품 상세페이지 -->
             <section class="pdp-detail-content">

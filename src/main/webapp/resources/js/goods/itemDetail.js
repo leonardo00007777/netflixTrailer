@@ -57,3 +57,13 @@ function isRightAwayEnableDay(datex){
     });
     return enableDay;
 }
+
+function radiationTestInfo(testidx) {
+    $.ajax({
+          url : "/main/radiationTestInfo"
+        , data : {"testidx" : testidx}
+        , success : function (data) {
+             console.log('radiationTestInfo', data);
+        }
+    });
+}
