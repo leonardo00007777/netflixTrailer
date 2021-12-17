@@ -1,6 +1,7 @@
 package com.x62life.mo.model.member;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("mbPoint")*/
@@ -19,7 +20,7 @@ public class MbPoint {
     private String paynum; //결제번호
     private Timestamp updt; //수정일시
     private String upid; //수정자id
-    private char useyn; //사용여부
+    private String useyn; //사용여부
 
     public int getNox() {
         return nox;
@@ -58,7 +59,7 @@ public class MbPoint {
     }
 
     public void setDeposit(BigDecimal deposit) {
-        this.deposit = deposit;
+        this.deposit = deposit.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getWithdraw() {
@@ -66,7 +67,7 @@ public class MbPoint {
     }
 
     public void setWithdraw(BigDecimal withdraw) {
-        this.withdraw = withdraw;
+        this.withdraw = withdraw.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getCpoint() {
@@ -74,7 +75,7 @@ public class MbPoint {
     }
 
     public void setCpoint(BigDecimal cpoint) {
-        this.cpoint = cpoint;
+        this.cpoint = cpoint.setScale(0, RoundingMode.DOWN);
     }
 
     public String getMemid() {
@@ -125,11 +126,11 @@ public class MbPoint {
         this.upid = upid;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 }

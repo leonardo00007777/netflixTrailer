@@ -3,16 +3,16 @@ package com.x62life.mo.model.payment;
 //주문 자동결제
 /*@Alias("odAutoPay")*/
 public class OdAutoPay {
-    private char memcd; //회원코드
+    private String memcd; //회원코드
     private int autoidx; //자동주문결제일련번호
-    private char paynum; //결제번호
+    private String paynum; //결제번호
     private int ptnidx; //패턴일련번호
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
@@ -24,11 +24,11 @@ public class OdAutoPay {
         this.autoidx = autoidx;
     }
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 

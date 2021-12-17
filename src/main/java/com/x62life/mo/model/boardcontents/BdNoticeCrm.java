@@ -11,7 +11,7 @@ public class BdNoticeCrm {
     private short important; //중요도
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private String grpcd; //열람범위
 
     public int getNtcidx() {
@@ -70,11 +70,11 @@ public class BdNoticeCrm {
         this.updt = updt;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

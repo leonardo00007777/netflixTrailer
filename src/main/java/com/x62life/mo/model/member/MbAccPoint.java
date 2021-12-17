@@ -1,6 +1,7 @@
 package com.x62life.mo.model.member;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("mbAccPoint")*/
@@ -19,9 +20,9 @@ public class MbAccPoint {
     private String paynum; //결제번호
     private Timestamp updt; //수정일시
     private String upid; //수정자id
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private BigDecimal remain; //잔액
-    private char acctype; //적립유형
+    private String acctype; //적립유형
     private String ordnum; //주문번호
 
     public int getNox() {
@@ -61,7 +62,7 @@ public class MbAccPoint {
     }
 
     public void setDeposit(BigDecimal deposit) {
-        this.deposit = deposit;
+        this.deposit = deposit.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getWithdraw() {
@@ -69,7 +70,7 @@ public class MbAccPoint {
     }
 
     public void setWithdraw(BigDecimal withdraw) {
-        this.withdraw = withdraw;
+        this.withdraw = withdraw.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getCpoint() {
@@ -77,7 +78,7 @@ public class MbAccPoint {
     }
 
     public void setCpoint(BigDecimal cpoint) {
-        this.cpoint = cpoint;
+        this.cpoint = cpoint.setScale(0, RoundingMode.DOWN);
     }
 
     public String getMemid() {
@@ -128,11 +129,11 @@ public class MbAccPoint {
         this.upid = upid;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
@@ -141,14 +142,14 @@ public class MbAccPoint {
     }
 
     public void setRemain(BigDecimal remain) {
-        this.remain = remain;
+        this.remain = remain.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getAcctype() {
+    public String getAcctype() {
         return acctype;
     }
 
-    public void setAcctype(char acctype) {
+    public void setAcctype(String acctype) {
         this.acctype = acctype;
     }
 

@@ -9,20 +9,20 @@ public class MbGrpEmp {
     private String grpcd; //그룹사코드
     private String empnum; //사번
     private String empname; //사원명
-    private char gradecd; //등급코드
+    private String gradecd; //등급코드
     private String email; //이메일
     private String hpno; //전화번호
     private Timestamp retiredt; //가입일시
     private String retireip; //수정코드
-    private char joinyn; //승인이력
+    private String joinyn; //승인이력
     private byte[] emailEnc; //이메일 enc
     private byte[] hpnoEnc; //전화번호 enc
     private BigDecimal initpoint; //초기부여포인트
-    private char nodeductpay; //급여공제여부
+    private String nodeductpay; //급여공제여부
     private Timestamp indt; //등록일시
     private String upid; //수정id
     private Timestamp updt; //수정일시
-    private char joinmailyn; //메일가입여부
+    private String joinmailyn; //메일가입여부
     private Timestamp joinmaildt; //메일등록일시
 
     public String getGrpcd() {
@@ -49,11 +49,11 @@ public class MbGrpEmp {
         this.empname = empname;
     }
 
-    public char getGradecd() {
+    public String getGradecd() {
         return gradecd;
     }
 
-    public void setGradecd(char gradecd) {
+    public void setGradecd(String gradecd) {
         this.gradecd = gradecd;
     }
 
@@ -89,11 +89,11 @@ public class MbGrpEmp {
         this.retireip = retireip;
     }
 
-    public char getJoinyn() {
+    public String getJoinyn() {
         return joinyn;
     }
 
-    public void setJoinyn(char joinyn) {
+    public void setJoinyn(String joinyn) {
         this.joinyn = joinyn;
     }
 
@@ -121,11 +121,11 @@ public class MbGrpEmp {
         this.initpoint = initpoint;
     }
 
-    public char getNodeductpay() {
+    public String getNodeductpay() {
         return nodeductpay;
     }
 
-    public void setNodeductpay(char nodeductpay) {
+    public void setNodeductpay(String nodeductpay) {
         this.nodeductpay = nodeductpay;
     }
 
@@ -153,11 +153,11 @@ public class MbGrpEmp {
         this.updt = updt;
     }
 
-    public char getJoinmailyn() {
+    public String getJoinmailyn() {
         return joinmailyn;
     }
 
-    public void setJoinmailyn(char joinmailyn) {
+    public void setJoinmailyn(String joinmailyn) {
         this.joinmailyn = joinmailyn;
     }
 

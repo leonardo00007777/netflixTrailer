@@ -3,26 +3,26 @@ package com.x62life.mo.model.standardinfo;
 /*@Alias("commonCode")*/
 //공통코드
 public class CommonCode {
-    private char cdtype; //코드유형
-    private char cdcode; //코드
+    private String cdtype; //코드유형
+    private String cdcode; //코드
     private String cdname; //코드명
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private String cdval1; //추가값1
     private String cdval2; //추가값2
 
-    public char getCdtype() {
+    public String getCdtype() {
         return cdtype;
     }
 
-    public void setCdtype(char cdtype) {
+    public void setCdtype(String cdtype) {
         this.cdtype = cdtype;
     }
 
-    public char getCdcode() {
+    public String getCdcode() {
         return cdcode;
     }
 
-    public void setCdcode(char cdcode) {
+    public void setCdcode(String cdcode) {
         this.cdcode = cdcode;
     }
 
@@ -34,11 +34,11 @@ public class CommonCode {
         this.cdname = cdname;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

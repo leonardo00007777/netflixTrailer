@@ -1,11 +1,13 @@
 package com.x62life.mo.model.product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /*@Alias("gdItem")*/
 //상품 정보
 public class GdItem {
     private String gdcd;  //상품코드
-    private char typecd;  //상품유형
+    private String typecd;  //상품유형
     private String origin;  //원산지
     private String producer;  //생산/제조자
     private String address;  //생산지
@@ -16,7 +18,7 @@ public class GdItem {
     private BigDecimal pbbd;  //최적진열기한
     private short shelfLife;  //최대진열기한
     private String putclass;  //상품취급유형
-    private char crossdockyn;  //cd상품여부
+    private String crossdockyn;  //cd상품여부
 
     public String getGdcd() {
         return gdcd;
@@ -26,11 +28,11 @@ public class GdItem {
         this.gdcd = gdcd;
     }
 
-    public char getTypecd() {
+    public String getTypecd() {
         return typecd;
     }
 
-    public void setTypecd(char typecd) {
+    public void setTypecd(String typecd) {
         this.typecd = typecd;
     }
 
@@ -95,7 +97,7 @@ public class GdItem {
     }
 
     public void setPbbd(BigDecimal pbbd) {
-        this.pbbd = pbbd;
+        this.pbbd = pbbd.setScale(0, RoundingMode.DOWN);
     }
 
     public short getshelfLife() {
@@ -114,11 +116,11 @@ public class GdItem {
         this.putclass = putclass;
     }
 
-    public char getCrossdockyn() {
+    public String getCrossdockyn() {
         return crossdockyn;
     }
 
-    public void setCrossdockyn(char crossdockyn) {
+    public void setCrossdockyn(String crossdockyn) {
         this.crossdockyn = crossdockyn;
     }
 }

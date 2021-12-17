@@ -1,6 +1,7 @@
 package com.x62life.mo.model.payment;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 //배송비
 /*@Alias("odDeliveryCharge")*/
@@ -39,6 +40,6 @@ public class OdDeliveryCharge {
     }
 
     public void setDeliveryCharge(BigDecimal deliveryCharge) {
-        this.deliveryCharge = deliveryCharge;
+        this.deliveryCharge = deliveryCharge.setScale(0, RoundingMode.DOWN);
     }
 }

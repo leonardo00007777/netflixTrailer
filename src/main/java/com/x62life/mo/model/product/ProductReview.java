@@ -17,10 +17,10 @@ public class ProductReview {
     private Timestamp rdatex; //등록일자
     private short ragree;
     private short roppose;
-    private char rblind;
+    private String rblind;
     private String device;
-    private char grade; //평점
-    private char ordnum; //주문번호
+    private String grade; //평점
+    private String ordnum; //주문번호
 
     public int getRseqno() {
         return rseqno;
@@ -126,11 +126,11 @@ public class ProductReview {
         this.roppose = roppose;
     }
 
-    public char getRblind() {
+    public String getRblind() {
         return rblind;
     }
 
-    public void setRblind(char rblind) {
+    public void setRblind(String rblind) {
         this.rblind = rblind;
     }
 
@@ -142,19 +142,19 @@ public class ProductReview {
         this.device = device;
     }
 
-    public char getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(char grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 
-    public char getOrdnum() {
+    public String getOrdnum() {
         return ordnum;
     }
 
-    public void setOrdnum(char ordnum) {
+    public void setOrdnum(String ordnum) {
         this.ordnum = ordnum;
     }
 }

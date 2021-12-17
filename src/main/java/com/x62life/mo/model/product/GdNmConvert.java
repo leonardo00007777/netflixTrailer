@@ -1,6 +1,8 @@
 package com.x62life.mo.model.product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /*@Alias("gdNmConvert")*/
 //상품 이름 변경정보
 public class GdNmConvert {
@@ -13,8 +15,8 @@ public class GdNmConvert {
     private String commodityname;
     private String commoditycnt;
     private BigDecimal price;
-    private char daecode;
-    private char socode;
+    private String daecode;
+    private String socode;
     private String img;
 
     public String getGdcd() {
@@ -46,7 +48,7 @@ public class GdNmConvert {
     }
 
     public void setNewprice(BigDecimal newprice) {
-        this.newprice = newprice;
+        this.newprice = newprice.setScale(0, RoundingMode.DOWN);
     }
 
     public int getGdcnt() {
@@ -86,22 +88,22 @@ public class GdNmConvert {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = price.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getDaecode() {
+    public String getDaecode() {
         return daecode;
     }
 
-    public void setDaecode(char daecode) {
+    public void setDaecode(String daecode) {
         this.daecode = daecode;
     }
 
-    public char getSocode() {
+    public String getSocode() {
         return socode;
     }
 
-    public void setSocode(char socode) {
+    public void setSocode(String socode) {
         this.socode = socode;
     }
 

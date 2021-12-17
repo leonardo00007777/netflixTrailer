@@ -1,6 +1,7 @@
 package com.x62life.mo.model.member;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("mbAccPointLog")*/
@@ -10,7 +11,7 @@ public class MbAccPointLog {
     private String memcd; //회원번호
     private int nox; //회원적립금 순번
     private String acctype; //적립유형
-    private char usage; //사용구분
+    private String usage; //사용구분
     private Timestamp expdt; //만료일시
     private BigDecimal point; //적립금
     private String paynum; //결제번호
@@ -49,11 +50,11 @@ public class MbAccPointLog {
         this.acctype = acctype;
     }
 
-    public char getUsage() {
+    public String getUsage() {
         return usage;
     }
 
-    public void setUsage(char usage) {
+    public void setUsage(String usage) {
         this.usage = usage;
     }
 
@@ -94,6 +95,6 @@ public class MbAccPointLog {
     }
 
     public void setTpoint(BigDecimal tpoint) {
-        this.tpoint = tpoint;
+        this.tpoint = tpoint.setScale(0, RoundingMode.DOWN);
     }
 }

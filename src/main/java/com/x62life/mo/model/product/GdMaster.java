@@ -541,7 +541,7 @@ public class GdMaster {
     }
 
     public void setSuprice(BigDecimal suprice) {
-        this.suprice = suprice;
+        this.suprice = suprice.setScale(0, RoundingMode.DOWN);
     }
 
     public String getScode() {

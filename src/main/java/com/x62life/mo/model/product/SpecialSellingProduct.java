@@ -7,7 +7,7 @@ public class SpecialSellingProduct {
     private String slgdcd; //상품코드
     private String slgdiv1; //상품 카테고리1
     private String slgdiv2; //상품 카테고리2
-    private char sltop; //top게시
+    private String sltop; //top게시
     private String slnote; //상품간략설명
     private String shmcd; //등록자코드
     private String slcat; //카테고리
@@ -45,11 +45,11 @@ public class SpecialSellingProduct {
         this.slgdiv2 = slgdiv2;
     }
 
-    public char getSltop() {
+    public String getSltop() {
         return sltop;
     }
 
-    public void setSltop(char sltop) {
+    public void setSltop(String sltop) {
         this.sltop = sltop;
     }
 

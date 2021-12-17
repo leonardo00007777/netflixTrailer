@@ -16,7 +16,7 @@ public class OneDaySpecial {
     private String gdname1; //상품명1
     private String gdname2; //상품명2
     private int gdlimit; //한정수량
-    private char target;
+    private String target;
     private String supname;
 
     public int getIdx() {
@@ -107,11 +107,11 @@ public class OneDaySpecial {
         this.gdlimit = gdlimit;
     }
 
-    public char getTarget() {
+    public String getTarget() {
         return target;
     }
 
-    public void setTarget(char target) {
+    public void setTarget(String target) {
         this.target = target;
     }
 

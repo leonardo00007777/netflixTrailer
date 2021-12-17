@@ -1,6 +1,7 @@
 package com.x62life.mo.model.member;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("mbGroupDiscount")*/
@@ -11,8 +12,8 @@ public class MbGroupDiscount {
     private BigDecimal price; //가격
     private BigDecimal saleprice; //할인가격
     private short salepercent; //할인율
-    private char salepolicy; //할인유형
-    private char useyn; //사용여부
+    private String salepolicy; //할인유형
+    private String useyn; //사용여부
     private String upcd; //수정코드
     private Timestamp updt; //수정일시
 
@@ -37,7 +38,7 @@ public class MbGroupDiscount {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = price.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getSaleprice() {
@@ -45,7 +46,7 @@ public class MbGroupDiscount {
     }
 
     public void setSaleprice(BigDecimal saleprice) {
-        this.saleprice = saleprice;
+        this.saleprice = saleprice.setScale(0, RoundingMode.DOWN);
     }
 
     public short getSalepercent() {
@@ -56,19 +57,19 @@ public class MbGroupDiscount {
         this.salepercent = salepercent;
     }
 
-    public char getSalepolicy() {
+    public String getSalepolicy() {
         return salepolicy;
     }
 
-    public void setSalepolicy(char salepolicy) {
+    public void setSalepolicy(String salepolicy) {
         this.salepolicy = salepolicy;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

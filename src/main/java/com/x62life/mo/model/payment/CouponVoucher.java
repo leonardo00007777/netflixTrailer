@@ -1,6 +1,7 @@
 package com.x62life.mo.model.payment;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("couponVoucher")*/
@@ -12,7 +13,7 @@ public class CouponVoucher {
     private String serialno; //일련번호
     private BigDecimal facevalue; //액면가(포인트)
     private String vtype; //유형
-    private char isused; //사용여부
+    private String isused; //사용여부
     private Timestamp registerdate; //등록일시
     private String memcd; //사용자코드
     private BigDecimal currentvalue; //현재사용금액
@@ -59,7 +60,7 @@ public class CouponVoucher {
     }
 
     public void setFacevalue(BigDecimal facevalue) {
-        this.facevalue = facevalue;
+        this.facevalue = facevalue.setScale(0, RoundingMode.DOWN);
     }
 
     public String getVtype() {
@@ -70,11 +71,11 @@ public class CouponVoucher {
         this.vtype = vtype;
     }
 
-    public char getIsused() {
+    public String getIsused() {
         return isused;
     }
 
-    public void setIsused(char isused) {
+    public void setIsused(String isused) {
         this.isused = isused;
     }
 
@@ -99,7 +100,7 @@ public class CouponVoucher {
     }
 
     public void setCurrentvalue(BigDecimal currentvalue) {
-        this.currentvalue = currentvalue;
+        this.currentvalue = currentvalue.setScale(0, RoundingMode.DOWN);
     }
 
     public Timestamp getExpirydate() {

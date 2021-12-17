@@ -10,11 +10,11 @@ public class AdMainMg {
     private String imgSrc; //데스크탑 이미지 파일명
     private String imgSrcM; //모바일 이미지 파일명
     private String url; //경로
-    private char useYn; //사용여부
-    private char applyYn; //
+    private String useYn; //사용여부
+    private String applyYn; //
     private Timestamp registDt; //등록일시
     private Timestamp updateDt; //변경일시
-    private char topx; //
+    private String topx; //
     private Timestamp sdate; //(전시)적용 시작일시
     private Timestamp edate; //(전시)적용 종료일시
     private short important; //게시순위
@@ -59,19 +59,19 @@ public class AdMainMg {
         this.url = url;
     }
 
-    public char getuseYn() {
+    public String getuseYn() {
         return useYn;
     }
 
-    public void setuseYn(char useYn) {
+    public void setuseYn(String useYn) {
         this.useYn = useYn;
     }
 
-    public char getapplyYn() {
+    public String getapplyYn() {
         return applyYn;
     }
 
-    public void setapplyYn(char applyYn) {
+    public void setapplyYn(String applyYn) {
         this.applyYn = applyYn;
     }
 
@@ -91,11 +91,11 @@ public class AdMainMg {
         this.updateDt = updateDt;
     }
 
-    public char getTopx() {
+    public String getTopx() {
         return topx;
     }
 
-    public void setTopx(char topx) {
+    public void setTopx(String topx) {
         this.topx = topx;
     }
 

@@ -5,16 +5,16 @@ import java.sql.Timestamp;
 /*@Alias("memberLevel")*/
 //회원 멤버십 레벨
 public class MemberLevel {
-    private char YYYYMM; //연월
+    private String YYYYMM; //연월
     private String memcd; //회원코드
-    private char mlevel; //등급코드
+    private String mlevel; //등급코드
     private Timestamp mupdt; //부여일시 "mb_level_master:mvcode 01:씨앗 02:새싹 03:꽃잎 04:열매 05:나무"
 
-    public char getYYYYMM() {
+    public String getYYYYMM() {
         return YYYYMM;
     }
 
-    public void setYYYYMM(char YYYYMM) {
+    public void setYYYYMM(String YYYYMM) {
         this.YYYYMM = YYYYMM;
     }
 
@@ -26,11 +26,11 @@ public class MemberLevel {
         this.memcd = memcd;
     }
 
-    public char getMlevel() {
+    public String getMlevel() {
         return mlevel;
     }
 
-    public void setMlevel(char mlevel) {
+    public void setMlevel(String mlevel) {
         this.mlevel = mlevel;
     }
 

@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class SmsTemplate {
     private short id; //순번
     private String msg; //메세지내용
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
 
@@ -25,11 +25,11 @@ public class SmsTemplate {
         this.msg = msg;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 

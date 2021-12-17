@@ -3,17 +3,17 @@ package com.x62life.mo.model.order;
 /*@Alias("odAutoGoods")*/
 //자동주문 상품
 public class OdAutoGoods {
-    private char memcd; //회원코드
+    private String memcd; //회원코드
     private int autoidx; //자동주문결제일련번호
     private int seqidx; //자동주문상품일련번호
     private int ptnidx; //패턴일련번호
     private String gdcd; //상품코드
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 

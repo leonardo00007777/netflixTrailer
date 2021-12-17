@@ -33,39 +33,39 @@ public class SeasonalFoodHall {
     private String sf03TimgP;
     private String sf03TimgM;
     private String sf03Cont;
-    private char sf03More;
+    private String sf03More;
     private String sf03MoreLink;
-    private char sf03Buy;
+    private String sf03Buy;
     private String sf03BuyLink;
     private String sf04Titl;
     private String sf04TimgP;
     private String sf04TimgM;
     private String sf04Cont;
-    private char sf04More;
+    private String sf04More;
     private String sf04MoreLink;
     private String sf05Titl;
     private String sf05TimgP;
     private String sf05TimgM;
     private String sf05ContP;
     private String sf05ContM;
-    private char sf05More;
+    private String sf05More;
     private String sf05MoreLink;
     private String sf06Titl;
     private String sf06TimgP;
     private String sf06TimgM;
     private String sf06ContP;
     private String sf06ContM;
-    private char sf06More;
+    private String sf06More;
     private String sf06MoreLink;
     private Timestamp sfindt;
     private String sfusid;
-    private char sfusyn;
+    private String sfusyn;
     private String sfhmimgP;
     private String sfhmimgM;
     private String sfgdcd;
     private String sftagLinkP;
     private String sftagLinkM;
-    private char sfcmsyn;
+    private String sfcmsyn;
 
     public int getSfidx() {
         return sfidx;
@@ -299,11 +299,11 @@ public class SeasonalFoodHall {
         this.sf03Cont = sf03Cont;
     }
 
-    public char getSf03More() {
+    public String getSf03More() {
         return sf03More;
     }
 
-    public void setSf03More(char sf03More) {
+    public void setSf03More(String sf03More) {
         this.sf03More = sf03More;
     }
 
@@ -315,11 +315,11 @@ public class SeasonalFoodHall {
         this.sf03MoreLink = sf03MoreLink;
     }
 
-    public char getSf03Buy() {
+    public String getSf03Buy() {
         return sf03Buy;
     }
 
-    public void setSf03Buy(char sf03Buy) {
+    public void setSf03Buy(String sf03Buy) {
         this.sf03Buy = sf03Buy;
     }
 
@@ -363,11 +363,11 @@ public class SeasonalFoodHall {
         this.sf04Cont = sf04Cont;
     }
 
-    public char getSf04More() {
+    public String getSf04More() {
         return sf04More;
     }
 
-    public void setSf04More(char sf04More) {
+    public void setSf04More(String sf04More) {
         this.sf04More = sf04More;
     }
 
@@ -419,11 +419,11 @@ public class SeasonalFoodHall {
         this.sf05ContM = sf05ContM;
     }
 
-    public char getSf05More() {
+    public String getSf05More() {
         return sf05More;
     }
 
-    public void setSf05More(char sf05More) {
+    public void setSf05More(String sf05More) {
         this.sf05More = sf05More;
     }
 
@@ -475,11 +475,11 @@ public class SeasonalFoodHall {
         this.sf06ContM = sf06ContM;
     }
 
-    public char getSf06More() {
+    public String getSf06More() {
         return sf06More;
     }
 
-    public void setSf06More(char sf06More) {
+    public void setSf06More(String sf06More) {
         this.sf06More = sf06More;
     }
 
@@ -507,11 +507,11 @@ public class SeasonalFoodHall {
         this.sfusid = sfusid;
     }
 
-    public char getSfusyn() {
+    public String getSfusyn() {
         return sfusyn;
     }
 
-    public void setSfusyn(char sfusyn) {
+    public void setSfusyn(String sfusyn) {
         this.sfusyn = sfusyn;
     }
 
@@ -555,11 +555,11 @@ public class SeasonalFoodHall {
         this.sftagLinkM = sftagLinkM;
     }
 
-    public char getSfcmsyn() {
+    public String getSfcmsyn() {
         return sfcmsyn;
     }
 
-    public void setSfcmsyn(char sfcmsyn) {
+    public void setSfcmsyn(String sfcmsyn) {
         this.sfcmsyn = sfcmsyn;
     }
 }

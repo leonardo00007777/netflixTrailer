@@ -3,6 +3,7 @@ package com.x62life.mo.model.member;
 import org.apache.ibatis.type.Alias;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("mbGroupCompany")*/
@@ -12,9 +13,9 @@ public class MbGroupCompany {
     private String grpid; //그룹사id
     private String grppw; //그룹사pw
     private String grpname; //그룹사명
-    private char divcd; //그룹사구분코드
+    private String divcd; //그룹사구분코드
     private String emaildmn; //이메일도메인
-    private char emaildmnyn; //이메일인증 여부
+    private String emaildmnyn; //이메일인증 여부
     private short bntrate01; //c등급지원금비율
     private BigDecimal bntmax01; //c등급최대지원금
     private short bntrate02; //b등급지원금비율
@@ -23,14 +24,14 @@ public class MbGroupCompany {
     private BigDecimal bntmax03; //a등급최대지원금
     private short bntrate04; //s등급지원금비율
     private BigDecimal bntmax04; //s등급최대지원금
-    private char dctyn01; //c등급급여공제 여부
-    private char dctyn02; //b등급급여공제 여부
-    private char dctyn03; //a등급급여공제 여부
-    private char dctyn04; //s등급급여공제 여부
-    private char useyn; //사용여부
+    private String dctyn01; //c등급급여공제 여부
+    private String dctyn02; //b등급급여공제 여부
+    private String dctyn03; //a등급급여공제 여부
+    private String dctyn04; //s등급급여공제 여부
+    private String useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
-    private char compnum; //사업자번호
+    private String compnum; //사업자번호
     private String address; //주소
     private String bossname; //대표자
     private String worktype; //업태
@@ -87,33 +88,33 @@ public class MbGroupCompany {
     private BigDecimal bnts10; //s등급 10월최대지원금
     private BigDecimal bnts11; //s등급 11월최대지원금
     private BigDecimal bnts12; //s등급 12월최대지원금
-    private char salepolicy; //기본할인정책
-    private char deductrcp; //급여공제 현금영수증 
+    private String salepolicy; //기본할인정책
+    private String deductrcp; //급여공제 현금영수증 
     private BigDecimal pntmax01; //c등급 초기sk포인트
-    private char pntyn01; //c등급 sk포인트 사용여부
+    private String pntyn01; //c등급 sk포인트 사용여부
     private BigDecimal pntmax02; //b등급 초기sk포인트
-    private char pntyn02; //b등급 sk포인트 사용여부
+    private String pntyn02; //b등급 sk포인트 사용여부
     private BigDecimal pntmax03; //a등급 초기sk포인트
-    private char pntyn03; //a등급 sk포인트 사용여부
+    private String pntyn03; //a등급 sk포인트 사용여부
     private BigDecimal pntmax04; //s등급 초기sk포인트
-    private char pntyn04; //s등급 sk포인트 사용여부
-    private char autobntoveryn01; //c등급 자동주문 지원금초과 주문생성여부(급여공제안하고 지원금으로만)
-    private char autobntoveryn02; //b등급 자동주문 지원금초과 주문생성여부(급여공제안하고 지원금으로만)
-    private char autobntoveryn03; //a등급 자동주문 지원금초과 주문생성여부(급여공제안하고 지원금으로만)
-    private char autobntoveryn04; //s등급 자동주문 지원금초과 주문생성여부(급여공제안하고 지원금으로만)
+    private String pntyn04; //s등급 sk포인트 사용여부
+    private String autobntoveryn01; //c등급 자동주문 지원금초과 주문생성여부(급여공제안하고 지원금으로만)
+    private String autobntoveryn02; //b등급 자동주문 지원금초과 주문생성여부(급여공제안하고 지원금으로만)
+    private String autobntoveryn03; //a등급 자동주문 지원금초과 주문생성여부(급여공제안하고 지원금으로만)
+    private String autobntoveryn04; //s등급 자동주문 지원금초과 주문생성여부(급여공제안하고 지원금으로만)
     private int workforce; //직원수
-    private char autodctyn01; //c등급 자동주문 급여공제가능 여부
-    private char autodctyn02; //b등급 자동주문 급여공제가능 여부
-    private char autodctyn03; //a등급 자동주문 급여공제가능 여부
-    private char autodctyn04; //s등급 자동주문 급여공제가능 여부
-    private char postsettleyn; //후불정산제 소속사여부
+    private String autodctyn01; //c등급 자동주문 급여공제가능 여부
+    private String autodctyn02; //b등급 자동주문 급여공제가능 여부
+    private String autodctyn03; //a등급 자동주문 급여공제가능 여부
+    private String autodctyn04; //s등급 자동주문 급여공제가능 여부
+    private String postsettleyn; //후불정산제 소속사여부
     private String notex; //메모
-    private char skpointrcp; //sk포인트 현금영수증 
+    private String skpointrcp; //sk포인트 현금영수증 
     private String upid; //수정id
-    private char bnpyn01; //c등급 복지포인트 사용여부
-    private char bnpyn02; //b등급 복지포인트 사용여부
-    private char bnpyn03; //a등급 복지포인트 사용여부
-    private char bnpyn04; //s등급 복지포인트 사용여부
+    private String bnpyn01; //c등급 복지포인트 사용여부
+    private String bnpyn02; //b등급 복지포인트 사용여부
+    private String bnpyn03; //a등급 복지포인트 사용여부
+    private String bnpyn04; //s등급 복지포인트 사용여부
 
     public String getGrpcd() {
         return grpcd;
@@ -147,11 +148,11 @@ public class MbGroupCompany {
         this.grpname = grpname;
     }
 
-    public char getDivcd() {
+    public String getDivcd() {
         return divcd;
     }
 
-    public void setDivcd(char divcd) {
+    public void setDivcd(String divcd) {
         this.divcd = divcd;
     }
 
@@ -163,11 +164,11 @@ public class MbGroupCompany {
         this.emaildmn = emaildmn;
     }
 
-    public char getEmaildmnyn() {
+    public String getEmaildmnyn() {
         return emaildmnyn;
     }
 
-    public void setEmaildmnyn(char emaildmnyn) {
+    public void setEmaildmnyn(String emaildmnyn) {
         this.emaildmnyn = emaildmnyn;
     }
 
@@ -184,7 +185,7 @@ public class MbGroupCompany {
     }
 
     public void setBntmax01(BigDecimal bntmax01) {
-        this.bntmax01 = bntmax01;
+        this.bntmax01 = bntmax01.setScale(0, RoundingMode.DOWN);
     }
 
     public short getBntrate02() {
@@ -200,7 +201,7 @@ public class MbGroupCompany {
     }
 
     public void setBntmax02(BigDecimal bntmax02) {
-        this.bntmax02 = bntmax02;
+        this.bntmax02 = bntmax02.setScale(0, RoundingMode.DOWN);
     }
 
     public short getBntrate03() {
@@ -216,7 +217,7 @@ public class MbGroupCompany {
     }
 
     public void setBntmax03(BigDecimal bntmax03) {
-        this.bntmax03 = bntmax03;
+        this.bntmax03 = bntmax03.setScale(0, RoundingMode.DOWN);
     }
 
     public short getBntrate04() {
@@ -232,46 +233,46 @@ public class MbGroupCompany {
     }
 
     public void setBntmax04(BigDecimal bntmax04) {
-        this.bntmax04 = bntmax04;
+        this.bntmax04 = bntmax04.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getDctyn01() {
+    public String getDctyn01() {
         return dctyn01;
     }
 
-    public void setDctyn01(char dctyn01) {
+    public void setDctyn01(String dctyn01) {
         this.dctyn01 = dctyn01;
     }
 
-    public char getDctyn02() {
+    public String getDctyn02() {
         return dctyn02;
     }
 
-    public void setDctyn02(char dctyn02) {
+    public void setDctyn02(String dctyn02) {
         this.dctyn02 = dctyn02;
     }
 
-    public char getDctyn03() {
+    public String getDctyn03() {
         return dctyn03;
     }
 
-    public void setDctyn03(char dctyn03) {
+    public void setDctyn03(String dctyn03) {
         this.dctyn03 = dctyn03;
     }
 
-    public char getDctyn04() {
+    public String getDctyn04() {
         return dctyn04;
     }
 
-    public void setDctyn04(char dctyn04) {
+    public void setDctyn04(String dctyn04) {
         this.dctyn04 = dctyn04;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
@@ -291,11 +292,11 @@ public class MbGroupCompany {
         this.updt = updt;
     }
 
-    public char getCompnum() {
+    public String getCompnum() {
         return compnum;
     }
 
-    public void setCompnum(char compnum) {
+    public void setCompnum(String compnum) {
         this.compnum = compnum;
     }
 
@@ -368,7 +369,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta01(BigDecimal bnta01) {
-        this.bnta01 = bnta01;
+        this.bnta01 = bnta01.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta02() {
@@ -376,7 +377,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta02(BigDecimal bnta02) {
-        this.bnta02 = bnta02;
+        this.bnta02 = bnta02.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta03() {
@@ -384,7 +385,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta03(BigDecimal bnta03) {
-        this.bnta03 = bnta03;
+        this.bnta03 = bnta03.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta04() {
@@ -392,7 +393,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta04(BigDecimal bnta04) {
-        this.bnta04 = bnta04;
+        this.bnta04 = bnta04.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta05() {
@@ -400,7 +401,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta05(BigDecimal bnta05) {
-        this.bnta05 = bnta05;
+        this.bnta05 = bnta05.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta06() {
@@ -408,7 +409,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta06(BigDecimal bnta06) {
-        this.bnta06 = bnta06;
+        this.bnta06 = bnta06.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta07() {
@@ -416,7 +417,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta07(BigDecimal bnta07) {
-        this.bnta07 = bnta07;
+        this.bnta07 = bnta07.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta08() {
@@ -424,7 +425,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta08(BigDecimal bnta08) {
-        this.bnta08 = bnta08;
+        this.bnta08 = bnta08.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta09() {
@@ -432,7 +433,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta09(BigDecimal bnta09) {
-        this.bnta09 = bnta09;
+        this.bnta09 = bnta09.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta10() {
@@ -440,7 +441,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta10(BigDecimal bnta10) {
-        this.bnta10 = bnta10;
+        this.bnta10 = bnta10.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta11() {
@@ -448,7 +449,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta11(BigDecimal bnta11) {
-        this.bnta11 = bnta11;
+        this.bnta11 = bnta11.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnta12() {
@@ -456,7 +457,7 @@ public class MbGroupCompany {
     }
 
     public void setBnta12(BigDecimal bnta12) {
-        this.bnta12 = bnta12;
+        this.bnta12 = bnta12.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb01() {
@@ -464,7 +465,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb01(BigDecimal bntb01) {
-        this.bntb01 = bntb01;
+        this.bntb01 = bntb01.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb02() {
@@ -472,7 +473,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb02(BigDecimal bntb02) {
-        this.bntb02 = bntb02;
+        this.bntb02 = bntb02.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb03() {
@@ -480,7 +481,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb03(BigDecimal bntb03) {
-        this.bntb03 = bntb03;
+        this.bntb03 = bntb03.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb04() {
@@ -488,7 +489,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb04(BigDecimal bntb04) {
-        this.bntb04 = bntb04;
+        this.bntb04 = bntb04.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb05() {
@@ -496,7 +497,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb05(BigDecimal bntb05) {
-        this.bntb05 = bntb05;
+        this.bntb05 = bntb05.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb06() {
@@ -504,7 +505,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb06(BigDecimal bntb06) {
-        this.bntb06 = bntb06;
+        this.bntb06 = bntb06.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb07() {
@@ -512,7 +513,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb07(BigDecimal bntb07) {
-        this.bntb07 = bntb07;
+        this.bntb07 = bntb07.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb08() {
@@ -520,7 +521,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb08(BigDecimal bntb08) {
-        this.bntb08 = bntb08;
+        this.bntb08 = bntb08.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb09() {
@@ -528,7 +529,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb09(BigDecimal bntb09) {
-        this.bntb09 = bntb09;
+        this.bntb09 = bntb09.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb10() {
@@ -536,7 +537,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb10(BigDecimal bntb10) {
-        this.bntb10 = bntb10;
+        this.bntb10 = bntb10.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb11() {
@@ -544,7 +545,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb11(BigDecimal bntb11) {
-        this.bntb11 = bntb11;
+        this.bntb11 = bntb11.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntb12() {
@@ -552,7 +553,7 @@ public class MbGroupCompany {
     }
 
     public void setBntb12(BigDecimal bntb12) {
-        this.bntb12 = bntb12;
+        this.bntb12 = bntb12.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc01() {
@@ -560,7 +561,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc01(BigDecimal bntc01) {
-        this.bntc01 = bntc01;
+        this.bntc01 = bntc01.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc02() {
@@ -568,7 +569,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc02(BigDecimal bntc02) {
-        this.bntc02 = bntc02;
+        this.bntc02 = bntc02.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc03() {
@@ -576,7 +577,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc03(BigDecimal bntc03) {
-        this.bntc03 = bntc03;
+        this.bntc03 = bntc03.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc04() {
@@ -584,7 +585,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc04(BigDecimal bntc04) {
-        this.bntc04 = bntc04;
+        this.bntc04 = bntc04.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc05() {
@@ -592,7 +593,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc05(BigDecimal bntc05) {
-        this.bntc05 = bntc05;
+        this.bntc05 = bntc05.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc06() {
@@ -600,7 +601,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc06(BigDecimal bntc06) {
-        this.bntc06 = bntc06;
+        this.bntc06 = bntc06.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc07() {
@@ -608,7 +609,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc07(BigDecimal bntc07) {
-        this.bntc07 = bntc07;
+        this.bntc07 = bntc07.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc08() {
@@ -616,7 +617,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc08(BigDecimal bntc08) {
-        this.bntc08 = bntc08;
+        this.bntc08 = bntc08.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc09() {
@@ -624,7 +625,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc09(BigDecimal bntc09) {
-        this.bntc09 = bntc09;
+        this.bntc09 = bntc09.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc10() {
@@ -632,7 +633,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc10(BigDecimal bntc10) {
-        this.bntc10 = bntc10;
+        this.bntc10 = bntc10.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc11() {
@@ -640,7 +641,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc11(BigDecimal bntc11) {
-        this.bntc11 = bntc11;
+        this.bntc11 = bntc11.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntc12() {
@@ -648,7 +649,7 @@ public class MbGroupCompany {
     }
 
     public void setBntc12(BigDecimal bntc12) {
-        this.bntc12 = bntc12;
+        this.bntc12 = bntc12.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts01() {
@@ -656,7 +657,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts01(BigDecimal bnts01) {
-        this.bnts01 = bnts01;
+        this.bnts01 = bnts01.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts02() {
@@ -664,7 +665,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts02(BigDecimal bnts02) {
-        this.bnts02 = bnts02;
+        this.bnts02 = bnts02.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts03() {
@@ -672,7 +673,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts03(BigDecimal bnts03) {
-        this.bnts03 = bnts03;
+        this.bnts03 = bnts03.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts04() {
@@ -680,7 +681,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts04(BigDecimal bnts04) {
-        this.bnts04 = bnts04;
+        this.bnts04 = bnts04.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts05() {
@@ -688,7 +689,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts05(BigDecimal bnts05) {
-        this.bnts05 = bnts05;
+        this.bnts05 = bnts05.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts06() {
@@ -696,7 +697,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts06(BigDecimal bnts06) {
-        this.bnts06 = bnts06;
+        this.bnts06 = bnts06.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts07() {
@@ -704,7 +705,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts07(BigDecimal bnts07) {
-        this.bnts07 = bnts07;
+        this.bnts07 = bnts07.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts08() {
@@ -712,7 +713,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts08(BigDecimal bnts08) {
-        this.bnts08 = bnts08;
+        this.bnts08 = bnts08.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts09() {
@@ -720,7 +721,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts09(BigDecimal bnts09) {
-        this.bnts09 = bnts09;
+        this.bnts09 = bnts09.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts10() {
@@ -728,7 +729,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts10(BigDecimal bnts10) {
-        this.bnts10 = bnts10;
+        this.bnts10 = bnts10.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts11() {
@@ -736,7 +737,7 @@ public class MbGroupCompany {
     }
 
     public void setBnts11(BigDecimal bnts11) {
-        this.bnts11 = bnts11;
+        this.bnts11 = bnts11.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBnts12() {
@@ -744,22 +745,22 @@ public class MbGroupCompany {
     }
 
     public void setBnts12(BigDecimal bnts12) {
-        this.bnts12 = bnts12;
+        this.bnts12 = bnts12.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getSalepolicy() {
+    public String getSalepolicy() {
         return salepolicy;
     }
 
-    public void setSalepolicy(char salepolicy) {
+    public void setSalepolicy(String salepolicy) {
         this.salepolicy = salepolicy;
     }
 
-    public char getDeductrcp() {
+    public String getDeductrcp() {
         return deductrcp;
     }
 
-    public void setDeductrcp(char deductrcp) {
+    public void setDeductrcp(String deductrcp) {
         this.deductrcp = deductrcp;
     }
 
@@ -771,11 +772,11 @@ public class MbGroupCompany {
         this.pntmax01 = pntmax01;
     }
 
-    public char getPntyn01() {
+    public String getPntyn01() {
         return pntyn01;
     }
 
-    public void setPntyn01(char pntyn01) {
+    public void setPntyn01(String pntyn01) {
         this.pntyn01 = pntyn01;
     }
 
@@ -787,11 +788,11 @@ public class MbGroupCompany {
         this.pntmax02 = pntmax02;
     }
 
-    public char getPntyn02() {
+    public String getPntyn02() {
         return pntyn02;
     }
 
-    public void setPntyn02(char pntyn02) {
+    public void setPntyn02(String pntyn02) {
         this.pntyn02 = pntyn02;
     }
 
@@ -803,11 +804,11 @@ public class MbGroupCompany {
         this.pntmax03 = pntmax03;
     }
 
-    public char getPntyn03() {
+    public String getPntyn03() {
         return pntyn03;
     }
 
-    public void setPntyn03(char pntyn03) {
+    public void setPntyn03(String pntyn03) {
         this.pntyn03 = pntyn03;
     }
 
@@ -819,43 +820,43 @@ public class MbGroupCompany {
         this.pntmax04 = pntmax04;
     }
 
-    public char getPntyn04() {
+    public String getPntyn04() {
         return pntyn04;
     }
 
-    public void setPntyn04(char pntyn04) {
+    public void setPntyn04(String pntyn04) {
         this.pntyn04 = pntyn04;
     }
 
-    public char getAutobntoveryn01() {
+    public String getAutobntoveryn01() {
         return autobntoveryn01;
     }
 
-    public void setAutobntoveryn01(char autobntoveryn01) {
+    public void setAutobntoveryn01(String autobntoveryn01) {
         this.autobntoveryn01 = autobntoveryn01;
     }
 
-    public char getAutobntoveryn02() {
+    public String getAutobntoveryn02() {
         return autobntoveryn02;
     }
 
-    public void setAutobntoveryn02(char autobntoveryn02) {
+    public void setAutobntoveryn02(String autobntoveryn02) {
         this.autobntoveryn02 = autobntoveryn02;
     }
 
-    public char getAutobntoveryn03() {
+    public String getAutobntoveryn03() {
         return autobntoveryn03;
     }
 
-    public void setAutobntoveryn03(char autobntoveryn03) {
+    public void setAutobntoveryn03(String autobntoveryn03) {
         this.autobntoveryn03 = autobntoveryn03;
     }
 
-    public char getAutobntoveryn04() {
+    public String getAutobntoveryn04() {
         return autobntoveryn04;
     }
 
-    public void setAutobntoveryn04(char autobntoveryn04) {
+    public void setAutobntoveryn04(String autobntoveryn04) {
         this.autobntoveryn04 = autobntoveryn04;
     }
 
@@ -867,43 +868,43 @@ public class MbGroupCompany {
         this.workforce = workforce;
     }
 
-    public char getAutodctyn01() {
+    public String getAutodctyn01() {
         return autodctyn01;
     }
 
-    public void setAutodctyn01(char autodctyn01) {
+    public void setAutodctyn01(String autodctyn01) {
         this.autodctyn01 = autodctyn01;
     }
 
-    public char getAutodctyn02() {
+    public String getAutodctyn02() {
         return autodctyn02;
     }
 
-    public void setAutodctyn02(char autodctyn02) {
+    public void setAutodctyn02(String autodctyn02) {
         this.autodctyn02 = autodctyn02;
     }
 
-    public char getAutodctyn03() {
+    public String getAutodctyn03() {
         return autodctyn03;
     }
 
-    public void setAutodctyn03(char autodctyn03) {
+    public void setAutodctyn03(String autodctyn03) {
         this.autodctyn03 = autodctyn03;
     }
 
-    public char getAutodctyn04() {
+    public String getAutodctyn04() {
         return autodctyn04;
     }
 
-    public void setAutodctyn04(char autodctyn04) {
+    public void setAutodctyn04(String autodctyn04) {
         this.autodctyn04 = autodctyn04;
     }
 
-    public char getPostsettleyn() {
+    public String getPostsettleyn() {
         return postsettleyn;
     }
 
-    public void setPostsettleyn(char postsettleyn) {
+    public void setPostsettleyn(String postsettleyn) {
         this.postsettleyn = postsettleyn;
     }
 
@@ -915,11 +916,11 @@ public class MbGroupCompany {
         this.notex = notex;
     }
 
-    public char getSkpointrcp() {
+    public String getSkpointrcp() {
         return skpointrcp;
     }
 
-    public void setSkpointrcp(char skpointrcp) {
+    public void setSkpointrcp(String skpointrcp) {
         this.skpointrcp = skpointrcp;
     }
 
@@ -931,35 +932,35 @@ public class MbGroupCompany {
         this.upid = upid;
     }
 
-    public char getBnpyn01() {
+    public String getBnpyn01() {
         return bnpyn01;
     }
 
-    public void setBnpyn01(char bnpyn01) {
+    public void setBnpyn01(String bnpyn01) {
         this.bnpyn01 = bnpyn01;
     }
 
-    public char getBnpyn02() {
+    public String getBnpyn02() {
         return bnpyn02;
     }
 
-    public void setBnpyn02(char bnpyn02) {
+    public void setBnpyn02(String bnpyn02) {
         this.bnpyn02 = bnpyn02;
     }
 
-    public char getBnpyn03() {
+    public String getBnpyn03() {
         return bnpyn03;
     }
 
-    public void setBnpyn03(char bnpyn03) {
+    public void setBnpyn03(String bnpyn03) {
         this.bnpyn03 = bnpyn03;
     }
 
-    public char getBnpyn04() {
+    public String getBnpyn04() {
         return bnpyn04;
     }
 
-    public void setBnpyn04(char bnpyn04) {
+    public void setBnpyn04(String bnpyn04) {
         this.bnpyn04 = bnpyn04;
     }
 }

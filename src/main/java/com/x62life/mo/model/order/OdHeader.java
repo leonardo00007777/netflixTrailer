@@ -8,16 +8,16 @@ public class OdHeader {
     private String ordnum; //주문번호
     private String memcd; //회원번호
     private String dlvdt; //배송일자
-    private char dlvstcd; //배송상태 cd_master.cdtype[04] 00:결제대기 01:결제완료 05:상품준비중 10:출고작업중 20:출고됨 25:출고작업중(직) 30:배송중
+    private String dlvstcd; //배송상태 cd_master.cdtype[04] 00:결제대기 01:결제완료 05:상품준비중 10:출고작업중 20:출고됨 25:출고작업중(직) 30:배송중
                                                       // 40:배송완료 50:반품접수 51:반품완료 52:부분취소 53:교환등록 54:교환완료 99:배송취소"
     private Timestamp orddt; //주문일시
     private Timestamp updt; //수정일시
-    private char sendyn; //전송여부
+    private String sendyn; //전송여부
     private String wmsordnum; //wmsl주문번호
-    private char wmsstcd; //wmsl출고상태(?)
+    private String wmsstcd; //wmsl출고상태(?)
     private Timestamp wmsupdt; //wmsl출고일시
     private String invoicenum; //운송장번호
-    private char String; //주문유형 "cd_master.cdtype[21] 01:법인판매 02:지정일 03:법인직배 05:자동 06:재배송
+    private String String; //주문유형 "cd_master.cdtype[21] 01:법인판매 02:지정일 03:법인직배 05:자동 06:재배송
                                                       // 07:업체직송(재)08:직거래(재) 09:판촉마케팅 10:(구)업체직송
                                                       // 11:신속 12:예약 13:공동구매 14:사내재고 15:업체직송 16:제휴판매
                                                       // 17:제휴판매(재) 18:판촉마케팅(업) 19:판촉마케팅(직) 20:상품확인(업)
@@ -26,7 +26,7 @@ public class OdHeader {
     private String paystcd; //결제상태 cd_master.cdtype[03] 00:결제준비 01:입금대기 02:카드결제대기
                                                      // 10:결제완료 90:결제실패 91:결제취소신청 95:카드결제중단 99:결제취소
     private String paynum; //결제번호
-    private char hideyn; //주문내역숨김
+    private String hideyn; //주문내역숨김
     private String linkordnum; //연관주문번호
     private String comments; //기타사항
     private String batchdacd; //일괄배송지정보
@@ -58,11 +58,11 @@ public class OdHeader {
         this.dlvdt = dlvdt;
     }
 
-    public char getDlvstcd() {
+    public String getDlvstcd() {
         return dlvstcd;
     }
 
-    public void setDlvstcd(char dlvstcd) {
+    public void setDlvstcd(String dlvstcd) {
         this.dlvstcd = dlvstcd;
     }
 
@@ -82,11 +82,11 @@ public class OdHeader {
         this.updt = updt;
     }
 
-    public char getSendyn() {
+    public String getSendyn() {
         return sendyn;
     }
 
-    public void setSendyn(char sendyn) {
+    public void setSendyn(String sendyn) {
         this.sendyn = sendyn;
     }
 
@@ -98,11 +98,11 @@ public class OdHeader {
         this.wmsordnum = wmsordnum;
     }
 
-    public char getWmsstcd() {
+    public String getWmsstcd() {
         return wmsstcd;
     }
 
-    public void setWmsstcd(char wmsstcd) {
+    public void setWmsstcd(String wmsstcd) {
         this.wmsstcd = wmsstcd;
     }
 
@@ -122,11 +122,11 @@ public class OdHeader {
         this.invoicenum = invoicenum;
     }
 
-    public char getString() {
+    public String getString() {
         return String;
     }
 
-    public void setString(char string) {
+    public void setString(String string) {
         String = string;
     }
 
@@ -146,11 +146,11 @@ public class OdHeader {
         this.paynum = paynum;
     }
 
-    public char getHideyn() {
+    public String getHideyn() {
         return hideyn;
     }
 
-    public void setHideyn(char hideyn) {
+    public void setHideyn(String hideyn) {
         this.hideyn = hideyn;
     }
 

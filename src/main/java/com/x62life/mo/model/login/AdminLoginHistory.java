@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 public class AdminLoginHistory {
     private int nox; //순번
     private String memid; //로그인id
-    private char empno; //사용자코드
+    private String empno; //사용자코드
     private String memgroup; //부서코드
     private String memclass; //직무코드
     private String memname; //사용자명
@@ -31,11 +31,11 @@ public class AdminLoginHistory {
         this.memid = memid;
     }
 
-    public char getEmpno() {
+    public String getEmpno() {
         return empno;
     }
 
-    public void setEmpno(char empno) {
+    public void setEmpno(String empno) {
         this.empno = empno;
     }
 

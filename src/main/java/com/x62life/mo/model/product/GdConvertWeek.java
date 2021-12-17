@@ -6,7 +6,7 @@ public class GdConvertWeek {
     private String gdcd;
     private int gdyear;
     private int gdweek;
-    private char goodsno;
+    private String goodsno;
     private String goodsday;
     private String goodscount;
     private String goodsendday;
@@ -36,11 +36,11 @@ public class GdConvertWeek {
         this.gdweek = gdweek;
     }
 
-    public char getGoodsno() {
+    public String getGoodsno() {
         return goodsno;
     }
 
-    public void setGoodsno(char goodsno) {
+    public void setGoodsno(String goodsno) {
         this.goodsno = goodsno;
     }
 

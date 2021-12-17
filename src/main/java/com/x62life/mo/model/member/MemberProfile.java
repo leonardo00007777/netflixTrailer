@@ -8,11 +8,11 @@ public class MemberProfile {
     private String ppath; //프로필경로
     private String smemo; //메모
     private String idurl; //id경로
-    private char smode; //
+    private String smode; //
     private short memlevel; //멤버쉽레벨
     private String jobtype; //담당업무유형
     private String jobname; //담당업무명
-    private char isblogger; //블로그여부
+    private String isblogger; //블로그여부
 
     public String getMemid() {
         return memid;
@@ -62,11 +62,11 @@ public class MemberProfile {
         this.idurl = idurl;
     }
 
-    public char getSmode() {
+    public String getSmode() {
         return smode;
     }
 
-    public void setSmode(char smode) {
+    public void setSmode(String smode) {
         this.smode = smode;
     }
 
@@ -94,11 +94,11 @@ public class MemberProfile {
         this.jobname = jobname;
     }
 
-    public char getIsblogger() {
+    public String getIsblogger() {
         return isblogger;
     }
 
-    public void setIsblogger(char isblogger) {
+    public void setIsblogger(String isblogger) {
         this.isblogger = isblogger;
     }
 }

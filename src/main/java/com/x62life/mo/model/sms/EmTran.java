@@ -9,11 +9,11 @@ public class EmTran {
     private String tranId;
     private String tranPhone; //전송 전화번호
     private String tranCallback; //회신 번호
-    private char tranStatus; //전송상태
+    private String tranStatus; //전송상태
     private Timestamp tranDate; //전송일시
     private Timestamp tranRsltdate;
     private Timestamp tranReportdate;
-    private char tranRslt;
+    private String tranRslt;
     private String tranNet;
     private String tranMsg; //전송 메세지
     private String tranEtc1;
@@ -62,11 +62,11 @@ public class EmTran {
         this.tranCallback = tranCallback;
     }
 
-    public char getTranStatus() {
+    public String getTranStatus() {
         return tranStatus;
     }
 
-    public void setTranStatus(char tranStatus) {
+    public void setTranStatus(String tranStatus) {
         this.tranStatus = tranStatus;
     }
 
@@ -94,11 +94,11 @@ public class EmTran {
         this.tranReportdate = tranReportdate;
     }
 
-    public char getTranRslt() {
+    public String getTranRslt() {
         return tranRslt;
     }
 
-    public void setTranRslt(char tranRslt) {
+    public void setTranRslt(String tranRslt) {
         this.tranRslt = tranRslt;
     }
 

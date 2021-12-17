@@ -1,6 +1,7 @@
 package com.x62life.mo.model.product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 /*@Alias("gdSugar")*/
 public class GdSugar {
@@ -47,7 +48,7 @@ public class GdSugar {
     }
 
     public void setGasuga(BigDecimal gasuga) {
-        this.gasuga = gasuga;
+        this.gasuga = gasuga.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getGasug1() {
@@ -55,7 +56,7 @@ public class GdSugar {
     }
 
     public void setGasug1(BigDecimal gasug1) {
-        this.gasug1 = gasug1;
+        this.gasug1 = gasug1.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getGasug2() {
@@ -63,7 +64,7 @@ public class GdSugar {
     }
 
     public void setGasug2(BigDecimal gasug2) {
-        this.gasug2 = gasug2;
+        this.gasug2 = gasug2.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getGasug3() {
@@ -71,7 +72,7 @@ public class GdSugar {
     }
 
     public void setGasug3(BigDecimal gasug3) {
-        this.gasug3 = gasug3;
+        this.gasug3 = gasug3.setScale(0, RoundingMode.DOWN);
     }
 
     public String getGasuno() {

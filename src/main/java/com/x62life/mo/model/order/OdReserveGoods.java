@@ -19,18 +19,18 @@ public class OdReserveGoods {
     private String odTo; //주문기간 to
     private String dlvFrom; //배송기간 from
     private String dlvTo; //배송기간 to
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
     private Timestamp candt; //취소일시
     private String gdExpalin; //상품설명
-    private char type; //상품유형
-    private char newyn; //신상품여부
-    private char recommandyn; //추천상품여부
+    private String type; //상품유형
+    private String newyn; //신상품여부
+    private String recommandyn; //추천상품여부
     private String packunit; //포장
     private String divcd2; //하위카테고리
     private String updid; //수정자id
-    private char alltimesale; //상시판매
+    private String alltimesale; //상시판매
 
     public int getSeqno() {
         return seqno;
@@ -144,11 +144,11 @@ public class OdReserveGoods {
         this.dlvTo = dlvTo;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
@@ -184,27 +184,27 @@ public class OdReserveGoods {
         this.gdExpalin = gdExpalin;
     }
 
-    public char getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(char type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public char getNewyn() {
+    public String getNewyn() {
         return newyn;
     }
 
-    public void setNewyn(char newyn) {
+    public void setNewyn(String newyn) {
         this.newyn = newyn;
     }
 
-    public char getRecommandyn() {
+    public String getRecommandyn() {
         return recommandyn;
     }
 
-    public void setRecommandyn(char recommandyn) {
+    public void setRecommandyn(String recommandyn) {
         this.recommandyn = recommandyn;
     }
 
@@ -232,11 +232,11 @@ public class OdReserveGoods {
         this.updid = updid;
     }
 
-    public char getAlltimesale() {
+    public String getAlltimesale() {
         return alltimesale;
     }
 
-    public void setAlltimesale(char alltimesale) {
+    public void setAlltimesale(String alltimesale) {
         this.alltimesale = alltimesale;
     }
 }

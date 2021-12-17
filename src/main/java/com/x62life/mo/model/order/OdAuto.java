@@ -1,28 +1,29 @@
 package com.x62life.mo.model.order;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /*@Alias("odAuto")*/
 //상품 자동주문
 public class OdAuto {
-    private char memcd; //회원코드
+    private String memcd; //회원코드
     private int autoidx; //자동주문결제일련번호
     private short weekgap; //배송간격
     private short dlvweekday; //배송요일
-    private char startdt; //첫배송일
-    private char enddt; //종료일
+    private String startdt; //첫배송일
+    private String enddt; //종료일
     private String rcvname; //수신자
-    private char zipcd; //우편번호
+    private String zipcd; //우편번호
     private String addr1; //주소
     private String addr2; //상세주소
     private String telno; //전화번호
     private String hpno; //휴대전화번호
     private String dlvmsg; //배송메세지
     private String rcvmsg; //수신자메세지
-    private char paycd; //결제방법코드
-    private char payyn; //입금여부
-    private char bntoveryn; //잔여지원금기준 주문생성 여부
+    private String paycd; //결제방법코드
+    private String payyn; //입금여부
+    private String bntoveryn; //잔여지원금기준 주문생성 여부
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
     private String updid; //수정자
@@ -32,11 +33,11 @@ public class OdAuto {
     private byte[] hpnoEnc; //영문휴대폰번호
     private BigDecimal minbnt; //최소잔여지원금
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
@@ -64,19 +65,19 @@ public class OdAuto {
         this.dlvweekday = dlvweekday;
     }
 
-    public char getStartdt() {
+    public String getStartdt() {
         return startdt;
     }
 
-    public void setStartdt(char startdt) {
+    public void setStartdt(String startdt) {
         this.startdt = startdt;
     }
 
-    public char getEnddt() {
+    public String getEnddt() {
         return enddt;
     }
 
-    public void setEnddt(char enddt) {
+    public void setEnddt(String enddt) {
         this.enddt = enddt;
     }
 
@@ -88,11 +89,11 @@ public class OdAuto {
         this.rcvname = rcvname;
     }
 
-    public char getZipcd() {
+    public String getZipcd() {
         return zipcd;
     }
 
-    public void setZipcd(char zipcd) {
+    public void setZipcd(String zipcd) {
         this.zipcd = zipcd;
     }
 
@@ -144,27 +145,27 @@ public class OdAuto {
         this.rcvmsg = rcvmsg;
     }
 
-    public char getPaycd() {
+    public String getPaycd() {
         return paycd;
     }
 
-    public void setPaycd(char paycd) {
+    public void setPaycd(String paycd) {
         this.paycd = paycd;
     }
 
-    public char getPayyn() {
+    public String getPayyn() {
         return payyn;
     }
 
-    public void setPayyn(char payyn) {
+    public void setPayyn(String payyn) {
         this.payyn = payyn;
     }
 
-    public char getBntoveryn() {
+    public String getBntoveryn() {
         return bntoveryn;
     }
 
-    public void setBntoveryn(char bntoveryn) {
+    public void setBntoveryn(String bntoveryn) {
         this.bntoveryn = bntoveryn;
     }
 
@@ -229,6 +230,6 @@ public class OdAuto {
     }
 
     public void setMinbnt(BigDecimal minbnt) {
-        this.minbnt = minbnt;
+        this.minbnt = minbnt.setScale(0, RoundingMode.DOWN);
     }
 }

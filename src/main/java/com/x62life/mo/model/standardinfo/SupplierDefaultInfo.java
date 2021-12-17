@@ -1,6 +1,7 @@
 package com.x62life.mo.model.standardinfo;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 /*@Alias("supplierDefaultInfo")*/
 //공급자 기본정보
@@ -27,11 +28,11 @@ public class SupplierDefaultInfo {
     private Timestamp indt; //등록일시
     private String usid; //등록자
     private BigDecimal supcpp; //지불비율
-    private char suqrfr; //q/r여부
+    private String suqrfr; //q/r여부
     private BigDecimal sutmsd; //표준배송시간(일)
     private BigDecimal subust; //안전재고(일)
     private BigDecimal sucrst; //긴급재고(일)
-    private char sufgvi; //부가세포함여부
+    private String sufgvi; //부가세포함여부
     private String stockPurchaseType ; //재고매입유형
 
     public String getSucomp() {
@@ -207,14 +208,14 @@ public class SupplierDefaultInfo {
     }
 
     public void setSupcpp(BigDecimal supcpp) {
-        this.supcpp = supcpp;
+        this.supcpp = supcpp.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getSuqrfr() {
+    public String getSuqrfr() {
         return suqrfr;
     }
 
-    public void setSuqrfr(char suqrfr) {
+    public void setSuqrfr(String suqrfr) {
         this.suqrfr = suqrfr;
     }
 
@@ -223,7 +224,7 @@ public class SupplierDefaultInfo {
     }
 
     public void setSutmsd(BigDecimal sutmsd) {
-        this.sutmsd = sutmsd;
+        this.sutmsd = sutmsd.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getSubust() {
@@ -231,7 +232,7 @@ public class SupplierDefaultInfo {
     }
 
     public void setSubust(BigDecimal subust) {
-        this.subust = subust;
+        this.subust = subust.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getSucrst() {
@@ -239,14 +240,14 @@ public class SupplierDefaultInfo {
     }
 
     public void setSucrst(BigDecimal sucrst) {
-        this.sucrst = sucrst;
+        this.sucrst = sucrst.setScale(0, RoundingMode.DOWN);
     }
 
-    public char getSufgvi() {
+    public String getSufgvi() {
         return sufgvi;
     }
 
-    public void setSufgvi(char sufgvi) {
+    public void setSufgvi(String sufgvi) {
         this.sufgvi = sufgvi;
     }
 

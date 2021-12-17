@@ -1,12 +1,13 @@
 package com.x62life.mo.model.order;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 
 /*@Alias("odOrderTemp")*/
 public class OdOrderTemp {
-    private char memcd; //회원코드
+    private String memcd; //회원코드
     private String gubun; //주문유형
     private int crtidx; //장바구니idx
     private int itemidx; //장바구니상품idx
@@ -15,11 +16,11 @@ public class OdOrderTemp {
     private int gdcnt; //주문상품개수
     private int price; //상품가격
     private int point; //포인트
-    private char divcd; //상품구분
-    private char odGubun; //주문유형
+    private String divcd; //상품구분
+    private String odGubun; //주문유형
     private String dlvdt; //배송횟수
     private String rcvname; //받는사람
-    private char zipcd; //우편번호
+    private String zipcd; //우편번호
     private String addr1; //배송주소1
     private String addr2; //배송주소2
     private String telno; //전화번호
@@ -34,11 +35,11 @@ public class OdOrderTemp {
     private String comments; //기타사항
     private String sndname; //보내는사람
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
@@ -106,19 +107,19 @@ public class OdOrderTemp {
         this.point = point;
     }
 
-    public char getDivcd() {
+    public String getDivcd() {
         return divcd;
     }
 
-    public void setDivcd(char divcd) {
+    public void setDivcd(String divcd) {
         this.divcd = divcd;
     }
 
-    public char getOdGubun() {
+    public String getOdGubun() {
         return odGubun;
     }
 
-    public void setOdGubun(char odGubun) {
+    public void setOdGubun(String odGubun) {
         this.odGubun = odGubun;
     }
 
@@ -138,11 +139,11 @@ public class OdOrderTemp {
         this.rcvname = rcvname;
     }
 
-    public char getZipcd() {
+    public String getZipcd() {
         return zipcd;
     }
 
-    public void setZipcd(char zipcd) {
+    public void setZipcd(String zipcd) {
         this.zipcd = zipcd;
     }
 
@@ -215,7 +216,7 @@ public class OdOrderTemp {
     }
 
     public void setVos(BigDecimal vos) {
-        this.vos = vos;
+        this.vos = vos.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getTax() {
@@ -223,7 +224,7 @@ public class OdOrderTemp {
     }
 
     public void setTax(BigDecimal tax) {
-        this.tax = tax;
+        this.tax = tax.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getVat() {
@@ -231,7 +232,7 @@ public class OdOrderTemp {
     }
 
     public void setVat(BigDecimal vat) {
-        this.vat = vat;
+        this.vat = vat.setScale(0, RoundingMode.DOWN);
     }
 
     public String getComments() {

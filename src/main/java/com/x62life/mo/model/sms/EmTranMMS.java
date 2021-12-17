@@ -5,7 +5,7 @@ package com.x62life.mo.model.sms;
 public class EmTranMMS {
     private int mmsSeq; //순번
     private int fileCnt; //
-    private char buildYn; //
+    private String buildYn; //
     private String mmsBody; //내용
     private String mmsSubject; //제목
     private String fileType1;
@@ -41,11 +41,11 @@ public class EmTranMMS {
         this.fileCnt = fileCnt;
     }
 
-    public char getBuildYn() {
+    public String getBuildYn() {
         return buildYn;
     }
 
-    public void setBuildYn(char buildYn) {
+    public void setBuildYn(String buildYn) {
         this.buildYn = buildYn;
     }
 

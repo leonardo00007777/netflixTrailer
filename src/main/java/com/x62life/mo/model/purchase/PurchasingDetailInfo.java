@@ -1,6 +1,7 @@
 package com.x62life.mo.model.purchase;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 /*@Alias("purchasingDetailInfo")*/
 public class PurchasingDetailInfo {
@@ -95,7 +96,7 @@ public class PurchasingDetailInfo {
     }
 
     public void setPlucost(BigDecimal plucost) {
-        this.plucost = plucost;
+        this.plucost = plucost.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getPlcost() {
@@ -103,7 +104,7 @@ public class PurchasingDetailInfo {
     }
 
     public void setPlcost(BigDecimal plcost) {
-        this.plcost = plcost;
+        this.plcost = plcost.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getPlvat() {
@@ -111,7 +112,7 @@ public class PurchasingDetailInfo {
     }
 
     public void setPlvat(BigDecimal plvat) {
-        this.plvat = plvat;
+        this.plvat = plvat.setScale(0, RoundingMode.DOWN);
     }
 
     public String getPlnote() {

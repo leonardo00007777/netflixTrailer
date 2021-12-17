@@ -1,6 +1,7 @@
 package com.x62life.mo.model.payment;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 //임시결제정보
@@ -30,16 +31,16 @@ public class OdPayTemp {
     private BigDecimal ttax; //과세
     private BigDecimal tvat; //부가세
     private String updid; //수정자id
-    private char hideyn; //주문내역숨김여부 Y:숨김, N:보임
+    private String hideyn; //주문내역숨김여부 Y:숨김, N:보임
     private String insuno; //보증보험번호
     private BigDecimal pntprice; //sk포인트(회원포인트)
     private BigDecimal accprice; //적립포인트
     private String device; //device OD_PAYTEMP.DEVICE(M:모바일)
-    private char cashYn; //현금영수증발급대상여부 Y:발급가능, N:불가
-    private char cashReq; //현금영수증신청여부 Y:신청 N:미신청
+    private String cashYn; //현금영수증발급대상여부 Y:발급가능, N:불가
+    private String cashReq; //현금영수증신청여부 Y:신청 N:미신청
     private String cashType; //현금영수증가입분류코드 20:휴대전화, 30:사업자번호, 40:현금영수증카드번호
     private String cashInfo; //현금영수증가입정보 CASH_TYPE에 따른 저옵
-    private char rcpType; //현금영수증발행용도 0:소득공제용, 1:지출증빙용
+    private String rcpType; //현금영수증발행용도 0:소득공제용, 1:지출증빙용
 
     public String getPaynum() {
         return paynum;
@@ -94,7 +95,7 @@ public class OdPayTemp {
     }
 
     public void setPayprice(BigDecimal payprice) {
-        this.payprice = payprice;
+        this.payprice = payprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getBntprice() {
@@ -102,7 +103,7 @@ public class OdPayTemp {
     }
 
     public void setBntprice(BigDecimal bntprice) {
-        this.bntprice = bntprice;
+        this.bntprice = bntprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getDpsprice() {
@@ -110,7 +111,7 @@ public class OdPayTemp {
     }
 
     public void setDpsprice(BigDecimal dpsprice) {
-        this.dpsprice = dpsprice;
+        this.dpsprice = dpsprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getDlvprice() {
@@ -118,7 +119,7 @@ public class OdPayTemp {
     }
 
     public void setDlvprice(BigDecimal dlvprice) {
-        this.dlvprice = dlvprice;
+        this.dlvprice = dlvprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getTtlprice() {
@@ -126,7 +127,7 @@ public class OdPayTemp {
     }
 
     public void setTtlprice(BigDecimal ttlprice) {
-        this.ttlprice = ttlprice;
+        this.ttlprice = ttlprice.setScale(0, RoundingMode.DOWN);
     }
 
     public String getFixdt() {
@@ -174,7 +175,7 @@ public class OdPayTemp {
     }
 
     public void setTvos(BigDecimal tvos) {
-        this.tvos = tvos;
+        this.tvos = tvos.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getTtax() {
@@ -182,7 +183,7 @@ public class OdPayTemp {
     }
 
     public void setTtax(BigDecimal ttax) {
-        this.ttax = ttax;
+        this.ttax = ttax.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getTvat() {
@@ -190,7 +191,7 @@ public class OdPayTemp {
     }
 
     public void setTvat(BigDecimal tvat) {
-        this.tvat = tvat;
+        this.tvat = tvat.setScale(0, RoundingMode.DOWN);
     }
 
     public String getUpdid() {
@@ -201,11 +202,11 @@ public class OdPayTemp {
         this.updid = updid;
     }
 
-    public char getHideyn() {
+    public String getHideyn() {
         return hideyn;
     }
 
-    public void setHideyn(char hideyn) {
+    public void setHideyn(String hideyn) {
         this.hideyn = hideyn;
     }
 
@@ -222,7 +223,7 @@ public class OdPayTemp {
     }
 
     public void setPntprice(BigDecimal pntprice) {
-        this.pntprice = pntprice;
+        this.pntprice = pntprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getAccprice() {
@@ -230,7 +231,7 @@ public class OdPayTemp {
     }
 
     public void setAccprice(BigDecimal accprice) {
-        this.accprice = accprice;
+        this.accprice = accprice.setScale(0, RoundingMode.DOWN);
     }
 
     public String getDevice() {
@@ -241,19 +242,19 @@ public class OdPayTemp {
         this.device = device;
     }
 
-    public char getCashYn() {
+    public String getCashYn() {
         return cashYn;
     }
 
-    public void setCashYn(char cashYn) {
+    public void setCashYn(String cashYn) {
         this.cashYn = cashYn;
     }
 
-    public char getCashReq() {
+    public String getCashReq() {
         return cashReq;
     }
 
-    public void setCashReq(char cashReq) {
+    public void setCashReq(String cashReq) {
         this.cashReq = cashReq;
     }
 
@@ -273,11 +274,11 @@ public class OdPayTemp {
         this.cashInfo = cashInfo;
     }
 
-    public char getRcpType() {
+    public String getRcpType() {
         return rcpType;
     }
 
-    public void setRcpType(char rcpType) {
+    public void setRcpType(String rcpType) {
         this.rcpType = rcpType;
     }
 }

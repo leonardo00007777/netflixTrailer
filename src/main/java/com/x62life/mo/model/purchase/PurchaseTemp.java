@@ -1,6 +1,7 @@
 package com.x62life.mo.model.purchase;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 /*@Alias("purchaseTemp")*/
 public class PurchaseTemp {
@@ -78,7 +79,7 @@ public class PurchaseTemp {
     }
 
     public void settUcost(BigDecimal tUcost) {
-        this.tUcost = tUcost;
+        this.tUcost = tUcost.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal gettCost() {
@@ -86,7 +87,7 @@ public class PurchaseTemp {
     }
 
     public void settCost(BigDecimal tCost) {
-        this.tCost = tCost;
+        this.tCost = tCost.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal gettVat() {
@@ -94,7 +95,7 @@ public class PurchaseTemp {
     }
 
     public void settVat(BigDecimal tVat) {
-        this.tVat = tVat;
+        this.tVat = tVat.setScale(0, RoundingMode.DOWN);
     }
 
     public Timestamp gettUpdt() {

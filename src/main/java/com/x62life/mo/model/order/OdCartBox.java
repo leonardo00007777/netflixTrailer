@@ -3,18 +3,18 @@ package com.x62life.mo.model.order;
 /*@Alias("odCartBox")*/
 //카트 박스
 public class OdCartBox {
-    private char memcd; //회원코드
+    private String memcd; //회원코드
     private int crtidx; //카트일련번호
     private String gdcd; //상품코드
     private int gdcnt; //상품수량
     private int boxidx; //박스일련번호
     private short weekidx; //주차일련번호
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 

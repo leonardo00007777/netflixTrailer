@@ -5,10 +5,10 @@ package com.x62life.mo.model.payment;
 public class OdCard {
     private String paynum; //결제번호
     private short payidx; //결제카드 일련번호
-    private char authyn; //승인여부
+    private String authyn; //승인여부
     private String trno; //트랜잭션번호
-    private char trdt; //트랜잭션일자
-    private char trtm; //트랜잭션일시
+    private String trdt; //트랜잭션일자
+    private String trtm; //트랜잭션일시
     private String authno; //승인번호
 
     public String getPaynum() {
@@ -27,11 +27,11 @@ public class OdCard {
         this.payidx = payidx;
     }
 
-    public char getAuthyn() {
+    public String getAuthyn() {
         return authyn;
     }
 
-    public void setAuthyn(char authyn) {
+    public void setAuthyn(String authyn) {
         this.authyn = authyn;
     }
 
@@ -43,19 +43,19 @@ public class OdCard {
         this.trno = trno;
     }
 
-    public char getTrdt() {
+    public String getTrdt() {
         return trdt;
     }
 
-    public void setTrdt(char trdt) {
+    public void setTrdt(String trdt) {
         this.trdt = trdt;
     }
 
-    public char getTrtm() {
+    public String getTrtm() {
         return trtm;
     }
 
-    public void setTrtm(char trtm) {
+    public void setTrtm(String trtm) {
         this.trtm = trtm;
     }
 

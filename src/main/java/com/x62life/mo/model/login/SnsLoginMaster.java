@@ -5,11 +5,11 @@ import java.sql.Timestamp;
 /*@Alias("snsLoginMaster")*/
 //sns로그인
 public class SnsLoginMaster {
-    private char snsType; //sns 유형
+    private String snsType; //sns 유형
     private String snsId; //sns id
     private String snsEmail; //sns 이메일
     private String snsCmcd; //회원번호
-    private char snsConn; //sns 연동여부
+    private String snsConn; //sns 연동여부
     private Timestamp snsConndt; //sns 연동일시
     private String snsInfo01; //회원명
     private String snsInfo02; //성별
@@ -20,11 +20,11 @@ public class SnsLoginMaster {
     private String snsInfo07; //sns info7
     private byte[] snsEmailEnc; //sns 이메일 enc
 
-    public char getSnsType() {
+    public String getSnsType() {
         return snsType;
     }
 
-    public void setSnsType(char snsType) {
+    public void setSnsType(String snsType) {
         this.snsType = snsType;
     }
 
@@ -52,11 +52,11 @@ public class SnsLoginMaster {
         this.snsCmcd = snsCmcd;
     }
 
-    public char getSnsConn() {
+    public String getSnsConn() {
         return snsConn;
     }
 
-    public void setSnsConn(char snsConn) {
+    public void setSnsConn(String snsConn) {
         this.snsConn = snsConn;
     }
 

@@ -3,22 +3,22 @@ package com.x62life.mo.model.payment;
 /*@Alias("odRelation")*/
 //결제 주문 연관정보
 public class OdRelation {
-    private char paynum; //결제번호
-    private char ordnum; // 주문번호
+    private String paynum; //결제번호
+    private String ordnum; // 주문번호
 
-    public char getPaynum() {
+    public String getPaynum() {
         return paynum;
     }
 
-    public void setPaynum(char paynum) {
+    public void setPaynum(String paynum) {
         this.paynum = paynum;
     }
 
-    public char getOrdnum() {
+    public String getOrdnum() {
         return ordnum;
     }
 
-    public void setOrdnum(char ordnum) {
+    public void setOrdnum(String ordnum) {
         this.ordnum = ordnum;
     }
 }

@@ -5,13 +5,13 @@ import java.sql.Timestamp;
 /*@Alias("bdContents")*/
 public class BdContents {
     private int ctsidx; //순번
-    private char ctscd; //게시판코드
+    private String ctscd; //게시판코드
     private String title; //제목
     private String content; //글내용
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private String indt; //등록일시
     private int rcount; //조회수
-    private char topyn; //top게시여부
+    private String topyn; //top게시여부
     private String fromdate; //게시 시작일
     private String todate; //게시 종료일
     private Timestamp dday; //지정일
@@ -29,11 +29,11 @@ public class BdContents {
         this.ctsidx = ctsidx;
     }
 
-    public char getCtscd() {
+    public String getCtscd() {
         return ctscd;
     }
 
-    public void setCtscd(char ctscd) {
+    public void setCtscd(String ctscd) {
         this.ctscd = ctscd;
     }
 
@@ -53,11 +53,11 @@ public class BdContents {
         this.content = content;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
@@ -77,11 +77,11 @@ public class BdContents {
         this.rcount = rcount;
     }
 
-    public char getTopyn() {
+    public String getTopyn() {
         return topyn;
     }
 
-    public void setTopyn(char topyn) {
+    public void setTopyn(String topyn) {
         this.topyn = topyn;
     }
 

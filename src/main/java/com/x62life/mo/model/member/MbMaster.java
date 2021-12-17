@@ -14,15 +14,15 @@ public class MbMaster {
     private String mempw; //회원pw
     private String memname; //회원명
     private String grpcd; //그룹사코드
-    private char gradecd; //등급
+    private String gradecd; //등급
     private String empnum; //사번
     private String memstcd; //회원상태코드
     private Timestamp upgradedt; //승급일시
-    private char residentno1; //생년월일
-    private char gender; //성별
+    private String residentno1; //생년월일
+    private String gender; //성별
     private String email; //이메일
-    private char emailyn; //이메일 수신여부
-    private char zipcd; //우편번호
+    private String emailyn; //이메일 수신여부
+    private String zipcd; //우편번호
     private String addr1; //주소1
     private String addr2; //주소2
     private String telno; //전화
@@ -30,8 +30,8 @@ public class MbMaster {
     private String retiremsg; //탈퇴사유
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
-    private char smsyn; //sms수신
-    private char telyn; //전화수신
+    private String smsyn; //sms수신
+    private String telyn; //전화수신
     private int reputation; //평점
     private String updid; //수정id
     private byte[] residentno1Enc; //생년월일 enc
@@ -41,14 +41,14 @@ public class MbMaster {
     private byte[] addr2Enc; //주소2 enc
     private byte[] telnoEnc; //전화 enc
     private byte[] hpnoEnc; //휴대전화 enc
-    private char mempwHash; //회원pw hash
-    private char contractAgree; //이용약관에 대한 동의
-    private char policyAgree; //개인정보 수집 및 이용에 대한 동의
-    private char entrustAgree; //개인정보 취급 위탁에 대한 동의
-    private char thirdpartyAgree; //개인정보 제3자제공 동의
+    private String mempwHash; //회원pw hash
+    private String contractAgree; //이용약관에 대한 동의
+    private String policyAgree; //개인정보 수집 및 이용에 대한 동의
+    private String entrustAgree; //개인정보 취급 위탁에 대한 동의
+    private String thirdpartyAgree; //개인정보 제3자제공 동의
     private String pcertReqno; //본인인증 요청번호(시간정보+랜덤번호)
-    private char pcertDi; //중복가입확인정보(di=64byte), 본인인증주체의 주민번호를 대신한 내부 key
-    private char nodeductpay; //회원별 급여공제 결제불가 옵션
+    private String pcertDi; //중복가입확인정보(di=64byte), 본인인증주체의 주민번호를 대신한 내부 key
+    private String nodeductpay; //회원별 급여공제 결제불가 옵션
     private Timestamp emailynupdt; //이메일수신여부 수정일시
     private Timestamp smsynupdt; //sms수신여부 수정일시
     private String jointype; //가입유형
@@ -210,11 +210,11 @@ public class MbMaster {
         this.grpcd = grpcd;
     }
 
-    public char getGradecd() {
+    public String getGradecd() {
         return gradecd;
     }
 
-    public void setGradecd(char gradecd) {
+    public void setGradecd(String gradecd) {
         this.gradecd = gradecd;
     }
 
@@ -242,19 +242,19 @@ public class MbMaster {
         this.upgradedt = upgradedt;
     }
 
-    public char getResidentno1() {
+    public String getResidentno1() {
         return residentno1;
     }
 
-    public void setResidentno1(char residentno1) {
+    public void setResidentno1(String residentno1) {
         this.residentno1 = residentno1;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -266,19 +266,19 @@ public class MbMaster {
         this.email = email;
     }
 
-    public char getEmailyn() {
+    public String getEmailyn() {
         return emailyn;
     }
 
-    public void setEmailyn(char emailyn) {
+    public void setEmailyn(String emailyn) {
         this.emailyn = emailyn;
     }
 
-    public char getZipcd() {
+    public String getZipcd() {
         return zipcd;
     }
 
-    public void setZipcd(char zipcd) {
+    public void setZipcd(String zipcd) {
         this.zipcd = zipcd;
     }
 
@@ -338,19 +338,19 @@ public class MbMaster {
         this.updt = updt;
     }
 
-    public char getSmsyn() {
+    public String getSmsyn() {
         return smsyn;
     }
 
-    public void setSmsyn(char smsyn) {
+    public void setSmsyn(String smsyn) {
         this.smsyn = smsyn;
     }
 
-    public char getTelyn() {
+    public String getTelyn() {
         return telyn;
     }
 
-    public void setTelyn(char telyn) {
+    public void setTelyn(String telyn) {
         this.telyn = telyn;
     }
 
@@ -426,43 +426,43 @@ public class MbMaster {
         this.hpnoEnc = hpnoEnc;
     }
 
-    public char getMempwHash() {
+    public String getMempwHash() {
         return mempwHash;
     }
 
-    public void setMempwHash(char mempwHash) {
+    public void setMempwHash(String mempwHash) {
         this.mempwHash = mempwHash;
     }
 
-    public char getContractAgree() {
+    public String getContractAgree() {
         return contractAgree;
     }
 
-    public void setContractAgree(char contractAgree) {
+    public void setContractAgree(String contractAgree) {
         this.contractAgree = contractAgree;
     }
 
-    public char getPolicyAgree() {
+    public String getPolicyAgree() {
         return policyAgree;
     }
 
-    public void setPolicyAgree(char policyAgree) {
+    public void setPolicyAgree(String policyAgree) {
         this.policyAgree = policyAgree;
     }
 
-    public char getEntrustAgree() {
+    public String getEntrustAgree() {
         return entrustAgree;
     }
 
-    public void setEntrustAgree(char entrustAgree) {
+    public void setEntrustAgree(String entrustAgree) {
         this.entrustAgree = entrustAgree;
     }
 
-    public char getThirdpartyAgree() {
+    public String getThirdpartyAgree() {
         return thirdpartyAgree;
     }
 
-    public void setThirdpartyAgree(char thirdpartyAgree) {
+    public void setThirdpartyAgree(String thirdpartyAgree) {
         this.thirdpartyAgree = thirdpartyAgree;
     }
 
@@ -474,19 +474,19 @@ public class MbMaster {
         this.pcertReqno = pcertReqno;
     }
 
-    public char getPcertDi() {
+    public String getPcertDi() {
         return pcertDi;
     }
 
-    public void setPcertDi(char pcertDi) {
+    public void setPcertDi(String pcertDi) {
         this.pcertDi = pcertDi;
     }
 
-    public char getNodeductpay() {
+    public String getNodeductpay() {
         return nodeductpay;
     }
 
-    public void setNodeductpay(char nodeductpay) {
+    public void setNodeductpay(String nodeductpay) {
         this.nodeductpay = nodeductpay;
     }
 

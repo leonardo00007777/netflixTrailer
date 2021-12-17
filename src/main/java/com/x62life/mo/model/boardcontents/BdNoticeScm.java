@@ -12,9 +12,9 @@ public class BdNoticeScm {
     private short important; //중요도
     private Timestamp indt; //등록일시
     private Timestamp updt; //수정일시
-    private char useyn; //사용여부
+    private String useyn; //사용여부
     private String suppno; //열람대상
-    private char show; //게시방법
+    private String show; //게시방법
 
     public int getNtcidx() {
         return ntcidx;
@@ -72,11 +72,11 @@ public class BdNoticeScm {
         this.updt = updt;
     }
 
-    public char getUseyn() {
+    public String getUseyn() {
         return useyn;
     }
 
-    public void setUseyn(char useyn) {
+    public void setUseyn(String useyn) {
         this.useyn = useyn;
     }
 
@@ -88,11 +88,11 @@ public class BdNoticeScm {
         this.suppno = suppno;
     }
 
-    public char getShow() {
+    public String getShow() {
         return show;
     }
 
-    public void setShow(char show) {
+    public void setShow(String show) {
         this.show = show;
     }
 }

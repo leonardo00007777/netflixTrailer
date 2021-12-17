@@ -1,6 +1,7 @@
 package com.x62life.mo.model.product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 public class Supplus {
@@ -112,7 +113,7 @@ public class Supplus {
     }
 
     public void setLimamt(BigDecimal limamt) {
-        this.limamt = limamt;
+        this.limamt = limamt.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getDelcharge() {
@@ -120,7 +121,7 @@ public class Supplus {
     }
 
     public void setDelcharge(BigDecimal delcharge) {
-        this.delcharge = delcharge;
+        this.delcharge = delcharge.setScale(0, RoundingMode.DOWN);
     }
 
     public String getDeadline_msg() {

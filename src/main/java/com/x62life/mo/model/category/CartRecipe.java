@@ -18,7 +18,7 @@ public class CartRecipe {
     private int rcount;
     private String indt;
     private Timestamp updt;
-    private char share;
+    private String share;
     private int lseqno;
     private int lno;
     private String gdcd;
@@ -138,11 +138,11 @@ public class CartRecipe {
         this.updt = updt;
     }
 
-    public char getShare() {
+    public String getShare() {
         return share;
     }
 
-    public void setShare(char share) {
+    public void setShare(String share) {
         this.share = share;
     }
 

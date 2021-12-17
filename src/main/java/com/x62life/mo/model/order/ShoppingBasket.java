@@ -4,20 +4,20 @@ import java.sql.Timestamp;
 
 /*@Alias("shoppingBasket")*/
 public class ShoppingBasket {
-    private char memcd; //회원코드
+    private String memcd; //회원코드
     private int crtidx; //카트일련번호
     private String gdcd; //상품코드
     private int gdcnt; //상품수량
     private Timestamp indt; //등록일시
-    private char odGubun; //주문유형
+    private String odGubun; //주문유형
     private int idxlink; //회원상품별카트일련번호
-    private char freeze; //장바구니 잠금여부
+    private String freeze; //장바구니 잠금여부
 
-    public char getMemcd() {
+    public String getMemcd() {
         return memcd;
     }
 
-    public void setMemcd(char memcd) {
+    public void setMemcd(String memcd) {
         this.memcd = memcd;
     }
 
@@ -53,11 +53,11 @@ public class ShoppingBasket {
         this.indt = indt;
     }
 
-    public char getOdGubun() {
+    public String getOdGubun() {
         return odGubun;
     }
 
-    public void setOdGubun(char odGubun) {
+    public void setOdGubun(String odGubun) {
         this.odGubun = odGubun;
     }
 
@@ -69,11 +69,11 @@ public class ShoppingBasket {
         this.idxlink = idxlink;
     }
 
-    public char getFreeze() {
+    public String getFreeze() {
         return freeze;
     }
 
-    public void setFreeze(char freeze) {
+    public void setFreeze(String freeze) {
         this.freeze = freeze;
     }
 }
