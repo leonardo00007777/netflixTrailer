@@ -1,8 +1,8 @@
 /* jQuery Ready */
 $(function() {
 
-	mainm.init();
-	mainm.initKeyEvent();
+	mainm().init();
+	mainm().initKeyEvent();
 	
 });
 
