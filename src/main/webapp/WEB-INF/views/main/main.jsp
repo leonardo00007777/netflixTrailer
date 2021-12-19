@@ -628,7 +628,7 @@
                              <c:otherwise>
                                <div class="prd-item-price">
                                  <div class="price">
-                                   <span>${salePrice}</span><small>원</small>
+                                   <span><fmt:formatNumber value="${newProdList.price1}" pattern="#,###" /></span><small>원</small>
                                  </div>
                                </div>
                              </c:otherwise>
