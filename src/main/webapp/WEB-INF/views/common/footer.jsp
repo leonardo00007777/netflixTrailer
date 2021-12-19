@@ -13,6 +13,7 @@
   <script src="<%=_libUrl %>aos/aos.js"></script>  
   <script src="<%=_jsUrl %>ui.js"></script>
   <script src="<%=_jsUrl %>main/main.js"></script>     
+  <script src="<%=_jsUrl %>main/mainm.js"></script>     
   <script src="<%=_jsUrl %>ui-main.js"></script>    
   <script src="<%=_jsUrl %>ui-cart.js"></script>    
   <script src="<%=_jsUrl%>ui-prd-detail.js"></script>

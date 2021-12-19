@@ -14,20 +14,6 @@ var login = function() {
 	return {
 		cannotAccess : function() {
 			 alert('접근할 수 없습니다. 권한이 부족합니다.');
-			
-		},
-
-		initKeyEvent : function() {
-			
-			$("#gnbBtnCart").on("click", function(e) {
-				//alert("장바구니 이동 ...");
-				
-				// login 유무활용 
-				// common.cannotAccess();				
-				gnbSub.goUrl("cart");
-				
-			});
-			
 		},
 		
 		goUrl : function(_url) {
@@ -45,6 +31,51 @@ var login = function() {
 			 f.setAttribute('action', url);
 			 document.body.appendChild(f);
 			 f.submit();
+		},
+		
+		//------------------------------------------------------------
+		// Key Event 
+		//------------------------------------------------------------
+		initKeyEvent : function() {
+
+		    var userid = getCookie("62userid");
+
+		    // 가져온 쿠키값이 있으면
+		    if(userid != "") {
+		        $('#loginpassword').focus();
+		    } else {
+		    	$('#loginuserid').focus();
+		    }
+		      
+	        // 로그인 id/pw 처리
+	        $("#loginuserid, #loginpassword").on("keyup", function(e){
+	            if(e.keyCode == 13) {
+	                if(validLogin($("#loginuserid"), $("#loginpassword"))) {
+	                	loginm.loginSubmit();
+	                }
+	            }
+	        });
+	        
+		},
+		
+		validLogin : function(_id, _pw) {
+			
+			var validId = _super.validEmpty(_id);
+			var validPw = _super.validEmpty(_pw);
+			
+			if(validId.isValid) {
+				if(validPw.isValid) {
+					return true;
+				} else {
+					alert(validPw.validMsg);
+					validPw.element.focus();
+					return false;
+				}
+			} else {
+				alert(validId.validMsg);
+				validId.element.focus();
+				return false;
+			}
 		},
 
 	    init : function () {
