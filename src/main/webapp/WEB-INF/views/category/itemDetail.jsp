@@ -172,6 +172,7 @@
                   <th>판매단위</th>
                   <td>${itemDetail.unit}</td>
                 </tr>
+
                 <tr>
                   <th>상품유형</th>
                   <td>${itemDetail.gradedesc}</td>
@@ -351,7 +352,7 @@
             <!-- 상품 상세페이지 -->
             <section class="pdp-detail-content">
               <div class="pdp-detail-view" id="pdpDetailView">
-                <img src="./images/uploads/prd-detail-header.png">
+                <img src="<%=_imgUrl%>images/uploads/prd-detail-header.png">
 
                 <!-- 상품 동영상 -->
                 <section class="pdp-vod">
@@ -359,16 +360,18 @@
                     <video id="prd-vod" class="video-js vjs-wn-skin vjs-fluid" controls playsinline
                            preload="auto" width="100%" height="100%" poster=""
                            data-setup='{"aspectRatio": "1:1"}'>
-                      <source src="./images/uploads/prd-vod.mp4#t=0.1" type="video/mp4" />
+                      <source src="<%=_imgUrl%>images/uploads/prd-vod.mp4#t=0.1" type="video/mp4" />
                     </video>
                   </div>
                 </section>
 
-                <img src="./images/uploads/prd-detail-content.png">
+                <img src="<%=_imgUrl%>images/uploads/prd-detail-content.png">
               </div>
               <div class="pdp-detail-more">
-                <button class="btn-view-down" onclick="clickPrdViewMore();"><span class="label">상세정보 펼쳐보기</span><i
-                        class="wn-icon chevron-v-16 green"></i></button>
+                <button class="btn-view-down" onclick="clickPrdViewMore();">
+                  <span class="label">상세정보 펼쳐보기</span>
+                  <i class="wn-icon chevron-v-16 green"></i>
+                </button>
               </div>
             </section>
             <!-- 상품내 공지안내 -->

@@ -26,6 +26,7 @@
    <!-- ------------------------------------------------------------------------------------------------------------------------ -->  
    <link rel="stylesheet" href="<%=_libUrl %>jquery/css/jquery-ui.min.css"/>
    <link rel="stylesheet" href="<%=_libUrl %>swiper/swiper-bundle.min.css"/>
+   <link rel="stylesheet" href="<%=_libUrl %>video-js/video-js.min.css"/>
    <link rel="stylesheet" href="<%=_libUrl %>aos/aos.css"/>
    <link rel="stylesheet" href="<%=_cssUrl %>lib.css"/>
    <link rel="stylesheet" href="<%=_cssUrl %>main.css"/>
@@ -34,6 +35,7 @@
    <link rel="stylesheet" href="<%=_cssUrl %>promotion.css"/>
    <link rel="stylesheet" href="<%=_cssUrl %>order.css"/>
    <link rel="stylesheet" href="<%=_cssUrl %>mypage.css"/>
+   <link rel="stylesheet" href="<%=_cssUrl%>products.css">
   <!-- ------------------------------------------------------------------------------------------------------------------------ -->
   <!--  js v3.5.1   -->
   <!-- ------------------------------------------------------------------------------------------------------------------------ -->
