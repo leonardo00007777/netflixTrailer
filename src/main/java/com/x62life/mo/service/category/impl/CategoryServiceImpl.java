@@ -5,9 +5,13 @@ import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.GdPipn;
 import com.x62life.mo.model.product.GdSugar;
 import com.x62life.mo.service.category.CategoryService;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.*;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -50,12 +54,13 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<GdMasterEx> itemDetail(Map<String, Object> paramMap){
+	public List<GdMasterEx> itemDetail(Map<String, Object> paramMap) throws IOException, SQLException {
 		List<GdMasterEx> itemDetail = categoryDao.itemDetail(paramMap);
 
 		for(int i = 0; i < itemDetail.size(); i++){
 			itemDetail.get(i).setExplain(itemDetail.get(i).getExplain().replaceAll("src=\"/userfiles", "src=\"/resources/images/userfiles"));
 		}
+
 		return itemDetail;
 	}
 

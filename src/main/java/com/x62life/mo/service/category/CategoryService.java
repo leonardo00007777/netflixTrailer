@@ -4,6 +4,8 @@ import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.GdPipn;
 import com.x62life.mo.model.product.GdSugar;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +19,7 @@ public interface CategoryService {
 
     List<GdMasterEx> prodListAll(Map<String, Object> paramMap);
 
-    List<GdMasterEx> itemDetail(Map<String, Object> paramMap);
+    List<GdMasterEx> itemDetail(Map<String, Object> paramMap) throws SQLException, IOException;
 
     List<Map<String, Object>> itemDetailSetProdConfiguration(Map<String, Object> paramMap);
 

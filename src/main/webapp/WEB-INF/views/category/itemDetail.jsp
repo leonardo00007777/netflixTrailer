@@ -307,51 +307,50 @@
           </c:if>
             <!-- 최근측정당도 -->
           <c:if test="${paramMap.strGdtype eq '01'}">
-            <section class="pdp-add-info">
-              <div class="hr"></div>
-              <div class="pdp-add-info-brix">
-                <div class="img-container">
-                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl03.png" alt="11.4brix">
-                </div>
-                <div class="detail">
-                  <div class="tit">최근측정당도</div>
-                  <div class="content">
-                    고객님의 구매에 도움을 드리기 위해 판매되는 동일한 상품을 샘플링하여
-                    측정했으며, 농산물의 특성상 받으신 상품 당도와는 차이날 수 있습니다.
-                    <div class="text">
-                      <c:forEach items="${fruitsSugarInfo}" var="sugarInfo">
-                        <c:if test="${sugarInfo.gasuga ne null and sugarInfo.gasuga ne ''}">
+            <c:forEach items="${fruitsSugarInfo}" var="sugarInfo">
+              <c:if test="${sugarInfo.gasuga ne null and sugarInfo.gasuga ne ''}">
+                <section class="pdp-add-info">
+                  <div class="hr"></div>
+                  <div class="pdp-add-info-brix">
+                    <div class="img-container">
+                      <img src="<%=_imgUrl%>images/banner/pdpBannerEl03.png" alt="11.4brix">
+                    </div>
+
+                    <div class="detail">
+                      <div class="tit">최근측정당도</div>
+                      <div class="content">
+                        고객님의 구매에 도움을 드리기 위해 판매되는 동일한 상품을 샘플링하여
+                        측정했으며, 농산물의 특성상 받으신 상품 당도와는 차이날 수 있습니다.
+                        <div class="text">
                           <c:choose>
                             <c:when test="${sugarInfo.fruitsSugar gt '1.1'}">
-                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도보다 더 달아요.</em></p>
+                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도보다 더 달아요.</em></p>
                             </c:when>
                             <c:when test="${sugarInfo.fruitsSugar gt '1.05'}">
-                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도보다 약간 달아요.</em></p>
+                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도보다 약간 달아요.</em></p>
                             </c:when>
                             <c:when test="${sugarInfo.fruitsSugar gt '0.95'}">
-                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도와 비슷해요.</em></p>
+                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도와 비슷해요.</em></p>
                             </c:when>
                             <c:when test="${sugarInfo.fruitsSugar gt '0.90'}">
-                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도보다 약간 낮아요.</em></p>
+                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/>brix (표준1) * 표준당도보다 약간 낮아요.</em></p>
                             </c:when>
                             <c:otherwise>
-                              <p><em> ${sugarInfo.fruitsSugar} brix (표준1) * 표준당도보다 더 낮아요.</em></p>
+                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도보다 더 낮아요.</em></p>
                             </c:otherwise>
                           </c:choose>
-                        </c:if>
-                      </c:forEach>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </section>
+                </section>
+              </c:if>
+            </c:forEach>
           </c:if>
 
             <!-- 상품 상세페이지 -->
             <section class="pdp-detail-content">
               <div class="pdp-detail-view" id="pdpDetailView">
-                <img src="<%=_imgUrl%>images/uploads/prd-detail-header.png">
-
                 <!-- 상품 동영상 -->
                 <section class="pdp-vod">
                   <div class="pdp-video-container">
@@ -363,7 +362,7 @@
                   </div>
                 </section>
 
-                ${itemDetail.explain}         <!--상품 설명 테스트/////////////////////////////////////////////////-->
+                ${itemDetail.explain}
               </div>
               <div class="pdp-detail-more">
                 <button class="btn-view-down" onclick="clickPrdViewMore();">

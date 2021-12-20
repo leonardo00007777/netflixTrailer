@@ -1312,7 +1312,7 @@
                     </div>
                   </div>
                   <div class="prd-list-buttons">
-                    <button class="item btn-filter" id="btn-filter" onclick="$('#modalDcPrdFilters').modal('show')"><i class="wn-icon plp-filter">필터</i></button>
+                    <button class="item btn-filter" id="btn_filter" onclick="$('#modalDcPrdFilters').modal('show')"><i class="wn-icon plp-filter">필터</i></button>
                   </div>
                 </div>
               </div>
@@ -1328,7 +1328,7 @@
                                   value="${discountProd.discountRate+((discountProd.discountRate%1>0.5)?(1-(discountProd.discountRate%1))%1:-(discountProd.discountRate%1))}"
                 />
                 <c:choose>
-                  <c:when test="${discountProd.gdcnt gt 0}">
+                  <c:when test="${discountProd.gdcnt > 0}">
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
@@ -1379,7 +1379,7 @@
                   <c:otherwise>
                     <article class="prd-item soldout">
                       <div class="img-container">
-                        <a href="#" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <div class="prd-item-soldout">
                             <div class="tit">일시품절</div>
@@ -1397,14 +1397,14 @@
                         </div>
                       </div>
                       <div class="detail">
-                        <a href="#">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <div class="prd-item-price">
                             <div class="price">
-                              <span>${salePrice}</span><small>원</small>
+                              <span>${discountProd.saleprice}</span><small>원</small>
                             </div>
                             <div class="price-org">
-                                ${originalPrice}원
+                                ${discountProd.price1}원
                             </div>
                           </div>
                           <div class="prd-item-label">
