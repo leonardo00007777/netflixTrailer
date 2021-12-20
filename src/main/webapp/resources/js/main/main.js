@@ -581,7 +581,8 @@ function newProdFilter(){
 				var html = '';
 				html += '<article class="prd-item">';
 				html +=	  '<div class="img-container">';
-				html +=		'<a href="#" class="prd-item-img">';
+				html +=		'<a href="javascript:void(0)" onclick="itemDetail(' + "'" + el.gdcd + "'" + "," + "'" + el.odtype + "'" + "," + "'" + el.odtype2 + "'"
+					         + "," + "'" + el.div1 + "'" + ')"' + 'class="prd-item-img">';
 				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '" onerror="this.src=\'<%=_imgUrl %>images/gdimg/noimage.gif\';"/>';
 				if(Math.round(el.discountrate) > 0){
 					html +=			'<div class="prd-item-badge dc">';
