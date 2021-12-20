@@ -43,18 +43,29 @@
    <script src="<%=_libUrl %>jquery/jquery-ui.min.js"/>
 </head>
 <body>
-
 <c:set var="cookieDomain"><spring:eval expression='@configProperties["cookieDomain"]' /></c:set>
 <c:set var="devURL"><spring:eval expression='@configProperties["devURL"]' /></c:set>
-
+<c:set var="_jsUrl"><spring:eval expression='@configProperties["_jsUrl"]' /></c:set>
+<c:set var="_cssUrl"><spring:eval expression='@configProperties["_cssUrl"]' /></c:set>
+<c:set var="_httpUrl"><spring:eval expression='@configProperties["_httpUrl"]' /></c:set>
+<c:set var="_libUrl"><spring:eval expression='@configProperties["_libUrl"]' /></c:set>
+<c:set var="_imgUrl"><spring:eval expression='@configProperties["_imgUrl"]' /></c:set>
+<c:set var="_servletUrl"><spring:eval expression='@configProperties["_servletUrl"]' /></c:set>
 
 <script>
-
 	//---------------------------------------------------------------------------
 	// Global  Variables
 	//---------------------------------------------------------------------------
 	var _cookieDomain = '<c:out value="${cookieDomain}" />';
-	var _devURL = '<c:out value="${devURL}" />';
+	var _devURL = '<c:out value="${devURL}" />';	
+	var _jsUrl = '<c:out value="${_jsUrl}" />';
+	var _cssUrl = '<c:out value="${_cssUrl}" />';
+	var _httpUrl = '<c:out value="${_httpUrl}" />';
+	var _libUrl = '<c:out value="${_libUrl}" />';
+	var _imgUrl = '<c:out value="${_imgUrl}" />';
+	var _servletUrl = '<c:out value="${_servletUrl}" />';
+	
+	
 	
 </script>
   
