@@ -6,7 +6,7 @@
 %>
 <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <%-- <script src="<%=_jsUrl %>asis/dataEvent.js"></script>   --%>   
-<script src="<%=_jsUrl %>asis/loginm.js"></script>
+<script src="<%=_jsUrl %>login/login.js"></script>
 
 <body class="page-login header-float">
   <div class="site-container">
