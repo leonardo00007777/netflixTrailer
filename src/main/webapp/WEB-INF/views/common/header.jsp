@@ -58,12 +58,12 @@
 	//---------------------------------------------------------------------------
 	var _cookieDomain = '<c:out value="${cookieDomain}" />';
 	var _devURL = '<c:out value="${devURL}" />';	
-	var _devURL = '<c:out value="${_jsUrl}" />';
-	var _devURL = '<c:out value="${_cssUrl}" />';
-	var _devURL = '<c:out value="${_httpUrl}" />';
-	var _devURL = '<c:out value="${_libUrl}" />';
-	var _devURL = '<c:out value="${_imgUrl}" />';
-	var _devURL = '<c:out value="${_servletUrl}" />';
+	var _jsUrl = '<c:out value="${_jsUrl}" />';
+	var _cssUrl = '<c:out value="${_cssUrl}" />';
+	var _httpUrl = '<c:out value="${_httpUrl}" />';
+	var _libUrl = '<c:out value="${_libUrl}" />';
+	var _imgUrl = '<c:out value="${_imgUrl}" />';
+	var _servletUrl = '<c:out value="${_servletUrl}" />';
 	
 	
 	
