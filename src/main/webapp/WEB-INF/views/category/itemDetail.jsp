@@ -69,15 +69,30 @@
             ${itemDetail.shortdesc}
           </div>
           <div class="prd-detail-price prd-item-price">
-            <div class="dc">
-              <span>${discountRate}</span><small>%</small>
-            </div>
-            <div class="price">
-              <span><fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" /></span><small>원</small>
-            </div>
-            <div class="price-org">
-              <span><fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" /></span><small>원</small>
-            </div>
+            <c:if test="${discountRate > 0}">
+              <div class="dc">
+                <span>${discountRate}</span><small>%</small>
+              </div>
+            </c:if>
+            <c:choose>
+              <c:when test="${itemDetail.price1 ne itemDetail.saleprice}">
+                <div class="prd-item-price">
+                  <div class="price">
+                    <span><fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" /></span><small>원</small>
+                  </div>
+                  <div class="price-org">
+                    <fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" />원
+                  </div>
+                </div>
+              </c:when>
+              <c:otherwise>
+                <div class="prd-item-price">
+                  <div class="price">
+                    <span><fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" /></span><small>원</small>
+                  </div>
+                </div>
+              </c:otherwise>
+            </c:choose>
 <%--            <c:if test="">
               <div class="dc-tag">
                 <span class="label">홍길동님 추가 할인 적용</span>
