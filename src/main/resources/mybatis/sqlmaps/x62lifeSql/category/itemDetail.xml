@@ -88,7 +88,7 @@
              , ISNULL(g.soldoutyn,'N') soldoutyn 
              , CONVERT(CHAR(10),g.plandate,120) plandate 
              , ISNULL(g.reserveyn,'N') reserveyn 
-             , g.explain 
+             , g.explain
              , g.unit 
              , i.address
              , i.origin

@@ -51,7 +51,12 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public List<GdMasterEx> itemDetail(Map<String, Object> paramMap){
-		return categoryDao.itemDetail(paramMap);
+		List<GdMasterEx> itemDetail = categoryDao.itemDetail(paramMap);
+
+		for(int i = 0; i < itemDetail.size(); i++){
+			itemDetail.get(i).setExplain(itemDetail.get(i).getExplain().replaceAll("src=\"/userfiles", "src=\"/resources/images/userfiles"));
+		}
+		return itemDetail;
 	}
 
 	@Override

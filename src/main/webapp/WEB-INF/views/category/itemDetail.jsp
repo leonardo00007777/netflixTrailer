@@ -172,7 +172,6 @@
                   <th>판매단위</th>
                   <td>${itemDetail.unit}</td>
                 </tr>
-
                 <tr>
                   <th>상품유형</th>
                   <td>${itemDetail.gradedesc}</td>
@@ -277,7 +276,6 @@
             <section class="prd-promo-banner">
               <img src="<%=_imgUrl%>images/banner/prdDetailNoticeBanner.png" alt="싱싱하지 않으면 환불, 신선보장">
             </section>
-              ${itemDetail.explain}
             <!-- 인증마크 -->
             <section class="pdp-add-info">
               <div class="pdp-add-info-mu">
@@ -365,7 +363,7 @@
                   </div>
                 </section>
 
-                <img src="<%=_imgUrl%>images/uploads/prd-detail-content.png">
+                ${itemDetail.explain}         <!--상품 설명 테스트/////////////////////////////////////////////////-->
               </div>
               <div class="pdp-detail-more">
                 <button class="btn-view-down" onclick="clickPrdViewMore();">
@@ -1336,6 +1334,6 @@
 
 <script>
   $(document).ready(function () {
-    console.log('${paramMap}');
+
   });
 </script>
