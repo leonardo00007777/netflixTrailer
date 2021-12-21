@@ -1195,91 +1195,106 @@
             </section>
 
             <hr class="spacer">
+            <c:choose>
+              <c:when test="${prodReviewDetail.size() > 0}">
+                <section class="el-container">
+                  <h3 class="hd-m px-m">포토구매후기</h3>
+                  <div class="content-center">
+                    <div class="pdp-photo-reviews">
+                      <a href="#" class="btn-more-num">+14</a>
+                      <ul class="pdp-preview-list">
+                        <li>
+                          <a href="javascript:void(0)" onclick="showPhotoReviewDetail(0)">
+                            <div class="img-square">
+                              <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
+                            </div>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="javascript:void(0)" onclick="showPhotoReviewDetail(1)">
+                            <div class="img-square">
+                              <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
+                            </div>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="javascript:void(0)" onclick="showPhotoReviewDetail(2)">
+                            <div class="img-square">
+                              <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- <button class="button bt-outline bt-fill-gray btn-more-review">더보기</button> -->
+                  </div>
+                </section>
 
-            <section class="el-container">
-              <h3 class="hd-m px-m">포토구매후기</h3>
-              <div class="content-center">
-                <div class="pdp-photo-reviews">
-                  <a href="#" class="btn-more-num">+14</a>
-                  <ul class="pdp-preview-list">
-                    <li>
-                      <a href="javascript:void(0)" onclick="showPhotoReviewDetail(0)">
-                        <div class="img-square">
-                          <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="javascript:void(0)" onclick="showPhotoReviewDetail(1)">
-                        <div class="img-square">
-                          <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="javascript:void(0)" onclick="showPhotoReviewDetail(2)">
-                        <div class="img-square">
-                          <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <!-- <button class="button bt-outline bt-fill-gray btn-more-review">더보기</button> -->
-              </div>
-            </section>
-            <section class="se-container">
-              <h3 class="hd-m px-m pb-0">구매후기</h3>
-              <div class="content-center">
-                <ul class="review-list" id="prodReviewList">
-                  <li>
-                    <article class="review-item">
-                      <div class="review-option">
-                        <span class="label">구매옵션</span>
-                        <span class="content">망고스틱 10개</span>
-                      </div>
-                      <div class="review-wrapper">
-                        <div class="review-detail">
-                          <div class="content">
-                            길게 쓰자 길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자자길게 쓰자길게 쓰자길게 쓰자길
+                <section class="se-container">
+                  <h3 class="hd-m px-m pb-0">구매후기</h3>
+                  <div class="content-center">
+                    <ul class="review-list" id="prodReviewList">
+                      <li>
+                        <article class="review-item">
+                          <div class="review-option">
+                            <span class="label">구매옵션</span>
+                            <span class="content">망고스틱 10개</span>
                           </div>
-                          <div class="info">
-                            <span class="info-item">2020.07.30</span>
-                            <span class="info-item">jkd***</span>
-                          </div>
-                        </div>
-                      </div>
-                    </article>
-                  </li>
-                  <li>
-                    <article class="review-item">
-                      <div class="review-option">
-                        <span class="label">구매옵션</span>
-                        <span class="content">망고스틱 10개</span>
-                      </div>
-                      <div class="review-wrapper">
-                        <a href="javascript:void(0)" class="review-img" onclick="showPhotoReviewDetail(0)">
-                          <div class="img-square rounded-4">
-                            <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);">
+                          <div class="review-wrapper">
+                            <div class="review-detail">
+                              <div class="content">
+                                길게 쓰자 길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자자길게 쓰자길게 쓰자길게 쓰자길
+                              </div>
+                              <div class="info">
+                                <span class="info-item">2020.07.30</span>
+                                <span class="info-item">jkd***</span>
+                              </div>
                             </div>
                           </div>
-                        </a>
-                        <div class="review-detail">
-                          <div class="content">
-                            길게 쓰자 길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자
+                        </article>
+                      </li>
+                      <li>
+                        <article class="review-item">
+                          <div class="review-option">
+                            <span class="label">구매옵션</span>
+                            <span class="content">망고스틱 10개</span>
                           </div>
-                          <div class="info">
-                            <span class="info-item">2020.07.30</span>
-                            <span class="info-item">jkd***</span>
+                          <div class="review-wrapper">
+                            <a href="javascript:void(0)" class="review-img" onclick="showPhotoReviewDetail(0)">
+                              <div class="img-square rounded-4">
+                                <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);">
+                                </div>
+                              </div>
+                            </a>
+                            <div class="review-detail">
+                              <div class="content">
+                                길게 쓰자 길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자
+                              </div>
+                              <div class="info">
+                                <span class="info-item">2020.07.30</span>
+                                <span class="info-item">jkd***</span>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </article>
-                  </li>
-                </ul>
-              </div>
-            </section>
+                        </article>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+              </c:when>
+              <c:otherwise>
+                <div class="nodata no-msg">
+                  <div class="text">등록된 구매후기가 없습니다.</div>
+                  <div class="text-desc">
+                    첫 구매 후기를 작성하여
+                    <br>
+                    3,000P를 획득하세요!
+                  </div>
+                </div>
+              </c:otherwise>
+            </c:choose>
           </article>
+
           <!-- 상품문의 -->
           <article class="swiper-slide prd-detail-slide">
             <section class="section-pdp-write-enter">
