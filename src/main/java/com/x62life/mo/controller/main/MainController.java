@@ -47,7 +47,6 @@ public class MainController {
 	@RequestMapping(value = "/main")
 	public ModelAndView main(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		paramMap.put("strMEMGRPCD",null);
 
 /*		//상단 메인 배너 리스트
 		List<AdMainMg> mainBannerList = mainService.mainBannerList((String) paramMap.get("strMEMGRPCD"));
@@ -60,9 +59,9 @@ public class MainController {
 		//오늘의 특가
 		List<OneDaySpecialEx> todaySpecialProdList = mainService.todaySpecialProdList(paramMap);
 		model.addAttribute("todaySpecialProdList",todaySpecialProdList);
-		
+
 		//첫구매 선물증정 이벤트 대상 검사
-		try{
+		if(paramMap != null && !paramMap.isEmpty()){
 			if(paramMap.get("strLoginMemCd") != null || !paramMap.get("strLoginMemCd").equals("")){
 				String firstBuyGiftTargetCheck = mainService.firstBuyGiftTargetCheck((String)paramMap.get("strMEMGRPCD"));
 				model.addAttribute("firstBuyGiftTargetCheck", firstBuyGiftTargetCheck);
@@ -82,10 +81,7 @@ public class MainController {
 					model.addAttribute("commonUserBuyGiftTargetCheck",commonUserBuyGiftTargetCheck);
 				}
 			}
-		} catch (Exception e){}
-
-
-
+		}
 
 		//제철 상품
 		List<SeasonalFoodHall> seasonalProdList = mainService.seasonalProdList(paramMap);
