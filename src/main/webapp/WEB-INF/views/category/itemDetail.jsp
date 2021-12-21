@@ -100,17 +100,29 @@
             </c:if>--%>
           </div>
           <ul class="prd-info-promo">
+            <c:choose>
+              <c:when test="${paramMap.strMEMGRPCD ne null and paramMap.strMEMGRPCD ne '' }">
+                <li>
+                  <div class="content">
+                    <i class="wn-icon pi-point"></i>
+                    <span>최대 250 포인트 적립 가능</span>
+                  </div>
+                  <div class="label">
+                    <a href="#">멤버십 혜택</a>
+                  </div>
+                </li>
+              </c:when>
+              <c:otherwise>
+                <li>
+                  <div class="content">
+                    <i class="wn-icon pi-point"></i>
+                    <span class="logout">로그인 후, 쿠폰과 포인트 적립혜택이 제공됩니다.</span>
+                  </div>
+                </li>
+              </c:otherwise>
+            </c:choose>
             <li>
-              <div class="content">
-                <i class="wn-icon pi-point"></i>
-                <span>최대 250 포인트 적립 가능</span>
-              </div>
-              <div class="label">
-                <a href="#">멤버십 혜택</a>
-              </div>
-            </li>
-            <li>
-              <div class="content">
+              <div class="label" style="margin-left: 0px;">
                 <a href="javascript:void(0)" onclick="$('#modalCardPromotion').modal('show')">
                   <i class="wn-icon pi-card"></i>
                   <span>현대카드 결제 시 5% 추가 할인</span>
@@ -203,12 +215,36 @@
                   <th>배송유형</th>
                   <c:choose>
                     <c:when test="${itemDetail.dispatchtype eq 'O'}">
-                      <td>업체 직송</td>
+                      <c:choose>
+                        <c:when test="${itemDetail.limitdelivery eq 'CA'}">
+                          <td>업체 직송(수도권만)</td>
+                        </c:when>
+                        <c:when test="${itemDetail.limitdelivery eq 'SE'}">
+                          <td>업체 직송(서울지역만)</td>
+                        </c:when>
+                        <c:when test="${itemDetail.limitdelivery eq 'NJ'}">
+                          <td>업체 직송(제주도 제외)</td>
+                        </c:when>
+                        <c:otherwise>
+                          <td>업체 직송</td>
+                        </c:otherwise>
+                      </c:choose>
                     </c:when>
                     <c:otherwise>
-                      <td>
-                        자연이랑배송
-                      </td>
+                      <c:choose>
+                        <c:when test="${itemDetail.limitdelivery eq 'CA'}">
+                          <td>자연이랑배송(수도권만)</td>
+                        </c:when>
+                        <c:when test="${itemDetail.limitdelivery eq 'SE'}">
+                          <td>자연이랑배송(서울지역만)</td>
+                        </c:when>
+                        <c:when test="${itemDetail.limitdelivery eq 'NJ'}">
+                          <td>자연이랑배송(제주도 제외)</td>
+                        </c:when>
+                        <c:otherwise>
+                          <td>자연이랑배송</td>
+                        </c:otherwise>
+                      </c:choose>
                     </c:otherwise>
                   </c:choose>
                 </tr>
@@ -255,13 +291,13 @@
             </section>
             <!-- 예약상품 정보 -->
             <section class="pdp-pre-order">
-              <div class="t-15 lh-22">
-                본 상품은 사전 예약주문 상품입니다.
-                <br>
-                미리 주문하시면 발송일에 맞춰 배송됩니다.
-              </div>
               <c:choose>
                 <c:when test="${itemDetail.reserveyn eq 'Y'}">
+                  <div class="t-15 lh-22">
+                    본 상품은 사전 예약주문 상품입니다.
+                    <br>
+                    미리 주문하시면 발송일에 맞춰 배송됩니다.
+                  </div>
                   <div class="bg-gray pa-m mt-10">
                     <table class="table-basic-spec">
                       <tr>
@@ -387,7 +423,7 @@
               </div>
             </section>
             <!-- 상품내 공지안내 -->
-            <section class="prd-detail-notice">
+<%--            <section class="prd-detail-notice">
               <h3 class="hd hd-s"><i class="wn-icon alert-24-brown"></i><span>상품내 공지안내</span></h3>
               <div class="content">
                 <ul class="list-dot">
@@ -396,7 +432,7 @@
                   <li>이점 유년하여 주문 부탁드립니다.</li>
                 </ul>
               </div>
-            </section>
+            </section>--%>
             <hr class="spacer">
 
             <!-- 꿀팁! 레시피 -->
@@ -549,26 +585,35 @@
               <div class="content-center">
                 <table class="table-pdp">
                   <tbody>
-                  <tr>
-                    <th>품목 또는 명칭</th>
-                    <td>달콤함 망고를 그대로 얼린 프리미엄 디저트 망고스틱 10개</td>
-                  </tr>
-                  <tr>
-                    <th>포장단위별 내용물의 용량(중량),수량</th>
-                    <td>60g X 10개</td>
-                  </tr>
-                  <tr>
-                    <th>생산자/수입자</th>
-                    <td>글로웨이 외</td>
-                  </tr>
-                  <tr>
-                    <th>농수산물의 원산지 표시에 관한 법률에 따른 원산지</th>
-                    <td>수입산</td>
-                  </tr>
-                  <tr>
-                    <th><span class="keep-all">제조연월일/유통기한</span></th>
-                    <td>농축수산물은 기본적으로 유통기한을 별도로 정하고 있지 않거나 상세상품 정보란에 표기합니다.</td>
-                  </tr>
+                  <c:forEach items="${itemDetail}" var="itemDetailInfo">
+                    <tr>
+                      <th>품목 또는 명칭</th>
+                      <td>${itemDetailInfo.gdname}</td>
+                    </tr>
+                    <tr>
+                      <th>포장단위별 내용물의 용량(중량),수량</th>
+                      <td>${itemDetailInfo.unit}</td>
+                    </tr>
+                    <tr>
+                      <th>생산자/수입자</th>
+                      <td>${itemDetailInfo.producer}</td>
+                    </tr>
+                    <tr>
+                      <th>농수산물의 원산지 표시에 관한 법률에 따른 원산지</th>
+                      <td>${itemDetailInfo.origin}</td>
+                    </tr>
+                    <tr>
+                      <th><span class="keep-all">제조연월일/유통기한</span></th>
+                      <c:choose>
+                        <c:when test="${itemDetailInfo.plandate ne null or itemDetailInfo.plandate ne ''}">
+                          <td>${itemDetailInfo.plandate}</td>
+                        </c:when>
+                        <c:otherwise>
+                          <td>농축수산물은 기본적으로 유통기한을 별도로 정하고 있지 않거나 상세상품 정보란에 표기합니다.</td>
+                        </c:otherwise>
+                      </c:choose>
+                    </tr>
+                  </c:forEach>
                   </tbody>
                 </table>
               </div>
@@ -586,20 +631,20 @@
                           <div class="delivery-sche-container">
                             <dl class="delivery-sche weekday">
                               <dt>
+                                <span>일</span>
                                 <span>월</span>
                                 <span>화</span>
                                 <span>수</span>
                                 <span>목</span>
                                 <span>금</span>
                               </dt>
-                              <dd>아침 8시 이전 주문 시 <em>당일 발송</em></dd>
+                              <dd>오후 1시 이전 주문 시 <em>당일 발송</em></dd>
                             </dl>
                             <dl class="delivery-sche weekend">
                               <dt>
                                 <span>토</span>
-                                <span>일</span>
                               </dt>
-                              <dd><em>차주 월요일</em> 발송</dd>
+                              <dd><em>일요일</em> 발송</dd>
                             </dl>
                           </div>
                         </div>
@@ -625,7 +670,7 @@
                     <h4 class="wn-accordion-tit">배송료 안내</h4>
                     <div class="wn-accordion-content">
                       <ul class="list-dot t-12 lh-15">
-                        <li>주문금액이 40,000원 미만인 경우에는 주문유형에 따라 배송비가 부과될 수 있습니다.</li>
+                        <li>주문금액이 <fmt:formatNumber value="${paramMap.minimumOrderPrice}" pattern="#,###" />원 미만인 경우에는 주문유형에 따라 배송비가 부과될 수 있습니다.</li>
                         <li>일부 산간벽지 및 도서지역의 경우 배송이 불가할 수 있습니다.</li>
                         <li>주문 및 배송에 관한 자세한 상담이나 궁금하신 점이 있을 경우 고객센터의 FAQ나 1:1상담 게시판,
                           또는 고객센터 080-303-6262를 통해서 안내 받으실 수 있습니다.</li>
@@ -1348,6 +1393,6 @@
 
 <script>
   $(document).ready(function () {
-
+    $('.global-bottom').hide();
   });
 </script>

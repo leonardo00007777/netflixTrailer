@@ -109,7 +109,7 @@
                     <div class="swiper-slide">
                      <article class="prd-item">
                        <div class="img-container">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
+                         <a href="javascript:void(0)" onclick="itemDetail('', '${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
                            <img src="<%=_imgUrl %>images/uploads/${newProdList.mgdimg1}" alt="${newProdList.unit}">
                            <fmt:formatNumber value="${newProdList.discountRate}" var="discountRate" maxFractionDigits="0"/>
                            <c:if test="${discountRate > 0}">
@@ -121,7 +121,7 @@
                          </a>
                        </div>
                        <div class="detail">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')">
+                         <a href="javascript:void(0)" onclick="itemDetail('', '${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')">
                            <h4 class="prd-item-tit">${newProdList.gdname}</h4>
                            <c:choose>
                              <c:when test="${newProdList.price1 ne newProdList.saleprice}">
@@ -601,7 +601,7 @@
                    <div class="swiper-slide">
                      <article class="prd-item">
                        <div class="img-container">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
+                         <a href="javascript:void(0)" onclick="itemDetail('', '${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')" class="prd-item-img">
                            <img src="<%=_imgUrl %>/images/uploads/${newProdList.mgdimg1}" alt="${newProdList.gdname}">
                            <c:if test="${discountRate > 0 }">
                              <div class="prd-item-badge dc">
@@ -612,7 +612,7 @@
                          </a>
                        </div>
                        <div class="detail">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')">
+                         <a href="javascript:void(0)" onclick="itemDetail('', '${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}')">
                            <h4 class="prd-item-tit">${newProdList.gdname}</h4>
                            <c:choose>
                              <c:when test="${newProdList.price1 ne newProdList.saleprice}">
@@ -823,7 +823,7 @@
                   <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('', '${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';">
                           <c:if test="${discountRate > 0 }">
                             <div class="prd-item-badge dc">
@@ -834,7 +834,7 @@
                         </a>
                       </div>
                       <div class="detail">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" >
+                        <a href="javascript:void(0)" onclick="itemDetail('', '${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" >
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${discountProd.price1 ne discountProd.saleprice}">
@@ -1109,7 +1109,7 @@
                   <c:when test="${newProd.gdcnt gt 0}">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="javascript:void(0)" onclick="itemDetail('${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('', '${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}"}' alt="${newProd.gdname}"/>
                           <c:if test="${discountRate > 0}">
                             <div class="prd-item-badge dc">
@@ -1123,7 +1123,7 @@
                         </div>
                       </div>
                       <div class="detail">
-                        <a href="javascript:void(0)" onclick="itemDetail('${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}')">
+                        <a href="javascript:void(0)" onclick="itemDetail('', '${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}')">
                           <h4 class="prd-item-tit">${newProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${newProd.price1 ne newProd.saleprice}">
@@ -1331,7 +1331,7 @@
                   <c:when test="${discountProd.gdcnt > 0}">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('', '${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <c:if test="${discountRate > 0}">
                             <div class="prd-item-badge dc">
@@ -1347,7 +1347,7 @@
                         </div>
                       </div>
                       <div class="detail">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')">
+                        <a href="javascript:void(0)" onclick="itemDetail('', '${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')">
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${discountProd.price1 ne discountProd.saleprice}">
@@ -1379,7 +1379,7 @@
                   <c:otherwise>
                     <article class="prd-item soldout">
                       <div class="img-container">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('', '${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <div class="prd-item-soldout">
                             <div class="tit">일시품절</div>
@@ -1397,7 +1397,7 @@
                         </div>
                       </div>
                       <div class="detail">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('', '${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <div class="prd-item-price">
                             <div class="price">
@@ -2371,37 +2371,37 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="newProdOrderByNew" value="PI" onclick="newProdFilter();" checked>
+                      <input type="radio" name="orderByNew" id="newProdOrderByNew" value="PI" onclick="prodFilter('newProd');" checked>
                       <span class="label">신상품순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="newProdOrderByHot" value="PB" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByHot" value="PB" onclick="prodFilter('newProd');">
                       <span class="label">인기순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="newProdOrderByDc" value="PP" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByDc" value="PP" onclick="prodFilter('newProd');">
                       <span class="label">할인율순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="newProdOrderByNm" value="PN" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByNm" value="PN" onclick="prodFilter('newProd');">
                       <span class="label">상품명순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="newProdOrderByLowPrc" value="PU" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByLowPrc" value="PU" onclick="prodFilter('newProd');">
                       <span class="label">낮은가격순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByNew" id="newProdOrderByHighPrc" value="PD" onclick="newProdFilter();">
+                      <input type="radio" name="orderByNew" id="newProdOrderByHighPrc" value="PD" onclick="prodFilter('newProd');">
                       <span class="label">높은가격순</span>
                     </label>
                   </div>
@@ -2412,19 +2412,19 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="newProdDispatch" id="deliveryAll"  value="" onclick="newProdFilter();" checked>
+                      <input type="radio" name="newProdDispatch" id="deliveryAll"  value="" onclick="prodFilter('newProd');" checked>
                       <span class="label">전체</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="newProdDispatch" id="selfDelivery" value="I" onclick="newProdFilter();">
+                      <input type="radio" name="newProdDispatch" id="selfDelivery" value="I" onclick="prodFilter('newProd');">
                       <span class="label">자연이랑 발송</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="newProdDispatch" id="companyDelivery" value="O" onclick="newProdFilter();">
+                      <input type="radio" name="newProdDispatch" id="companyDelivery" value="O" onclick="prodFilter('newProd');">
                       <span class="label">업체 직송</span>
                     </label>
                   </div>
@@ -2480,37 +2480,37 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByDis" id="orderByDisRate" value="PP" onclick="discountProdFilter()" checked>
+                      <input type="radio" name="orderByDis" id="orderByDisRate" value="PP" onclick="prodFilter('dcProd')" checked>
                       <span class="label">할인율순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByDis" id="orderByDisName" value="PB" onclick="discountProdFilter()">
+                      <input type="radio" name="orderByDis" id="orderByDisName" value="PB" onclick="prodFilter('dcProd')">
                       <span class="label">인기상품순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByDis" id="orderByDisNew" value="PI" onclick="discountProdFilter()">
+                      <input type="radio" name="orderByDis" id="orderByDisNew" value="PI" onclick="prodFilter('dcProd')">
                       <span class="label">신상품순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByDis" id="orderByDisNm" value="PN" onclick="discountProdFilter()">
+                      <input type="radio" name="orderByDis" id="orderByDisNm" value="PN" onclick="prodFilter('dcProd')">
                       <span class="label">상품명순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByDis" id="orderByDisLowPrc" value="PU" onclick="discountProdFilter()">
+                      <input type="radio" name="orderByDis" id="orderByDisLowPrc" value="PU" onclick="prodFilter('dcProd')">
                       <span class="label">낮은 가격순</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="orderByDis" id="orderByDisHighPrc" value="PD" onclick="discountProdFilter()">
+                      <input type="radio" name="orderByDis" id="orderByDisHighPrc" value="PD" onclick="prodFilter('dcProd')">
                       <span class="label">높은 가격순</span>
                     </label>
                   </div>
@@ -2521,19 +2521,19 @@
                 <div class="radio-list">
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="dispatchDis" id="dispatchDisAll" value="" checked onclick="discountProdFilter()">
+                      <input type="radio" name="dispatchDis" id="dispatchDisAll" value="" checked onclick="prodFilter('dcProd')">
                       <span class="label">전체</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="dispatchDis" id="dispatchDisSelfDlv" value="I" onclick="discountProdFilter()">
+                      <input type="radio" name="dispatchDis" id="dispatchDisSelfDlv" value="I" onclick="prodFilter('dcProd')">
                       <span class="label">자연이랑 발송</span>
                     </label>
                   </div>
                   <div class="item">
                     <label class="radio">
-                      <input type="radio" name="dispatchDis" id="dispatchDisCompanyDlv" value="O" onclick="discountProdFilter()">
+                      <input type="radio" name="dispatchDis" id="dispatchDisCompanyDlv" value="O" onclick="prodFilter('dcProd')">
                       <span class="label">업체 직송</span>
                     </label>
                   </div>
