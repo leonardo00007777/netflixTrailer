@@ -71,6 +71,9 @@ public class GdMaster {
     private BigDecimal suvat;
     private String exdiv1;
     private String exdiv2;
+    private String specifications;
+    private String periodofuse;
+    private String howtouse;
 
     public String getGdcd() {
         return gdcd;
@@ -574,5 +577,29 @@ public class GdMaster {
 
     public void setExdiv2(String exdiv2) {
         this.exdiv2 = exdiv2;
+    }
+
+    public String getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(String specifications) {
+        this.specifications = specifications;
+    }
+
+    public String getPeriodofuse() {
+        return periodofuse;
+    }
+
+    public void setPeriodofuse(String periodofuse) {
+        this.periodofuse = periodofuse;
+    }
+
+    public String getHowtouse() {
+        return howtouse;
+    }
+
+    public void setHowtouse(String howtouse) {
+        this.howtouse = howtouse;
     }
 }

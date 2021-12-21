@@ -217,7 +217,7 @@
            WHERE ppartc = #{strGDCD}
     </select>
     
-    <select id="usePpCode" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdPipn">
+    <select id="usePpCode" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdPipnRef">
         SELECT b.ppartc
              , b.ppcode
              , b.pp01

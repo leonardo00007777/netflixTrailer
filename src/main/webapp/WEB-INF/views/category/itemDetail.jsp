@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
+<% pageContext.setAttribute("newLineChar", "\\n"); %>
 
 <div class="site-container">
   <header class="local-header">
@@ -399,7 +400,7 @@
             </c:forEach>
           </c:if>
 
-            <!-- 상품 상세페이지 -->
+            <!-- 상품 상품정보 페이지 -->
             <section class="pdp-detail-content">
               <div class="pdp-detail-view" id="pdpDetailView">
                 <!-- 상품 동영상 -->
@@ -582,7 +583,7 @@
             <c:choose>
               <c:when test="${basicDetailInfo eq null and basicDetailInfo eq ''}">
                 <c:choose>
-                  <c:when test="${itemDetail.vat eq '2' and itemDetail.div1 ne '70'}">
+                  <c:when test="${itemDetail.vat eq '2' and itemDetail.div1 ne '70'}"> <%--농축산물--%>
                     <!-- 상세정보 -->
                     <article class="swiper-slide prd-detail-slide">
                       <section class="el-container">
@@ -609,9 +610,9 @@
                                 </tr>
                               </c:if>
                               <tr>
-                                <th><span class="keep-all">제조연월일/유통기한</span></th>
+                                <th><span class="keep-all">품질유지기한/유통기한</span></th>
                                 <c:choose>
-                                  <c:when test="${itemDetail.bestbeforedate ne null and itemDetail.plandate ne ''}">
+                                  <c:when test="${itemDetail.bestbeforedate ne null and itemDetail.bestbeforedate ne ''}">
                                     <td>${itemDetail.bestbeforedate}</td>
                                   </c:when>
                                   <c:otherwise>
@@ -636,174 +637,152 @@
                                 <tr>
                                   <th>상품 구성 및 포장</th>
                                   <td>
-                                      ${fn:replace(itemDetail.packaging, chr(13), '<br/>')}
+                                      ${fn:replace(itemDetail.packaging, newLineChar, "<br/>")}
                                   </td>
                                 </tr>
+                              </c:if>
+                              <c:if test="${itemDetail.handling ne null and itemDetail.handling ne ''}">
+                                <tr>
+                                  <th>보관/취급방법</th>
+                                  <td>
+                                      ${fn:replace(itemDetail.handling, newLineChar, "<br/>")}
+                                  </td>
+                                </tr>
+                              </c:if>
+                              <c:if test="${itemDetail.precaution1 ne null and itemDetail.precaution1 ne ''}">
+                                <th>주의사항(1)</th>
+                                <td>${fn:replace(itemDetail.precaution1, newLineChar, "<br/>")}</td>
+                              </c:if>
+                              <c:if test="${itemDetail.precaution2 ne null and itemDetail.precaution2 ne ''}">
+                                <th>주의사항(2)</th>
+                                <td>${fn:replace(itemDetail.precaution2, newLineChar, "<br/>")}</td>
+                              </c:if>
+                              <c:if test="${itemDetail.addinformation ne null and itemDetail.addinformation ne ''}">
+                                <th>상품관련정보</th>
+                                <td>${fn:replace(itemDetail.addinformation, newLineChar, "<br/>")}</td>
                               </c:if>
                             </tbody>
                           </table>
                         </div>
                       </section>
+                    </article>
+                  </c:when>
+                  <c:when test="${itemDetail.div1 eq '95' and itemDetail.div2 eq '10'}"> <%--화장품--%>
+                    <article class="swiper-slide prd-detail-slide">
                       <section class="el-container">
-                        <h3 class="hd-m px-m">배송 정보</h3>
+                        <h3 class="hd-m px-m">상품 정보 고시</h3>
                         <div class="content-center">
-                          <ul class="wn-accordion">
-                            <li class="wn-accordion-item active">
-                              <h4 class="wn-accordion-tit">상품 발송 안내</h4>
-                              <div class="wn-accordion-content">
-                                <div class="pdp-delivery-sche pt-2">
-                                  <div class="delivery-sche-wn">
-                                    <h5 class="hd-xs">자연이랑 배송</h5>
-                                    <div class="delivery-sche-container">
-                                      <dl class="delivery-sche weekday">
-                                        <dt>
-                                          <span>일</span>
-                                          <span>월</span>
-                                          <span>화</span>
-                                          <span>수</span>
-                                          <span>목</span>
-                                          <span>금</span>
-                                        </dt>
-                                        <dd>오후 1시 이전 주문 시 <em>당일 발송</em></dd>
-                                      </dl>
-                                      <dl class="delivery-sche weekend">
-                                        <dt>
-                                          <span>토</span>
-                                        </dt>
-                                        <dd><em>일요일</em> 발송</dd>
-                                      </dl>
-                                    </div>
-                                  </div>
-                                  <div class="delivery-sche-shop mt-4">
-                                    <h5 class="hd-xs">외부업체 배송</h5>
-                                    <div class="t-gray t-13">
-                                      각 외부업체의 출고일정에 따라 배송됩니다.
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="wn-accordion-item">
-                              <h4 class="wn-accordion-tit">배송 주의사항</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>일요일, 법정공휴일은 배송(도착)하지 않습니다.(명절 및 특수시즌 제외)</li>
-                                  <li>배송지 정보와 받으시는 분의 장소 및 연락처가 불분명할 경우에는 배송이 지연될 수 있으며, 그로 인한 상품변질에 대해서는 자연이랑이 책임지지 않습니다.</li>
-                                </ul>
-                              </div>
-                            </li>
-                            <li class="wn-accordion-item">
-                              <h4 class="wn-accordion-tit">배송료 안내</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>주문금액이 <fmt:formatNumber value="${paramMap.minimumOrderPrice}" pattern="#,###" />원 미만인 경우에는 주문유형에 따라 배송비가 부과될 수 있습니다.</li>
-                                  <li>일부 산간벽지 및 도서지역의 경우 배송이 불가할 수 있습니다.</li>
-                                  <li>주문 및 배송에 관한 자세한 상담이나 궁금하신 점이 있을 경우 고객센터의 FAQ나 1:1상담 게시판,
-                                    또는 고객센터 080-303-6262를 통해서 안내 받으실 수 있습니다.</li>
-                                </ul>
-                              </div>
-                            </li>
-                            <li class="wn-accordion-item">
-                              <h4 class="wn-accordion-tit">배송 기간 안내</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>배송(도착) 기간은 통상 입금 확인일 기준으로 2~3일 소요됩니다.(일요일,토요일 제외)</li>
-                                  <li>일요일 및 공휴일이 겹치는 경우에는 배송이 지연될 수 있습니다.</li>
-                                  <li>주말 주문량이 많을 경우 월요일 주문이 하루 지연 발송 될 수 있습니다.</li>
-                                  <li>재고의 결품, 배송 지역, 택배사 사정에 따라 배송이 지연될 수 있습니다.</li>
-                                  <li>택배사 업무특성상 배송 시간을 지정하기 어렵습니다.</li>
-                                  <li>물류센터 출고 시, 수취인에게 문자로 안내 드리며, 통신사 상황에 따라 지연, 누락 발송 될 수 있습니다.</li>
-                                  <li>예약주문 상품은 안내한 배송기간에 배송됩니다.</li>
-                                </ul>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </section>
-                      <section class="el-container">
-                        <h3 class="hd-m px-m">교환/반품/환불 안내</h3>
-                        <div class="content-center">
-                          <ul class="wn-accordion">
-                            <li class="wn-accordion-item active">
-                              <h4 class="wn-accordion-tit">교환/반품/환불이 가능한 경우</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>제품 수령일 기준 1일 이내 반품이 가능합니다.
-                                    (단, 구매자 단순변심 반품불가)</li>
-                                  <li>제품 수령 후 제품이 주문 내용과 다른 경우, 제품이 고객님께 인도될 당시 상품이 멸실 또는 훼손된
-                                    경우, 구매자 단순 변심의 경우 교환/반품이 불가능합니다.</li>
-                                  <li>전자상거래 등에서의 소비자보호에 관한 법률에 규정되어 있는 소비자 청약철회 가능범위에 해당되
-                                    는 경우 교환/반품이 가능합니다.</li>
-                                  <li>통신판매업자 방문 판매 등에 관한 법률에서 규정하고 있는 광고에 표시하여야 할 사항을 표시하지
-                                    아니한 경우 교환/반품이 가능합니다.</li>
-                                </ul>
-                              </div>
-                            </li>
-                            <li class="wn-accordion-item">
-                              <h4 class="wn-accordion-tit">교환/반품/환불이 불가능한 경우</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>고객님의 책임 있는 사유로 상품 등이 멸실 또는 훼손된 경우</li>
-                                  <li>고객님의 사용 또는 일부 소비에 의하여 상품의 가치가 감소한 경우</li>
-                                  <li>기타 전자상거래 등에서의 소비자 보호에 관한 법률이 정하는 소비자 청약철회 제한에 해당되는 경우</li>
-                                </ul>
-                              </div>
-                            </li>
-                            <li class="wn-accordion-item">
-                              <h4 class="wn-accordion-tit">환불 및 주문취소에 대한 일반 안내</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>제품을 먼저 발송해 주셔야 하며, 제품이 도착한 후 환불 및 주문취소가 가능합니다.</li>
-                                  <li>주문취소는 결제완료 상태에서 가능하며, 상품이 준비된 이후에는 취소하실 수 없습니다.</li>
-                                </ul>
-                              </div>
-                            </li>
-                            <li class="wn-accordion-item">
-                              <h4 class="wn-accordion-tit">제품을 교환/반품 하실 때의 배송비 비용에 대한 안내</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>당사 부담 상품하자 등의 문제로 교환/반품을 하실 경우 고객상담실로 직접 교환/반품 접수합니다.</li>
-                                  <li>교환/반품 접수 후 도착한 택배사를 통해 상품을 인도하여 주시면 해당 상품을 재발송 속은 주문취소 처리해 드리겠습니다.</li>
-                                  <li>단순 고객 변심에 의한 교환/반품인 경우 고객님께 반품비용 왕복 배송료가 발생할 수 있습니다.</li>
-                                </ul>
-                              </div>
-                            </li>
-                            <li class="wn-accordion-item">
-                              <h4 class="wn-accordion-tit">재화 등의 교환/반품/보증과 그 대금 환불 및 환불의 지연에 따른 배상금 지급의 조건/절차</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>재화 등의 교환/반품/보증 조건 및 품질보증기준은 본 제품의 공정위고시인 '소비자피해보상규정'에서 상세히 정한 기준과 절차를 따릅니다.</li>
-                                  <li>재화 등의 A/S 관련 전화번호 : 080-303-6262</li>
-                                  <li>
-                                    본 제품이 적법하게 철회된 경우 이미 지급받은 재화 등의 대금을 고객에게 환급합니다.
-                                    <br>
-                                    만일 고객에게 재화 등의 대금 환급을 지연한 때에는 그 지연기간에 대하여 지연배상금을 지급할 것이며, 구체적인 조건(이율, 기간 등)은 '전자상거래 등에서의 소비자보호에 관한 법률'에서 정한 바를 따릅니다.
-                                  </li>
-                                </ul>
-                              </div>
-                            </li>
-                            <li class="wn-accordion-item">
-                              <h4 class="wn-accordion-tit">소비자피해보상의 처리, 재화 등에 대한 불만 처리 및 소비자와 사업자 사이의 분쟁처리에 관한 사항</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>'전자상거래 등에서의 소비자보호에 관한 법률'에서 정한 바를 준수하여 처리할 예정입니다.</li>
-                                </ul>
-                              </div>
-                            </li>
-                            <li class="wn-accordion-item">
-                              <h4 class="wn-accordion-tit">반품 시 유의사항</h4>
-                              <div class="wn-accordion-content">
-                                <ul class="list-dot t-12 lh-15">
-                                  <li>반품 접수 절차 없이 임의로 반송할 경우, 반품 내용을 확인할 수 없으므로 환불이 지연되거나 환불이 되지 않을 수 있습니다.</li>
-                                  <li>그러므로 반드시 절차에 따라 교환 및 반품하여 주시기 바랍니다</li>
-                                </ul>
-                              </div>
-                            </li>
-                          </ul>
+                          <table class="table-pdp">
+                            <tbody>
+                            <tr>
+                              <th>상품명칭</th>
+                              <td>${itemDetail.gdname}</td>
+                            </tr>
+                            <tr>
+                              <th>용량/중량</th>
+                              <td>${itemDetail.unit}</td>
+                            </tr>
+                            <tr>
+                              <th>제품 주요사양</th>
+                              <td>${fn:replace(itemDetail.specifications, newLineChar, "<br/>")}</td>
+                            </tr>
+                            <tr>
+                              <th>사용기간(개봉후 사용기간)</th>
+                              <td>${fn:replace(itemDetail.periodofuse, newLineChar, "<br/>")}</td>
+                            </tr>
+                            <tr>
+                              <th>사용방법</th>
+                              <td>${fn:replace(itemDetail.howtouse, newLineChar, "<br/>")}</td>
+                            </tr>
+                            <tr>
+                              <th>제조업자 및 책임판매업자</th>
+                              <td>${itemDetail.producer} / 재단법인행복에프앤씨(자연이랑분사무소)</td>
+                            </tr>
+                            <tr>
+                              <th>제조국가</th>
+                              <td>${itemDetail.origin}</td>
+                            </tr>
+                            <tr>
+                              <th>화장품법에 따라 기재해야하는 모든성분</th>
+                              <td>${fn:replace(itemDetail.precaution1, newLineChar, "<br/>")}</td>
+                            </tr>
+                            <tr>
+                              <th>기능성 화장품 식품의약품안전처 심사필 여부</th>
+                              <td>해당없음</td>
+                            </tr>
+                            <tr>
+                              <th>사용시 주의사항</th>
+                              <td>${fn:replace(itemDetail.precaution1, newLineChar, "<br/>")}</td>
+                            </tr>
+                            <tr>
+                              <th>품질보증기준</th>
+                              <td>본 제품에 이상이 있을 경우 공정거래위원회 고시에 의거 보상 해 드립니다.</td>
+                            </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </section>
                     </article>
                   </c:when>
+                  <c:otherwise> <%--그외공산품--%>
+                    <tr>
+                      <th>상품명칭</th>
+                      <td>${itemDetail.gdname}</td>
+                    </tr>
+                    <tr>
+                      <th>상품유형</th>
+                      <td>${itemDetail.typename}</td>
+                    </tr>
+                    <tr>
+                      <th>생산자/수입자 소재지</th>
+                      <td>${itemDetail.producer}</td>
+                    </tr>
+                    <tr>
+                      <th>제조연월일/유통기한 또는 품질유지기한</th>
+                      <c:choose>
+                        <c:when test="${itemDetail.expdt ne null and itemDetail.expdt ne ''}">
+                          <td>제조일(또는 포장일)로부터 ${itemDetail.expdt}일</td>
+                        </c:when>
+                        <c:otherwise>
+                          <td>별도표기.</td>
+                        </c:otherwise>
+                      </c:choose>
+                    </tr>
+                    <c:if test="${itemDetail.packaging ne null and itemDetail.packaging ne ''}">
+                      <tr>
+                        <th>포장단위별 용량(중량),수량</th>
+                        <td>${fn:replace(itemDetail.packaging, newLineChar, "<br/>")}</td>
+                      </tr>
+                    </c:if>
+                    <c:if test="${itemDetail.precaution1 ne null and itemDetail.precaution1 ne ''}">
+                      <th>원재료명 및 함량</th>
+                      <td>${fn:replace(itemDetail.precaution1, newLineChar, "<br/>")}</td>
+                    </c:if>
+                    <c:if test="${itemDetail.precaution2 ne null and itemDetail.precaution2 ne ''}">
+                      <th>영양성분</th>
+                      <td>${fn:replace(itemDetail.precaution2, newLineChar, "<br/>")}</td>
+                    </c:if>
+                    <tr>
+                      <th>유전자재조합식품유무</th>
+                      <td>해당없음</td>
+                    </tr>
+                    <tr>
+                      <th>영유아식 또는 체중조절식품의 경우 표시광고 사전심의필 여부</th>
+                      <td>해당없음</td>
+                    </tr>
+                    <c:if test="${itemDetail.handling ne null and itemDetail.handling ne ''}">
+                      <tr>
+                        <th>보관 또는 취급방법</th>
+                        <td>${fn:replace(itemDetail.handling, newLineChar, "<br/>")}</td>
+                      </tr>
+                    </c:if>
+                    <c:if test="${itemDetail.addinformation ne null and itemDetail.addinformation ne ''}">
+                      <tr>
+                        <th>상품관련정보/주의사항</th>
+                        <td>${fn:replace(itemDetail.addinformation, newLineChar, "<br/>")}</td>
+                      </tr>
+                    </c:if>
+                  </c:otherwise>
                 </c:choose>
                 <!-- 상세정보 -->
               </c:when>
@@ -814,46 +793,222 @@
                     <div class="content-center">
                       <table class="table-pdp">
                         <tbody>
-                        <c:forEach items="${itemDetail}" var="itemDetailInfo">
+                        <c:forEach items="${usePpCode}" var="ppcode">
                           <tr>
-                            <th>품목 또는 명칭</th>
-                            <td>${itemDetailInfo.gdname}</td>
+                            <th>${ppcode.pnitem01}</th>
+                            <td>
+                              <c:choose>
+                                <c:when test="${ppcode.pp01 eq ''}">
+                                  상품정보 페이지 참조
+                                </c:when>
+                                <c:otherwise>
+                                  ${fn:replace(ppcode.pp01, newLineChar, "<br/>")}
+                                </c:otherwise>
+                              </c:choose>
+                            </td>
                           </tr>
                           <tr>
-                            <th>포장단위별 내용물의 용량(중량),수량</th>
-                            <td>${itemDetailInfo.unit}</td>
+                            <th>${ppcode.pnitem02}</th>
+                            <td>
+                              <c:choose>
+                                <c:when test="${ppcode.pp02 eq ''}">
+                                  상품정보 페이지 참조
+                                </c:when>
+                                <c:otherwise>
+                                  ${fn:replace(ppcode.pp02, newLineChar, "<br/>")}
+                                </c:otherwise>
+                              </c:choose>
+                            </td>
                           </tr>
                           <tr>
-                            <th>생산자/수입자</th>
-                            <td>${itemDetailInfo.producer}</td>
+                            <th>${ppcode.pnitem03}</th>
+                            <td>
+                              <c:choose>
+                                <c:when test="${ppcode.pp03 eq ''}">
+                                  상품정보 페이지 참조
+                                </c:when>
+                                <c:otherwise>
+                                  ${fn:replace(ppcode.pp03, newLineChar, "<br/>")}
+                                </c:otherwise>
+                              </c:choose>
+                            </td>
                           </tr>
                           <tr>
-                            <th>생산자/수입자</th>
-                            <td>${itemDetailInfo.producer}</td>
+                            <th>${ppcode.pnitem04}</th>
+                            <td>
+                              <c:choose>
+                                <c:when test="${ppcode.pp04 eq ''}">
+                                  상품정보 페이지 참조
+                                </c:when>
+                                <c:otherwise>
+                                  ${fn:replace(ppcode.pp04, newLineChar, "<br/>")}
+                                </c:otherwise>
+                              </c:choose>
+                            </td>
                           </tr>
                           <tr>
-                            <th>생산자/수입자</th>
-                            <td>${itemDetailInfo.producer}</td>
+                            <th>${ppcode.pnitem05}</th>
+                            <td>
+                              <c:choose>
+                                <c:when test="${ppcode.pp05 eq ''}">
+                                  상품정보 페이지 참조
+                                </c:when>
+                                <c:otherwise>
+                                  ${fn:replace(ppcode.pp05, newLineChar, "<br/>")}
+                                </c:otherwise>
+                              </c:choose>
+                            </td>
                           </tr>
-                          <tr>
-                            <th>생산자/수입자</th>
-                            <td>${itemDetailInfo.producer}</td>
-                          </tr>
-                          <tr>
-                            <th>농수산물의 원산지 표시에 관한 법률에 따른 원산지</th>
-                            <td>${itemDetailInfo.origin}</td>
-                          </tr>
-                          <tr>
-                            <th><span class="keep-all">제조연월일/유통기한</span></th>
-                            <c:choose>
-                              <c:when test="${itemDetailInfo.plandate ne null or itemDetailInfo.plandate ne ''}">
-                                <td>${itemDetailInfo.plandate}</td>
-                              </c:when>
-                              <c:otherwise>
-                                <td>농축수산물은 기본적으로 유통기한을 별도로 정하고 있지 않거나 상세상품 정보란에 표기합니다.</td>
-                              </c:otherwise>
-                            </c:choose>
-                          </tr>
+                          <c:if test="${ppcode.pnitem06 ne null and ppcode.pnitem06 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem06}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp06 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp06, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
+                          <c:if test="${ppcode.pnitem07 ne null and ppcode.pnitem07 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem07}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp07 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp07, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
+                          <c:if test="${ppcode.pnitem08 ne null and ppcode.pnitem08 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem08}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp08 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp08, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
+                          <c:if test="${ppcode.pnitem09 ne null and ppcode.pnitem09 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem09}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp09 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp09, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
+                          <c:if test="${ppcode.pnitem10 ne null and ppcode.pnitem10 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem10}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp10 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp10, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
+                          <c:if test="${ppcode.pnitem11 ne null and ppcode.pnitem11 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem11}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp11 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp11, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
+                          <c:if test="${ppcode.pnitem12 ne null and ppcode.pnitem12 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem12}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp12 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp12, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
+                          <c:if test="${ppcode.pnitem13 ne null and ppcode.pnitem13 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem13}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp13 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp13, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
+                          <c:if test="${ppcode.pnitem14 ne null and ppcode.pnitem14 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem14}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp14 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp14, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
+                          <c:if test="${ppcode.pnitem15 ne null and ppcode.pnitem15 ne ''}">
+                            <tr>
+                              <th>${ppcode.pnitem15}</th>
+                              <td>
+                                <c:choose>
+                                  <c:when test="${ppcode.pp15 eq ''}">
+                                    상품정보 페이지 참조
+                                  </c:when>
+                                  <c:otherwise>
+                                    ${fn:replace(ppcode.pp15, newLineChar, "<br/>")}
+                                  </c:otherwise>
+                                </c:choose>
+                              </td>
+                            </tr>
+                          </c:if>
                         </c:forEach>
                         </tbody>
                       </table>
@@ -1397,7 +1552,7 @@
             <div class="mt-l">
               <h3 class="hd-s">상품</h3>
               <ul class="list-dot">
-                <li>입고일 : 입고일이 확정되면 상품 이미지에 표시되어 안내됩니다.(상품 상세페이지 내 재입고 알림 신청 가능)</li>
+                <li>입고일 : 입고일이 확정되면 상품 이미지에 표시되어 안내됩니다.(상품 상품정보 페이지 내 재입고 알림 신청 가능)</li>
                 <li>상품 상세정보 : 영양성분, 원재료, 보관 및 취급 방법은
                   상세 이미지 또는 상세 정보에서 확인 가능합니다.</li>
               </ul>
@@ -1409,7 +1564,7 @@
                   배송 단계별 주문 취소 방법이 상이합니다.
                   <div class="pl-3 my-2 t-gray">
                     <p>
-                      [결제완료]단계 : 마이페이지>주문내역 상세페이지]에서 직접 취소 가능(취소불가 시 고객센터로 문의)
+                      [결제완료]단계 : 마이페이지>주문내역 상품정보 페이지]에서 직접 취소 가능(취소불가 시 고객센터로 문의)
                     </p>
                     <p>
                       [출고작업중]단계 : 취소가 제한되는 점 고객님의 양해부탁 드립니다.

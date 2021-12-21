@@ -3,6 +3,7 @@ package com.x62life.mo.service.category.impl;
 import com.x62life.mo.dao.category.CategoryDao;
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.GdPipn;
+import com.x62life.mo.model.product.GdPipnRef;
 import com.x62life.mo.model.product.GdSugar;
 import com.x62life.mo.service.category.CategoryService;
 import org.apache.ibatis.jdbc.SQL;
@@ -86,7 +87,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<GdPipn> usePpCode(String strGDCD) {
+	public List<GdPipnRef> usePpCode(String strGDCD) {
 		return categoryDao.usePpCode(strGDCD);
 	}
 

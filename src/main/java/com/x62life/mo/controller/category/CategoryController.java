@@ -2,6 +2,7 @@ package com.x62life.mo.controller.category;
 
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.GdPipn;
+import com.x62life.mo.model.product.GdPipnRef;
 import com.x62life.mo.model.product.GdSugar;
 import com.x62life.mo.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class CategoryController {
         String basicDetailInfo = categoryService.basicDetailInfo((String) paramMap.get("strGDCD"));
         model.addAttribute("basicDetailInfo", basicDetailInfo);
 
-        List<GdPipn> usePpCode = categoryService.usePpCode((String)paramMap.get("strGDCD"));
+        List<GdPipnRef> usePpCode = categoryService.usePpCode((String)paramMap.get("strGDCD"));
         model.addAttribute("usePpCode", usePpCode);
 
         modelAndView.setViewName("category/itemDetail");

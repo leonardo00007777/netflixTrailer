@@ -2,6 +2,7 @@ package com.x62life.mo.dao.category;
 
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.GdPipn;
+import com.x62life.mo.model.product.GdPipnRef;
 import com.x62life.mo.model.product.GdSugar;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,7 @@ public interface CategoryDao {
 
     String basicDetailInfo(String strGDCD);
 
-    List<GdPipn> usePpCode(String strGDCD);
+    List<GdPipnRef> usePpCode(String strGDCD);
 
     Map<String, Object> getCartOrderType(String gdcd);
 
