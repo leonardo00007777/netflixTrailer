@@ -81,13 +81,13 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<GdPipn> basicDetailInfo(String strGDCD) {
+	public String basicDetailInfo(String strGDCD) {
 		return categoryDao.basicDetailInfo(strGDCD);
 	}
 
 	@Override
 	public List<GdPipn> usePpCode(String strGDCD) {
-		return categoryDao.basicDetailInfo(strGDCD);
+		return categoryDao.usePpCode(strGDCD);
 	}
 
 	@Override

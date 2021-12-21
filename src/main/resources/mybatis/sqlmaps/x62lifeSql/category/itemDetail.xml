@@ -211,7 +211,7 @@
           ORDER BY gadate DESC
     </select>
     
-    <select id="basicDetailInfo" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdPipn">
+    <select id="basicDetailInfo" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT ppcode 
           FROM gd_pipn 
            WHERE ppartc = #{strGDCD}

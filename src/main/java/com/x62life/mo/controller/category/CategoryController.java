@@ -63,7 +63,7 @@ public class CategoryController {
         List<GdSugar> fruitsSugarInfo = categoryService.fruitsSugarInfo((String)paramMap.get("strGDCD"));
         model.addAttribute("fruitsSugarInfo", fruitsSugarInfo);
 
-        List<GdPipn> basicDetailInfo = categoryService.basicDetailInfo((String) paramMap.get("strGDCD"));
+        String basicDetailInfo = categoryService.basicDetailInfo((String) paramMap.get("strGDCD"));
         model.addAttribute("basicDetailInfo", basicDetailInfo);
 
         List<GdPipn> usePpCode = categoryService.usePpCode((String)paramMap.get("strGDCD"));

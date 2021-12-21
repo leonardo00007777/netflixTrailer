@@ -26,7 +26,7 @@ public interface CategoryDao {
 
     List<GdSugar> fruitsSugarInfo(String strGDCD);
 
-    List<GdPipn> basicDetailInfo(String strGDCD);
+    String basicDetailInfo(String strGDCD);
 
     List<GdPipn> usePpCode(String strGDCD);
 

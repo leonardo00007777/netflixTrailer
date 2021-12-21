@@ -51,7 +51,7 @@ $(function() {
 	UI.CustomSelect(".custom-select");
 	initGlobalHeader();
 	initQuickMenu();
-	
+
 	/**
 	 * Category Page
 	 */
@@ -103,8 +103,7 @@ var swiperOptionDotSub = {
 	pagination: {
 		el: '.swiper-pgn-dots-sub',
 	},
-	observer: true,	// 추가
-	observeParents: true,	// 추가
+	noSwiping: false,
 };
 
 $(function() {
@@ -160,7 +159,7 @@ function initMarketingPopupSwiper() {
 /* Layer Popup Swiper */
 function initLayerPopupSwiper() {
 	if(!$(".wn-layer-popup").length) return;
-	
+
 	$('.wn-layer-popup').on('shown.bs.modal', function (e) {
 		new Swiper('#layerPopupSwiper', {
 			navigation: {
@@ -196,6 +195,7 @@ function initSwiperRankingB() {
 		slidesOffsetAfter: -5,
 		spaceBetween: 10,
 		watchOverflow: true,
+		noSwiping: false,
 	});
 	detectSingleSlide(swiperSelector);
 }
@@ -204,7 +204,7 @@ function initSwiperRankingB() {
 function detectSingleSlide(swiperSelector) {
 	var swiperList = document.querySelectorAll(swiperSelector);
 	Array.prototype.forEach.call(swiperList, function (swiper) {
-    if(swiper.querySelectorAll(".swiper-slide").length == 1) {
+		if(swiper.querySelectorAll(".swiper-slide").length == 1) {
 			swiper.classList.add("single-slide");
 		}
 	});
@@ -217,6 +217,7 @@ function initSwiperFree() {
 		freeMode: true,
 		slidesOffsetAfter: 15,
 		watchOverflow: true,
+		noSwiping: false,
 	});
 }
 
@@ -245,7 +246,7 @@ function initSwiperPrdMain() {
 }
 function initSwiperDotMain() {
 	var swiperSelector = ".swiper-dot-main";
-	
+
 	$(swiperSelector).each(function() {
 		var idSelector = "#" + $(this).attr("id");
 		var btnAutoplay = $(this).find(".swiper-btn-autoplay");
@@ -260,7 +261,7 @@ function initSwiperDotMain() {
 				el: '.swiper-pgn-dots-main',
 			},
 		});
-		
+
 		btnAutoplay.data("swiper", swiper).on("click", function() {
 			if(swiper.autoplay.running) {
 				swiper.autoplay.stop();
@@ -271,7 +272,7 @@ function initSwiperDotMain() {
 			}
 		});
 	});
-	
+
 }
 function initSwiperDotSub() {
 	var swiperSelector = ".swiper-dot-sub";
@@ -287,6 +288,7 @@ function initSwiperSpShopA3() {
 		pagination: {
 			el: '.swiper-pgn-dots-sub',
 		},
+		noSwiping: false,
 	});
 	//thumbnails in group
 	new Swiper(".swiper-sp-shop-thumb-a3", {
@@ -296,7 +298,7 @@ function initSwiperSpShopA3() {
 		slidesOffsetAfter: -75,
 		spaceBetween: 10,
 		nested: true,
-		// noSwiping: false,
+		noSwiping: false,
 	});
 }
 function initSwiperSpShopC5() {
@@ -305,6 +307,7 @@ function initSwiperSpShopC5() {
 		slidesOffsetAfter: -125,
 		spaceBetween: 10,
 		watchOverflow: true,
+		noSwiping: false,
 	});
 	detectSingleSlide(swiperSelector);
 }
@@ -335,6 +338,7 @@ function initSwiperPrdH() {
 		slidesOffsetAfter: -25,
 		spaceBetween: 10,
 		watchOverflow: true,
+		noSwiping: false,
 	});
 	detectSingleSlide(swiperSelector);
 }
@@ -449,7 +453,7 @@ function updateQuickMenu() {
 
 /* Attach Item Remove Click Listener */
 function attachItemRemoveClick(btn) {
-  $(btn).parents(".attach-item").remove();
+	$(btn).parents(".attach-item").remove();
 }
 
 /* Set Mobile Full Screen Height */
@@ -468,23 +472,24 @@ window.onload = function() {
  * 상품 리스트 레이아웃
  */
 $(".btn-layout").each(function() {
-  addBtnLayoutClick($(this));
+	addBtnLayoutClick($(this));
 });
 function addBtnLayoutClick($btn) {
-  $btn.on("click", function() {
+	$btn.on("click", function() {
 		var layout = $(this).attr("data-layout");
-    changePlpLayout(layout);
-  });
+		var listSelector = $(this).attr("data-list");
+		changePlpLayout(layout, listSelector);
+	});
 }
-function changePlpImage(layout) {
-	var prdList = $("#prd-list");
+function changePlpImage(layout, listSelector) {
+	var prdList = $(listSelector);
 	var prdItems = prdList.find(".prd-item");
 	var item,
-	img,
-	dataSrc,
-	imgV,
-	imgH;
-	
+		img,
+		dataSrc,
+		imgV,
+		imgH;
+
 	prdItems.each(function() {
 		item = $(this);
 		img = item.find(".prd-item-img img");
@@ -498,16 +503,16 @@ function changePlpImage(layout) {
 		}
 	});
 }
-function changePlpLayout(layout) {
-	var prdList = $("#prd-list");
+function changePlpLayout(layout, listSelector) {
+	var prdList = $(listSelector);
 	var prdItems = prdList.find(".prd-item");
 	var PRD_LIST_LAYOUT = ["tile", "large", "list"];
 	var PRD_ITEM_TYPES = ["v", "large", "h"];
 	var listClassPre = "prd-list-";
 	var itemClassPre = "prd-item-";
 	var listClass,
-	itemClass;
-	
+		itemClass;
+
 	changePlpImage(layout);
 
 	PRD_LIST_LAYOUT.forEach(function (item, index) {
@@ -533,6 +538,13 @@ function changeOpen(selector) {
 function changeClose(selector) {
 	$(selector).removeClass("open");
 }
+
+/* prd-list-tags swiper */
+var tagsSwiper = new Swiper('#tags-swiper', {
+	slidesPerView: 'auto',
+	noSwiping: false,
+});
+
 
 function prodFilter(filterDivision){
 	var orderby = '';
@@ -602,7 +614,7 @@ function prodFilter(filterDivision){
 				html += '<article class="prd-item">';
 				html +=	  '<div class="img-container">';
 				html +=		'<a href="javascript:void(0)" onclick="itemDetail('+ "'" + el.strMEMGRPCD + "'" + ","  + "'" + el.gdcd + "'" + "," + "'" + el.odtype + "'" + "," + "'" + el.odtype2 + "'"
-					         + "," + "'" + el.div1 + "'" + ')"' + 'class="prd-item-img">';
+					+ "," + "'" + el.div1 + "'" + ')"' + 'class="prd-item-img">';
 				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '" onerror="this.src=\'<%=_imgUrl %>images/gdimg/noimage.gif\';"/>';
 				if(Math.round(el.discountrate) > 0){
 					html +=			'<div class="prd-item-badge dc">';
@@ -700,7 +712,7 @@ function itemDetail(memGrpcd, gdcd, strOdtype, strOdtype2, strGdtype) {
 		memGrpcd = '';
 	}
 	location.href = "/main/itemDetail?" +"strMEMGRPCD=" + memGrpcd + "&strGDCD=" + gdcd + "&strOdtype=" + strOdtype +
-		            "&strOdtype2=" + strOdtype2 + "&strGdtype=" + strGdtype +
-		            "&preOrderInfo=" + preOrderInfo + "&lastTitle=" + lastTitle;
+		"&strOdtype2=" + strOdtype2 + "&strGdtype=" + strGdtype +
+		"&preOrderInfo=" + preOrderInfo + "&lastTitle=" + lastTitle;
 
 }

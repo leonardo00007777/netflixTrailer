@@ -33,7 +33,9 @@ public class GdMasterEx extends GdMaster{
     private String delpol;
     private BigDecimal limamt;
     private BigDecimal delcharge; //배송비
-
+    private String typename; //상품유형
+    private String putclass;
+    private String putclass_cd;
 
     public String getGdcnt() {
         return gdcnt;
@@ -257,5 +259,29 @@ public class GdMasterEx extends GdMaster{
 
     public void setDelcharge(BigDecimal delcharge) {
         this.delcharge = delcharge.setScale(0, RoundingMode.DOWN);
+    }
+
+    public String getTypename() {
+        return typename;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
+
+    public String getPutclass() {
+        return putclass;
+    }
+
+    public void setPutclass(String putclass) {
+        this.putclass = putclass;
+    }
+
+    public String getPutclass_cd() {
+        return putclass_cd;
+    }
+
+    public void setPutclass_cd(String putclass_cd) {
+        this.putclass_cd = putclass_cd;
     }
 }
