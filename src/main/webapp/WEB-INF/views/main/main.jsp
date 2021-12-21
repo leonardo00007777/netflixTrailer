@@ -824,7 +824,7 @@
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="javascript:void(0)" onclick="itemDetail('', '${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}">
                           <c:if test="${discountRate > 0 }">
                             <div class="prd-item-badge dc">
                               <span>${discountRate}</span>
@@ -1332,7 +1332,7 @@
                     <article class="prd-item">
                       <div class="img-container">
                         <a href="javascript:void(0)" onclick="itemDetail('', '${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <c:if test="${discountRate > 0}">
                             <div class="prd-item-badge dc">
                               <span>${discountRate}</span>
@@ -1380,7 +1380,7 @@
                     <article class="prd-item soldout">
                       <div class="img-container">
                         <a href="javascript:void(0)" onclick="itemDetail('', '${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}')" class="prd-item-img">
-                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" onerror="this.src='<%=_imgUrl %>images/gdimg/noimage.gif';" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
+                          <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <div class="prd-item-soldout">
                             <div class="tit">일시품절</div>
                             <div class="content">

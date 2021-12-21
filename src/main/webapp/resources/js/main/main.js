@@ -103,7 +103,8 @@ var swiperOptionDotSub = {
 	pagination: {
 		el: '.swiper-pgn-dots-sub',
 	},
-	noSwiping: false,
+	observer: true,	// 추가
+	observeParents: true,	// 추가
 };
 
 $(function() {
