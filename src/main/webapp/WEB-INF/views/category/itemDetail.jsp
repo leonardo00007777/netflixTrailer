@@ -1231,7 +1231,7 @@
             <section class="se-container">
               <h3 class="hd-m px-m pb-0">구매후기</h3>
               <div class="content-center">
-                <ul class="review-list">
+                <ul class="review-list" id="prodReviewList">
                   <li>
                     <article class="review-item">
                       <div class="review-option">
@@ -1789,7 +1789,6 @@
     </div>
   </div>
 </div>
-
 <script>
   $(document).ready(function () {
     $('.global-bottom').hide();

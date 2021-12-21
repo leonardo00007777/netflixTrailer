@@ -1,10 +1,7 @@
 package com.x62life.mo.service.category.impl;
 
 import com.x62life.mo.dao.category.CategoryDao;
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.model.product.GdPipn;
-import com.x62life.mo.model.product.GdPipnRef;
-import com.x62life.mo.model.product.GdSugar;
+import com.x62life.mo.model.product.*;
 import com.x62life.mo.service.category.CategoryService;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Service;
@@ -104,5 +101,38 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public String radiationTestInfo(String testidx){
 		return categoryDao.radiationTestInfo(testidx);
+	}
+
+	@Override
+	public Map<String, Object> prodReviewPaging(Map<String, Object> paramMap){
+		return categoryDao.prodReviewPaging(paramMap);
+	}
+
+	@Override
+	public List<ProductReviewEx> prodReviewDetail(Map<String, Object> paramMap){
+		int intPage = 1;
+		int intPagePerItem = 5;
+		int offset = (intPage - 1) * intPagePerItem;
+		int intPageSize = 5;
+
+		if(paramMap.get("reviewType") == null || paramMap.get("reviewType") == ""){
+			paramMap.put("reviewType", "PR");
+		}
+		if(paramMap.get("reviewId") == null || paramMap.get("reviewId") == "") {
+			paramMap.put("reviewId", "gd_master");
+		}
+		if(paramMap.get("intPage") == null || paramMap.get("intPage") == "" ){
+			paramMap.put("intPage", intPage);
+		}
+		if(paramMap.get("intPagePerItem") == null || paramMap.get("intPagePerItem") == ""){
+			paramMap.put("intPagePerItem", intPagePerItem);
+		}
+		if(paramMap.get("offset") == null || paramMap.get("offset") == ""){
+			paramMap.put("offset", offset);
+		}
+		if(paramMap.get("inPageSzie") == null || paramMap.get("inPageSzie") == "") {
+			paramMap.put("inPageSzie", intPageSize);
+		}
+		return categoryDao.prodReviewDetail(paramMap);
 	}
 }

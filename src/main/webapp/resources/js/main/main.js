@@ -711,8 +711,8 @@ function itemDetail(memGrpcd, gdcd, strOdtype, strOdtype2, strGdtype) {
 	if(memGrpcd == '' || memGrpcd == undefined) {
 		memGrpcd = '';
 	}
-	location.href = "/main/itemDetail?" +"strMEMGRPCD=" + memGrpcd + "&strGDCD=" + gdcd + "&strOdtype=" + strOdtype +
-		"&strOdtype2=" + strOdtype2 + "&strGdtype=" + strGdtype +
-		"&preOrderInfo=" + preOrderInfo + "&lastTitle=" + lastTitle;
 
+	location.href = "/main/itemDetail?" +"strMEMGRPCD=" + memGrpcd + "&strGDCD=" + gdcd + "&strOdtype=" + strOdtype
+		          + "&strOdtype2=" + strOdtype2 + "&strGdtype=" + strGdtype + "&preOrderInfo=" + preOrderInfo
+		          + "&lastTitle=" + lastTitle;
 }

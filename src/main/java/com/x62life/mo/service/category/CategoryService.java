@@ -1,9 +1,6 @@
 package com.x62life.mo.service.category;
 
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.model.product.GdPipn;
-import com.x62life.mo.model.product.GdPipnRef;
-import com.x62life.mo.model.product.GdSugar;
+import com.x62life.mo.model.product.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,4 +34,8 @@ public interface CategoryService {
     String isRightAwayEnableDay(String datex);
 
     String radiationTestInfo(String testidx);
+
+    Map<String, Object> prodReviewPaging(Map<String, Object> paramMap);
+
+    List<ProductReviewEx> prodReviewDetail(Map<String, Object> paramMap);
 }

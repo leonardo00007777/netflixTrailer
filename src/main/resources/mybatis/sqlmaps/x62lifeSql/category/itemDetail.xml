@@ -278,4 +278,63 @@
            WHERE #{datex} BETWEEN hlidt AND hlidt_to
               OR DATEADD(D, 1, #{datex}) BETWEEN hlidt AND hlidt_to
     </select>
+    
+    <select id="prodReviewPaging" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem} ) MAXPAGE
+             , COUNT(rseqno) CNT
+          FROM productreview
+           WHERE 1 = 1
+             AND rblind = 'N'
+             AND rid = #{reviewId}
+             AND ridx = #{strGDCD}
+             AND rdatex >= dateadd(M ,-6, getdate())
+             AND rtype = #{reviewType}
+    </select>
+    
+    <select id="prodReviewDetail" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.ProductReviewEx">
+        SELECT c.rseqno
+             , c.rtype
+             , ISNULL(c.rrseqno,c.rseqno) RRSEQNO
+             , c.rdepth
+             , c.rmemo
+             , c.rwip
+             , c.rwuid
+             , c.rdatex
+             , c.ragree
+             , c.roppose
+             , c.rblind
+             , c.device
+             , ISNULL(c.grade, '3') grade
+             , p.nickn
+             , p.ppath
+             , p.smemo
+             , p.isblogger
+             , m.memname
+             , p.memlevel
+             , CONVERT(VARCHAR , l.orddt, 23) AS orddt
+        FROM productreview c 
+             JOIN mb_master m 
+               ON c.rwuid = m.memid 
+             LEFT JOIN memberprofile p 
+                    ON c.rwuid = p.memid 
+             LEFT JOIN ( 
+                        SELECT memcd, MAX(orddt) orddt 
+                          FROM od_header a 
+                          JOIN od_goods b ON a.ordnum=b.ordnum 
+                         WHERE a.paystcd IN ('10' ) 
+                           AND a.orddt >= dateadd(M ,-6, getdate()) 
+                           AND gdcd = #{strGDCD}
+                         GROUP BY memcd 
+                       ) l 
+                    ON l.memcd = m.memcd 
+         WHERE 1 = 1 
+           AND c.rblind = 'N' 
+           AND c.rid = #{reviewId} 
+           AND c.ridx = #{strGDCD}
+           AND c.rdatex >= dateadd(M ,-6, getdate()) 
+           AND c.rtype = #{reviewType} 
+        ORDER BY ISNULL(c.rrseqno, c.rseqno) DESC, c.rdepth, c.rseqno 
+        OFFSET  #{offset}  ROWS
+        FETCH NEXT CONVERT(INTEGER ,#{intPagePerItem})  ROWS ONLY
+    </select>
 </mapper>

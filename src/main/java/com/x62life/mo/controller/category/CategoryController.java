@@ -1,9 +1,6 @@
 package com.x62life.mo.controller.category;
 
-import com.x62life.mo.model.product.GdMasterEx;
-import com.x62life.mo.model.product.GdPipn;
-import com.x62life.mo.model.product.GdPipnRef;
-import com.x62life.mo.model.product.GdSugar;
+import com.x62life.mo.model.product.*;
 import com.x62life.mo.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,6 +66,12 @@ public class CategoryController {
 
         List<GdPipnRef> usePpCode = categoryService.usePpCode((String)paramMap.get("strGDCD"));
         model.addAttribute("usePpCode", usePpCode);
+
+        Map<String,Object> prodReviewPaging = categoryService.prodReviewPaging(paramMap);
+        model.addAttribute("prodReviewPaging", prodReviewPaging);
+
+        List<ProductReviewEx> prodReviewDetail = categoryService.prodReviewDetail(paramMap);
+        model.addAttribute("prodReviewDetail",prodReviewDetail);
 
         modelAndView.setViewName("category/itemDetail");
 
