@@ -19,7 +19,7 @@ var login = function() {
 		//------------------------------------------------------------
 		initKeyEvent : function() {
 
-		    var userid = getCookie("62userid");
+		    var userid = login.getCookie("62userid");
 
 		    // 가져온 쿠키값이 있으면
 		    if(userid != "") {
@@ -42,19 +42,7 @@ var login = function() {
 	            }
 	        });
 	        
-	        $("#joinMemberGroup").find("#btnLogin").bind("click", function() {
-	        	common_link.goMappingUrl("/login/loginform");	// 로그인 폼 진입
-	        });
-		    // Join Member (일반회원/간편회원) 선택
-	        $("#joinMemberGroup").find("#btnJoinMember").bind("click", function() {
-	        	common_link.goMappingUrl("/member/joinmemberchoice");
-		    });
-	        // Join Member Form 
-	        $("#joinMemberForm").bind("click", function() {
-	        	common_link.goMappingUrl("/member/joinmemberform");
-	        });
-
-	        	        
+   
 		},
 		
 		//------------------------------------------------------------
@@ -211,7 +199,7 @@ var login = function() {
 		loginCheck : function() {
 			
 			alert("loginCheck().......");
-			var userid = getCookie("62userid");
+			var userid = login.getCookie("62userid");
 			
 			// 가져온 쿠키값이 있으면
 			if(userid != "") {
@@ -237,10 +225,10 @@ var login = function() {
 
 		    if(userid != "") {
 		        // 쿠키에 값을 365일간 저장
-		        setCookie("m62userid", userid, 365);
+		    	 login.setCookie("m62userid", userid, 365);
 		    } else {
 		        // userid 쿠키 삭제
-		        setCookie("m62userid", userid, -1);
+		    	 login.setCookie("m62userid", userid, -1);
 		    }
 		},
 
@@ -248,9 +236,9 @@ var login = function() {
 		saveAllLogin : function(userid,passwd) {
 		    if(userid != "" && passwd != "") {
 		        // 쿠키에 값을 2주일간 저장
-		        setCookie("m62userid", userid, 365);
-		        setCookie("m62passwd", passwd, 365);
-		        setCookie("62autologin", "Y", 365);
+		    	 login.setCookie("m62userid", userid, 365);
+		    	 login.setCookie("m62passwd", passwd, 365);
+		    	 login.setCookie("62autologin", "Y", 365);
 		    }
 		},
 
@@ -272,7 +260,6 @@ var login = function() {
 	        $("#doNewMember").click(function(){
 	            location.href =  _baseUrl + "event/getEventDetail.do?evtNo="+$("#evtNo").val();
 
-	            common.wlog("login_newbuy_mc");
 	        });
 
 	        $("#loginId").focus();
