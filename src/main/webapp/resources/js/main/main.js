@@ -616,7 +616,7 @@ function prodFilter(filterDivision){
 				html +=	  '<div class="img-container">';
 				html +=		'<a href="javascript:void(0)" onclick="itemDetail('+ "'" + el.strMEMGRPCD + "'" + ","  + "'" + el.gdcd + "'" + "," + "'" + el.odtype + "'" + "," + "'" + el.odtype2 + "'"
 					+ "," + "'" + el.div1 + "'" + ')"' + 'class="prd-item-img">';
-				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '" onerror="this.src=\'<%=_imgUrl %>images/gdimg/noimage.gif\';"/>';
+				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
 				if(Math.round(el.discountrate) > 0){
 					html +=			'<div class="prd-item-badge dc">';
 					html +=				'<span>'+ Math.round(el.discountrate) + '</span>';
@@ -625,7 +625,9 @@ function prodFilter(filterDivision){
 				}
 				html +=		'</a>';
 				html +=		'<div class="prd-item-buttons">';
-				html +=			'<a href="javascript:void(0)" onClick="$("#modalBuyOption").modal("show")" class="btn btn-cart"> <i class="wn-icon wni-cart-w">장바구니</i></a>';
+				html +=       '<a href="javascript:void(0)"'+ 'onclick="cartModalShow();" class="btn btn-cart">'
+					        +     '<i class="wn-icon wni-cart-w">장바구니</i>'
+					        + '</a>';
 				html +=		'</div>';
 				html +=	  '</div>';
 				html +=	'<div class="detail">';
@@ -662,6 +664,9 @@ function prodFilter(filterDivision){
 			});
 		}
 	});
+}
+function cartModalShow() {
+	$("#modalBuyOption").modal("show");
 }
 
 function itemDetail(memGrpcd, gdcd, strOdtype, strOdtype2, strGdtype) {
