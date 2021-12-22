@@ -939,39 +939,20 @@
         <div class="overflow-auto">
           <div class="wn-modal-body">
             <div class="buy-options">
-              <div class="buy-option-item">
-                <div class="label">맛있는 아이스 홍시 1개입</div>
-                <div class="content">
-                  <div class="input-number">
-                    <button class="dec"></button>
-                    <input class="num" type="text" value="1" readonly>
-                    <button class="inc"></button>
-                  </div>
-                  <div class="price-format">3,480<small>원</small></div>
+              <c:forEach items="${itemDetail}" var="itemDetail">
+                <div class="buy-option-item">
+                  <div class="label">${itemDetail.gdname}</div>
+                  <div class="content">
+                    <div class="input-number">
+                      <button class="dec" onclick="modalBuyOptionOne('${itemDetail.saleprice}', '${itemDetail.price1}', 'dec')"></button>
+                      <input class="num" id="itemNum" type="text" value="1" readonly>
+                      <button class="inc" onclick="modalBuyOptionOne('${itemDetail.saleprice}', '${itemDetail.price1}', 'inc')"></button>
+                    </div>
+                    <div class="price-format">
+                      <fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" /><small>원</small>
+                    </div>
                 </div>
-              </div>
-              <div class="buy-option-item">
-                <div class="label">맛있는 아이스 홍시 & 바나나</div>
-                <div class="content">
-                  <div class="input-number">
-                    <button class="dec"></button>
-                    <input class="num" type="text" value="0" readonly>
-                    <button class="inc"></button>
-                  </div>
-                  <div class="price-format">0<small>원</small></div>
-                </div>
-              </div>
-              <div class="buy-option-item">
-                <div class="label">맛있는 아이스 바나나</div>
-                <div class="content">
-                  <div class="input-number">
-                    <button class="dec"></button>
-                    <input class="num" type="text" value="0" readonly>
-                    <button class="inc"></button>
-                  </div>
-                  <div class="price-format">0<small>원</small></div>
-                </div>
-              </div>
+              </c:forEach>
               <div class="buy-option-total">
                 <span class="label">합계</span>
                 <span class="price-format">3,480<small>원</small></span>

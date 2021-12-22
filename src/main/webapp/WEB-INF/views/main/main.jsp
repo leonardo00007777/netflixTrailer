@@ -2549,38 +2549,3 @@
       </div>
     </div>
   </div>
-
-
-  <!-- Modal - Buy Option -->
-  <div class="modal fade wn-modal-bottom modal-buy-option" id="modalBuyOption">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <button class="btn-close" data-dismiss="modal">닫기</button>
-        <div class="overflow-auto">
-          <div class="wn-modal-body">
-            <div class="buy-options">
-              <div class="buy-option-item">
-                <div class="label">맛있는 아이스 홍시 1개입</div>
-                <div class="content">
-                  <div class="input-number">
-                    <button class="dec"></button>
-                    <input class="num" type="text" value="1" readonly>
-                    <button class="inc"></button>
-                  </div>
-                  <div class="price-format">1,900<small>원</small></div>
-                </div>
-              </div>
-              <div class="buy-option-total">
-                <span class="label">합계</span>
-                <span class="price-format">10,900<small>원</small></span>
-              </div>
-            </div>
-          </div>
-          <footer class="wn-modal-footer">
-            <button class="button bt-l bt-gray bt-rect">바로구매</button>
-            <button class="button bt-l bt-green bt-rect">장바구니</button>
-          </footer>
-        </div>
-      </div>
-    </div>
-  </div>

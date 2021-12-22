@@ -87,3 +87,12 @@ function reviewInsert(){
         , dataType: 'text'
     });
 }
+
+function modalBuyOptionOne(salePrice, price, btn){
+
+/*    if(salePrice == price){
+        price = salePrice;
+    }
+    resultPrice = sum * price;
+    console.log(resultPrice);*/
+}
