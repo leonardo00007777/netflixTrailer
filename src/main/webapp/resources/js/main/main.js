@@ -716,8 +716,8 @@ function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, gdimg, gdname) {
 		strOdtype2 = '';
 	}
 
-	location.href = "/main/itemDetail?" + "strGDCD=" + gdcd + "&strOdtype=" + strOdtype
+	location.href = encodeURI( "/main/itemDetail?" + "strGDCD=" + gdcd + "&strOdtype=" + strOdtype
 		          + "&strOdtype2=" + strOdtype2 + "&strGdtype=" + strGdtype + "&preOrderInfo=" + preOrderInfo
-		          + "&lastTitle=" + lastTitle + "&gdimg=" + gdimg + "&gdname=" + gdname;
+		          + "&lastTitle=" + lastTitle + "&gdimg=" + gdimg + "&gdname=" + gdname);
 
 }
