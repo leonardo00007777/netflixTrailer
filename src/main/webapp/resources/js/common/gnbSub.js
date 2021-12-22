@@ -1,7 +1,7 @@
 /* jQuery Ready */
 $(function() {
 
-	gnbSub.initKeyEvent();
+	gnbSub.init();
 	
 });
 
@@ -11,27 +11,10 @@ $(function() {
 var gnbSub = function() {
 
 	return {
-		cannotAccess : function() {
-			 alert('접근할 수 없습니다. 권한이 부족합니다.');
+		init : function() {
 			
 		},
-		
-		//------------------------------------------------------------
-		// Key Event 
-		//------------------------------------------------------------
-		initKeyEvent : function() {
-			
-			$("#gnbBtnCart").on("click", function(e) {
-				//alert("장바구니 이동 ...");
-				
-				// login 유무활용 
-				// common.cannotAccess();				
-				gnbSub.goUrl("cart");
-				
-			});
-			
-		},
-		
+
 		//------------------------------------------------------------
 		// go URL
 		//------------------------------------------------------------

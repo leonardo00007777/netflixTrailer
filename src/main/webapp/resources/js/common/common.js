@@ -30,65 +30,6 @@ var common = function() {
 			 alert('접근할 수 없습니다. 권한이 부족합니다.');
 			
 		},
-		
-		//-----------------------------------------------------------------------------------------------------
-		// Key Event 
-		//-----------------------------------------------------------------------------------------------------
-		initKeyEvent : function() {
-			
-			$("#test").on("click", function(e) {
-				//alert("장바구니 이동 ...");
-				
-				// login 유무활용 
-				// common.cannotAccess();				
-				common_link.goUrl("cart");
-				
-			});
-			
-			//---------------------------------------------
-		    // <--- BACK
-			//---------------------------------------------
-		    $("#backBtn").bind("click", function() {
-		    	
-		    	//alert("timeline Back....");
-				setTimeout(function() {
-				   		history.back();
-				}, 100);
-		    	
-				//		    	$("#mWrapper").attr("style", "display:block");
-				//		    	$("#mSearchWrapper").attr("style", "display:none");
-				//		    	if ( $("#main-swiper-tab0 .mVisual-slide").length ) {
-				//		    		// 메인화면으로 back할때 검색어 삭제
-				//		    		$("#query").val("");
-				//		    		  mmain.home.mVisual.ixOverlayList('resize');
-				//		    	};
-				//		    	
-				//		    	common.app.callMenu("N");
-				//		    	
-				//		    	// pullToDown refresh 활성화
-				//		    	setTimeout(function() {
-				//		    		history.back();
-				//		    	}, 100);
-				//		    	
-				//		    	// history.back();		    	
-		    });
-		    
-			//---------------------------------------------
-		    // Login / 회원가입 
-			//---------------------------------------------
-	        $("#joinMemberGroup").find("#btnLogin").bind("click", function() {
-	        	common_link.goMappingUrl("/login/loginform");	// 로그인 폼 진입
-	        });
-		    // Join Member (일반회원/간편회원) 선택
-	        $("#joinMemberGroup").find("#btnJoinMember").bind("click", function() {
-	        	common_link.goMappingUrl("/member/joinmemberchoice");
-		    });
-	        // Join Member Form 
-	        $("#joinMemberForm").bind("click", function() {
-	        	common_link.goMappingUrl("/member/joinmemberform");
-	        });
-
-		},
 
 	    //-------------------------------------------------
 		// 로그인 유무 (session 체크)
