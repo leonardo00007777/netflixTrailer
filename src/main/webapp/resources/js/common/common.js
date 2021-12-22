@@ -3,8 +3,6 @@ $(function() {
 
 	// 변수초기화
 	common.initVars();
-	// 키이벤트
-	common.initKeyEvent();
 });
 
 
