@@ -12,27 +12,9 @@ $(function() {
 var login = function() {
 
 	return {
-		cannotAccess : function() {
-			 alert('접근할 수 없습니다. 권한이 부족합니다.');
+		init : function() {
+			
 		},
-		
-		goUrl : function(_url) {
-			var url = "/cart";
-			switch (_url) {
-				case "cart":
-					url = "/cartlist";
-					break;
-				default:
-					break;
-			}
-		 
-			let f = document.createElement('form');
-			 f.setAttribute('method', 'post');
-			 f.setAttribute('action', url);
-			 document.body.appendChild(f);
-			 f.submit();
-		},
-		
 		//------------------------------------------------------------
 		// Key Event 
 		//------------------------------------------------------------
@@ -47,6 +29,9 @@ var login = function() {
 		    	$('#loginuserid').focus();
 		    }
 		      
+		    //---------------------------------------------
+		    // Login / 회원가입 
+		    //---------------------------------------------
 	        // 로그인 처리  (validation + submit)
 	        $("#loginuserid, #loginpassword").on("keyup", function(e){
 	            if(e.keyCode == 13) {
@@ -58,6 +43,19 @@ var login = function() {
 	            }
 	        });
 	        
+	        $("#joinMemberGroup").find("#btnLogin").bind("click", function() {
+	        	common_link.goMappingUrl("/login/loginform");	// 로그인 폼 진입
+	        });
+		    // Join Member (일반회원/간편회원) 선택
+	        $("#joinMemberGroup").find("#btnJoinMember").bind("click", function() {
+	        	common_link.goMappingUrl("/member/joinmemberchoice");
+		    });
+	        // Join Member Form 
+	        $("#joinMemberForm").bind("click", function() {
+	        	common_link.goMappingUrl("/member/joinmemberform");
+	        });
+
+	        	        
 		},
 		
 		//------------------------------------------------------------
@@ -147,7 +145,9 @@ var login = function() {
                 });
             }
 		},
-
+		//------------------------------------------------------------
+		// Login  :  비번체크
+		//------------------------------------------------------------		
 	    passwdChk : function(){
 	        var rs = false;
 	        $.ajax({
