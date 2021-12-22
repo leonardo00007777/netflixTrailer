@@ -1,6 +1,7 @@
 /* jQuery Ready */
 $(function() {
 
+	common_ajax.initVars();
 });
 
 
@@ -18,13 +19,14 @@ $.ajaxSetup({
 
 
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-//															Ajax
+//															common_ajax
 //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-var ajax = function() {
+var common_ajax = function() {
 	
 	return {
 		initVars : function() {
 			
+			//alert("common_ajax.. ");
 		},		
 		
 		getAjaxObj : function(_method, _url, _data){
@@ -35,6 +37,7 @@ var ajax = function() {
 		    });
 		},
 
+		// 사용예 : common_ajax.sendRequest("POST", url, data, callback_checkOrderStateAjax, false);
 		sendRequest : function(_method, _url, _data, _callback, _async){
 			var that = this;
 	        _async = _async && true;

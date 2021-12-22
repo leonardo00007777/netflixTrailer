@@ -299,15 +299,15 @@ public class Constants {
     public static final String MEMBER_ID_API = "API_ADMIN";
     public static final String MEMBER_ID_BATCH_AGENT = "BATCHAGENT";
 
-    // 온라인몰 고객센터 CALLBACK 번호(임시!! 수정필요 올리브영사이트 풋터 고객센터번호 입니다)
+    // 온라인몰 고객센터 CALLBACK 번호(임시!! 수정필요 사이트 풋터 고객센터번호 입니다)
     public static final String CC_CALLBACK_NUMBER = "1522-0882";
-    // 매장 고객센터 번호(올리브영사이트 풋터 고객센터번호 입니다)
+    // 매장 고객센터 번호(사이트 풋터 고객센터번호 입니다)
     public static final String CC_STORE_NUMBER = "1577-4887";
 
     // 포인트 유효기간
     //# - 상품 구매 적립 포인트 : 적립일로부터 24개월
     //# - 상품평 등록 적립 포인트 : 적립일로부터 12개월
-    //# - 올리브영데이 배수 적립 포인트 : 적립일로부터 24개월
+    //# - 데이 배수 적립 포인트 : 적립일로부터 24개월
     //# - 기타 프로모션 수기 적립 포인트 : 유효기간이 정해져 있지 않아, 프로모션 마다 설정할 수 있어야 합니다.
     public static final String PNT_EXP_MM_BUY = "24";
     public static final String PNT_EXP_MM_REPLY = "12";
@@ -562,11 +562,11 @@ public class Constants {
     public static final String CJPAY_REQ_GIFT_PAY_FLAG_PAYMENT = "1";
 
     /** 기프트카드 관련 상수값 **/
-    // 기프트카드 올리브영 제휴사코드 ( 추가정보값 )
+    // 기프트카드  제휴사코드 ( 추가정보값 )
     public static final String GIFTCARD_COMPANY_INFO = "7030";
-    // 기프트카드 올리브영 브랜드코드 ( 추가정보값 )
+    // 기프트카드  브랜드코드 ( 추가정보값 )
     public static final String GIFTCARD_COMPANY_INFO_BRAND = "3000";
-    // 기프트카드 올리브영 매장코드 ( 추가정보값 )
+    // 기프트카드  매장코드 ( 추가정보값 )
     public static final String GIFTCARD_COMPANY_INFO_STORE = "S023";
     //기프트카드 연동 성공 코드
     public static final String GIFTCARD_RES_R_CD_SUCCESS = "0000";
@@ -596,7 +596,6 @@ public class Constants {
     public static final String GIFTCARD_SERVICE_CODE_INFO = "S3";
 
     /************************************************************************************************************************
-     ***** 2020-01-15 : 김태규 **********************************************************************************************
      ***** 기프트카드 판매 신규 개발 ****************************************************************************************
      ************************************************************************************************************************/
 
@@ -802,12 +801,12 @@ public class Constants {
     /**
      * 주문 완료- 무통장입금 요청 안내 (카카오 알림톡 문구개선 2차 메시지) oym006 -> nwmsg05
      */
-    //public static final String KAKAOBIZ_TEMPLET_CODE_ORDER_REG_CASH = "olive01";
+    //public static final String KAKAOBIZ_TEMPLET_CODE_ORDER_REG_CASH = "withnature01";
     //public static final String KAKAOBIZ_TEMPLET_CODE_ORDER_REG_CASH = "oym001";
     public static final String KAKAOBIZ_TEMPLET_CODE_ORDER_REG_CASH = "nwmsg05";
 
     /**
-     * 주문 완료 안내 - 문구 변경으로 olive02->olive76->nwmsg01 변경
+     * 주문 완료 안내 - 문구 변경으로 withnature02->withnature76->nwmsg01 변경
      */
     public static final String KAKAOBIZ_TEMP_CODE_ORDER_REG = "nwmsg01";
     /**
@@ -815,298 +814,298 @@ public class Constants {
      */
     public static final String KAKAOBIZ_TEMP_CODE_ORDER_CANCEL_NO_MONEY = "nwmsg16";
     /**
-     * 주문 취소 완료 안내 - 문구 변경으로 olive62->olive77-> nwmsg02변경
+     * 주문 취소 완료 안내 - 문구 변경으로 withnature62->withnature77-> nwmsg02변경
      */
     public static final String KAKAOBIZ_TEMP_CODE_ORDER_CANCEL = "nwmsg02";
     /**
      * 주문취소 - 무통장입금 주문 취소 안내(기한내 미입금) (카카오 알림톡 문구개선 2차 메시지) nwmsg06
      */
-    //public static final String KAKAOBIZ_TEMP_CODE_ORDER_CANCEL_CASH = "olive04";
+    //public static final String KAKAOBIZ_TEMP_CODE_ORDER_CANCEL_CASH = "withnature04";
     public static final String KAKAOBIZ_TEMP_CODE_ORDER_CANCEL_CASH = "nwmsg06";
 
     /**
-     * 주문 배송 안내 - 문구 변경으로 olive05->olive75->nwmsg03 변경
+     * 주문 배송 안내 - 문구 변경으로 withnature05->withnature75->nwmsg03 변경
      */
     public static final String KAKAOBIZ_TEMP_CODE_ORDER_DELI_END = "nwmsg03";
     /**
-     * 선물하기 교환 상품 배송 안내 - 문구 변경으로 olive79 -> nwmsg04 변경
+     * 선물하기 교환 상품 배송 안내 - 문구 변경으로 withnature79 -> nwmsg04 변경
      */
     public static final String KAKAOBIZ_TEMP_CODE_CHANGE_GIFT_REG = "nwmsg04";
     /**
-     * 교환 상품 배송 안내 - 문구 변경으로 olive06->olive79->nwmsg04 변경
+     * 교환 상품 배송 안내 - 문구 변경으로 withnature06->withnature79->nwmsg04 변경
      */
     public static final String KAKAOBIZ_TEMP_CODE_CHANGE_REG = "nwmsg04";
     /**
-     * 반품 완료 안내 - 문구 변경으로 olive63->olive80->nwmsg07 변경
+     * 반품 완료 안내 - 문구 변경으로 withnature63->withnature80->nwmsg07 변경
      */
     public static final String KAKAOBIZ_TEMP_CODE_RETURN_END = "nwmsg07";
 
     /**
-     * 배송시작 안내: olive05->olive56 변경(기존 배송시작 안내 알림톡 문구 수정) (2019.11.27)
+     * 배송시작 안내: withnature05->withnature56 변경(기존 배송시작 안내 알림톡 문구 수정) (2019.11.27)
      */
-    public static final String KAKAOBIZ_TEMP_CODE_ORDER_DELI_END2 = "olive56";
+    public static final String KAKAOBIZ_TEMP_CODE_ORDER_DELI_END2 = "withnature56";
 
     /**
      * 배송지연 안내(위수탁) (카카오 알림톡 문구개선 2021.01.28) oym008
      */
-    //public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_DELAY_BRH = "olive14";
+    //public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_DELAY_BRH = "withnature14";
     public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_DELAY_BRH = "nwmsg12";
 
     /**
      * 배송지연 안내(매입) (카카오 알림톡 문구개선 2차 메시지) oym003 --> nwmsg11
      */
-    //public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_DELAY_STD = "olive15";
+    //public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_DELAY_STD = "withnature15";
     public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_DELAY_STD = "nwmsg11";
 
     /**
      * 결품 안내(위수탁)
      */
-    public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_SHORTAGE_BRH = "olive16";
+    public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_SHORTAGE_BRH = "withnature16";
     /**
-     * 결품 안내(매입) olive18 --> nwmsg14
+     * 결품 안내(매입) withnature18 --> nwmsg14
      */
     public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_SHORTAGE_STD = "nwmsg14";
     /**
-     * 결품철회 안내(매입/ 위수탁) olive22 --> nwmsg10
+     * 결품철회 안내(매입/ 위수탁) withnature22 --> nwmsg10
      */
     public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_SHORTAGE_CN_BRH = "nwmsg10";
     /**
      * 배송지연 보상 안내 (카카오 알림톡 문구개선 2차 메시지) (카카오 알림톡 문구개선 2차 메시지)
      */
-    //public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_DELAY_REWARD = "olive21";
+    //public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_DELAY_REWARD = "withnature21";
     public static final String KAKAOBIZ_TEMP_CODE_DELIVERY_DELAY_REWARD = "nwmsg15";
 
     /**
      * 오늘드림 배송지연 보상 안내
      */
-    public static final String KAKAOBIZ_TEMP_CODE_O2O_DELIVERY_DELAY_REWARD = "olive32";    // 오늘드림 배송지연 알림톡 추가 2019.06
+    public static final String KAKAOBIZ_TEMP_CODE_O2O_DELIVERY_DELAY_REWARD = "withnature32";    // 오늘드림 배송지연 알림톡 추가 2019.06
     /**
-     * 오늘드림 주문 취소 안내 olive98 -> today04 변경
+     * 오늘드림 주문 취소 안내 withnature98 -> today04 변경
      */
-    public static final String KAKAOBIZ_TEMP_CODE_O2O_ORD_CANCEL = "poday04"; // olive68 에서 olive98로 변경
+    public static final String KAKAOBIZ_TEMP_CODE_O2O_ORD_CANCEL = "poday04"; // withnature68 에서 withnature98로 변경
     /**
      * 퀵배송 주문 배송 안내
      */
-    public static final String KAKAOBIZ_TEMP_CODE_O2O_ORD_DELIV = "olive26"; // olive24 에서 olive26로 변경
+    public static final String KAKAOBIZ_TEMP_CODE_O2O_ORD_DELIV = "withnature26"; // withnature24 에서 withnature26로 변경
     /**
-     * 오늘드림 일반주문 전환 안내 olive09->today07 
+     * 오늘드림 일반주문 전환 안내 withnature09->today07 
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_ORD_TRANSE = "today07"; // 2020.09.15     
     /**
-     *  [올리브영] 매장반품 접수 안내
+     *  [] 매장반품 접수 안내
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_STR_RET_RCPT = "o2o001";
 
     /**
-     *  [올리브영] 매장반품 안내 o2o002 --> goday09
+     *  [] 매장반품 안내 o2o002 --> goday09
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_STR_RET_ALARM = "goday09";
 
     /**
-     *  [올리브영] 매장반품 철회 안내 o2o003 --> today08
+     *  [] 매장반품 철회 안내 o2o003 --> today08
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_STR_RET_AUTO_CANCEL = "today08";
 
     /**
-     * 회수 안내 - 문구 변경으로 olive53->olive78->nwmsg08 변경
+     * 회수 안내 - 문구 변경으로 withnature53->withnature78->nwmsg08 변경
      */
-    // 회수지시 후 운송장 등록 시 알림톡 발송 추가 - 배송조회 UI 개선(CHY) - olive34 에서 olive53->nwmsg08로 변경
+    // 회수지시 후 운송장 등록 시 알림톡 발송 추가 - 배송조회 UI 개선(CHY) - withnature34 에서 withnature53->nwmsg08로 변경
     public static final String KAKAOBIZ_TEMP_CODE_DELEVERY_RETURN_REG = "nwmsg08";
 
     //    /**
-    //     *  [올리브영] 선물하기 주문완료
+    //     *  [] 선물하기 주문완료
     //     */
-    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_COMPLETE = "olive45";
+    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_COMPLETE = "withnature45";
     //    /**
-    //     *  [올리브영] 선물하기 선물수락
+    //     *  [] 선물하기 선물수락
     //     */
-    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT = "olive46";
+    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT = "withnature46";
     //    /**
-    //     *  [올리브영] 선물하기 주문취소/선물거절/자동취소
+    //     *  [] 선물하기 주문취소/선물거절/자동취소
     //     */
-    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_PRE_AUTO_CANCLE = "olive47";
+    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_PRE_AUTO_CANCLE = "withnature47";
     //    /**
-    //     *  [올리브영] 선물하기 배송안내
+    //     *  [] 선물하기 배송안내
     //     */
-    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO = "olive48";
+    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO = "withnature48";
     //    /**
-    //     *  [올리브영] 선물하기 선물수락 (수령인)
+    //     *  [] 선물하기 선물수락 (수령인)
     //     */
-    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT_RECIPIENT = "olive49";
+    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT_RECIPIENT = "withnature49";
     //    /**
-    //     *  [올리브영] 선물하기 배송안내(수령인)
+    //     *  [] 선물하기 배송안내(수령인)
     //     */
-    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO_RECIPIENT = "olive50";
+    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO_RECIPIENT = "withnature50";
     //    /**
-    //     *  [올리브영] 선물하기 선물도착
+    //     *  [] 선물하기 선물도착
     //     */
-    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ARRIVAL = "olive52";
+    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ARRIVAL = "withnature52";
     //    /**
-    //     *  [올리브영] 선물하기 주문취소/선물거절/자동취소 (수령인)
+    //     *  [] 선물하기 주문취소/선물거절/자동취소 (수령인)
     //     */
-    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_PRE_AUTO_CANCLE_RECIPIENT = "olive70";
+    //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_PRE_AUTO_CANCLE_RECIPIENT = "withnature70";
 
     /**
-     *  [올리브영] 선물하기 주문완료 1 prsnt14 --> nprn01
+     *  [] 선물하기 주문완료 1 prsnt14 --> nprn01
      */
     //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_COMPLETE = "prsnt01";
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_COMPLETE = "nprn01";
     /**
-     *  [올리브영] 선물하기 선물수락 3 prsnt15 --> nprn02
+     *  [] 선물하기 선물수락 3 prsnt15 --> nprn02
      */
     //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT = "prsnt03";
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT = "nprn02";
     /**
-     *  [올리브영] 선물하기 선물수락 4 prsnt16 -> nprn03
+     *  [] 선물하기 선물수락 4 prsnt16 -> nprn03
      */
     //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT_GIFTBOX_REFUND = "prsnt04";
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT_GIFTBOX_REFUND = "nprn03";
     /**
-     *  [올리브영] 선물하기 주문취소/선물거절/자동취소  7 prsnt18 -> nprn04
+     *  [] 선물하기 주문취소/선물거절/자동취소  7 prsnt18 -> nprn04
      */
     //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_PRE_AUTO_CANCLE = "prsnt07";
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_PRE_AUTO_CANCLE = "nprn04";
     /**
-     *  [올리브영] 선물하기 배송안내  9 prsnt19 -> nprn10
+     *  [] 선물하기 배송안내  9 prsnt19 -> nprn10
      */
     //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO = "prsnt09";
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO = "nprn10";
     /**
-     *  [올리브영] 선물하기 배송안내  10
+     *  [] 선물하기 배송안내  10
      */
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO_O2O = "prsnt10";
     /**
-     *  [올리브영] 선물하기 선물수락 (수령인) 5 prsnt17 --> nprn06
+     *  [] 선물하기 선물수락 (수령인) 5 prsnt17 --> nprn06
      */
     //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT_RECIPIENT = "prsnt05";
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ACCEPT_RECIPIENT = "nprn06";
     /**
-     *  [올리브영] 선물하기 배송변경 (수령인) 6
+     *  [] 선물하기 배송변경 (수령인) 6
      */
     //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_METH_CHANGE_RECIPIENT = "prsnt06";
     //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_METH_CHANGE_RECIPIENT = "prsnt13";
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_METH_CHANGE_RECIPIENT = "prsnt21";
     /**
-     *  [올리브영] 선물하기 배송안내(수령인) 11 prsnt20 -> nprn11
+     *  [] 선물하기 배송안내(수령인) 11 prsnt20 -> nprn11
      */
     //    public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO_RECIPIENT = "prsnt11";
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO_RECIPIENT = "nprn11";
     /**
-     *  [올리브영] 선물하기 배송안내(수령인) 12 prsnt12 -> nprn09
+     *  [] 선물하기 배송안내(수령인) 12 prsnt12 -> nprn09
      */
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_DELIVERY_INFO_O2O_RECIPIENT = "nprn09";
     /**
-     *  [올리브영] 선물하기 선물도착 2 prsnt02
+     *  [] 선물하기 선물도착 2 prsnt02
      */
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_PRE_ARRIVAL = "prsnt02";
     /**
-     *  [올리브영] 선물하기 주문취소/선물거절/자동취소 (수령인) 8
+     *  [] 선물하기 주문취소/선물거절/자동취소 (수령인) 8
      */
     public static final String KAKAOBIZ_TEMP_CODE_PRESENT_ORD_PRE_AUTO_CANCLE_RECIPIENT = "prsnt08";
 
     /**
-     *  [올리브영] 오늘드림 주문취소 안내 - 콜백 API 20210309  -> today02로 변경(210309) 
+     *  [] 오늘드림 주문취소 안내 - 콜백 API 20210309  -> today02로 변경(210309) 
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_CALLBACK_API_CANCEL = "today02";
     /**
-     *  [올리브영] 오늘드림 배송 시작 olive65 -> today05
+     *  [] 오늘드림 배송 시작 withnature65 -> today05
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_DELIVERY_START = "today05";
     /**
-     *  [올리브영] 오늘드림 배송 완료
+     *  [] 오늘드림 배송 완료
      */
-    public static final String KAKAOBIZ_TEMP_CODE_O2O_DELIVERY_COMPLETE = "olive66";
+    public static final String KAKAOBIZ_TEMP_CODE_O2O_DELIVERY_COMPLETE = "withnature66";
     /**
-     *  [올리브영] 오늘드림 배송 완료 - 배송완료 이미지 버튼 포함 olive74 -> today10
+     *  [] 오늘드림 배송 완료 - 배송완료 이미지 버튼 포함 withnature74 -> today10
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_DELIVERY_COMPLETE_IMAGE = "today10";
     /**
-     *  [올리브영] 오늘드림 배송 완료 - 결제금액 제외 olive73 -> today06
+     *  [] 오늘드림 배송 완료 - 결제금액 제외 withnature73 -> today06
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_DELIVERY_COMPLETE_PAYMENT = "today06";
     /**
-     *  [올리브영] 오늘드림 주문 완료 - [3306826] 온라인몰 주문 알림톡 문구 및 UI 개선 요청의 건(오늘드림) olive95로 변경 -> today01로 변경(210309)
+     *  [] 오늘드림 주문 완료 - [3306826] 온라인몰 주문 알림톡 문구 및 UI 개선 요청의 건(오늘드림) withnature95로 변경 -> today01로 변경(210309)
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_ORDER_REG = "today01";
     /**
-     *  [올리브영] 오늘드림 주문 취소 - 부릉호출실패 olive69-> today03로 변경(210309)
+     *  [] 오늘드림 주문 취소 - 부릉호출실패 withnature69-> today03로 변경(210309)
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_ORD_CANCEL_VROONG = "today03";
     /**
-     *  [올리브영] 기프트카드 주문완료(구매) olive81 → olive57 -> ngift02
+     *  [] 기프트카드 주문완료(구매) withnature81 → withnature57 -> ngift02
      */
     public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_ORDER = "ngift02";
     /**
-     *  [올리브영] 기프트카드 주문완료(선물) gift01 -> ngift01
+     *  [] 기프트카드 주문완료(선물) gift01 -> ngift01
      */
     public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_ORDER_P = "ngift01";
     /**
-     *  [올리브영] 기프트카드 선물 취소(거절) 보낸사람 olive88 → olive96 -> ngift03
+     *  [] 기프트카드 선물 취소(거절) 보낸사람 withnature88 → withnature96 -> ngift03
      */
     public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_ORDER_GIFT_REFUSE_SENDER = "ngift03";
     /**
-     *  [올리브영] 기프트카드 선물 취소 받는사람 olive91 → gift02
+     *  [] 기프트카드 선물 취소 받는사람 withnature91 → gift02
      */
     public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_ORDER_GIFT_CANCEL_RECEIVER = "gift02";
     /**
-     *  [올리브영] 기프트카드 선물 취소(회수) 보낸사람  olive92 → olive97 -> ngift04
+     *  [] 기프트카드 선물 취소(회수) 보낸사람  withnature92 → withnature97 -> ngift04
      */
     public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_ORDER_GIFT_CANCEL_SENDER = "ngift04";
     /**
-     *  [올리브영] 기프트카드 선물 거절 받는사람 olive93 → olive99
+     *  [] 기프트카드 선물 거절 받는사람 withnature93 → withnature99
      */
-    public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_ORDER_GIFT_REFUSE_RECEIVER2 = "olive99";
+    public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_ORDER_GIFT_REFUSE_RECEIVER2 = "withnature99";
     /**
-     *  [올리브영] 기프트카드 구매 취소 olive94 → olive58
+     *  [] 기프트카드 구매 취소 withnature94 → withnature58
      */
-    public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_ORDER_CANCEL = "olive58";
+    public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_ORDER_CANCEL = "withnature58";
 
     /**
-     *  [올리브영] 구매하신 상품의 후기를 기다리고 있어요!
+     *  [] 구매하신 상품의 후기를 기다리고 있어요!
      */
     public static final String KAKAOBIZ_TEMP_CODE_REVIEW = "review8";
 
     /**
-     *  [올리브영] 선물 받으신 상품의 후기를 기다리고 있어요!
+     *  [] 선물 받으신 상품의 후기를 기다리고 있어요!
      */
     public static final String KAKAOBIZ_TEMP_CODE_PRSENT_REVIEW = "review9";
 
     /***
-     * [올리브영 오늘드림] 픽업 안내 (주문완료) pick01 -> pick13 
+     * [ 오늘드림] 픽업 안내 (주문완료) pick01 -> pick13 
      */
     public static final String KAKAOBIZ_TEMP_CODE_STORE_PICKUP_ORDER = "pick13";
     
     /***
-     * [올리브영 오늘드림] 픽업 안내 (주문완료) 드라이브인 가능 매장 pick14 
+     * [ 오늘드림] 픽업 안내 (주문완료) 드라이브인 가능 매장 pick14 
      */
     public static final String KAKAOBIZ_TEMP_CODE_STORE_PICKUP_DRIVE_ORDER = "pick14";
     
     /***
-     * [올리브영 오늘드림] 픽업 안내 (픽업 대기중)
+     * [ 오늘드림] 픽업 안내 (픽업 대기중)
      */
     public static final String KAKAOBIZ_TEMP_CODE_STORE_PICKUP_WAIT = "pick10";
     /**
-     * [올리브영 오늘드림] 픽업 완료
+     * [ 오늘드림] 픽업 완료
      */
     public static final String KAKAOBIZ_TEMP_CODE_STORE_PICKUP_COMPLETE = "pick11";
     /***
-     * [올리브영 오늘드림] 픽업 안내 (픽업 대기 마지막 날)
+     * [ 오늘드림] 픽업 안내 (픽업 대기 마지막 날)
      */
     public static final String KAKAOBIZ_TEMP_CODE_STORE_PICKUP_BEFORE_END = "pick12";
     /***
-     * [올리브영 오늘드림] 주문취소 완료 (미픽업으로 인한 자동취소)
+     * [ 오늘드림] 주문취소 완료 (미픽업으로 인한 자동취소)
      */
     public static final String KAKAOBIZ_TEMP_CODE_STORE_PICKUP_NOT_PICKUP = "pick05";
     /***
-     * [올리브영 오늘드림] 결품 안내 (취소시간연장)
+     * [ 오늘드림] 결품 안내 (취소시간연장)
      */
     public static final String KAKAOBIZ_TEMP_CODE_STORE_PICKUP_LCK_EXT = "pick07";
     /***
-     * [올리브영 오늘드림] 결품 안내 (재고부족 자동취소)
+     * [ 오늘드림] 결품 안내 (재고부족 자동취소)
      */
     public static final String KAKAOBIZ_TEMP_CODE_STORE_PICKUP_LCK_ITMS = "pick08";
     /***
-     * [올리브영 오늘드림] 주문취소 완료 (상품이슈 자동취소)
+     * [ 오늘드림] 주문취소 완료 (상품이슈 자동취소)
      */
     public static final String KAKAOBIZ_TEMP_CODE_STORE_PICKUP_NOT_ACCP = "pick09";
     
@@ -1245,7 +1244,7 @@ public class Constants {
     public static final String LOGIN_TYPE_AUTO = "auto";
     
     /**
-     *  [올리브영] 기프트카드 유효기간만료 예정 알림톡
+     *  [] 기프트카드 유효기간만료 예정 알림톡
      */
     public static final String KAKAOBIZ_TEMP_CODE_GIFTCARD_RE_MIND_EXP = "gift04";
     
@@ -1259,32 +1258,32 @@ public class Constants {
     public static final String COUNSEL_LRG_OFFLINE = "400";
 
     /***
-     * [올리브영 오늘드림] 매장회송
+     * [ 오늘드림] 매장회송
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_DELIVERY_RETURN = "today11";
 
     /**
-     *  [올리브영] 오늘드림 24H 주문 완료
+     *  [] 오늘드림 24H 주문 완료
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_24H_ORDER_REG = "today12";
     /**
-     *  [올리브영] 오늘드림 24H  배송시작
+     *  [] 오늘드림 24H  배송시작
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_24H_DELIVERY_START = "today13";
     /**
-     *  [올리브영] 오늘드림 24H 택배변경
+     *  [] 오늘드림 24H 택배변경
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_24H_ORD_TRANSE = "today14";
     /**
-     *  [올리브영] 오늘드림 24H 배송 완료
+     *  [] 오늘드림 24H 배송 완료
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_24H_DELIVERY_COMPLETE_PAYMENT = "today15";
     /**
-     *  [올리브영] 오늘드림 24H 배송 완료(배송완료 이미지 포함)
+     *  [] 오늘드림 24H 배송 완료(배송완료 이미지 포함)
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_24H_DELIVERY_COMPLETE_IMAGE = "today16";
     /**
-     *  [올리브영] 오늘드림 24H 자동취소
+     *  [] 오늘드림 24H 자동취소
      */
     public static final String KAKAOBIZ_TEMP_CODE_O2O_24H_ORD_CANCEL_VROONG = "today17";
 

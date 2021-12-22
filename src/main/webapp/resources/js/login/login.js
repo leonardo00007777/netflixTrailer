@@ -47,17 +47,22 @@ var login = function() {
 		    	$('#loginuserid').focus();
 		    }
 		      
-	        // 로그인 id/pw 처리
+	        // 로그인 처리  (validation + submit)
 	        $("#loginuserid, #loginpassword").on("keyup", function(e){
 	            if(e.keyCode == 13) {
 	                if(validLogin($("#loginuserid"), $("#loginpassword"))) {
-	                	loginm.loginSubmit();
+	                	
+	                	alert("로그인 id/pw 처리 = ");
+	                	login.loginSubmit();
 	                }
 	            }
 	        });
 	        
 		},
 		
+		//------------------------------------------------------------
+		// Login  : id / pw validation
+		//------------------------------------------------------------		
 		validLogin : function(_id, _pw) {
 			
 			var validId = _super.validEmpty(_id);
@@ -81,6 +86,113 @@ var login = function() {
 			}
 		},
 
+		//------------------------------------------------------------
+		// Login  : submit
+		//------------------------------------------------------------		
+		loginSubmit : function() {
+
+			alert("loginSubmit .. ");
+			sessionStorage.removeItem("checkLoginStatus");
+			
+		    var loginForm = $("loginForm");
+	        
+	        var validated1 = validation.validateFieldNotEmpty("#loginuserid", "아이디를 입력하세요.");
+	        if(!validated1){
+	            $("#loginuserid").focus();
+	            return;
+	        }
+
+	        var validated2 = validation.validateFieldNotEmpty("#loginpassword", "비밀번호를 입력하세요.");
+	        if (!validated2) {
+	            $("#loginpassword").focus();
+	            return;
+	        }
+
+	        // password 체크 (capcha ..)
+	        if(login.passwdChk()){
+	        	
+	        	//---------------------------------
+	        	// 로그인 session  O
+	        	//---------------------------------
+	        	if(common.isLogin()){
+                    alert('이미 로그인상태');
+                    
+                    $("#loginpassword").val("");
+                    $("#loginpassword").focus();	        		
+                    
+                    common_link.redirectUrl("/main");
+	        		return false;
+	        	}
+	        	
+	        	//---------------------------------
+	        	// 로그인 session  X ,  로그인 start
+	        	//---------------------------------
+                var url =  "login/login.do";
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data   : $("#loginForm").serialize(),
+                    async: false,
+                    success: function(data) {
+                        var jsonData =JSON.parse(data);
+                        
+                        // 로그인 처리
+                        if(jsonData=="000"){
+
+                        }else{
+                            
+                            return false;
+                        }
+                    }
+                });
+            }
+		},
+
+	    passwdChk : function(){
+	        var rs = false;
+	        $.ajax({
+	            type   : "POST"
+	            ,url    : "login/passwdchkjson"
+	            ,data   : $("#loginForm").serialize()
+	            ,async  : false
+	            ,success: function(res){
+	                var json = $.parseJSON(res);
+	                if(json.result){
+	                    rs = true;
+	                } else {
+	                    if(json.captcha){
+	                        mlogin.captcha.init();
+	                        alert(json.showMessage);
+	                        _captchaSession = true;
+	                        $("#password").val("");
+	                        $("#autoBlockText").val("");
+	                        mlogin.captcha.changeCaptcha(cwid, chei, csize);
+	                        $("#password").focus();
+	                        rs = false;
+	                        
+	                    }else if(json.passwdChk){
+	                        alert(json.showMessage);
+	                        $("#password").val("");
+	                        $("#autoBlockText").val("");
+	                        mlogin.captcha.changeCaptcha(cwid, chei, csize);
+	                        $("#password").focus();
+	                        rs = false;
+	                        
+	                    }else{
+	                        alert(json.showMessage);
+	                        $("#password").val("");
+	                        $("#autoBlockText").val("");
+	                        mlogin.captcha.changeCaptcha(cwid, chei, csize);
+	                        $("#password").focus();
+	                        rs = false;
+	                    }
+	                }
+	            }
+	        });
+	        return rs;
+
+	    },
+
 		
 		// 로그인 아이디 저장
 		confirmSave : function(cbx) {
@@ -99,55 +211,27 @@ var login = function() {
 		loginCheck : function() {
 			
 			alert("loginCheck().......");
-			
 			var userid = getCookie("62userid");
 			
 			// 가져온 쿠키값이 있으면
 			if(userid != "") {
-			    document.getElementById("loginpassword").focus();
+				$("#loginuserid").focus();
+			    $("#loginpassword").focus();
+			    
 			} else {
-			    document.getElementById("loginuserid").focus();
+			    $("loginuserid").focus();
 			}
 			
 			// 로그인처리
 			$("#loginpassword").keypress(function(e){
 				if(e.keyCode === 13){
-					loginm.loginSubmit();
-					//e.preventDefault();
+					login.loginSubmit();
 				}
 			});
 			
 		},
 
-		loginSubmit : function() {
-
-		    var lform = document.getElementById("loginForm");
-
-		    if(lform.loginuserid.value=="" || lform.loginuserid.value=="아이디") {
-		        alert("아이디를 입력하세요.");
-		        lform.loginuserid.focus();
-		        return false;
-		    } else if (lform.loginpassword.value=="") {
-		        alert("비밀번호를 입력하세요.");
-		        lform.loginpassword.focus();
-		        return false;
-		    } else {
-		        /* 자동로그인 체크되었을 경우,
-		        if(lform.autologin.checked==true) {
-		            saveAllLogin($('#loginuserid').val(),$('#loginpassword').val());
-		        } else {
-		            setCookie("62passwd", "", -1);
-		        }
-		        */
-		        lform.loginuserid.readOnly = true;
-		        lform.loginpassword.readOnly = true;
-
-		        //lform.action = "https://"+location.host+"/m/loginm1.asp";
-		        lform.action = "/m/loginm1.asp";
-		        lform.submit();
-		    }
-		},
-
+		
 		// 쿠키에 로그인 정보 저장
 		saveLogin : function(userid) {
 
@@ -1181,20 +1265,21 @@ var login = function() {
 	        }
 	    },
 
-	    tryLogin : function(event) {
-	        if (event.keyCode != 13) {
+	    tryLogin : function(e) {
+	        if (e.keyCode != 13) {
 	            return;
 	        }
 
-	        mlogin.login.doLogin();
+	        login.loginSubmit();
+	        //mlogin.login.doLogin();
 	    },
 
 	    doLogin : function() {
 
-	        /* 3212592 12월올영세일_온라인몰 특이현상 점검 및 개선 요청의 件
-	         * "login/loginCheckJson.do" 중복 호출을 막기 위한 SessionStorage내, checkLoginStatus등록
-	         * 만약 checkLoginStatus내에 값이 존재할 경우, 값을 반환한다.
-	         * 인증 후, 최초 인증을 받기 위해, 존재하는 checkLoginStatus 제거 한다.
+	    	/*
+	    	 * "login/loginCheckJson.do" 중복 호출을 막기 위한 SessionStorage내, checkLoginStatus등록
+	         *  checkLoginStatus내에 값이 존재할 경우, 값을 반환한다.
+	         *  인증 후, 최초 인증을 받기 위해, 존재하는 checkLoginStatus 제거 한다.
 	         */
 	        sessionStorage.removeItem("checkLoginStatus");
 
@@ -1309,49 +1394,6 @@ var login = function() {
 	        formLogin.attr('action', _secureUrl + "planshop/getPlanShopDetail.do");
 	        formLogin.attr('method', "POST");
 	        formLogin.submit();
-	    },
-
-	    passwdChk : function(){
-	        var rs = false;
-	        $.ajax({
-	            type   : "POST"
-	            ,url    : _secureUrl + "login/passwdChkJson.do"
-	            ,data   : $("#formLogin").serialize()
-	            ,async  : false
-	            ,success: function(res){
-	                var json = $.parseJSON(res);
-	                if(json.result){
-	                    rs = true;
-	                } else {
-	                    if(json.captcha){
-	                        mlogin.captcha.init();
-	                        alert(json.showMessage);
-	                        _captchaSession = true;
-	                        $("#password").val("");
-	                        $("#autoBlockText").val("");
-	                        mlogin.captcha.changeCaptcha(cwid, chei, csize);
-	                        $("#password").focus();
-	                        rs = false;
-	                    }else if(json.passwdChk){
-	                        alert(json.showMessage);
-	                        $("#password").val("");
-	                        $("#autoBlockText").val("");
-	                        mlogin.captcha.changeCaptcha(cwid, chei, csize);
-	                        $("#password").focus();
-	                        rs = false;
-	                    }else{
-	                        alert(json.showMessage);
-	                        $("#password").val("");
-	                        $("#autoBlockText").val("");
-	                        mlogin.captcha.changeCaptcha(cwid, chei, csize);
-	                        $("#password").focus();
-	                        rs = false;
-	                    }
-	                }
-	            }
-	        });
-	        return rs;
-
 	    },
 
 	    findId : function(){

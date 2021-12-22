@@ -41,7 +41,7 @@ var common = function() {
 				
 				// login 유무활용 
 				// common.cannotAccess();				
-				common.goUrl("cart");
+				common_link.goUrl("cart");
 				
 			});
 			
@@ -77,83 +77,25 @@ var common = function() {
 		    // Login / 회원가입 
 			//---------------------------------------------
 	        $("#joinMemberGroup").find("#btnLogin").bind("click", function() {
-	        	common.goMappingUrl("/login/login");
+	        	common_link.goMappingUrl("/login/loginform");	// 로그인 폼 진입
 	        });
 		    // Join Member (일반회원/간편회원) 선택
 	        $("#joinMemberGroup").find("#btnJoinMember").bind("click", function() {
-	        	common.goMappingUrl("/member/joinmemberchoice");
+	        	common_link.goMappingUrl("/member/joinmemberchoice");
 		    });
 	        // Join Member Form 
 	        $("#joinMemberForm").bind("click", function() {
-	        	common.goMappingUrl("/member/joinmemberform");
+	        	common_link.goMappingUrl("/member/joinmemberform");
 	        });
-	        
-	        //---------------------------------------------
-	        // 팝업
-	        //---------------------------------------------
-	        $("#pop1").bind("click", function() {
-	        	common.modalShowHide("modalConfirm", "show");
-	        });
-	        $("#pop2").bind("click", function() {
-	        	common.modalShowHide("modalAlert", "show");
-	        });
-	        $("#pop3").bind("click", function() {
-	        	common.modalShowHide("modalAlertTitle", "show");
-	        });
-	        
-		},
-	    //---------------------------------------
-		// Modal
-		//---------------------------------------
-		// confirm / alert 
-		modalShowHide : function(_targetId, _showHide) {
-			
-			$('#' + _targetId).modal(_showHide);
-		},
-		
-		//---------------------------------------
-		// go URL
-		//---------------------------------------
-		goUrl : function(_url) {
-			//alert("goUrl ,  _url = " + _url);
-			var url = "/cart";
-			
-			switch (_url) {
-				case "cart":
-					url = "/cartlist";
-					break;
-					
-				case "alarm":
-					url = "/alarm";
-					break
-					
-				default:
-					break;
-			}
-		 
-			let f = document.createElement('form');
-			 f.setAttribute('method', 'post');
-			 f.setAttribute('action', url);
-			 document.body.appendChild(f);
-			 f.submit();
-		},
-		
-		goMappingUrl : function(_url) {
-			//alert("goMappingUrl ,  _url = " + _url);
-			
-			let f = document.createElement('form');
-			f.setAttribute('method', 'post');
-			f.setAttribute('action', _url);
-			document.body.appendChild(f);
-			f.submit();
+
 		},
 
-		//---------------------------------------
-		// 로그인 유무
-		//---------------------------------------
+	    //-------------------------------------------------
+		// 로그인 유무 (session 체크)
+		//-------------------------------------------------
 	    isLogin : function(){
 	    	
-	    	var url= "login/loginCheckJson.do";
+	    	var url= "login/logincheck";
 	        var loginResult = false;
 	        
 	        var checkLoginStatus = sessionStorage.getItem("checkLoginStatus");
@@ -179,16 +121,85 @@ var common = function() {
 	        	loginResult = JSON.parse(sessionStorage.getItem("checkLoginStatus"));
 
 	        	if(loginResult != false ){
-	        		if(sessionStorage.getItem("byIsNotLoginFirPurBan") == "done"){
+	        		if(sessionStorage.getItem("notLoginUser") == "done"){
 	        			//비로그인 -> 로그인와서 처음 행위
-	        			sessionStorage.removeItem("firstPurchaseBanInfo");
-	        			sessionStorage.removeItem("byIsNotLoginFirPurBan");
+	        			sessionStorage.removeItem("notLoginUser");
 	        		}
 	        	}
 	        }
 	        return loginResult;
 	    },
 	    
+		
+		saveId : function() {
+			var ip_spw = document.getElementById("loginpassword");
+			var ip_sid = document.getElementById("loginuserid");
+			if(ip_spw.checked) {
+				ip_sid.checked = true;
+				return false;
+			} else {
+				return true;
+			}
+		},
+		
+		savePwd : function() {
+			var ip_spw = document.getElementById("loginpassword");
+			var ip_sid = document.getElementById("loginuserid");
+			if(!ip_spw.checked) {
+				ip_spw.checked = false;
+			} else {
+				ip_sid.checked = true;
+				ip_spw.checked = true;
+			}
+		},
+		
+	    //-------------------------------------------------
+		// Cookie   set/get
+		//-------------------------------------------------
+		 /* *
+		  * 쿠키값 가져오기
+		  */
+		getCookie : function(key) {
+		    var cook = document.cookie + ";";
+		    var idx =  cook.indexOf(key, 0);
+		    var val = "";
+
+		    if(idx != -1) {
+		        cook = cook.substring(idx, cook.length);
+		        begin = cook.indexOf("=", 0) + 1;
+		        end = cook.indexOf(";", begin);
+		        val = unescape( cook.substring(begin, end) );
+		    }
+
+		    return val;
+		},
+		
+
+		/* *
+		 * 쿠키값 설정
+		 */
+		setCookie : function(name, value, expiredays) {
+		    var today = new Date();
+		    today.setDate( today.getDate() + expiredays );
+		    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + today.toGMTString() + ";"
+		},
+		
+		
+		clearKeyValue : function(pTarget, pBtn) {
+			document.getElementById(pBtn).style.display="none";
+			document.getElementById(pTarget).value="";
+			document.getElementById(pTarget).focus();
+		},
+		
+		checkKeyValue : function(pTarget, pBtn) {
+			if(document.getElementById(pTarget).value=="") {
+				document.getElementById(pBtn).style.display="none";
+			}
+			else {
+				document.getElementById(pBtn).style.display="block";
+			}
+		},
+			    
 		/* ******************************************************************
 		 * 필수 스크립트 모음
 		 ****************************************************************** */
@@ -456,34 +467,6 @@ var common = function() {
 		    setCookie("leftMenu", "CLOSE", 365);
 		},
 
-		 /* *
-		  * 쿠키값 가져오기
-		  */
-		getCookie : function(key) {
-		    var cook = document.cookie + ";";
-		    var idx =  cook.indexOf(key, 0);
-		    var val = "";
-
-		    if(idx != -1) {
-		        cook = cook.substring(idx, cook.length);
-		        begin = cook.indexOf("=", 0) + 1;
-		        end = cook.indexOf(";", begin);
-		        val = unescape( cook.substring(begin, end) );
-		    }
-
-		    return val;
-		},
-		
-
-		/* *
-		 * 쿠키값 설정
-		 */
-		setCookie : function(name, value, expiredays) {
-		    var today = new Date();
-		    today.setDate( today.getDate() + expiredays );
-		    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + today.toGMTString() + ";"
-		},
-		
 
 		/* ******************************************************************
 		 * 날짜 관련 스크립트 모음
