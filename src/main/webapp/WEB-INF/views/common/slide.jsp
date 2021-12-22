@@ -1149,9 +1149,88 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 
 
+<div class="modal wn-modal-full" id="normalReview">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <header class="local-header">
+        <div class="fixed-top">
+          <div class="local-top">
+            <a href="javascript:void(0);" onclick="$('#normalReview').modal('hide');" class="btn-prev"><i class="wn-icon wni-arrow-left"></i></a>
+            <div class="h-row">
+              <div class="h-col h-tit">
+                <h1 class="page-tit">구매후기 작성하기</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main-container" id="main-container">
+        <div class="main-content" id="main-content">
+          <article class="pt-l content-center">
+            <section class="prd-thumb align-items-center">
+              <div class="img-container thumb-8">
+                <div class="prd-img rounded-8">
+                  <img src="<%=_imgUrl%>images/gdimg/${paramMap.gdimg}" alt="${paramMap.gdname}">
+                </div>
+              </div>
+              <div class="detail">
+                <div class="tit">${paramMap.gdname}</div>
+              </div>
+            </section>
+            <section>
+              <header class="mt-l d-flex align-items-center">
+                <h3 class="hd-s mb-0">구매후기</h3>
+                <div class="ml-auto">
+                  <div class="t-13">
+                    <span id="textLength">0</span>
+                    <i class="i-divider"></i>
+                    <span>최대 30자</span>
+                  </div>
+                </div>
+              </header>
+              <div class="mt-s">
+                <textarea class="textarea" id="reviewText" maxlength="30" onkeyup="textAreaCheck(this);" rows="6" placeholder="작성 시 개인정보 포함을 주의해주세요. 구매후기는 배송완료 후 14일(2주) 이내에 작성가능하고 적립포인트를 부여 받을 수 있습니다."></textarea>
+              </div>
+            </section>
+            <section class="pb-30">
+              <header class="mt-l">
+                <h3 class="hd-s">사진첨부</h3>
+              </header>
+              <div class="form-attach-image">
+                <input type="file" name="" id="input-file" hidden>
+                <label for="input-file">
+                  <div class="attach-image-thumb">
+                    <div class="img-square">
+                      <div class="img-crop" data-attach-role="bgImg"></div>
+                    </div>
+                  </div>
+                </label>
+                <div class="detail">
+                  <div class="label-point"><span>+200P</span></div>
+                  <div class="content">
+                    포토 구매후기 작성 시 <br>
+                    200 포인트를 적립하여 드립니다.
+                  </div>
+                </div>
+              </div>
+            </section>
+            <div class="button-footer-fixed">
+              <button class="button bt-l bt-gray bt-rect" onclick="$('#normalReview').modal('hide');">취소</button>
+              <button class="button bt-l bt-green bt-rect" onclick="reviewInsert();">등록</button>
+            </div>
+          </article>
+        </div><!-- /.main-content -->
+      </main>
+      <div class="quick-menu" id="quick-menu">
+        <a href="WN_PB_MO_GDS_020601.html" class="quick-menu-button btn-chat"><i class="wn-icon wni-message-square">채팅상담</i></a>
+        <a href="#" class="quick-menu-button" id="page-top-button"><i class="wn-icon wni-chevron-v">Top</i></a>
+      </div>
+    </div>
+  </div>
+</div>
   <!-- Modal - Photo Review Detail -->
   <!-- 포토 구매후기 팝업 #020503 -->
   <div class="modal wn-modal-full" id="modalPhotoReview">

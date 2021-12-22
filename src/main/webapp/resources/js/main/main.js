@@ -669,7 +669,7 @@ function cartModalShow() {
 	$("#modalBuyOption").modal("show");
 }
 
-function itemDetail(memGrpcd, gdcd, strOdtype, strOdtype2, strGdtype) {
+function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, gdimg, gdname) {
 	if(strGdtype == null || strGdtype == '' && strOdtype == '12'){
 		strGdtype = '01';
 	}
@@ -685,6 +685,7 @@ function itemDetail(memGrpcd, gdcd, strOdtype, strOdtype2, strGdtype) {
 		strOdtype = '12';
 	}
 	var preOrderInfo = 'N';
+
 	if(strOdtype == '12' || strOdtype == '15'){
 		preOrderInfo = 'Y';
 	}
@@ -714,11 +715,9 @@ function itemDetail(memGrpcd, gdcd, strOdtype, strOdtype2, strGdtype) {
 	if(strOdtype2 == 'undefined') {
 		strOdtype2 = '';
 	}
-	if(memGrpcd == '' || memGrpcd == undefined) {
-		memGrpcd = '';
-	}
 
-	location.href = "/main/itemDetail?" +"strMEMGRPCD=" + memGrpcd + "&strGDCD=" + gdcd + "&strOdtype=" + strOdtype
+	location.href = "/main/itemDetail?" + "strGDCD=" + gdcd + "&strOdtype=" + strOdtype
 		          + "&strOdtype2=" + strOdtype2 + "&strGdtype=" + strGdtype + "&preOrderInfo=" + preOrderInfo
-		          + "&lastTitle=" + lastTitle;
+		          + "&lastTitle=" + lastTitle + "&gdimg=" + gdimg + "&gdname=" + gdname;
+
 }

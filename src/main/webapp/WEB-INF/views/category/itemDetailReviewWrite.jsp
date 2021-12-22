@@ -6,19 +6,7 @@
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
 <% pageContext.setAttribute("newLineChar", "\\n"); %>
 
-<div class="site-container">
-  <header class="local-header">
-    <div class="fixed-top">
-      <div class="local-top">
-        <a href="#" class="btn-prev"><i class="wn-icon wni-arrow-left"></i></a>
-        <div class="h-row">
-          <div class="h-col h-tit">
-            <h1 class="page-tit">구매후기 작성하기</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
+
   <main class="main-container" id="main-container">
     <div class="main-content" id="main-content">
       <article class="pt-l content-center">
@@ -80,4 +68,3 @@
     <a href="WN_PB_MO_GDS_020601.html" class="quick-menu-button btn-chat"><i class="wn-icon wni-message-square">채팅상담</i></a>
     <a href="#" class="quick-menu-button" id="page-top-button"><i class="wn-icon wni-chevron-v">Top</i></a>
   </div>
-</div><!-- /.site-container -->

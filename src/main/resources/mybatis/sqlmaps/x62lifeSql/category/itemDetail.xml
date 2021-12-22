@@ -157,13 +157,15 @@
              ]]>
              AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
              AND (ISNULL(g.expgrcd, '') = ''
+                  <if test="strMEMGRPCD != null">
                   OR EXISTS (SELECT cl.ulgrcd
                                FROM customgrp_l cl
                                 WHERE cl.ulcode = g.expgrcd
-                                  <if test="strMEMGRPCD != null">
+
                                   AND cl.ulgrcd = #{strMEMGRPCD}
-                                  </if>
+
                              )
+                  </if>
                  )
     </select>
     
@@ -296,7 +298,7 @@
              , c.rtype
              , ISNULL(c.rrseqno,c.rseqno) RRSEQNO
              , c.rdepth
-             , c.rmemo
+             , CONVERT(VARCHAR(max),c.rmemo) AS rmemo
              , c.rwip
              , c.rwuid
              , c.rdatex
@@ -318,7 +320,8 @@
              LEFT JOIN memberprofile p 
                     ON c.rwuid = p.memid 
              LEFT JOIN ( 
-                        SELECT memcd, MAX(orddt) orddt 
+                        SELECT memcd
+                             , MAX(orddt) orddt
                           FROM od_header a 
                           JOIN od_goods b ON a.ordnum=b.ordnum 
                          WHERE a.paystcd IN ('10' ) 
@@ -330,11 +333,11 @@
          WHERE 1 = 1 
            AND c.rblind = 'N' 
            AND c.rid = #{reviewId} 
-           AND c.ridx = #{strGDCD}
-           AND c.rdatex >= dateadd(M ,-6, getdate()) 
+           <!--AND c.ridx = #{strGDCD} -->
+           <!--AND c.rdatex >= dateadd(M ,-6, getdate()) -->
            AND c.rtype = #{reviewType} 
         ORDER BY ISNULL(c.rrseqno, c.rseqno) DESC, c.rdepth, c.rseqno 
-        OFFSET  #{offset}  ROWS
+        OFFSET  #{offset} ROWS
         FETCH NEXT CONVERT(INTEGER ,#{intPagePerItem})  ROWS ONLY
     </select>
 </mapper>

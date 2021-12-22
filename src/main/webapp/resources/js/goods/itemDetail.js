@@ -67,3 +67,23 @@ function radiationTestInfo(testidx) {
         }
     });
 }
+
+function textAreaCheck(text){
+    var txtLength = text.value.length;
+    if(text.value.length > text.maxLength){
+        text.value = text.value.slice(0, text.maxLength);
+        txtLength = text.value.length;
+    }
+    $('#textLength').html(txtLength + '자');
+}
+
+function reviewInsert(){
+    var reviewText = $('#reviewText').val();
+    console.log("111111111111111", reviewText);
+    $.ajax({
+          url : "/main/reviewInsert"
+        , data : {"reviewText" : reviewText}
+        , type: 'POST'
+        , dataType: 'text'
+    });
+}

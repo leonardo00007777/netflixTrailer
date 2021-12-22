@@ -10,7 +10,7 @@
   <header class="local-header">
     <div class="fixed-top">
       <div class="local-top">
-        <a href="#" class="btn-prev"><i class="wn-icon wni-arrow-left"></i></a>
+        <a href="javascript:history.back();" class="btn-prev"><i class="wn-icon wni-arrow-left"></i></a>
         <div class="h-row">
           <div class="h-col h-tit">
             <div class="header-logo-container toggle-point-hide">
@@ -799,7 +799,7 @@
                             <td>
                               <c:choose>
                                 <c:when test="${ppcode.pp01 eq ''}">
-                                  상품정보 페이지 참조
+                                  상품정보 참조
                                 </c:when>
                                 <c:otherwise>
                                   ${fn:replace(ppcode.pp01, newLineChar, "<br/>")}
@@ -812,7 +812,7 @@
                             <td>
                               <c:choose>
                                 <c:when test="${ppcode.pp02 eq ''}">
-                                  상품정보 페이지 참조
+                                  상품정보 참조
                                 </c:when>
                                 <c:otherwise>
                                   ${fn:replace(ppcode.pp02, newLineChar, "<br/>")}
@@ -825,7 +825,7 @@
                             <td>
                               <c:choose>
                                 <c:when test="${ppcode.pp03 eq ''}">
-                                  상품정보 페이지 참조
+                                  상품정보 참조
                                 </c:when>
                                 <c:otherwise>
                                   ${fn:replace(ppcode.pp03, newLineChar, "<br/>")}
@@ -838,7 +838,7 @@
                             <td>
                               <c:choose>
                                 <c:when test="${ppcode.pp04 eq ''}">
-                                  상품정보 페이지 참조
+                                  상품정보 참조
                                 </c:when>
                                 <c:otherwise>
                                   ${fn:replace(ppcode.pp04, newLineChar, "<br/>")}
@@ -851,7 +851,7 @@
                             <td>
                               <c:choose>
                                 <c:when test="${ppcode.pp05 eq ''}">
-                                  상품정보 페이지 참조
+                                  상품정보 참조
                                 </c:when>
                                 <c:otherwise>
                                   ${fn:replace(ppcode.pp05, newLineChar, "<br/>")}
@@ -865,7 +865,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp06 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp06, newLineChar, "<br/>")}
@@ -880,7 +880,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp07 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp07, newLineChar, "<br/>")}
@@ -895,7 +895,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp08 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp08, newLineChar, "<br/>")}
@@ -910,7 +910,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp09 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp09, newLineChar, "<br/>")}
@@ -925,7 +925,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp10 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp10, newLineChar, "<br/>")}
@@ -940,7 +940,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp11 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp11, newLineChar, "<br/>")}
@@ -955,7 +955,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp12 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp12, newLineChar, "<br/>")}
@@ -970,7 +970,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp13 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp13, newLineChar, "<br/>")}
@@ -985,7 +985,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp14 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp14, newLineChar, "<br/>")}
@@ -1000,7 +1000,7 @@
                               <td>
                                 <c:choose>
                                   <c:when test="${ppcode.pp15 eq ''}">
-                                    상품정보 페이지 참조
+                                    상품정보 참조
                                   </c:when>
                                   <c:otherwise>
                                     ${fn:replace(ppcode.pp15, newLineChar, "<br/>")}
@@ -1180,7 +1180,7 @@
           <article class="swiper-slide prd-detail-slide">
             <section class="section-pdp-write-enter">
               <div class="content-center">
-                <a href="#" class="button bt-outline bt-steel w-100">구매후기 작성하기</a>
+                <a href="javascript:void(0);" onclick="$('#normalReview').modal('show');" class="button bt-outline bt-steel w-100">구매후기 작성하기</a>
                 <div class="se-review-notice">
                   <ul class="list-circle t-13 mt-sp-4">
                     <li>구매후기는 배송완료 후 주문내역에서도 작성하실 수 있습니다. (최근 6개월 안에 작성된 글만 표시합니다)</li>
@@ -1195,93 +1195,77 @@
             </section>
 
             <hr class="spacer">
-            <c:choose>
-              <c:when test="${prodReviewDetail.size() > 0}">
-                <section class="el-container">
-                  <h3 class="hd-m px-m">포토구매후기</h3>
-                  <div class="content-center">
-                    <div class="pdp-photo-reviews">
-                      <a href="#" class="btn-more-num">+14</a>
-                      <ul class="pdp-preview-list">
-                        <li>
-                          <a href="javascript:void(0)" onclick="showPhotoReviewDetail(0)">
-                            <div class="img-square">
-                              <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="javascript:void(0)" onclick="showPhotoReviewDetail(1)">
-                            <div class="img-square">
-                              <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="javascript:void(0)" onclick="showPhotoReviewDetail(2)">
-                            <div class="img-square">
-                              <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                            </div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <!-- <button class="button bt-outline bt-fill-gray btn-more-review">더보기</button> -->
-                  </div>
-                </section>
-
-                <section class="se-container">
-                  <h3 class="hd-m px-m pb-0">구매후기</h3>
-                  <div class="content-center">
-                    <ul class="review-list" id="prodReviewList">
-                      <li>
-                        <article class="review-item">
-                          <div class="review-option">
-                            <span class="label">구매옵션</span>
-                            <span class="content">망고스틱 10개</span>
-                          </div>
-                          <div class="review-wrapper">
-                            <div class="review-detail">
-                              <div class="content">
-                                길게 쓰자 길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자자길게 쓰자길게 쓰자길게 쓰자길
-                              </div>
-                              <div class="info">
-                                <span class="info-item">2020.07.30</span>
-                                <span class="info-item">jkd***</span>
-                              </div>
-                            </div>
-                          </div>
-                        </article>
-                      </li>
-                      <li>
-                        <article class="review-item">
-                          <div class="review-option">
-                            <span class="label">구매옵션</span>
-                            <span class="content">망고스틱 10개</span>
-                          </div>
-                          <div class="review-wrapper">
-                            <a href="javascript:void(0)" class="review-img" onclick="showPhotoReviewDetail(0)">
-                              <div class="img-square rounded-4">
-                                <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);">
-                                </div>
+<%--            <c:choose>
+              <c:when test="${prodReviewDetail.size() > 0}">--%>
+                  <section class="el-container">
+                    <h3 class="hd-m px-m">포토구매후기</h3>
+                    <div class="content-center">
+                      <div class="pdp-photo-reviews">
+                        <a href="#" class="btn-more-num">+14</a>
+                        <ul class="pdp-preview-list">
+                          <li>
+                            <a href="javascript:void(0)" onclick="showPhotoReviewDetail(0)">
+                              <div class="img-square">
+                                <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
                               </div>
                             </a>
-                            <div class="review-detail">
-                              <div class="content">
-                                길게 쓰자 길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자길게 쓰자
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" onclick="showPhotoReviewDetail(1)">
+                              <div class="img-square">
+                                <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
                               </div>
-                              <div class="info">
-                                <span class="info-item">2020.07.30</span>
-                                <span class="info-item">jkd***</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" onclick="showPhotoReviewDetail(2)">
+                              <div class="img-square">
+                                <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
                               </div>
-                            </div>
-                          </div>
-                        </article>
-                      </li>
-                    </ul>
-                  </div>
-                </section>
-              </c:when>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <!-- <button class="button bt-outline bt-fill-gray btn-more-review">더보기</button> -->
+                    </div>
+                  </section>
+
+                  <section class="se-container">
+                    <h3 class="hd-m px-m pb-0">구매후기</h3>
+                    <div class="content-center">
+                      <ul class="review-list" id="prodReviewList">
+                        <c:forEach items="${prodReviewDetail}" var="review">
+                          <li>
+                            <article class="review-item">
+                              <div class="review-option">
+                                <span class="label">구매옵션</span>
+                                <span class="content">망고스틱 10개</span>
+                              </div>
+                              <div class="review-wrapper">
+                                <div class="review-detail">
+                                  <div class="content">
+                                      ${review.rmemo}
+                                  </div>
+                                  <div class="info">
+                                    <c:choose>
+                                      <c:when test="${review.orddt ne null and review.orddt ne ''}">
+                                        <span class="info-item">${review.orddt}</span>
+                                      </c:when>
+                                      <c:otherwise>
+                                        구매자
+                                      </c:otherwise>
+                                    </c:choose>
+                                    <span class="info-item">${review.nickn}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </article>
+                          </li>
+                        </c:forEach>
+                      </ul>
+                    </div>
+                  </section>
+<%--              </c:when>
               <c:otherwise>
                 <div class="nodata no-msg">
                   <div class="text">등록된 구매후기가 없습니다.</div>
@@ -1292,7 +1276,7 @@
                   </div>
                 </div>
               </c:otherwise>
-            </c:choose>
+            </c:choose>--%>
           </article>
 
           <!-- 상품문의 -->
@@ -1610,196 +1594,6 @@
       </div>
       <div class="wn-modal-footer">
         <button class="button bt-l bt-rect bt-green" onclick="location.href ='WN_PB_MO_GDS_020604.html'">확인</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal - Photo Review Detail -->
-<div class="modal wn-modal-full" id="modalPhotoReview">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <header class="wn-modal-header">
-        <h2 class="tit">포토 구매후기</h2>
-        <button class="btn-close-modal" data-dismiss="modal">닫기</button>
-      </header>
-      <div class="wn-modal-body">
-        <input type="hidden" name="photoRivewIndex" id="photoRivewIndex" value="0"/>
-        <div class="swiper-container photo-review-swiper" id="photoReviewSwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="photo-reivew-detail">
-                <div class="img-view">
-                  <img src="./images/uploads/prd-review-test.jpg" alt="">
-                </div>
-                <div class="content-center">
-                  <article class="review-item">
-                    <div class="review-option">
-                      <span class="label">구매옵션</span>
-                      <span class="content">망고스틱 10개</span>
-                    </div>
-                    <div class="review-wrapper">
-                      <div class="review-img">
-                        <div class="img-square rounded-4">
-                          <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                        </div>
-                      </div>
-                      <div class="review-detail">
-                        <div class="content">
-                          길게 쓰자 길게 쓰자길게 쓰자 쓰자길게 쓰자 쓰자길게 쓰자길게 쓰자길길게 쓰자길게 쓰자길게 쓰자길
-                        </div>
-                        <div class="info">
-                          <span class="info-item">2020.07.30</span>
-                          <span class="info-item">jkd***</span>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="photo-reivew-detail">
-                <div class="img-view">
-                  <img src="./images/uploads/prd-review-test.jpg" alt="">
-                </div>
-                <div class="content-center">
-                  <article class="review-item">
-                    <div class="review-option">
-                      <span class="label">구매옵션</span>
-                      <span class="content">망고스틱 10개</span>
-                    </div>
-                    <div class="review-wrapper">
-                      <div class="review-img">
-                        <div class="img-square rounded-4">
-                          <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                        </div>
-                      </div>
-                      <div class="review-detail">
-                        <div class="content">
-                          길게 쓰자 길게 쓰자길게 쓰자 쓰자길게 쓰자 쓰자길게 쓰자길게 쓰자길길게 쓰자길게 쓰자길게 쓰자길
-                        </div>
-                        <div class="info">
-                          <span class="info-item">2020.07.30</span>
-                          <span class="info-item">jkd***</span>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="photo-reivew-detail">
-                <div class="img-view">
-                  <img src="./images/uploads/prd-review-test.jpg" alt="">
-                </div>
-                <div class="content-center">
-                  <article class="review-item">
-                    <div class="review-option">
-                      <span class="label">구매옵션</span>
-                      <span class="content">망고스틱 10개</span>
-                    </div>
-                    <div class="review-wrapper">
-                      <div class="review-img">
-                        <div class="img-square rounded-4">
-                          <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                        </div>
-                      </div>
-                      <div class="review-detail">
-                        <div class="content">
-                          길게 쓰자 길게 쓰자길게 쓰자 쓰자길게 쓰자 쓰자길게 쓰자길게 쓰자
-                        </div>
-                        <div class="info">
-                          <span class="info-item">2020.07.30</span>
-                          <span class="info-item">jkd***</span>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-nav-footer">
-            <div class="swiper-nav-prev">이전</div>
-            <div class="swiper-nav-fraction"></div>
-            <div class="swiper-nav-next">다음</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal - 카드혜택 정보 -->
-<div class="modal fade wn-modal" id="modalCardPromotion">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <h2 class="wn-modal-header">카드혜택 정보</h2>
-      <div class="wn-modal-body">
-        <div class="t-hd t-19">[현대카드] 5만원 이상 결제 시 5% 청구 할인</div>
-        <ul class="mt-25">
-          <li>
-            <h4 class="t-green t-14">행사기간</h4>
-            <div class="mt-xs t-hd">2021-05-04~2021-10-21</div>
-          </li>
-          <li class="mt-20">
-            <h4 class="t-green t-14">행사내용</h4>
-            <div class="mt-xs t-hd">5만원 이상 결제 시, 5% 청구 할인</div>
-          </li>
-          <li class="mt-20">
-            <h4 class="t-green t-14">행사조건</h4>
-            <div class="mt-xs t-hd">1인 1일 최대 5만원 할인</div>
-          </li>
-          <li class="mt-20">
-            <h4 class="t-green t-14">대상카드</h4>
-            <div class="mt-xs t-hd">현대카드</div>
-          </li>
-        </ul>
-      </div>
-      <div class="wn-modal-footer">
-        <button class="button bt-l bt-green bt-rect d-block" data-dismiss="modal">확인</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal - 무이자 할부 혜택 -->
-<div class="modal fade wn-modal" id="modalInstallment">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <h2 class="wn-modal-header">무이자 할부 혜택</h2>
-      <div class="wn-modal-body">
-        <div class="gray-5 t-15 lh-20">
-          무이자 할부는 결제 금액 기준으로 적용됩니다.
-          <br>
-          일부 개월 수 제외
-        </div>
-        <table class="table-lined mt-s t-18">
-          <thead>
-          <tr>
-            <th class="text-left text-nowrap">카드</th>
-            <th class="text-left text-nowrap">금액기준</th>
-            <th class="text-left text-nowrap">행사 개월수</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td class="text-nowrap">국민카드</td>
-            <td class="text-nowrap">5만원이상</td>
-            <td class="text-nowrap">2,3,4,6개월</td>
-          </tr>
-          <tr>
-            <td class="text-nowrap">삼성카드</td>
-            <td class="text-nowrap">7만원이상</td>
-            <td class="text-nowrap">2,3,4개월</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="wn-modal-footer">
-        <button class="button bt-l bt-green bt-rect d-block" data-dismiss="modal">확인</button>
       </div>
     </div>
   </div>
