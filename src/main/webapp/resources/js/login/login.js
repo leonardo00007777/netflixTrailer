@@ -1,7 +1,6 @@
 /* jQuery Ready */
 $(function() {
 
-	login.init();
 	login.initKeyEvent();
 	
 });
@@ -12,7 +11,7 @@ $(function() {
 var login = function() {
 
 	return {
-		init : function() {
+		initVars : function() {
 			
 		},
 		//------------------------------------------------------------
@@ -145,6 +144,7 @@ var login = function() {
                 });
             }
 		},
+		
 		//------------------------------------------------------------
 		// Login  :  비번체크
 		//------------------------------------------------------------		
@@ -482,7 +482,7 @@ var login = function() {
 
 	                    // 체크한 선택약관항목이 없는 경우
 	                    if(!$("#svcEvtAgrYn").is(":checked") && !$("#mbrCurAgrYn").is(":checked") && mlogin.login.choiceTermQFlag == "Y"){
-	                        if(!confirm("올리브영의 다양한 서비스와 혜택알림을 받으실 수 있는 선택 정보 이용동의를 설정하지 않으셨습니다.\n이대로 진행 하시겠습니까?\n\n마이페이지>회원정보 수정에서 변경가능합니다.")){
+	                        if(!confirm("사이트의 다양한 서비스와 혜택알림을 받으실 수 있는 선택 정보 이용동의를 설정하지 않으셨습니다.\n이대로 진행 하시겠습니까?\n\n마이페이지>회원정보 수정에서 변경가능합니다.")){
 	                            return false;
 	                        } else {
 	                            mlogin.login.choiceTermQFlag = "N";
@@ -574,7 +574,7 @@ var login = function() {
 	                    common.app.callCjoneClose();
 	                }, 200);
 	                return false;
-	            }else if(confirm("서비스 미동의 시 CJ ONE 포인트 적립, 사용, 이벤트 참여 등 회원 혜택을 받을 수 없습니다. 비회원으로 올리브영 온라인샵을 이용하시겠습니까?")){
+	            }else if(confirm("서비스 미동의 시 CJ ONE 포인트 적립, 사용, 이벤트 참여 등 회원 혜택을 받을 수 없습니다. 비회원으로 사이트 온라인샵을 이용하시겠습니까?")){
 	                if (common.app.appInfo.isapp) {
 	                    common.app.callClosePopup();
 	                }
@@ -640,7 +640,7 @@ var login = function() {
 
 	                // 체크한 선택약관항목이 없는 경우
 	                if(!$("#svcEvtAgrYn").is(":checked") && !$("#mbrCurAgrYn").is(":checked") && mlogin.login.choiceTermQFlag == "Y"){
-	                    if(!confirm("올리브영의 다양한 서비스와 혜택알림을 받으실 수 있는 선택 정보 이용동의를 설정하지 않으셨습니다.\n이대로 진행 하시겠습니까?\n\n마이페이지>회원정보 수정에서 변경가능합니다.")){
+	                    if(!confirm("사이트의 다양한 서비스와 혜택알림을 받으실 수 있는 선택 정보 이용동의를 설정하지 않으셨습니다.\n이대로 진행 하시겠습니까?\n\n마이페이지>회원정보 수정에서 변경가능합니다.")){
 	                        return false;
 	                    } else {
 	                        mlogin.login.choiceTermQFlag = "N";
@@ -744,7 +744,7 @@ var login = function() {
 	                //-----------------------------------
 	                // 체크한 선택약관항목이 없는 경우
 	                if(!$("#svcEvtAgrYn").is(":checked") && !$("#mbrCurAgrYn").is(":checked") && mlogin.login.choiceTermQFlag == "Y"){
-	                    if(!confirm("올리브영의 다양한 서비스와 혜택알림을 받으실 수 있는 선택 정보 이용동의를 설정하지 않으셨습니다.\n이대로 진행 하시겠습니까?\n\n마이페이지>회원정보 수정에서 변경가능합니다.")){
+	                    if(!confirm("사이트의 다양한 서비스와 혜택알림을 받으실 수 있는 선택 정보 이용동의를 설정하지 않으셨습니다.\n이대로 진행 하시겠습니까?\n\n마이페이지>회원정보 수정에서 변경가능합니다.")){
 	                        return false;
 	                    } else {
 	                        mlogin.login.choiceTermQFlag = "N";
@@ -860,7 +860,7 @@ var login = function() {
 	                common.app.callCjoneClose();
 	            }, 200);
 	            return false;
-	        }else if(confirm("서비스 미동의 시 CJ ONE 포인트 적립, 사용, 이벤트 참여 등 회원 혜택을 받을 수 없습니다. 비회원으로 올리브영 온라인샵을 이용하시겠습니까?")){
+	        }else if(confirm("서비스 미동의 시 CJ ONE 포인트 적립, 사용, 이벤트 참여 등 회원 혜택을 받을 수 없습니다. 비회원으로 사이트 온라인샵을 이용하시겠습니까?")){
 	            if (common.app.appInfo.isapp) {
 	                common.app.callClosePopup();
 	            }
@@ -915,7 +915,7 @@ var login = function() {
 	                }
 	            }else if(res.strMsg!=null&&res.respon =="N"){
 	                if(_smart=='Y'){
-	                    alert("올리브영 약관 동의에 실패하셨습니다.");
+	                    alert("사이트 약관 동의에 실패하셨습니다.");
 	                    window.close();
 	                }else{
 	                    alert(res.strMsg);
@@ -923,16 +923,16 @@ var login = function() {
 	                }
 	            }else{
 	                if(_smart=='Y'){
-	                    alert("올리브영 약관 동의에 실패하셨습니다.");
+	                    alert("사이트 약관 동의에 실패하셨습니다.");
 	                    window.close();
 	                }else{
-	                    alert("올리브영 약관 동의에 실패하셨습니다.");
+	                    alert("사이트 약관 동의에 실패하셨습니다.");
 	                    common.link.moveLogoutPage();
 	                }
 	            }
 	        }else{
 	            if(_smart=='Y'){
-	                alert("올리브영 약관 동의에 실패하셨습니다.");
+	                alert("사이트 약관 동의에 실패하셨습니다.");
 	                window.close();
 	            }else{
 	                alert("로그인에 실패하였습니다.");
@@ -968,7 +968,7 @@ var login = function() {
 	                }
 	            }else if(res.strMsg!=null&&res.respon =="N"){
 	                if(_smart=='Y'){
-	                    alert("올리브영 약관 동의에 실패하셨습니다.");
+	                    alert("사이트 약관 동의에 실패하셨습니다.");
 	                    window.close();
 	                }else{
 	                    alert(res.strMsg);
@@ -976,16 +976,16 @@ var login = function() {
 	                }
 	            }else{
 	                if(_smart=='Y'){
-	                    alert("올리브영 약관 동의에 실패하셨습니다.");
+	                    alert("사이트 약관 동의에 실패하셨습니다.");
 	                    window.close();
 	                }else{
-	                    alert("올리브영 약관 동의에 실패하셨습니다.");
+	                    alert("사이트 약관 동의에 실패하셨습니다.");
 	                    common.link.moveLogoutPage();
 	                }
 	            }
 	        }else{
 	            if(_smart=='Y'){
-	                alert("올리브영 약관 동의에 실패하셨습니다.");
+	                alert("사이트 약관 동의에 실패하셨습니다.");
 	                window.close();
 	            }else{
 	                alert("로그인에 실패하였습니다.");
@@ -1018,7 +1018,7 @@ var login = function() {
 
 	            window.location.replace(url);
 	        }else{
-	            alert("올리브영 약관 동의에 실패하셨습니다!");
+	            alert("사이트 약관 동의에 실패하셨습니다!");
 	            common.link.moveLogoutPage();
 	        }
 	    },
@@ -1157,7 +1157,7 @@ var login = function() {
 	    // [3343779] 선택약관 취소 시 모든 항목 N 처리
 	    choiceTermAgreeN : function (isSetting){
 
-	        if( confirm("올리브영의 다양한 서비스와 혜택알림을 받으실 수 있는 선택 정보 이용동의를 설정하지 않으셨습니다. 이대로 진행하시겠습니까?\n\n마이페이지>회원정보 수정에서 변경 가능합니다.") ){
+	        if( confirm("사이트의 다양한 서비스와 혜택알림을 받으실 수 있는 선택 정보 이용동의를 설정하지 않으셨습니다. 이대로 진행하시겠습니까?\n\n마이페이지>회원정보 수정에서 변경 가능합니다.") ){
 
 	            var url = _secureUrl +"customer/agreeTermJson.do";
 	            $.ajax({
@@ -1304,7 +1304,7 @@ var login = function() {
 
 	        sessionStorage.setItem("idPwSuccessYn", "N");
 
-	        // 올리브영에 계정이 있는 경우
+	        // 사이트에 계정이 있는 경우
 	        if(_captchaSession){
 
 	            if ( !$('#autoBlockText').val()) {
@@ -1352,7 +1352,7 @@ var login = function() {
 
 	            }
 	        }else{
-	            // 올리브영에 계정이 없는 경우(CJ에는 있을 수 있음)
+	            // 사이트에 계정이 없는 경우(CJ에는 있을 수 있음)
 	            if(mlogin.login.passwdChk()){
 	                //------------------------------------------------------------------
 	                sessionStorage.setItem("idPwSuccessYn", "Y");		// ID , PW 입력확인
