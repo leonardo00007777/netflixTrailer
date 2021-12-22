@@ -24,13 +24,13 @@ var common_pop = function() {
 	        // 팝업 test
 	        //---------------------------------------------
 	        $("#pop1").bind("click", function() {
-	        	common.modalShowHide("modalConfirm", "show");
+	        	common_pop.modalShowHide("modalConfirm", "show");
 	        });
 	        $("#pop2").bind("click", function() {
-	        	common.modalShowHide("modalAlert", "show");
+	        	common_pop.modalShowHide("modalAlert", "show");
 	        });
 	        $("#pop3").bind("click", function() {
-	        	common.modalShowHide("modalAlertTitle", "show");
+	        	common_pop.modalShowHide("modalAlertTitle", "show");
 	        });
 
 		},
