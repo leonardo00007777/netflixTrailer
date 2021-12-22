@@ -1,12 +1,13 @@
 package com.x62life.mo.controller.login;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.RequestContext;
 
-import com.x62life.mo.common.util.TextUtil;
+import com.x62life.mo.common.constants.Constants;
 import com.x62life.mo.common.util.CookiesUtil;
+import com.x62life.mo.common.util.TextUtil;
+import com.x62life.mo.common.util.UserAgentUtil;
+import com.x62life.mo.model.common.UserAgent;
+import com.x62life.mo.model.login.LoginProcess;
 import com.x62life.mo.model.member.MbMaster;
 import com.x62life.mo.service.login.LoginService;
 import com.x62life.mo.service.member.MemberService;
@@ -43,29 +49,121 @@ public class LoginController {
 	
 	@Value("#{configProperties['loginFormUrl']}") 
 	private String loginFormUrl;
+	
+	@Value("#{configProperties['cartUrl']}") 
+	private String cartUrl;
+	
+	@Value("#{configProperties['mainUrl']}") 
+	private String mainUrl;
 
-	@Value("#{configProperties['cookieDomain']}") 
+	@Value("#{configProperties['cookieDomainLocal']}") 
 	private String sCookieDomain;
 	
 	protected static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);	
 
 	
     /**
-     * 로그인 페이지
-     *
+     * 로그인 폼     
+     * (session 로그인정보 있는 경우 / 없는 경우)
+     * 
      * @param memberInfo
      * @param model
      * @return
      * @throws Exception
      */
-    @RequestMapping(value="/loginForm.do")
-    public ModelAndView loginForm(HttpServletRequest request
-													            , MbMaster memberInfo
-													            , Model model) throws Exception {
-        //LOGGER.debug("로그인 폼 진입");
-        model.addAttribute("mbrId", memberInfo.getMemid());
-        model.addAttribute("mbrNo", memberInfo.getMempw());
-
+    @RequestMapping(value="/loginform")
+    public ModelAndView loginform(@RequestParam Map<String, Object> paramMap
+    												, HttpServletRequest request
+										            , Model model) throws Exception {
+    	
+  		 ModelAndView mv = new ModelAndView();
+    	//LOGGER.debug("로그인 폼 진입");
+    	System.out.println("로그인 폼 진입");
+//        
+//    	//----------------------------------
+//        // App 정보 (앱으로 접근시 활용)
+//    	//----------------------------------
+//    	UserAgent userAgent = UserAgentUtil.getAppUserAgent(request.getHeader("User-Agent"));
+//        model.addAttribute("isApp", userAgent.getIsApp());
+//        model.addAttribute("isDeviceId", userAgent.getDeviceId());
+//        // 넘겨받은 입력정보
+//        model.addAttribute("mbrId", (String)paramMap.get("memid") );
+//        model.addAttribute("mbrPw", (String)paramMap.get("mempw") );
+//        model.addAttribute("isLoginForm", true);
+//        
+//        //----------------------------------
+//        // 간편/애플로그인  (kakao/apple)
+//        //----------------------------------
+//        model.addAttribute("easyLoginType", (String)paramMap.get("easyLoginType"));
+//        // 애플로그인 인증성공여부 (초기값=N)
+//        model.addAttribute("appleLoginCertSucsYn", "N");
+//        // 애플로그인 식별자(앱에서 전달)
+//        model.addAttribute("appleIdentifier",  (String)paramMap.get("appleIdentifier"));
+//        
+//        //----------------------------------
+//        // 아이폰/아이패드로 접근시, 추가로직
+//        //----------------------------------
+//        UserAgentUtil ua = new UserAgentUtil(request);
+//        if (userAgent.getIsApp() 
+//        		&& (ua.getOsName().toLowerCase().indexOf("iphone") > -1 
+//        		   || ua.getOsName().toLowerCase().indexOf("ipad") > -1)) 
+//        {
+//                //아이폰 계열일때 MC 간편로그인 카카오 영역 숨기 여부를 Y 로 바꿈
+//                model.addAttribute("iPhoneEasyloginKkoAreaHiddenYn", "Y");
+//        }
+//
+//        //----------------------------------
+//        // 처리후 이동URL 
+//        //----------------------------------
+//        String refererUrl = "/";  // 기본 홈
+//        
+//        String redirectUrl =  (String) paramMap.get("redirectUrl");
+//        if (!TextUtil.isEmpty(redirectUrl)) {
+//            refererUrl =redirectUrl;
+//        }
+//
+//        // 이전페이지가 "주문" 이면  > 장바구니 조회로 이동
+//        if (refererUrl != null && refererUrl.contains("/order/")) { 
+//        	refererUrl =  cartUrl;
+//        	
+//    	// 이전페이지가 "로그인" 아니면  > model 로 
+//        }  else if (refererUrl != null && !refererUrl.contains("login")) {
+//        	
+//        	// 간편 로그인(naver / facebook / apple) 인경우
+//        	// back할때 로그인 폼에서 받은 referer
+//            if (refererUrl.contains("naver") || refererUrl.contains("facebook") || refererUrl.contains("apple") ) 
+//            {
+//                model.addAttribute("returnUrl", (String) paramMap.get("refererUrl"));					
+//                request.getSession().setAttribute("redirectUrl", refererUrl);
+//            }
+//
+//        // 이전페이지가 "로그인"   > 장바구니 조회로 이동
+//        // session 값 redirectUrl 활용 --> 
+//        } else if (refererUrl != null && refererUrl.contains("login") &&  request.getSession().getAttribute("redirectUrl") != null) {
+//        	refererUrl = (String) request.getSession().getAttribute("redirectUrl");
+//        }
+//
+//        
+//        Map<String, Object>  isLoginYn  = loginCheck(request, null);
+//        // 로그인 session 값 있으면
+//        if ("Y".equals(isLoginYn.get("result"))) {
+//        	
+//        	
+//        }
+//        
+//        
+//        
+        
+//        if (userContext.isLoggedIn()) {
+//            // 성인인증 상품에서 들어온 경우
+//            if (!TextUtil.isEmpty(authYn) && Constants.Y.equals(authYn)) {
+//                toUrl = "redirect:" + RequestContext.getCurrent("baseUrl") + "customer/regCertification.do";
+//            } else if (referer != null && (referer.contains("login"))) {
+//                toUrl = Constants.JSP_FOR_REDIRECT;
+//            }
+//        }
+        
+        
         // 회원 확인
 //        String sMbrPasswd = loginService.selectMbrInfo(memberInfo.getMbrNo());
 //
@@ -73,7 +171,7 @@ public class LoginController {
 //        model.addAttribute("testMbrNo", memberInfo.getMbrNo());
 //
 //        //이전 페이지 주소 호출
-//        String referer = (String)request.getSession().getAttribute(Constants.REDIRECT_URL);
+//        String referer = (String)request.getSession().getAttribute("redirectUrl");
 //
 //        if (referer == null || "".equals(referer)) {
 //            referer = RequestContext.getCurrent("baseUrl") + config.get("mainUrl");
@@ -92,79 +190,119 @@ public class LoginController {
 //
 //        //인앱브라우저 등으로 들어와서
 //        request.setAttribute("referer", referer);
-//        userContext.setAttribute("referer", referer);
+//        request.getSession().setAttribute("referer", referer);
 
-        return new ModelAndView("login/loginForm");
+        
+   		 mv.setViewName("login/loginForm");
+   		
+   		return mv;
     }
-
     
     /**
-     * 로그인 여부 체크 Ajax
+     * 로그인 성공처리
      *
      * @param request
      * @param response
      * @return
      * @throws Exception
-     */
-    @RequestMapping(value = "/loginCheckJson.do", method = { RequestMethod.GET, RequestMethod.POST })
-    @ResponseBody
-    public Object loginCheckJson(HttpServletRequest request,
-                                 HttpServletResponse response) throws Exception {
-
-        JSONObject json = new JSONObject();
-        json.put("result", true);
-        
-        MbMaster sessionMember = (MbMaster) request.getSession().getAttribute("sessionMember");
-
-        if (sessionMember == null || !sessionMember.getIsLoggedIn()) {
-            json.put("result", false);
-            json.put("url", loginFormUrl);
-
-            return json;
-        }
-        return json;
-    }
-	
-	@RequestMapping(value = "/login")
-	public String login(@RequestParam Map<String, Object> paramMap, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
+     */    
+	@RequestMapping(value = "/loginsuccess")
+	public ModelAndView loginsuccess(@RequestParam Map<String, Object> paramMap, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
+		ModelAndView mv = new ModelAndView();
+
+		//--------------------
 		// Validation 
+		//--------------------
 		/*
-		 * if (userParam.getEmail_address() == null ||
-		 * "".equals(userParam.getEmail_address()) ) { return null; }
+		 * if (paramMap.getEmail_address() == null ||
+		 * "".equals(paramMap.getEmail_address()) ) { return null; }
 		 * 
-		 * if (userParam.getPassword() == null || "".equals(userParam.getPassword()) ) {
+		 * if (paramMap.getPassword() == null || "".equals(paramMap.getPassword()) ) {
 		 * return null; }
 		 */
     	
 		
-		// Validation 후, session 생성
-		MbMaster memberInfo = new MbMaster();
-		memberInfo.setJointype((String)paramMap.get("joinType"));
-		memberInfo.setMemid((String)paramMap.get("memId"));
-		memberInfo.setMemname((String)paramMap.get("memName"));
-		memberInfo.setHpno((String)paramMap.get("hpNo"));
-		memberInfo.setSnsId((String)paramMap.get("snsId"));
+		//--------------------
+		// session 저장
+		//--------------------
+		LoginProcess loginInfo = new LoginProcess();
 		
-		request.getSession().setAttribute("sessionMember", memberInfo);
+		loginInfo.setMemcd((String)paramMap.get("memcd"));
+		loginInfo.setMemid((String)paramMap.get("memId"));
+		loginInfo.setMemname((String)paramMap.get("memName"));
+		loginInfo.setMemlevel((String)paramMap.get("memlevel"));
+		loginInfo.setJobtype((String)paramMap.get("jobtype"));
+		loginInfo.setJobname((String)paramMap.get("jobname"));
+		if (!TextUtil.isEmpty((String)paramMap.get("nickn"))) {
+			loginInfo.setNickn((String)paramMap.get("nickn"));
+		}else {
+			loginInfo.setNickn((String)paramMap.get("memName"));
+		}
+		//loginInfo.setGrpcd((String)paramMap.get("groupname"));  // as-is 할당값없음
+		
+		request.getSession().setAttribute("sessionMember", loginInfo);
 		
 		
+		//--------------------
 	    // cookie 저장 
-		//Cookie cookie = new Cookie("prof_id", Encrypt.EncodeBySType(Long.toString(user.getUserseqno())));
-		//cookie.setMaxAge(-1); 
-		//response.addCookie(cookie);
-		
+		//--------------------
 		System.out.println("sCookieDomain =" + sCookieDomain);
 		
-		
 	    if(request != null) {
-        	CookiesUtil.setMemberInfoCookie(request, response,  memberInfo , (30 * 60),  sCookieDomain);
+        	CookiesUtil.setMemberInfoCookie(request, response,  loginInfo , (30 * 60),  sCookieDomain);
+        	
+        	// 자동로그인 쿠키 유무
+        	Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
+            String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
+        	if ("Y".equals(autoLogin)) {
+        		
+        	}
         	
         }else {
-        	//CookieUtil.setCookie(response, "cartTotCnt", String.valueOf(request.getSession().getAttribute("cartTotCnt")), (30 * 60),"/", RequestContext.getCurrent("cookieDomain"));
+        	CookiesUtil.setCookie(request, response, "62autologin", ""	, (30 * 60),"/", sCookieDomain);
         }
 	    
-    	return "login/login";
+//		login 쿠키 존재
+//----------------------------------------------------------------------------------------------------------------------
+//If usec = "y" And Request.Cookies("62autologin") = "Y" Then
+//'strUserId = Trim(Request.Cookies("62userid"))
+//'strPassword = Trim(Request.Cookies("62passwd"))
+//
+//---------------------------------------------------------------------------------        
+//정상 로그인
+//---------------------------------------------------------------------------------        
+//if Len(strPassword) > 30 then
+//strUserId = AESDecrypt(strUserId, ENC_KEY_NAME)
+//strPassword = AESDecrypt(strPassword, ENC_KEY_NAME)
+//else
+//Response.Cookies("62autologin") = ""
+//end If
+//
+//---------------------------------------------------------------------------------        
+//만약 쿠키에 저장된 로그인 정보가 없다면, 자동로그인 기능을 해제한다. (무한루프 방지)
+//---------------------------------------------------------------------------------
+//If strUserId = "" Or strPassword = "" Then
+//Response.Cookies("62autologin") = ""
+//End If
+//End If
+
+//	    
+//	    setCookie("memcd", "<%=strRSMEMCD%>", 365);
+//	    localStorage.setItem("memcd", "<%=strRSMEMCD%>");
+//	    
+//	    <% '자동로그인 정보 저장 처리
+//	    if autologin = "on" and strUserId <> "" and strPassword <> "" then 
+//	        enc_userid = AESEncrypt(strUserId, ENC_KEY_NAME)
+//	        enc_password = AESEncrypt(strPassword, ENC_KEY_NAME) %>
+//			setCookie("62userid", '<%=enc_userid%>', 365);
+//			setCookie("62passwd", '<%=enc_password%>', 365);
+//			setCookie("62autologin", "Y", 365);
+//	    <% end if %>
+	    
+	    mv.setViewName("login/loginSuccess");
+	    
+    	return mv;
 	}
 	
 
@@ -257,7 +395,7 @@ public class LoginController {
 //                // 로그인 성공
 //                //loginService.saveLoginSession(request.getSession(), custInfo, response); // custInfo 쿠키 생성을 위해 변경
 //
-//                //String referer = (String) request.getSession().getAttribute(Constants.REDIRECT_URL);
+//                //String referer = (String) request.getSession().getAttribute("redirectUrl");
 //                String agreeYn = TextUtil.nvl(request.getParameter("agreeYn"), "N");
 //                String isSetting = TextUtil.nvl(request.getParameter("isSetting"), "N");
 //                String idPwSuccessYn = TextUtil.nvl(request.getParameter("idPwSuccessYn"), "N");
@@ -338,6 +476,69 @@ public class LoginController {
 // 	}
  //	
  //	
+    
+
+    
+    /**
+     * 로그인 여부 체크 
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/logincheck", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public Map<String, Object>  loginCheck(HttpServletRequest request,
+                                 HttpServletResponse response) throws Exception {
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result", true);
+        
+        MbMaster sessionMember = (MbMaster) request.getSession().getAttribute("sessionMember");
+
+        if (sessionMember == null || !sessionMember.getIsLoggedIn()) {
+        	resultMap.put("result", false);
+        	resultMap.put("url", loginFormUrl);
+
+            return resultMap;
+        }
+        return resultMap;
+    }
+	
+
+    /**
+     * 비밀번호 체크 (capcha 활용)
+     *
+     * @param userContext
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/passwdchk")
+    @ResponseBody
+    public Map<String, Object>  passwdChk(@RequestParam Map<String, Object> paramMap
+    															,HttpServletRequest request
+													            ,HttpServletResponse response
+													            ,Model model)
+													            throws Exception {
+
+    	// ---------------------------------------------------------------	
+    	// pw 로직 우선 true 처리 (test)
+    	// ---------------------------------------------------------------	
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("result", true);
+        resultMap.put("passwdChk", true);
+        
+        LoginProcess loginInfo = new LoginProcess();
+        loginInfo.setMemid((String)paramMap.get("memid") );
+       
+        // 패스워드 일치 여부 확인 (capcha 로직 추후추가)
+        // ...
+
+        return resultMap;
+    }
+
     
 	// log out
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

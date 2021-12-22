@@ -17,8 +17,12 @@
   <script src="<%=_jsUrl %>ui-main.js"></script>    
   <script src="<%=_jsUrl %>ui-cart.js"></script>    
   <script src="<%=_jsUrl%>ui-prd-detail.js"></script>
+  
   <script src="<%=_jsUrl %>common/common.js"></script>     
-  <script src="<%=_jsUrl %>common/ajax.js"></script>     
+  <script src="<%=_jsUrl %>common/common_ajax.js"></script>     
+  <script src="<%=_jsUrl %>common/common_link.js"></script>     
+  <script src="<%=_jsUrl %>common/common_pop.js"></script>     
+  <script src="<%=_jsUrl %>common/common_keyevent.js"></script>     
   <script src="<%=_jsUrl %>common/footer.js"></script>     
   <script src="<%=_jsUrl %>common/validation.js"></script>     
   <script src="<%=_jsUrl %>common/gnbSub.js"></script>     
