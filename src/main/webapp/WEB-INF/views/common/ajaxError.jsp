@@ -5,11 +5,11 @@
            ,org.x2framework.spring.core.message.MessageResolver"%>
 <%@include file="/WEB-INF/views/common/env.jsp"%>
 <%
-    Exception throwable = (Exception)request.getAttribute(ExceptionResolver.EXCEPTION_KEY);
+	Exception throwable = (Exception)request.getAttribute(ExceptionResolver.EXCEPTION_KEY);
     
     String systemMessage = null;
     try {
-         systemMessage = MessageResolver.getMessage("system.common.exception.message");
+         systemMessage = MessageUtils.getMessage("system.common.exception.message");
     } catch (Exception e) {
         systemMessage = "Unknown Error Occurred.";
     }

@@ -1,7 +1,6 @@
 package com.x62life.mo.controller.login;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -21,19 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.RequestContext;
 
-import com.x62life.mo.common.constants.Constants;
 import com.x62life.mo.common.util.CookiesUtil;
 import com.x62life.mo.common.util.TextUtil;
-import com.x62life.mo.common.util.UserAgentUtil;
-import com.x62life.mo.model.common.UserAgent;
 import com.x62life.mo.model.login.LoginProcess;
 import com.x62life.mo.model.member.MbMaster;
 import com.x62life.mo.service.login.LoginService;
 import com.x62life.mo.service.member.MemberService;
-
-import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping(value = "/login")
@@ -192,7 +185,6 @@ public class LoginController {
 //        request.setAttribute("referer", referer);
 //        request.getSession().setAttribute("referer", referer);
 
-        
    		 mv.setViewName("login/loginForm");
    		
    		return mv;

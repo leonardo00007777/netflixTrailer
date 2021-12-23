@@ -140,6 +140,22 @@ var common = function() {
 		},
 			    
 		/* ******************************************************************
+		 * validation
+		 ****************************************************************** */		
+	    validEmpty : function(_element){
+	        var obj = new Object();
+	        obj.isValid = true;  
+	        obj.validMsg = "";
+	       
+	        if(!_element.val() || _element.val().trim() == "") {
+	        	obj.isValid = false;
+	        	obj.validMsg = _element.attr("title");
+	        }
+	        return obj;
+	    },
+	    
+	    
+		/* ******************************************************************
 		 * 필수 스크립트 모음
 		 ****************************************************************** */
 		init_unload : function() {

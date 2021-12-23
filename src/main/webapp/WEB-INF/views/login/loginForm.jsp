@@ -38,8 +38,8 @@
             <h3 class="logo-tit"><img src="<%=_imgUrl %>/images/loginLogo@2x.png" alt="자연이랑"></h3>  
            
             <section class="form-login">
-              <input type="text" class="input-login" id="loginuserid" placeholder="아이디">
-              <input type="password" class="input-login" id="loginpassword" placeholder="비밀번호" onkeyup="javascript:login.tryLogin(event);" autocomplete="off" placeholder="비밀번호 (8-12자 영문자+숫자+특수문자)" title="비밀번호를 입력해주세요.">
+              <input type="text" class="input-login" id="loginuserid" placeholder="아이디"  title="아이디를 입력해주세요.">
+              <input type="password" class="input-login" id="loginpassword" placeholder="비밀번호"  placeholder="비밀번호 (8-12자 영문자+숫자+특수문자)" title="비밀번호를 입력해주세요.">
               <label class="checkbox mt-s">
                 <input type="checkbox"  id="chk01" name="autologin" id="autologin" checked="checked" value="Y" title="자동로그인 선택">
                 <span class="label">자동 로그인</span>
