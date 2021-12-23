@@ -19,8 +19,8 @@ var login = function() {
 		//------------------------------------------------------------
 		initKeyEvent : function() {
 
-		    var userid = login.getCookie("62userid");
-
+		    var userid = common.getCookie("62userid");
+		     
 		    // 가져온 쿠키값이 있으면
 		    if(userid != "") {
 		        $('#loginpassword').focus();
@@ -31,30 +31,28 @@ var login = function() {
 		    //---------------------------------------------
 		    // Login / 회원가입 
 		    //---------------------------------------------
-	        // 로그인 처리  (validation + submit)
-	        $("#loginuserid, #loginpassword").on("keyup", function(e){
-	            if(e.keyCode == 13) {
-	                if(validLogin($("#loginuserid"), $("#loginpassword"))) {
-	                	
-	                	alert("로그인 id/pw 처리 = ");
-	                	login.loginSubmit();
-	                }
-	            }
-	        });
-	        
-   
+		    // 로그인 처리  (validation + submit)
+			$("#loginuserid, #loginpassword").keypress(function(e){
+				
+			     if(e.keyCode == 13) {
+			    	 alert("1    loginpassword keypress 시도 " + e.keyCode);
+		            	
+		                if(login.validLogin($("#loginuserid"), $("#loginpassword"))) {
+		                	alert("1-1    loginpassword keypress 시도");
+		                	login.loginSubmit();
+		                }			    	 
+			     }
+			});
+			
 		},
 		
 		//------------------------------------------------------------
-		// Login  : id / pw validation
+		// Login  : id / pw   (null 체크)
 		//------------------------------------------------------------		
 		validLogin : function(_id, _pw) {
 			
-			var validId = _super.validEmpty(_id);
-			var validPw = _super.validEmpty(_pw);
-			
-			alert("validId = " + validId);
-			alert("validPw = " + validPw);
+			var validId = common.validEmpty(_id);
+			var validPw = common.validEmpty(_pw);
 
 			if(validId.isValid) {
 				if(validPw.isValid) {
@@ -75,25 +73,12 @@ var login = function() {
 		// Login  : submit
 		//------------------------------------------------------------		
 		loginSubmit : function() {
-
+			
 			alert("loginSubmit .. ");
 			sessionStorage.removeItem("checkLoginStatus");
-			
 		    var loginForm = $("loginForm");
-	        
-	        var validated1 = validation.validateFieldNotEmpty("#loginuserid", "아이디를 입력하세요.");
-	        if(!validated1){
-	            $("#loginuserid").focus();
-	            return;
-	        }
-
-	        var validated2 = validation.validateFieldNotEmpty("#loginpassword", "비밀번호를 입력하세요.");
-	        if (!validated2) {
-	            $("#loginpassword").focus();
-	            return;
-	        }
-
-	        // password 체크 (capcha ..)
+	       
+	        // password 체크  (규격에 맞는지)
 	        if(login.passwdChk()){
 	        	
 	        	//---------------------------------
@@ -112,20 +97,19 @@ var login = function() {
 	        	//---------------------------------
 	        	// 로그인 session  X ,  로그인 start
 	        	//---------------------------------
-                var url =  "login/login.do";
+                var url =  "login/login";
                 $.ajax({
                     url: url,
                     type: 'POST',
                     data   : $("#loginForm").serialize(),
                     async: false,
                     success: function(data) {
-                        var jsonData =JSON.parse(data);
-                        
-                        // 로그인 처리
-                        if(jsonData=="000"){
 
+                        // 로그인 처리
+                        if(data.result){
+
+                        	return true;
                         }else{
-                            
                             return false;
                         }
                     }
@@ -134,51 +118,28 @@ var login = function() {
 		},
 		
 		//------------------------------------------------------------
-		// Login  :  비번체크
+		// Login  :  비번체크 (규격에 맞는지)
 		//------------------------------------------------------------		
 	    passwdChk : function(){
-	        var rs = false;
+	        var bResult = false;
 	        $.ajax({
 	            type   : "POST"
-	            ,url    : "login/passwdchkjson"
+	            ,url    : "login/passwdchk"
 	            ,data   : $("#loginForm").serialize()
 	            ,async  : false
-	            ,success: function(res){
-	                var json = $.parseJSON(res);
-	                if(json.result){
-	                    rs = true;
+	            ,success: function(data){
+	                if(data.result){
+	                	bResult = true;
+	                	
 	                } else {
-	                    if(json.captcha){
-	                        mlogin.captcha.init();
-	                        alert(json.showMessage);
-	                        _captchaSession = true;
-	                        $("#password").val("");
-	                        $("#autoBlockText").val("");
-	                        mlogin.captcha.changeCaptcha(cwid, chei, csize);
-	                        $("#password").focus();
-	                        rs = false;
-	                        
-	                    }else if(json.passwdChk){
-	                        alert(json.showMessage);
-	                        $("#password").val("");
-	                        $("#autoBlockText").val("");
-	                        mlogin.captcha.changeCaptcha(cwid, chei, csize);
-	                        $("#password").focus();
-	                        rs = false;
-	                        
-	                    }else{
-	                        alert(json.showMessage);
-	                        $("#password").val("");
-	                        $("#autoBlockText").val("");
-	                        mlogin.captcha.changeCaptcha(cwid, chei, csize);
-	                        $("#password").focus();
-	                        rs = false;
-	                    }
+                        $("#password").val("");
+                        $("#password").focus();
+                        bResult = false;
 	                }
 	            }
 	        });
-	        return rs;
-
+	        
+	        return bResult;
 	    },
 
 		
@@ -195,40 +156,40 @@ var login = function() {
 		        }
 		    }
 		},
-
-		loginCheck : function() {
-			
-			alert("loginCheck().......");
-			var userid = login.getCookie("62userid");
-			
-			// 가져온 쿠키값이 있으면
-			if(userid != "") {
-				$("#loginuserid").focus();
-			    $("#loginpassword").focus();
-			    
-			} else {
-			    $("loginuserid").focus();
-			}
-			
-			// 로그인처리
-			$("#loginpassword").keypress(function(e){
-				if(e.keyCode === 13){
-					login.loginSubmit();
-				}
-			});
-			
-		},
-
-		
+//
+//		loginCheck : function() {
+//			
+//			alert("loginCheck().......");
+//			var userid = common.getCookie("62userid");
+//			
+//			// 가져온 쿠키값이 있으면
+//			if(userid != "") {
+//				$("#loginuserid").focus();
+//			    $("#loginpassword").focus();
+//			    
+//			} else {
+//			    $("loginuserid").focus();
+//			}
+//			
+//			// 로그인처리
+//			$("#loginpassword").keypress(function(e){
+//				if(e.keyCode === 13){
+//					login.loginSubmit();
+//				}
+//			});
+//			
+//		},
+//
+//		
 		// 쿠키에 로그인 정보 저장
 		saveLogin : function(userid) {
 
 		    if(userid != "") {
 		        // 쿠키에 값을 365일간 저장
-		    	 login.setCookie("m62userid", userid, 365);
+		    	 common.setCookie("m62userid", userid, 365);
 		    } else {
 		        // userid 쿠키 삭제
-		    	 login.setCookie("m62userid", userid, -1);
+		    	 common.setCookie("m62userid", userid, -1);
 		    }
 		},
 
@@ -236,9 +197,9 @@ var login = function() {
 		saveAllLogin : function(userid,passwd) {
 		    if(userid != "" && passwd != "") {
 		        // 쿠키에 값을 2주일간 저장
-		    	 login.setCookie("m62userid", userid, 365);
-		    	 login.setCookie("m62passwd", passwd, 365);
-		    	 login.setCookie("62autologin", "Y", 365);
+		    	 common.setCookie("m62userid", userid, 365);
+		    	 common.setCookie("m62passwd", passwd, 365);
+		    	 common.setCookie("62autologin", "Y", 365);
 		    }
 		},
 
@@ -1253,11 +1214,13 @@ var login = function() {
 	    },
 
 	    tryLogin : function(e) {
+	    	
 	        if (e.keyCode != 13) {
 	            return;
+	            
+	        }else if (e.keyCode == 13) {
+	        	login.loginSubmit();
 	        }
-
-	        login.loginSubmit();
 	        //mlogin.login.doLogin();
 	    },
 
