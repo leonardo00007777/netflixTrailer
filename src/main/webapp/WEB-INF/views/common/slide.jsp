@@ -940,30 +940,31 @@
           <div class="wn-modal-body">
             <div class="buy-options">
               <c:forEach items="${itemDetail}" var="itemDetail">
-                <div class="buy-option-item">
-                  <div class="label">${itemDetail.gdname}</div>
-                  <div class="content">
-                    <div class="input-number">
-                      <button class="dec" onclick="modalBuyOptionOne('${itemDetail.saleprice}', '${itemDetail.price1}', 'dec')"></button>
-                      <input class="num" id="itemNum" type="text" value="1" readonly>
-                      <button class="inc" onclick="modalBuyOptionOne('${itemDetail.saleprice}', '${itemDetail.price1}', 'inc')"></button>
-                    </div>
-                    <div class="price-format">
-                      <fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" /><small>원</small>
-                    </div>
+              <div class="buy-option-item">
+                <div class="label">${itemDetail.gdname}</div>
+                <div class="content">
+                  <div class="input-number" id="inputNumber">
+                    <button class="dec" id="decBtn" onclick="modalBuyOptionOne(this.value, '${itemDetail.price1}', '${itemDetail.saleprice}', 'dec')" value="-1"></button>
+                    <input class="num" id="itemNum" type="text" value="1" readonly>
+                    <button class="inc" id="incBtn" onclick="modalBuyOptionOne(this.value, '${itemDetail.price1}', '${itemDetail.saleprice}', 'inc')" value="1"></button>
+                  </div>
+                  <div class="price-format">
+                    <fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" /><small>원</small>
+                  </div>
                 </div>
-              </c:forEach>
-              <div class="buy-option-total">
-                <span class="label">합계</span>
-                <span class="price-format">3,480<small>원</small></span>
+                </c:forEach>
+                <div class="buy-option-total">
+                  <span class="label">합계</span>
+                  <span class="price-format">3,480<small>원</small></span>
+                </div>
               </div>
             </div>
+            <footer class="wn-modal-footer">
+              <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
+              <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
+              <button class="button bt-l bt-green bt-rect"  onclick="location.href = 'WN_PB_MO_ORD_010101.html' ">장바구니</button>
+            </footer>
           </div>
-          <footer class="wn-modal-footer">
-            <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
-            <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
-            <button class="button bt-l bt-green bt-rect"  onclick="location.href = 'WN_PB_MO_ORD_010101.html' ">장바구니</button>
-          </footer>
         </div>
       </div>
     </div>
@@ -1090,48 +1091,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Modal - 무이자 할부 혜택 -->
-  <!-- 카드혜택정보 + 확인 -->
-  <div class="modal fade wn-modal" id="modalInstallment">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <h2 class="wn-modal-header">무이자 할부 혜택</h2>
-        <div class="wn-modal-body">
-          <div class="gray-5 t-15 lh-20">
-            무이자 할부는 결제 금액 기준으로 적용됩니다.
-            <br>
-            일부 개월 수 제외
-          </div>
-          <table class="table-lined mt-s t-18">
-            <thead>
-              <tr>
-                <th class="text-left text-nowrap">카드</th>
-                <th class="text-left text-nowrap">금액기준</th>
-                <th class="text-left text-nowrap">행사 개월수</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-nowrap">국민카드</td>
-                <td class="text-nowrap">5만원이상</td>
-                <td class="text-nowrap">2,3,4,6개월</td>
-              </tr>
-              <tr>
-                <td class="text-nowrap">삼성카드</td>
-                <td class="text-nowrap">7만원이상</td>
-                <td class="text-nowrap">2,3,4개월</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="wn-modal-footer">
-          <button class="button bt-l bt-green bt-rect d-block" data-dismiss="modal">확인</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
 <div class="modal wn-modal-full" id="normalReview">
   <div class="modal-dialog modal-dialog-centered">
