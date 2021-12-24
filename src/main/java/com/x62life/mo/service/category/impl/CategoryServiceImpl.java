@@ -10,6 +10,10 @@ import javax.annotation.Resource;
 import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -63,8 +67,8 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<Map<String, Object>> itemDetailSetProdConfiguration(Map<String, Object> paramMap){
-		return categoryDao.itemDetailSetProdConfiguration(paramMap);
+	public List<Map<String, Object>> setItemDetailConfiguration(Map<String, Object> paramMap){
+		return categoryDao.setItemDetailConfiguration(paramMap);
 	}
 
 	@Override
@@ -134,5 +138,21 @@ public class CategoryServiceImpl implements CategoryService{
 			paramMap.put("inPageSzie", intPageSize);
 		}
 		return categoryDao.prodReviewDetail(paramMap);
+	}
+
+	@Override
+	public String getGoodsWeek(Map<String, Object> paramMap){
+		return categoryDao.getGoodsWeek(paramMap);
+	}
+
+	@Override
+	public String getGoodsYear(Map<String, Object> paramMap){
+		return categoryDao.getGoodsYear(paramMap);
+	}
+
+	@Override
+	public Map<String, Object> getDLVDTbyHolidayGeneral(String dteToday){
+
+		return categoryDao.getDLVDTbyHolidayGeneral(dteToday);
 	}
 }

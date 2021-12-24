@@ -1110,16 +1110,18 @@
       <main class="main-container" id="main-container">
         <div class="main-content" id="main-content">
           <article class="pt-l content-center">
-            <section class="prd-thumb align-items-center">
-              <div class="img-container thumb-8">
-                <div class="prd-img rounded-8">
-                  <img src="<%=_imgUrl%>images/gdimg/${paramMap.gdimg}" alt="${paramMap.gdname}">
+            <c:forEach items="${itemDetail}" var="itemDetail">
+              <section class="prd-thumb align-items-center">
+                <div class="img-container thumb-8">
+                  <div class="prd-img rounded-8">
+                    <img src="<%=_imgUrl%>images/gdimg/${itemDetail.mgdimg1}" alt="${itemDetail.gdname}">
+                  </div>
                 </div>
-              </div>
-              <div class="detail">
-                <div class="tit">${paramMap.gdname}</div>
-              </div>
-            </section>
+                <div class="detail">
+                  <div class="tit">${itemDetail.gdname}</div>
+                </div>
+              </section>
+            </c:forEach>
             <section>
               <header class="mt-l d-flex align-items-center">
                 <h3 class="hd-s mb-0">구매후기</h3>

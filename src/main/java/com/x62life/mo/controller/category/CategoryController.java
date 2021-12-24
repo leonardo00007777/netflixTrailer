@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static com.x62life.mo.common.util.DateTime.getDLVDTofToday;
 
 @Controller
 public class CategoryController {
@@ -53,8 +59,32 @@ public class CategoryController {
         List<GdMasterEx> itemDetail = categoryService.itemDetail(paramMap);
         model.addAttribute("itemDetail", itemDetail);
 
-        List<Map<String, Object>> itemDetailSetProdConfiguration = categoryService.itemDetailSetProdConfiguration(paramMap);
-        model.addAttribute("itemDetailSetProdConfiguration", itemDetailSetProdConfiguration);
+        if(paramMap.get("strItemDivCd") != null && !paramMap.get("strItemDivCd").toString().isEmpty()){
+            if(paramMap.get("strItemDivCd").equals("20")){
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date currentTime = new Date();
+                String dteDate = format.format(currentTime);
+
+                paramMap.put("dtdDate",dteDate);
+                paramMap.put("gdweekOrd", 0);
+                paramMap.put("gdweekDlv", 1);
+                paramMap.put("intBase", 0);
+
+                String getGoodsWeek = categoryService.getGoodsWeek(paramMap);
+                String getGoodsYear = categoryService.getGoodsYear(paramMap);
+
+                paramMap.put("strNowGDYear", getGoodsYear);
+                paramMap.put("strNowGDWeek", getGoodsWeek);
+
+                List<Map<String, Object>> setItemDetailConfiguration = categoryService.setItemDetailConfiguration(paramMap);
+                model.addAttribute("setItemDetailConfiguration", setItemDetailConfiguration);
+            }
+        }
+
+        String dteToday = getDLVDTofToday();
+
+        Map<String, Object> getDLVDTbyHolidayGeneral = categoryService.getDLVDTbyHolidayGeneral(dteToday);
+        model.addAttribute("getDLVDTbyHolidayGeneral", getDLVDTbyHolidayGeneral);
 
         Map<String, Object> itemDlvDeadlineMsg = categoryService.itemDlvDeadlineMsg(paramMap);
         model.addAttribute("itemDlvDeadlineMsg", itemDlvDeadlineMsg);
@@ -102,6 +132,7 @@ public class CategoryController {
 
         return radiationTestInfo;
     }
+
 
     @RequestMapping(value = "/main/reviewInsert", method = RequestMethod.POST)
     @ResponseBody

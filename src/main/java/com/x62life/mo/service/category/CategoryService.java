@@ -19,7 +19,7 @@ public interface CategoryService {
 
     List<GdMasterEx> itemDetail(Map<String, Object> paramMap) throws SQLException, IOException;
 
-    List<Map<String, Object>> itemDetailSetProdConfiguration(Map<String, Object> paramMap);
+    List<Map<String, Object>> setItemDetailConfiguration(Map<String, Object> paramMap);
 
     Map<String, Object> itemDlvDeadlineMsg(Map<String, Object> paramMap);
 
@@ -38,4 +38,10 @@ public interface CategoryService {
     Map<String, Object> prodReviewPaging(Map<String, Object> paramMap);
 
     List<ProductReviewEx> prodReviewDetail(Map<String, Object> paramMap);
+
+    String getGoodsWeek(Map<String, Object> paramMap);
+
+    String getGoodsYear(Map<String, Object> paramMap);
+
+    Map<String, Object> getDLVDTbyHolidayGeneral(String dteToday);
 }

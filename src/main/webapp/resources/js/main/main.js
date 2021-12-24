@@ -669,7 +669,7 @@ function cartModalShow() {
 	$("#modalBuyOption").modal("show");
 }
 
-function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, gdimg, gdname) {
+function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, divcd) {
 	if(strGdtype == null || strGdtype == '' && strOdtype == '12'){
 		strGdtype = '01';
 	}
@@ -718,6 +718,6 @@ function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, gdimg, gdname) {
 
 	location.href = encodeURI( "/main/itemDetail?" + "strGDCD=" + gdcd + "&strOdtype=" + strOdtype
 		          + "&strOdtype2=" + strOdtype2 + "&strGdtype=" + strGdtype + "&preOrderInfo=" + preOrderInfo
-		          + "&lastTitle=" + lastTitle + "&gdimg=" + gdimg + "&gdname=" + gdname);
+		          + "&lastTitle=" + lastTitle + "&strItemDivCd=" + divcd);
 
 }
