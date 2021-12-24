@@ -11,39 +11,45 @@ $(function() {
 var login = function() {
 
 	return {
-		initVars : function() {
-			
+		init : function() {
 		},
+		
 		//------------------------------------------------------------
 		// Key Event 
 		//------------------------------------------------------------
 		initKeyEvent : function() {
 
-		    var userid = common.getCookie("62userid");
-		     
-		    // 가져온 쿠키값이 있으면
-		    if(userid != "") {
-		        $('#loginpassword').focus();
-		    } else {
-		    	$('#loginuserid').focus();
-		    }
-		      
-		    //---------------------------------------------
+			//---------------------------------------------
 		    // Login / 회원가입 
 		    //---------------------------------------------
 		    // 로그인 처리  (validation + submit)
 			$("#loginuserid, #loginpassword").keypress(function(e){
 				
 			     if(e.keyCode == 13) {
-			    	 alert("1    loginpassword keypress 시도 " + e.keyCode);
-		            	
-		                if(login.validLogin($("#loginuserid"), $("#loginpassword"))) {
-		                	alert("1-1    loginpassword keypress 시도");
-		                	login.loginSubmit();
-		                }			    	 
+			    	 if(login.validLogin($("#loginuserid"), $("#loginpassword"))) {
+			    		 login.loginSubmit();
+			    	 }			    	 
 			     }
 			});
 			
+			
+			
+			// ID 찾기
+			$("#loginGroup").find("#btnSearchId").bind("click", function() {
+				common_link.goMappingUrl("/login/searchid");
+			});
+			
+			// 비번 재설정
+			$("#loginGroup").find("#btnResetPwd").bind("click", function() {
+				common_link.goMappingUrl("/login/resetpwd");
+			});
+			
+		    // 회원가입
+	        $("#loginGroup").find("#btnJoinMember").bind("click", function() {
+	        	common_link.goMappingUrl("/member/joinmemberchoice");
+		    });
+	        
+	        
 		},
 		
 		//------------------------------------------------------------
@@ -57,14 +63,15 @@ var login = function() {
 			if(validId.isValid) {
 				if(validPw.isValid) {
 					return true;
+					
 				} else {
 					alert(validPw.validMsg);
-					validPw.element.focus();
+					_pw.focus();
 					return false;
 				}
 			} else {
 				alert(validId.validMsg);
-				validId.element.focus();
+				_id.focus();
 				return false;
 			}
 		},
@@ -74,47 +81,51 @@ var login = function() {
 		//------------------------------------------------------------		
 		loginSubmit : function() {
 			
-			alert("loginSubmit .. ");
-			sessionStorage.removeItem("checkLoginStatus");
-		    var loginForm = $("loginForm");
-	       
-	        // password 체크  (규격에 맞는지)
-	        if(login.passwdChk()){
-	        	
-	        	//---------------------------------
-	        	// 로그인 session  O
-	        	//---------------------------------
-	        	if(common.isLogin()){
-                    alert('이미 로그인상태');
-                    
-                    $("#loginpassword").val("");
-                    $("#loginpassword").focus();	        		
-                    
-                    common_link.redirectUrl("/main");
-	        		return false;
-	        	}
-	        	
-	        	//---------------------------------
-	        	// 로그인 session  X ,  로그인 start
-	        	//---------------------------------
-                var url =  "login/login";
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data   : $("#loginForm").serialize(),
-                    async: false,
-                    success: function(data) {
-
-                        // 로그인 처리
-                        if(data.result){
-
-                        	return true;
-                        }else{
-                            return false;
-                        }
-                    }
-                });
-            }
+			 // id / pw 값있는경우만, submit 
+	    	 if(login.validLogin($("#loginuserid"), $("#loginpassword"))) {
+		    	 
+				sessionStorage.removeItem("checkLoginStatus");
+			    var loginForm = $("loginForm");
+		       
+		        // password 체크  (규격에 맞는지)
+		        if(login.passwdChk()){
+		        	
+		        	//---------------------------------
+		        	// 로그인 session  O
+		        	//---------------------------------
+		        	if(common.isLogin()){
+	                    alert('이미 로그인상태');
+	                    
+	                    $("#loginpassword").val("");
+	                    $("#loginpassword").focus();	        		
+	                    
+	                    common_link.redirectUrl("/main");
+		        		return false;
+		        	}
+		        	
+		        	//---------------------------------
+		        	// 로그인 session  X ,  로그인 start
+		        	//---------------------------------
+	                var url =  "login/login";
+	                $.ajax({
+	                    url: url,
+	                    type: 'POST',
+	                    data   : $("#loginForm").serialize(),
+	                    async: false,
+	                    success: function(data) {
+	
+	                        // 로그인 처리
+	                        if(data.result){
+	
+	                        	return true;
+	                        }else{
+	                            return false;
+	                        }
+	                    }
+	                });
+	            }
+	    	 }
+	    	 
 		},
 		
 		//------------------------------------------------------------

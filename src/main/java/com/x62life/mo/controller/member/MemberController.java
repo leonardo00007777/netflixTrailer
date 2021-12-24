@@ -91,6 +91,27 @@ public class MemberController
     	
     	return mv;
     }
+    
+    /**
+     * 회원가입 폼 (SK)
+     *
+     * @param memberInfo
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/joinmemberformsk")
+    public ModelAndView joinMemberFormSK(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
+    	ModelAndView mv = new ModelAndView();
+    	
+    	logger.info("/member/joinMemberFormSK");
+    	
+    	paramMap.put("test", null);
+    	
+    	mv.setViewName("/member/joinMemberFormSK");
+    	
+    	return mv;
+    }
 	
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response, MbMaster memberParam)

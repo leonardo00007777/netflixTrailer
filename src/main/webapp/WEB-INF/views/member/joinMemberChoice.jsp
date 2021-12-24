@@ -68,13 +68,15 @@
           </div>
 
           <div class="form-field mt-s">
-            <button class="button bt-outline bt-m bt-green bt-100" onclick="location.href = 'WN_PB_MO_MEM_010201.html' ">SK구성원 가입</button>
+            <button class="button bt-outline bt-m bt-green bt-100"  id="joinMemberFormSK">
+               SK구성원 가입
+	        </button>
           </div>
 
           <div class="mt-40 text-center">
             <div class="t-14">
               자연이랑 회원이세요?
-              <a href="WN_PB_MO_MEM_020000.html" class="bold ml-3">로그인</a>
+              <a href="javascript:void(0)" class="bold ml-3" id="btnLogin">로그인</a>
             </div>
           </div>
           <div class="spacer-bottom"></div>

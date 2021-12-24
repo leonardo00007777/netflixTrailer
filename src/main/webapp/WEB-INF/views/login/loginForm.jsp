@@ -4,8 +4,20 @@
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp"
 %>
+<%
+	//String currentLanguage = LocaleContextHolder.getLocale().getLanguage();
+
+	String strUserId = (String) request.getAttribute("loginuserid");
+	String strPassword = (String) request.getAttribute("loginpassword");
+	String autologin = (String) request.getAttribute("autologin");
+
+%>
+
+<%= strUserId %>
+<%= strPassword %>
+
 <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
-<%-- <script src="<%=_jsUrl %>asis/dataEvent.js"></script>   --%>   
+<script src="<%=_jsUrl %>login/loginForm.js"></script>
 <script src="<%=_jsUrl %>login/login.js"></script>
 
 <body class="page-login header-float">
@@ -25,32 +37,33 @@
     <main class="main-container" id="main-container">
       <div class="main-content" id="main-content">
 		<form id="loginForm" name="loginForm">
-<%--             <input type="hidden" name="backurl" id="backurl" value="<%=backurl%>" />
-            <input type="hidden" name="refererx" id="refererx" value="<%=refererx%>" />
- --%>
+<%-- 		    <input type="hidden" name="backurl" id="backurl" value="<%=backurl%>" />
+            <input type="hidden" name="refererx" id="refererx" value="<%=refererx%>" /> --%>
 			<!-- 애플로그인 -->
 			<%-- <input type="hidden" id="easyLoginFormYn"      name="easyLoginFormYn"      value="${appleLoginCertSucsYn}" /><!-- 간편로그인폼 -->
 			<input type="hidden" id="easyLoginType"        name="easyLoginType"        value="${easyLoginType}" /><!-- 간편로그인폼 --> --%>
-
       
         <article class="page-login-container">
           <div class="page-login-content">
             <h3 class="logo-tit"><img src="<%=_imgUrl %>/images/loginLogo@2x.png" alt="자연이랑"></h3>  
            
             <section class="form-login">
-              <input type="text" class="input-login" id="loginuserid" placeholder="아이디"  title="아이디를 입력해주세요.">
-              <input type="password" class="input-login" id="loginpassword" placeholder="비밀번호"  placeholder="비밀번호 (8-12자 영문자+숫자+특수문자)" title="비밀번호를 입력해주세요.">
+               <!-- id -->
+              <input type="text" class="input-login" id="loginuserid" value="<%=strUserId%>"  maxlength="12"  tabindex="2"  autocomplete="off"  placeholder="아이디"  title="아이디를 입력해주세요.">
+               <!-- pw -->
+              <input type="password" class="input-login" id="loginpassword" maxlength="30" value=""  tabindex="3" autocomplete="off" placeholder="비밀번호" title="비밀번호를 입력해주세요.">
+               <!-- autologin -->
               <label class="checkbox mt-s">
-                <input type="checkbox"  id="chk01" name="autologin" id="autologin" checked="checked" value="Y" title="자동로그인 선택">
+                <input type="checkbox"  id="autologin" name="autologin" tabindex="5" checked="checked" title="자동로그인 선택">
                 <span class="label">자동 로그인</span>
               </label>
-              <button class="button bt-green bt-l w-100 btn-login"  onclick="javascript:login.loginCheck();">로그인</button>
+              <button class="button bt-green bt-l w-100 btn-login"   id="loginBtn"   tabindex="5" onclick="javascript:login.loginSubmit();">로그인</button>
             </section>
 								
-            <section class="management-box">
-              <a href="WN_PB_MO_MEM_020401.html">아이디 찾기</a>
-              <a href="WN_PB_MO_MEM_020503.html">비밀번호 재설정</a>
-              <a href="WN_PB_MO_MEM_010000.html">회원가입</a>
+            <section class="management-box" id="loginGroup">
+              <a href="javascript:void(0)"  id="btnSearchId">아이디 찾기</a>
+              <a href="javascript:void(0)"  id="btnResetPwd">비밀번호 재설정</a>
+              <a href="javascript:void(0)" id="btnJoinMember">회원가입</a>
             </section>
 
             <section class="el-container">

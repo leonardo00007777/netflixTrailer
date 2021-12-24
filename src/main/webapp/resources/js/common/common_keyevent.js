@@ -55,7 +55,8 @@ var common_keyevent = function() {
 			//----------------------------------------------------------------------------------------------------- 
 			//                                			         회원가입 / 로그인	
 			//-----------------------------------------------------------------------------------------------------      
-	        $("#joinMemberGroup").find("#btnLogin").bind("click", function() {
+	        //$("#joinMemberGroup").find("#btnLogin").bind("click", function() {
+        	$("#btnLogin").bind("click", function() {
 	        	common_link.goMappingUrl("/login/loginform");	// 로그인 폼 진입
 	        });
 		    // Join Member (일반회원/간편회원) 선택
@@ -65,6 +66,10 @@ var common_keyevent = function() {
 	        // Join Member Form 
 	        $("#joinMemberForm").bind("click", function() {
 	        	common_link.goMappingUrl("/member/joinmemberform");
+	        });
+	        // Join Member Form SK
+	        $("#joinMemberFormSK").bind("click", function() {
+	        	common_link.goMappingUrl("/member/joinmemberformsk");
 	        });
 
 	        	     

@@ -21,8 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.x62life.mo.common.constants.Constants62life;
 import com.x62life.mo.common.util.CookiesUtil;
+import com.x62life.mo.common.util.EncryptAES;
 import com.x62life.mo.common.util.TextUtil;
+import com.x62life.mo.common.util.UserAgentUtil;
+import com.x62life.mo.model.common.UserAgent;
 import com.x62life.mo.model.login.LoginProcess;
 import com.x62life.mo.model.member.MbMaster;
 import com.x62life.mo.service.login.LoginService;
@@ -55,98 +59,209 @@ public class LoginController {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);	
 
 	
-    /**
-     * 로그인 폼     
-     * (session 로그인정보 있는 경우 / 없는 경우)
-     * 
-     * @param memberInfo
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value="/loginform")
-    public ModelAndView loginform(@RequestParam Map<String, Object> paramMap
-    												, HttpServletRequest request
-										            , Model model) throws Exception {
+	/**
+	 * 로그인 폼     
+	 * (session 로그인정보 있는 경우 / 없는 경우)
+	 * 
+	 * @param memberInfo
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/loginform")
+	public ModelAndView loginform(@RequestParam Map<String, Object> paramMap
+			, HttpServletRequest request
+			, HttpServletResponse response
+			, Model model) throws Exception {
+		
+		ModelAndView mv = new ModelAndView();
+		System.out.println("로그인 폼 진입");
+	    
+	    // 폼에서 받은값 (get/post)
+		String strLoginResult = (String) paramMap.get("loginresult");	// login 결과
+		String backurl = (String) paramMap.get("backurl");				// back url
+
+		// Cookie 있으면, (자동로그인) 처리
+		Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
+		String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
+	    if ("".equals(strLoginResult) && "Y".equals(autoLogin)){
+	    	model.addAttribute("usec",  "Y");
+	    	model.addAttribute("backurl",  backurl);
+	    	
+  		 	mv.setViewName("login/login");
+	    	return mv;
+	    }
     	
-  		 ModelAndView mv = new ModelAndView();
-    	//LOGGER.debug("로그인 폼 진입");
-    	System.out.println("로그인 폼 진입");
-//        
-//    	//----------------------------------
-//        // App 정보 (앱으로 접근시 활용)
-//    	//----------------------------------
-//    	UserAgent userAgent = UserAgentUtil.getAppUserAgent(request.getHeader("User-Agent"));
-//        model.addAttribute("isApp", userAgent.getIsApp());
-//        model.addAttribute("isDeviceId", userAgent.getDeviceId());
-//        // 넘겨받은 입력정보
-//        model.addAttribute("mbrId", (String)paramMap.get("memid") );
-//        model.addAttribute("mbrPw", (String)paramMap.get("mempw") );
-//        model.addAttribute("isLoginForm", true);
-//        
-//        //----------------------------------
-//        // 간편/애플로그인  (kakao/apple)
-//        //----------------------------------
-//        model.addAttribute("easyLoginType", (String)paramMap.get("easyLoginType"));
-//        // 애플로그인 인증성공여부 (초기값=N)
-//        model.addAttribute("appleLoginCertSucsYn", "N");
-//        // 애플로그인 식별자(앱에서 전달)
-//        model.addAttribute("appleIdentifier",  (String)paramMap.get("appleIdentifier"));
-//        
-//        //----------------------------------
-//        // 아이폰/아이패드로 접근시, 추가로직
-//        //----------------------------------
-//        UserAgentUtil ua = new UserAgentUtil(request);
-//        if (userAgent.getIsApp() 
-//        		&& (ua.getOsName().toLowerCase().indexOf("iphone") > -1 
-//        		   || ua.getOsName().toLowerCase().indexOf("ipad") > -1)) 
-//        {
-//                //아이폰 계열일때 MC 간편로그인 카카오 영역 숨기 여부를 Y 로 바꿈
-//                model.addAttribute("iPhoneEasyloginKkoAreaHiddenYn", "Y");
-//        }
+	    // Cookie (로그인 ID)  > view return
+    	Cookie userIdCookie = CookiesUtil.getCookie(request, "62userid");
+    	String strUserId = userIdCookie == null ? "N" : userIdCookie.getValue();
+	    if (strUserId.length() > 30) {
+	    	strUserId = EncryptAES.Decrypt(strUserId, Constants62life.ENC_KEY_NAME);
+	    	model.addAttribute("strUserId",  strUserId);
+	    }
+	    		
+  		 mv.setViewName("login/loginForm");
+    		
+  		return mv;
+   }
+		
+	/**
+	 * 아이디 찾기 
+	 * 
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/searchid")
+	public ModelAndView searchId(@RequestParam Map<String, Object> paramMap
+			, HttpServletRequest request
+			, HttpServletResponse response
+			, Model model) throws Exception {
+		
+		ModelAndView mv = new ModelAndView();
+		System.out.println("아이디 찾기 진입");
+		
+		
+		mv.setViewName("login/searchId");
+		
+		return mv;
+	}
+	
+	/**
+	 * 비밀번호 찾기 
+	 * 
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/searchpwd")
+	public ModelAndView searchPwd(@RequestParam Map<String, Object> paramMap
+			, HttpServletRequest request
+			, HttpServletResponse response
+			, Model model) throws Exception {
+		
+		ModelAndView mv = new ModelAndView();
+		System.out.println("비밀번호 찾기 진입");
+		
+		
+		mv.setViewName("login/searchPwd");
+		
+		return mv;
+	}
+	
+	/**
+	 * 비밀번호 재설정 
+	 * 
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/resetpwd")
+	public ModelAndView resetPwd(@RequestParam Map<String, Object> paramMap
+			, HttpServletRequest request
+			, HttpServletResponse response
+			, Model model) throws Exception {
+		
+		ModelAndView mv = new ModelAndView();
+		System.out.println("비밀번호 재설정 진입");
+		
+		
+		mv.setViewName("login/resetPwd");
+		
+		return mv;
+	}
+	
+	
+//    /**
+//     * 로그인 폼     (작업참조)
+//     * (session 로그인정보 있는 경우 / 없는 경우)
+//     * 
+//     * @param memberInfo
+//     * @param model
+//     * @return
+//     * @throws Exception
+//     */
+//    @RequestMapping(value="/loginform")
+//    public ModelAndView loginform(@RequestParam Map<String, Object> paramMap
+//    												, HttpServletRequest request
+//    												, HttpServletResponse response
+//										            , Model model) throws Exception {
+//    	
+//  		ModelAndView mv = new ModelAndView();
+//    	System.out.println("로그인 폼 진입");
+//    	
+//		//----------------------------------
+//		// App 정보 (앱으로 접근시 활용)
+//		//----------------------------------
+//		UserAgent userAgent = UserAgentUtil.getAppUserAgent(request.getHeader("User-Agent"));
+//		model.addAttribute("isApp", userAgent.getIsApp());
+//		model.addAttribute("isDeviceId", userAgent.getDeviceId());
+//		// 넘겨받은 입력정보
+//		model.addAttribute("mbrId", (String)paramMap.get("memid") );
+//		model.addAttribute("mbrPw", (String)paramMap.get("mempw") );
+//		model.addAttribute("isLoginForm", true);
+//		
+//		//----------------------------------
+//		// 간편/애플로그인  (kakao/apple)
+//		//----------------------------------
+//		model.addAttribute("easyLoginType", (String)paramMap.get("easyLoginType"));
+//		// 애플로그인 인증성공여부 (초기값=N)
+//		model.addAttribute("appleLoginCertSucsYn", "N");
+//		// 애플로그인 식별자(앱에서 전달)
+//		model.addAttribute("appleIdentifier",  (String)paramMap.get("appleIdentifier"));
+//		
+//		//----------------------------------
+//		// 아이폰/아이패드로 접근시, 추가로직
+//		//----------------------------------
+//		UserAgentUtil ua = new UserAgentUtil(request);
+//		if (userAgent.getIsApp() 
+//				&& (ua.getOsName().toLowerCase().indexOf("iphone") > -1 
+//				   || ua.getOsName().toLowerCase().indexOf("ipad") > -1)) 
+//		{
+//		        //아이폰 계열일때 MC 간편로그인 카카오 영역 숨기 여부를 Y 로 바꿈
+//		        model.addAttribute("iPhoneEasyloginKkoAreaHiddenYn", "Y");
+//		}
+//		//
+//		//----------------------------------
+//		// 처리후 이동URL 
+//		//----------------------------------
+//		String refererUrl = "/";  // 기본 홈
+//		
+//		String redirectUrl =  (String) paramMap.get("redirectUrl");
+//		if (!TextUtil.isEmpty(redirectUrl)) {
+//		    refererUrl =redirectUrl;
+//		}
 //
-//        //----------------------------------
-//        // 처리후 이동URL 
-//        //----------------------------------
-//        String refererUrl = "/";  // 기본 홈
-//        
-//        String redirectUrl =  (String) paramMap.get("redirectUrl");
-//        if (!TextUtil.isEmpty(redirectUrl)) {
-//            refererUrl =redirectUrl;
-//        }
+//		// 이전페이지가 "주문" 이면  > 장바구니 조회로 이동
+//		if (refererUrl != null && refererUrl.contains("/order/")) { 
+//			refererUrl =  cartUrl;
+//			
+//		// 이전페이지가 "로그인" 아니면  > model 로 
+//		}  else if (refererUrl != null && !refererUrl.contains("login")) {
+//			
+//			// 간편 로그인(naver / facebook / apple) 인경우
+//			// back할때 로그인 폼에서 받은 referer
+//		    if (refererUrl.contains("naver") || refererUrl.contains("facebook") || refererUrl.contains("apple") ) 
+//		    {
+//		        model.addAttribute("returnUrl", (String) paramMap.get("refererUrl"));					
+//		        request.getSession().setAttribute("redirectUrl", refererUrl);
+//		    }
 //
-//        // 이전페이지가 "주문" 이면  > 장바구니 조회로 이동
-//        if (refererUrl != null && refererUrl.contains("/order/")) { 
-//        	refererUrl =  cartUrl;
-//        	
-//    	// 이전페이지가 "로그인" 아니면  > model 로 
-//        }  else if (refererUrl != null && !refererUrl.contains("login")) {
-//        	
-//        	// 간편 로그인(naver / facebook / apple) 인경우
-//        	// back할때 로그인 폼에서 받은 referer
-//            if (refererUrl.contains("naver") || refererUrl.contains("facebook") || refererUrl.contains("apple") ) 
-//            {
-//                model.addAttribute("returnUrl", (String) paramMap.get("refererUrl"));					
-//                request.getSession().setAttribute("redirectUrl", refererUrl);
-//            }
+//		// 이전페이지가 "로그인"   > 장바구니 조회로 이동
+//		// session 값 redirectUrl 활용 --> 
+//		} else if (refererUrl != null && refererUrl.contains("login") &&  request.getSession().getAttribute("redirectUrl") != null) {
+//			refererUrl = (String) request.getSession().getAttribute("redirectUrl");
+//		}
+//		//
+//		
+//		Map<String, Object>  isLoginYn  = loginCheck(request, null);
+//		// 로그인 session 값 있으면
+//		if ("Y".equals(isLoginYn.get("result"))) {
+//			
+//			
+//		}
 //
-//        // 이전페이지가 "로그인"   > 장바구니 조회로 이동
-//        // session 값 redirectUrl 활용 --> 
-//        } else if (refererUrl != null && refererUrl.contains("login") &&  request.getSession().getAttribute("redirectUrl") != null) {
-//        	refererUrl = (String) request.getSession().getAttribute("redirectUrl");
-//        }
-//
-//        
-//        Map<String, Object>  isLoginYn  = loginCheck(request, null);
-//        // 로그인 session 값 있으면
-//        if ("Y".equals(isLoginYn.get("result"))) {
-//        	
-//        	
-//        }
-//        
-//        
-//        
-        
+// ---------------------------------------------------------------------------------        
 //        if (userContext.isLoggedIn()) {
 //            // 성인인증 상품에서 들어온 경우
 //            if (!TextUtil.isEmpty(authYn) && Constants.Y.equals(authYn)) {
@@ -155,8 +270,6 @@ public class LoginController {
 //                toUrl = Constants.JSP_FOR_REDIRECT;
 //            }
 //        }
-        
-        
         // 회원 확인
 //        String sMbrPasswd = loginService.selectMbrInfo(memberInfo.getMbrNo());
 //
@@ -184,11 +297,11 @@ public class LoginController {
 //        //인앱브라우저 등으로 들어와서
 //        request.setAttribute("referer", referer);
 //        request.getSession().setAttribute("referer", referer);
-
-   		 mv.setViewName("login/loginForm");
-   		
-   		return mv;
-    }
+//
+//   		 mv.setViewName("login/loginForm");
+//   		
+//   		return mv;
+//    }
     
     /**
      * 로그인 성공처리

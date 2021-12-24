@@ -125,17 +125,17 @@ var common = function() {
 		
 		
 		clearKeyValue : function(pTarget, pBtn) {
-			document.getElementById(pBtn).style.display="none";
-			document.getElementById(pTarget).value="";
-			document.getElementById(pTarget).focus();
+			$("#pBtn").style.display="none";
+			$("#pTarget").value="";
+			$("#pTarget").focus();
 		},
 		
 		checkKeyValue : function(pTarget, pBtn) {
-			if(document.getElementById(pTarget).value=="") {
-				document.getElementById(pBtn).style.display="none";
+			if($("#pTarget").value=="") {
+				$("#pBtn").style.display="none";
 			}
 			else {
-				document.getElementById(pBtn).style.display="block";
+				$("#pBtn").style.display="block";
 			}
 		},
 			    
