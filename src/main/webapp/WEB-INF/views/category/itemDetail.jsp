@@ -5,7 +5,8 @@
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
 <% pageContext.setAttribute("newLineChar", "\\n"); %>
-
+<% String DAY_ORDER_DEADLINE_TIME = " 13:00:00"; %>
+<c:set value="<%= DAY_ORDER_DEADLINE_TIME %>" var="constTime"/>
 <div class="site-container">
   <header class="local-header">
     <div class="fixed-top">
@@ -71,44 +72,64 @@
             </div>
           </c:if>
 
-          <div class="prd-detail-price prd-item-price">
-            <c:if test="${discountRate > 0}">
-              <div class="dc">
-                <span>${discountRate}</span><small>%</small>
-              </div>
-            </c:if>
-            <c:set var="prcText" value="${itemDetail.priceyn eq 'N' and strLoginMemCD eq '' ? '특별할인가' : ''}"/>
-            <c:choose>
-              <c:when test="${itemDetail.price1 ne itemDetail.saleprice}">
+          <c:choose>
+            <c:when test="${itemDetail.odtype eq '15'}">
+              <div class="prd-detail-price prd-item-price">
                 <div class="prd-item-price">
                   <div class="price">
+                    <span>
+                      <c:choose>
+                        <c:when test="${itemDlvDeadlineMsg.gdmsg ne null and itemDlvDeadlineMsg.supmsg ne null}">
+                          주문마감
+                        </c:when>
+                      </c:choose>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </c:when>
+            <c:otherwise>
+              <div class="prd-detail-price prd-item-price">
+                <c:if test="${discountRate > 0}">
+                  <div class="dc">
+                    <span>${discountRate}</span><small>%</small>
+                  </div>
+                </c:if>
+                <c:set var="prcText" value="${itemDetail.priceyn eq 'N' and strLoginMemCD eq '' ? '특별할인가' : ''}"/>
+                <c:choose>
+                  <c:when test="${itemDetail.price1 ne itemDetail.saleprice}">
+                    <div class="prd-item-price">
+                      <div class="price">
                     <span>
                       <c:if test="${itemDetail.priceyn eq 'N' and strLoginMemCD eq ''}">
                         ${prcText}
                       </c:if>
                       <fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" />
                     </span>
-                    <small>원</small>
+                        <small>원</small>
+                      </div>
+                      <div class="price-org">
+                        <fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" />원
+                      </div>
+                    </div>
+                  </c:when>
+                  <c:otherwise>
+                    <div class="prd-item-price">
+                      <div class="price">
+                        <span><fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" /></span><small>원</small>
+                      </div>
+                    </div>
+                  </c:otherwise>
+                </c:choose>
+                <c:if test="${strMEMGRPCD ne null and strMEMGRPCD ne '' and strGroupSalePolicy eq 'N'}">
+                  <div class="dc-tag">
+                    <span class="label">${strMEMGRPName}님 추가 할인 적용</span>
                   </div>
-                  <div class="price-org">
-                    <fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" />원
-                  </div>
-                </div>
-              </c:when>
-              <c:otherwise>
-                <div class="prd-item-price">
-                  <div class="price">
-                    <span><fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" /></span><small>원</small>
-                  </div>
-                </div>
-              </c:otherwise>
-            </c:choose>
-            <c:if test="${strMEMGRPCD ne null and strMEMGRPCD ne '' and strGroupSalePolicy eq 'N'}">
-              <div class="dc-tag">
-                <span class="label">${strMEMGRPName}님 추가 할인 적용</span>
+                </c:if>
               </div>
-            </c:if>
-          </div>
+            </c:otherwise>
+          </c:choose>
+
           <ul class="prd-info-promo">
             <c:choose>
               <c:when test="${paramMap.strMEMGRPCD ne null and paramMap.strMEMGRPCD ne '' }">
@@ -144,36 +165,38 @@
             </li>
           </ul>
         </section>
-        <c:choose>
-          <c:when test="${setItemDetailConfiguration.size() > 0}">
-            <c:forEach items="${setItemDetailConfiguration}" var="setItem">
-              <section class="prd-info-gift">
-                <h3 class="hd-xs bold">세트 구성상품</h3>
-                <div class="box">
-                  <ul class="pi-gift-list">
-                    <li>
-                      <div class="thumb-prd-gift">
-                        <div class="img">
-                          <img src="<%=_imgUrl %>/images/gdimg/prd-img-05.jpg" alt="${setItem.gdname}">
+        <c:if test="${itemDetail.divcd eq '20'}">
+          <c:choose>
+            <c:when test="${setItemDetailConfiguration.size() > 0}">
+              <c:forEach items="${setItemDetailConfiguration}" var="setItem">
+                <section class="prd-info-gift">
+                  <h3 class="hd-xs bold">세트 구성상품</h3>
+                  <div class="box">
+                    <ul class="pi-gift-list">
+                      <li>
+                        <div class="thumb-prd-gift">
+                          <div class="img">
+                            <img src="<%=_imgUrl %>/images/gdimg/prd-img-05.jpg" alt="${setItem.gdname}">
+                          </div>
+                          <div class="content">
+                            세트 상품 ${setItem.gdqty}
+                            <span class="name">${setItem.gdname}</span>
+                          </div>
                         </div>
-                        <div class="content">
-                          세트 상품 ${setItem.gdqty}
-                          <span class="name">${setItem.gdname}</span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </section>
-            </c:forEach>
-          </c:when>
-          <c:otherwise>
-            <h3 class="hd-xs bold">세트 구성상품</h3>
-            <div class="box">
-              <span class="name">상품 구성정보가 없습니다.</span>
-            </div>
-          </c:otherwise>
-        </c:choose>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+              </c:forEach>
+            </c:when>
+            <c:otherwise>
+              <h3 class="hd-xs bold">세트 구성상품</h3>
+              <div class="box">
+                <span class="name">상품 구성정보가 없습니다.</span>
+              </div>
+            </c:otherwise>
+          </c:choose>
+        </c:if>
         <section class="prd-info-gift">
           <h3 class="hd-xs bold">사은품</h3>
           <div class="box">
@@ -247,10 +270,6 @@
                     <td>${itemDetail.origin}</td>
                   </tr>
                   <tr>
-                    <th>도착예정</th>
-                    <td>${itemDlvDeadlineMsg.supmsg}</td>
-                  </tr>
-                  <tr>
                     <th>배송유형</th>
                     <c:choose>
                       <c:when test="${itemDetail.dispatchtype eq 'O'}">
@@ -291,7 +310,7 @@
                     <th>배송정보</th>
                     <td>
                       <c:choose>
-                        <c:when test="${paramMap.strOdtype eq '15'}">
+                        <c:when test="${itemDetail.odtype eq '15'}">
                           <c:choose>
                             <c:when test="${itemDetail.delpol ne null or itemDetail.delpol ne '' and itemDetail.delpol eq '02'}">
                               <c:choose>
@@ -326,6 +345,10 @@
                       <a href="#" class="button bt-xs bt-outline bt-brown btn-spec"><span>배송비 절약상품 담기</span> <i class="wn-icon chevron-h-16 brown"></i></a>
                     </td>
                   </tr>
+                  <tr>
+                    <th>남은 수량</th>
+                    <td>${itemDetail.gdcnt}</td>
+                  </tr>
                 </table>
               </section>
               <!-- 예약상품 정보 -->
@@ -355,13 +378,34 @@
                       <table class="table-basic-spec">
                         <tr>
                           <th>도착예정</th>
-                          <td>${itemDetail.setDlvdt}</td>
+                          <td>${itemDetail.dlvdt}</td>
                         </tr>
                       </table>
                     </div>
                   </c:when>
                   <c:when test="${itemDetail.odtype eq '02' and itemDetail.thedaysyn eq 'Y'}">
-
+                    <div class="bg-gray pa-m mt-10">
+                      <table class="table-basic-spec">
+                        <tr>
+                          <th>도착예정</th>
+                          <td id="spanDeliveryDate">
+                            ${itemDetail.dlvdt}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>주문마감</th>
+                          <td id="spanDeliveryTime">
+                            <script>
+                              $(function (){
+                                <c:if test="${itemDetail.odtype eq '02' and itemDetail.thedaysyn eq 'Y'}">
+                                countDownTimer('${itemDetail.nextOrderDeadlineDate}${constTime}', 'spanDeliveryDate', ${itemDetail.nextDeliveryDate});
+                                </c:if>
+                              });
+                            </script>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
                   </c:when>
                 </c:choose>
               </section>
@@ -1427,10 +1471,20 @@
       </div><!-- /.swiper-prd-detail -->
 
       <hr class="spacer-bottom">
-
-      <div class="button-footer-fixed">
-        <button class="button bt-l bt-green bt-rect" id="plpBtnBuy" onclick="showBuyOption()">구매하기</button>
-      </div>
+      <c:forEach var="itemDetail" items="${itemDetail}">
+        <c:choose>
+          <c:when  test="${itemDetail.soldoutyn eq 'Y' or itemDetail.gdcnt <= '0'}">
+            <div class="button-footer-fixed">
+              <button class="button bt-l bt-yellow bt-rect" id="restockBtn" onclick="showRestockPop();" >재입고 알림 신청</button>
+            </div>
+          </c:when>
+          <c:otherwise>
+            <div class="button-footer-fixed">
+              <button class="button bt-l bt-green bt-rect" id="plpBtnBuy" onclick="showBuyOption()">구매하기</button>
+            </div>
+          </c:otherwise>
+        </c:choose>
+      </c:forEach>
     </div><!-- /.main-content -->
   </main>
   <div class="quick-menu" id="quick-menu">
@@ -1440,7 +1494,7 @@
 </div><!-- /.site-container -->
 
 <script>
-  $(document).ready(function () {
+  $(function () {
     $('.global-bottom').hide();
   });
 </script>
