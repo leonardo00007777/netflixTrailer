@@ -1,8 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.*
-			 	"
-%><%@ include file="/WEB-INF/views/common/env.jsp"
-%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.*" %>
+<%@ include file="/WEB-INF/views/common/env.jsp" %>
 <%-- 전체메뉴 --%>
 <div id="allMenu" class="allmenu" style="" tabindex="0">
 	<div id="mLnb">
@@ -935,32 +932,48 @@
   <div class="modal fade wn-modal-bottom modal-buy-option" id="modalBuyOption">
     <div class="modal-dialog">
       <div class="modal-content">
-        <button class="btn-close" data-dismiss="modal">닫기</button>
+        <button class="btn-close" onclick="closeBuyOption();" data-dismiss="modal">닫기</button>
         <div class="overflow-auto">
           <div class="wn-modal-body">
             <div class="buy-options">
               <c:forEach items="${itemDetail}" var="itemDetail">
-              <div class="buy-option-item">
-                <div class="label">${itemDetail.gdname}</div>
-                <div class="content">
-                  <div class="input-number" id="inputNumber">
-                    <button class="dec" id="decBtn" onclick="modalBuyOptionOne(this.value, '${itemDetail.price1}', '${itemDetail.saleprice}', 'dec')" value="-1"></button>
-                    <input class="num" id="itemNum" type="text" value="1" readonly>
-                    <button class="inc" id="incBtn" onclick="modalBuyOptionOne(this.value, '${itemDetail.price1}', '${itemDetail.saleprice}', 'inc')" value="1"></button>
+                <div class="buy-option-item">
+                  <div class="label">${itemDetail.gdname}</div>
+                  <div class="content">
+                    <div class="input-number" id="inputNumber">
+                      <input type="hidden" value="${itemDetail.gdcnt}" id="gdcnt"/>
+                      <button class="dec" value="${itemDetail.saleprice}"></button>
+                      <input class="num" id="itemNum" type="text" value="1" readonly>
+                      <button class="inc" value="${itemDetail.saleprice}"></button>
+                    </div>
+                    <div class="price-format" id="buyModalPrc">
+                      <c:choose>
+                        <c:when test="${itemDetail.price1 eq itemDetail.saleprice}">
+                          <fmt:formatNumber value="${itemDetail.saleprice}"/><small>원</small>
+                        </c:when>
+                        <c:otherwise>
+                          <fmt:formatNumber value="${itemDetail.price1}"/><small>원</small>
+                        </c:otherwise>
+                      </c:choose>
+                    </div>
                   </div>
-                  <div class="price-format">
-                    <fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" /><small>원</small>
+                  <div class="buy-option-total">
+                    <span class="label">합계</span>
+                    <span class="price-format" id="totalPrc">
+                      <c:choose>
+                        <c:when test="${itemDetail.price1 eq itemDetail.saleprice}">
+                          <fmt:formatNumber value="${itemDetail.saleprice}"/><small>원</small>
+                        </c:when>
+                        <c:otherwise>
+                          <fmt:formatNumber value="${itemDetail.price1}"/><small>원</small>
+                        </c:otherwise>
+                      </c:choose>
+                  </span>
                   </div>
                 </div>
-                </c:forEach>
-                <div class="buy-option-total">
-                  <span class="label">합계</span>
-                  <span class="price-format">3,480<small>원</small></span>
-                </div>
-              </div>
+              </c:forEach>
             </div>
             <footer class="wn-modal-footer">
-              <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
               <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
               <button class="button bt-l bt-green bt-rect"  onclick="location.href = 'WN_PB_MO_ORD_010101.html' ">장바구니</button>
             </footer>
@@ -1036,10 +1049,12 @@
         <h2 class="wn-modal-header">재입고 알림 신청</h2>
         <div class="wn-modal-body">
           <ul>
-            <li>
-              <h4 class="t-14 t-green">상품명</h4>
-              <div class="mt-xs t-hd">맛있는 아이스 홍시 100g ...</div>
-            </li>
+            <c:forEach items="${itemDetail}" var="itemDetail">
+              <li>
+                <h4 class="t-14 t-green">상품명</h4>
+                <div class="mt-xs t-hd">${itemDetail.gdname}</div>
+              </li>
+            </c:forEach>
             <li class="mt-20">
               <h4 class="t-14 t-green">휴대폰</h4>
               <div class="mt-xs t-hd">010-5523-2038</div>
@@ -1368,71 +1383,73 @@
       <div class="modal-content">
         <button class="btn-close" data-dismiss="modal">닫기</button>
         <div class="overflow-auto">
-          <div class="wn-modal-body">
-            <article class="section-share">
-              <div class="share-item">
-                <div class="thumb">
-                  <div class="img-square rounded-8">
-                    <div class="img-crop" style="background-image: url(images/uploads/prd-img-01.jpg);"></div>
+          <c:forEach var="itemDetail" items="${itemDetail}">
+            <div class="wn-modal-body">
+              <article class="section-share">
+                <div class="share-item">
+                  <div class="thumb">
+                    <div class="img-square rounded-8">
+                      <div class="img-crop" style="background-image: url(<%=_imgUrl%>images/uploads/${itemDetail.mgdimg1});"></div>
+                    </div>
+                  </div>
+                  <div class="content">
+                    <h3 class="label">공유하기</h3>
+                    <div class="tit">${itemDetail.gdname}</div>
                   </div>
                 </div>
-                <div class="content">
-                  <h3 class="label">공유하기</h3>
-                  <div class="tit">[정덕원 농부] 제주의 달콤향긋 애플망고 2kg (5~7수)</div>
-                </div>
-              </div>
-              <ul class="sns-tile">
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-kakaostory"></i>
-                    <div class="label">카카오스토리</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-band"></i>
-                    <div class="label">밴드</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-line"></i>
-                    <div class="label">라인</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-facebook"></i>
-                    <div class="label">페이스북</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-twitter"></i>
-                    <div class="label">트위터</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-kakaotalk"></i>
-                    <div class="label">카카오톡</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-sms"></i>
-                    <div class="label">문자 (SMS)</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-link"></i>
-                    <div class="label">링크 복사</div>
-                  </a>
-                </li>
-              </ul>
-            </article>
-          </div>
+                <ul class="sns-tile">
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-kakaostory"></i>
+                      <div class="label">카카오스토리</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-band"></i>
+                      <div class="label">밴드</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-line"></i>
+                      <div class="label">라인</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:void(0)" onclick="shareFaceBook();" class="sns-thumb">
+                      <i class="wn-icon sns-facebook"></i>
+                      <div class="label">페이스북</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-twitter"></i>
+                      <div class="label">트위터</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-kakaotalk"></i>
+                      <div class="label">카카오톡</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-sms"></i>
+                      <div class="label">문자 (SMS)</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-link"></i>
+                      <div class="label">링크 복사</div>
+                    </a>
+                  </li>
+                </ul>
+              </article>
+            </div>
+          </c:forEach>
         </div>
       </div>
     </div>
@@ -2596,12 +2613,6 @@
       </div>
     </div>
   </div>
- 
-    
-    
-    
-    
-    
   <script>
     $(function () {
       //팝업 & 탭 시연용 테스트 코드 

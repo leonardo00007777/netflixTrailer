@@ -5,6 +5,7 @@
 <tiles:insertAttribute name="header"/>
 <tiles:insertAttribute name="javascripts"/>
 <tiles:insertAttribute name="body"  ignore="true"/>
-<tiles:insertAttribute name="footer"/>
 <tiles:insertAttribute name="slide"/>
+<tiles:insertAttribute name="footer"/>
+
 

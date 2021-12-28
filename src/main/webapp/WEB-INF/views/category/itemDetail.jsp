@@ -5,7 +5,8 @@
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
 <% pageContext.setAttribute("newLineChar", "\\n"); %>
-
+<% String DAY_ORDER_DEADLINE_TIME = " 13:00:00"; %>
+<c:set value="<%= DAY_ORDER_DEADLINE_TIME %>" var="constTime"/>
 <div class="site-container">
   <header class="local-header">
     <div class="fixed-top">
@@ -71,44 +72,64 @@
             </div>
           </c:if>
 
-          <div class="prd-detail-price prd-item-price">
-            <c:if test="${discountRate > 0}">
-              <div class="dc">
-                <span>${discountRate}</span><small>%</small>
-              </div>
-            </c:if>
-            <c:set var="prcText" value="${itemDetail.priceyn eq 'N' and strLoginMemCD eq '' ? '특별할인가' : ''}"/>
-            <c:choose>
-              <c:when test="${itemDetail.price1 ne itemDetail.saleprice}">
+          <c:choose>
+            <c:when test="${itemDetail.odtype eq '15'}">
+              <div class="prd-detail-price prd-item-price">
                 <div class="prd-item-price">
                   <div class="price">
+                    <span>
+                      <c:choose>
+                        <c:when test="${itemDlvDeadlineMsg.gdmsg ne null and itemDlvDeadlineMsg.supmsg ne null}">
+                          주문마감
+                        </c:when>
+                      </c:choose>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </c:when>
+            <c:otherwise>
+              <div class="prd-detail-price prd-item-price">
+                <c:if test="${discountRate > 0}">
+                  <div class="dc">
+                    <span>${discountRate}</span><small>%</small>
+                  </div>
+                </c:if>
+                <c:set var="prcText" value="${itemDetail.priceyn eq 'N' and strLoginMemCD eq '' ? '특별할인가' : ''}"/>
+                <c:choose>
+                  <c:when test="${itemDetail.price1 ne itemDetail.saleprice}">
+                    <div class="prd-item-price">
+                      <div class="price">
                     <span>
                       <c:if test="${itemDetail.priceyn eq 'N' and strLoginMemCD eq ''}">
                         ${prcText}
                       </c:if>
                       <fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" />
                     </span>
-                    <small>원</small>
+                        <small>원</small>
+                      </div>
+                      <div class="price-org">
+                        <fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" />원
+                      </div>
+                    </div>
+                  </c:when>
+                  <c:otherwise>
+                    <div class="prd-item-price">
+                      <div class="price">
+                        <span><fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" /></span><small>원</small>
+                      </div>
+                    </div>
+                  </c:otherwise>
+                </c:choose>
+                <c:if test="${strMEMGRPCD ne null and strMEMGRPCD ne '' and strGroupSalePolicy eq 'N'}">
+                  <div class="dc-tag">
+                    <span class="label">${strMEMGRPName}님 추가 할인 적용</span>
                   </div>
-                  <div class="price-org">
-                    <fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" />원
-                  </div>
-                </div>
-              </c:when>
-              <c:otherwise>
-                <div class="prd-item-price">
-                  <div class="price">
-                    <span><fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" /></span><small>원</small>
-                  </div>
-                </div>
-              </c:otherwise>
-            </c:choose>
-            <c:if test="${strMEMGRPCD ne null and strMEMGRPCD ne '' and strGroupSalePolicy eq 'N'}">
-              <div class="dc-tag">
-                <span class="label">${strMEMGRPName}님 추가 할인 적용</span>
+                </c:if>
               </div>
-            </c:if>
-          </div>
+            </c:otherwise>
+          </c:choose>
+
           <ul class="prd-info-promo">
             <c:choose>
               <c:when test="${paramMap.strMEMGRPCD ne null and paramMap.strMEMGRPCD ne '' }">
@@ -144,36 +165,38 @@
             </li>
           </ul>
         </section>
-        <c:choose>
-          <c:when test="${setItemDetailConfiguration.size() > 0}">
-            <c:forEach items="${setItemDetailConfiguration}" var="setItem">
-              <section class="prd-info-gift">
-                <h3 class="hd-xs bold">세트 구성상품</h3>
-                <div class="box">
-                  <ul class="pi-gift-list">
-                    <li>
-                      <div class="thumb-prd-gift">
-                        <div class="img">
-                          <img src="<%=_imgUrl %>/images/gdimg/prd-img-05.jpg" alt="${setItem.gdname}">
+        <c:if test="${itemDetail.divcd eq '20'}">
+          <c:choose>
+            <c:when test="${setItemDetailConfiguration.size() > 0}">
+              <c:forEach items="${setItemDetailConfiguration}" var="setItem">
+                <section class="prd-info-gift">
+                  <h3 class="hd-xs bold">세트 구성상품</h3>
+                  <div class="box">
+                    <ul class="pi-gift-list">
+                      <li>
+                        <div class="thumb-prd-gift">
+                          <div class="img">
+                            <img src="<%=_imgUrl %>/images/gdimg/prd-img-05.jpg" alt="${setItem.gdname}">
+                          </div>
+                          <div class="content">
+                            세트 상품 ${setItem.gdqty}
+                            <span class="name">${setItem.gdname}</span>
+                          </div>
                         </div>
-                        <div class="content">
-                          세트 상품 ${setItem.gdqty}
-                          <span class="name">${setItem.gdname}</span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </section>
-            </c:forEach>
-          </c:when>
-          <c:otherwise>
-            <h3 class="hd-xs bold">세트 구성상품</h3>
-            <div class="box">
-              <span class="name">상품 구성정보가 없습니다.</span>
-            </div>
-          </c:otherwise>
-        </c:choose>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+              </c:forEach>
+            </c:when>
+            <c:otherwise>
+              <h3 class="hd-xs bold">세트 구성상품</h3>
+              <div class="box">
+                <span class="name">상품 구성정보가 없습니다.</span>
+              </div>
+            </c:otherwise>
+          </c:choose>
+        </c:if>
         <section class="prd-info-gift">
           <h3 class="hd-xs bold">사은품</h3>
           <div class="box">
@@ -231,390 +254,414 @@
             />
             <!-- 상품정보 컨텐츠 -->
             <article class="swiper-slide prd-detail-slide">
-            <!-- 상품 기본 정보 -->
-            <section class="pdp-basic-spec">
-              <table class="table-basic-spec">
-                <tr>
-                  <th>판매단위</th>
-                  <td>${itemDetail.unit}</td>
-                </tr>
-                <tr>
-                  <th>상품유형</th>
-                  <td>${itemDetail.gradedesc}</td>
-                </tr>
-                <tr>
-                  <th>원산지</th>
-                  <td>${itemDetail.origin}</td>
-                </tr>
-                <tr>
-                  <th>도착예정</th>
-                  <td>${itemDlvDeadlineMsg.supmsg}</td>
-                </tr>
-                <tr>
-                  <th>배송유형</th>
-                  <c:choose>
-                    <c:when test="${itemDetail.dispatchtype eq 'O'}">
-                      <c:choose>
-                        <c:when test="${itemDetail.limitdelivery eq 'CA'}">
-                          <td>업체 직송(수도권만)</td>
-                        </c:when>
-                        <c:when test="${itemDetail.limitdelivery eq 'SE'}">
-                          <td>업체 직송(서울지역만)</td>
-                        </c:when>
-                        <c:when test="${itemDetail.limitdelivery eq 'NJ'}">
-                          <td>업체 직송(제주도 제외)</td>
-                        </c:when>
-                        <c:otherwise>
-                          <td>업체 직송</td>
-                        </c:otherwise>
-                      </c:choose>
-                    </c:when>
-                    <c:otherwise>
-                      <c:choose>
-                        <c:when test="${itemDetail.limitdelivery eq 'CA'}">
-                          <td>자연이랑배송(수도권만)</td>
-                        </c:when>
-                        <c:when test="${itemDetail.limitdelivery eq 'SE'}">
-                          <td>자연이랑배송(서울지역만)</td>
-                        </c:when>
-                        <c:when test="${itemDetail.limitdelivery eq 'NJ'}">
-                          <td>자연이랑배송(제주도 제외)</td>
-                        </c:when>
-                        <c:otherwise>
-                          <td>자연이랑배송</td>
-                        </c:otherwise>
-                      </c:choose>
-                    </c:otherwise>
-                  </c:choose>
-                </tr>
-                <tr>
-                  <th>배송정보</th>
-                  <td>
+              <!-- 상품 기본 정보 -->
+              <section class="pdp-basic-spec">
+                <table class="table-basic-spec">
+                  <tr>
+                    <th>판매단위</th>
+                    <td>${itemDetail.unit}</td>
+                  </tr>
+                  <tr>
+                    <th>상품유형</th>
+                    <td>${itemDetail.gradedesc}</td>
+                  </tr>
+                  <tr>
+                    <th>원산지</th>
+                    <td>${itemDetail.origin}</td>
+                  </tr>
+                  <tr>
+                    <th>배송유형</th>
                     <c:choose>
-                      <c:when test="${paramMap.strOdtype eq '15'}">
+                      <c:when test="${itemDetail.dispatchtype eq 'O'}">
                         <c:choose>
-                          <c:when test="${itemDetail.delpol ne null or itemDetail.delpol ne '' and itemDetail.delpol eq '02'}">
-                            <c:choose>
-                              <c:when test="${itemDetail.saleprice lt itemDetail.limamt}">
-                                <fmt:formatNumber value="${itemDetail.delcharge}" pattern="#,###" />원 ( <fmt:formatNumber value="${itemDetail.limamt}" pattern="#,###" />이상 무료배송)
-                              </c:when>
-                              <c:otherwise>
-                                무료배송
-                              </c:otherwise>
-                            </c:choose>
+                          <c:when test="${itemDetail.limitdelivery eq 'CA'}">
+                            <td>업체 직송(수도권만)</td>
                           </c:when>
-                          <c:when test="${itemDetail.delpol ne null or itemDetail.delpol ne '' and itemDetail.delpol eq '03'}">
-                            <fmt:formatNumber value="${itemDetail.delcharge}" pattern="#,###" />원
+                          <c:when test="${itemDetail.limitdelivery eq 'SE'}">
+                            <td>업체 직송(서울지역만)</td>
+                          </c:when>
+                          <c:when test="${itemDetail.limitdelivery eq 'NJ'}">
+                            <td>업체 직송(제주도 제외)</td>
                           </c:when>
                           <c:otherwise>
-                            무료배송
+                            <td>업체 직송</td>
                           </c:otherwise>
                         </c:choose>
                       </c:when>
                       <c:otherwise>
                         <c:choose>
-                          <c:when test="${paramMap.strGDCD ne 'A3' and paramMap.strGDCD ne 'B2' and itemDetail.saleprice lt paramMap.minimumOrderPrice}">
-                            <fmt:formatNumber value="${paramMap.deliveryCharge}" pattern="#,###" />원 ( <fmt:formatNumber value="${paramMap.minimumOrderPrice}" pattern="#,###"/> 원 이상 무료 )
+                          <c:when test="${itemDetail.limitdelivery eq 'CA'}">
+                            <td>자연이랑배송(수도권만)</td>
+                          </c:when>
+                          <c:when test="${itemDetail.limitdelivery eq 'SE'}">
+                            <td>자연이랑배송(서울지역만)</td>
+                          </c:when>
+                          <c:when test="${itemDetail.limitdelivery eq 'NJ'}">
+                            <td>자연이랑배송(제주도 제외)</td>
                           </c:when>
                           <c:otherwise>
-                            무료
+                            <td>자연이랑배송</td>
                           </c:otherwise>
                         </c:choose>
                       </c:otherwise>
                     </c:choose>
-                    <br>
-                    <a href="#" class="button bt-xs bt-outline bt-brown btn-spec"><span>배송비 절약상품 담기</span> <i class="wn-icon chevron-h-16 brown"></i></a>
-                  </td>
-                </tr>
-              </table>
-            </section>
-            <!-- 예약상품 정보 -->
-            <section class="pdp-pre-order">
-              <c:choose>
-                <c:when test="${itemDetail.reserveyn eq 'Y'}">
-                  <div class="t-15 lh-22">
-                    본 상품은 사전 예약주문 상품입니다.
-                    <br>
-                    미리 주문하시면 발송일에 맞춰 배송됩니다.
-                  </div>
-                  <div class="bg-gray pa-m mt-10">
-                    <table class="table-basic-spec">
-                      <tr>
-                        <th>사전주문기간</th>
-                        <td>${itemDetail.odFrom} ~ ${itemDetail.odTo}</td>
-                      </tr>
-                      <tr>
-                        <th>배송기간</th>
-                        <td>${itemDetail.dlvFrom} ~ ${itemDetail.dlvTo}</td>
-                      </tr>
-                    </table>
-                  </div>
-                </c:when>
-                <c:when test="${itemDetail.deliverydtyn eq 'Y'}">
-                  <div class="bg-gray pa-m mt-10">
-                    <table class="table-basic-spec">
-                      <tr>
-                        <th>배송기간</th>
-                        <td id="dlvDtYn"></td>
-                      </tr>
-                    </table>
-                  </div>
-                </c:when>
-              </c:choose>
-            </section>
-            <!-- 상품 프로모션 배너 -->
-            <section class="prd-promo-banner">
-              <img src="<%=_imgUrl%>images/banner/prdDetailNoticeBanner.png" alt="싱싱하지 않으면 환불, 신선보장">
-            </section>
-            <!-- 인증마크 -->
-            <section class="pdp-add-info">
-              <div class="pdp-add-info-mu">
-                <div class="img-container">
-                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl01.png" alt="" style="width: 104px; height: 104px; !important;">
-                </div>
-                <div class="detail">
-                  <div class="tit">무농약 농산물 인증</div>
-                  <div class="content">
-                    유기합성 농약을 전혀 사용하지 않고 화학비료는 권장 시비량의 1/3 이내 사용
-                  </div>
-                </div>
-              </div>
-            </section>
-            <!-- 안정성 검사 결과 -->
-          <c:if test="${itemDetail.testidx ne '0' or itemDetail.testidx ne ''}">
-            <section class="pdp-add-info">
-              <div class="pdp-add-info-safe">
-                <div class="img-container">
-                  <img src="<%=_imgUrl%>images/banner/pdpBannerEl02.png" alt="방사능 측정 결과">
-                </div>
-                <div class="detail">
-                  <div class="tit">자연이랑에서<br>안심하고 구매하세요! ${itemDetail.testidx} </div>
-                  <div class="content">이 상품은 (방사능 또는 잔류농약) 검사 결과 안정성이 검증 된 상품입니다.</div>
-                  <a href="javascript:void(0);" onclick="radiationTestInfo('11');" class="btn-go">방사능 측정 결과 보기</a>
-                </div>
-              </div>
-            </section>
-          </c:if>
-            <!-- 최근측정당도 -->
-          <c:if test="${paramMap.strGdtype eq '01'}">
-            <c:forEach items="${fruitsSugarInfo}" var="sugarInfo">
-              <c:if test="${sugarInfo.gasuga ne null and sugarInfo.gasuga ne ''}">
-                <section class="pdp-add-info">
-                  <div class="hr"></div>
-                  <div class="pdp-add-info-brix">
-                    <div class="img-container">
-                      <img src="<%=_imgUrl%>images/banner/pdpBannerEl03.png" alt="11.4brix">
-                    </div>
-
-                    <div class="detail">
-                      <div class="tit">최근측정당도</div>
-                      <div class="content">
-                        고객님의 구매에 도움을 드리기 위해 판매되는 동일한 상품을 샘플링하여
-                        측정했으며, 농산물의 특성상 받으신 상품 당도와는 차이날 수 있습니다.
-                        <div class="text">
+                  </tr>
+                  <tr>
+                    <th>배송정보</th>
+                    <td>
+                      <c:choose>
+                        <c:when test="${itemDetail.odtype eq '15'}">
                           <c:choose>
-                            <c:when test="${sugarInfo.fruitsSugar gt '1.1'}">
-                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도보다 더 달아요.</em></p>
+                            <c:when test="${itemDetail.delpol ne null or itemDetail.delpol ne '' and itemDetail.delpol eq '02'}">
+                              <c:choose>
+                                <c:when test="${itemDetail.saleprice lt itemDetail.limamt}">
+                                  <fmt:formatNumber value="${itemDetail.delcharge}" pattern="#,###" />원 ( <fmt:formatNumber value="${itemDetail.limamt}" pattern="#,###" />이상 무료배송)
+                                </c:when>
+                                <c:otherwise>
+                                  무료배송
+                                </c:otherwise>
+                              </c:choose>
                             </c:when>
-                            <c:when test="${sugarInfo.fruitsSugar gt '1.05'}">
-                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도보다 약간 달아요.</em></p>
-                            </c:when>
-                            <c:when test="${sugarInfo.fruitsSugar gt '0.95'}">
-                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도와 비슷해요.</em></p>
-                            </c:when>
-                            <c:when test="${sugarInfo.fruitsSugar gt '0.90'}">
-                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/>brix (표준1) * 표준당도보다 약간 낮아요.</em></p>
+                            <c:when test="${itemDetail.delpol ne null or itemDetail.delpol ne '' and itemDetail.delpol eq '03'}">
+                              <fmt:formatNumber value="${itemDetail.delcharge}" pattern="#,###" />원
                             </c:when>
                             <c:otherwise>
-                              <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도보다 더 낮아요.</em></p>
+                              무료배송
                             </c:otherwise>
                           </c:choose>
-                        </div>
-                      </div>
+                        </c:when>
+                        <c:otherwise>
+                          <c:choose>
+                            <c:when test="${paramMap.strGDCD ne 'A3' and paramMap.strGDCD ne 'B2' and itemDetail.saleprice lt paramMap.minimumOrderPrice}">
+                              <fmt:formatNumber value="${paramMap.deliveryCharge}" pattern="#,###" />원 ( <fmt:formatNumber value="${paramMap.minimumOrderPrice}" pattern="#,###"/> 원 이상 무료 )
+                            </c:when>
+                            <c:otherwise>
+                              무료
+                            </c:otherwise>
+                          </c:choose>
+                        </c:otherwise>
+                      </c:choose>
+                      <br>
+                      <a href="#" class="button bt-xs bt-outline bt-brown btn-spec"><span>배송비 절약상품 담기</span> <i class="wn-icon chevron-h-16 brown"></i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>남은 수량</th>
+                    <td>${itemDetail.gdcnt}</td>
+                  </tr>
+                </table>
+              </section>
+              <!-- 예약상품 정보 -->
+              <section class="pdp-pre-order">
+                <c:choose>
+                  <c:when test="${itemDetail.reserveyn eq 'Y'}">
+                    <div class="t-15 lh-22">
+                      본 상품은 사전 예약주문 상품입니다.
+                      <br>
+                      미리 주문하시면 발송일에 맞춰 배송됩니다.
+                    </div>
+                    <div class="bg-gray pa-m mt-10">
+                      <table class="table-basic-spec">
+                        <tr>
+                          <th>사전주문기간</th>
+                          <td>${itemDetail.odFrom} ~ ${itemDetail.odTo}</td>
+                        </tr>
+                        <tr>
+                          <th>배송기간</th>
+                          <td>${itemDetail.dlvFrom} ~ ${itemDetail.dlvTo}</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </c:when>
+                  <c:when test="${itemDetail.deliverydtyn eq 'Y'}">
+                    <div class="bg-gray pa-m mt-10">
+                      <table class="table-basic-spec">
+                        <tr>
+                          <th>도착예정</th>
+                          <td>${itemDetail.dlvdt}</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </c:when>
+                  <c:when test="${itemDetail.odtype eq '02' and itemDetail.thedaysyn eq 'Y'}">
+                    <div class="bg-gray pa-m mt-10">
+                      <table class="table-basic-spec">
+                        <tr>
+                          <th>도착예정</th>
+                          <td id="spanDeliveryDate">
+                            ${itemDetail.dlvdt}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>주문마감</th>
+                          <td id="spanDeliveryTime">
+                            <script>
+                              $(function (){
+                                <c:if test="${itemDetail.odtype eq '02' and itemDetail.thedaysyn eq 'Y'}">
+                                countDownTimer('${itemDetail.nextOrderDeadlineDate}${constTime}', 'spanDeliveryDate', ${itemDetail.nextDeliveryDate});
+                                </c:if>
+                              });
+                            </script>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </c:when>
+                </c:choose>
+              </section>
+              <!-- 상품 프로모션 배너 -->
+              <section class="prd-promo-banner">
+                <img src="<%=_imgUrl%>images/banner/prdDetailNoticeBanner.png" alt="싱싱하지 않으면 환불, 신선보장">
+              </section>
+              <!-- 인증마크 -->
+              <section class="pdp-add-info">
+                <div class="pdp-add-info-mu">
+                  <div class="img-container">
+                    <img src="<%=_imgUrl%>images/banner/pdpBannerEl01.png" alt="" style="width: 104px; height: 104px; !important;">
+                  </div>
+                  <div class="detail">
+                    <div class="tit">무농약 농산물 인증</div>
+                    <div class="content">
+                      유기합성 농약을 전혀 사용하지 않고 화학비료는 권장 시비량의 1/3 이내 사용
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <!-- 안정성 검사 결과 -->
+              <c:if test="${itemDetail.testidx ne '0' or itemDetail.testidx ne ''}">
+                <section class="pdp-add-info">
+                  <div class="pdp-add-info-safe">
+                    <div class="img-container">
+                      <img src="<%=_imgUrl%>images/banner/pdpBannerEl02.png" alt="방사능 측정 결과">
+                    </div>
+                    <div class="detail">
+                      <div class="tit">자연이랑에서<br>안심하고 구매하세요! ${itemDetail.testidx} </div>
+                      <div class="content">이 상품은 (방사능 또는 잔류농약) 검사 결과 안정성이 검증 된 상품입니다.</div>
+                      <a href="javascript:void(0);" onclick="radiationTestInfo('11');" class="btn-go">방사능 측정 결과 보기</a>
                     </div>
                   </div>
                 </section>
               </c:if>
-            </c:forEach>
-          </c:if>
+              <!-- 최근측정당도 -->
+              <c:if test="${paramMap.strGdtype eq '01'}">
+                <c:forEach items="${fruitsSugarInfo}" var="sugarInfo">
+                  <c:if test="${sugarInfo.gasuga ne null and sugarInfo.gasuga ne ''}">
+                    <section class="pdp-add-info">
+                      <div class="hr"></div>
+                      <div class="pdp-add-info-brix">
+                        <div class="img-container">
+                          <img src="<%=_imgUrl%>images/banner/pdpBannerEl03.png" alt="11.4brix">
+                        </div>
 
-            <!-- 상품 상품정보 페이지 -->
-            <section class="pdp-detail-content">
-              <div class="pdp-detail-view" id="pdpDetailView">
-                <!-- 상품 동영상 -->
-                <section class="pdp-vod">
-                  <div class="pdp-video-container">
-                    <video id="prd-vod" class="video-js vjs-wn-skin vjs-fluid" controls playsinline
-                           preload="auto" width="100%" height="100%" poster=""
-                           data-setup='{"aspectRatio": "1:1"}'>
-                      <source src="<%=_imgUrl%>images/uploads/prd-vod.mp4#t=0.1" type="video/mp4" />
-                    </video>
-                  </div>
-                </section>
-
-                ${itemDetail.explain}
-              </div>
-              <div class="pdp-detail-more">
-                <button class="btn-view-down" onclick="clickPrdViewMore();">
-                  <span class="label">상세정보 펼쳐보기</span>
-                  <i class="wn-icon chevron-v-16 green"></i>
-                </button>
-              </div>
-            </section>
-            <!-- 상품내 공지안내 -->
-<%--            <section class="prd-detail-notice">
-              <h3 class="hd hd-s"><i class="wn-icon alert-24-brown"></i><span>상품내 공지안내</span></h3>
-              <div class="content">
-                <ul class="list-dot">
-                  <li>본상품은 신선식품으로 판매되고 있습니다.</li>
-                  <li>상품 수취 후 4~5일 후 교환/반품 요청을 불가능합니다.</li>
-                  <li>이점 유년하여 주문 부탁드립니다.</li>
-                </ul>
-              </div>
-            </section>--%>
-            <hr class="spacer">
-
-            <!-- 꿀팁! 레시피 -->
-            <section class="com-container">
-              <header class="main-sec-header">
-                <h3 class="tit">자연이랑 레시피</h3>
-              </header>
-              <div class="swiper-container swiper-pdp-recipe swiper-no-swiping">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                    <a href="#" class="pdp-recipe-banner">
-                      <div class="img-container">
-                        <img src="./images/uploads/recipeBanner.jpg" alt="지금 만들어 두새우! 제철 새우장">
-                      </div>
-                      <div class="detail">
-                        <div class="content">
-                          <div class="tit" data-swiper-parallax="-200">지금 만들어 두새우! 제철 새우장</div>
-                          <div class="desc" data-swiper-parallax="-200">
-                            입안 가득 꽉 차게 살이 오른 새우의 달달함과 싱싱함을 오래도록 즐기는 방법으로 새우장만한게 없죠.
+                        <div class="detail">
+                          <div class="tit">최근측정당도</div>
+                          <div class="content">
+                            고객님의 구매에 도움을 드리기 위해 판매되는 동일한 상품을 샘플링하여
+                            측정했으며, 농산물의 특성상 받으신 상품 당도와는 차이날 수 있습니다.
+                            <div class="text">
+                              <c:choose>
+                                <c:when test="${sugarInfo.fruitsSugar gt '1.1'}">
+                                  <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도보다 더 달아요.</em></p>
+                                </c:when>
+                                <c:when test="${sugarInfo.fruitsSugar gt '1.05'}">
+                                  <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도보다 약간 달아요.</em></p>
+                                </c:when>
+                                <c:when test="${sugarInfo.fruitsSugar gt '0.95'}">
+                                  <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도와 비슷해요.</em></p>
+                                </c:when>
+                                <c:when test="${sugarInfo.fruitsSugar gt '0.90'}">
+                                  <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/>brix (표준1) * 표준당도보다 약간 낮아요.</em></p>
+                                </c:when>
+                                <c:otherwise>
+                                  <p><em> <fmt:formatNumber value="${sugarInfo.fruitsSugar}" pattern="#.##"/> brix (표준1) * 표준당도보다 더 낮아요.</em></p>
+                                </c:otherwise>
+                              </c:choose>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </a>
-                  </div>
-                  <div class="swiper-slide">
-                    <a href="#" class="pdp-recipe-banner">
-                      <div class="img-container">
-                        <img src="./images/uploads/recipeBanner.jpg" alt="지금 만들어 두새우! 제철 새우장">
-                      </div>
-                      <div class="detail">
-                        <div class="content">
-                          <div class="tit" data-swiper-parallax="-200">지금 만들어 두새우! 제철 새우장</div>
-                          <div class="desc" data-swiper-parallax="-200">
-                            입안 가득 꽉 차게 살이 오른 새우의 달달함과 싱싱함을 오래도록 즐기는 방법으로 새우장만한게 없죠.
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="swiper-slide">
-                    <a href="#" class="pdp-recipe-banner">
-                      <div class="img-container">
-                        <img src="./images/uploads/recipeBanner.jpg" alt="지금 만들어 두새우! 제철 새우장">
-                      </div>
-                      <div class="detail">
-                        <div class="content">
-                          <div class="tit" data-swiper-parallax="-200">지금 만들어 두새우! 제철 새우장</div>
-                          <div class="desc" data-swiper-parallax="-200">
-                            입안 가득 꽉 차게 살이 오른 새우의 달달함과 싱싱함을 오래도록 즐기는 방법으로 새우장만한게 없죠.
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
+                    </section>
+                  </c:if>
+                </c:forEach>
+              </c:if>
+
+              <!-- 상품 상품정보 페이지 -->
+              <section class="pdp-detail-content">
+                <div class="pdp-detail-view" id="pdpDetailView">
+                  <!-- 상품 동영상 -->
+                  <section class="pdp-vod">
+                    <div class="pdp-video-container">
+                      <video id="prd-vod" class="video-js vjs-wn-skin vjs-fluid" controls playsinline
+                             preload="auto" width="100%" height="100%" poster=""
+                             data-setup='{"aspectRatio": "1:1"}'>
+                        <source src="<%=_imgUrl%>images/uploads/prd-vod.mp4#t=0.1" type="video/mp4" />
+                      </video>
+                    </div>
+                  </section>
+
+                    ${itemDetail.explain}
                 </div>
-                <div class="swiper-pgn-dots-sub"></div>
-              </div>
-            </section>
-
-            <!-- 배송비 절약상품 모음 -->
-            <section class="com-container">
-              <header class="main-sec-header">
-                <h3 class="tit">배송비 절약상품</h3>
-              </header>
-              <div class="swiper-container swiper-prd-2n swiper-no-swiping">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                    <article class="prd-item">
-                      <div class="img-container">
-                        <a href="#" class="prd-item-img">
-                          <img src="./images/uploads/prd-img-03.jpg" alt="무항생제 황토 유정란 10입">
-                        </a>
-                      </div>
-                      <div class="detail">
-                        <a href="#">
-                          <h4 class="prd-item-tit">오불+오낙+쭈삼+만두증정</h4>
-                          <div class="prd-item-price">
-                            <div class="price"><span>3,480</span><small>원</small></div>
-                            <div class="price-org">4,800원</div>
-                          </div>
-                        </a>
-                      </div>
-                    </article>
-                  </div>
-                  <div class="swiper-slide">
-                    <article class="prd-item">
-                      <div class="img-container">
-                        <a href="#" class="prd-item-img">
-                          <img src="./images/uploads/prd-img-05.jpg" alt="무항생제 황토 유정란 10입">
-                        </a>
-                      </div>
-                      <div class="detail">
-                        <a href="#">
-                          <h4 class="prd-item-tit">오불+오낙+쭈삼+만두증정</h4>
-                          <div class="prd-item-price">
-                            <div class="price"><span>3,480</span><small>원</small></div>
-                            <div class="price-org">4,800원</div>
-                          </div>
-                        </a>
-                      </div>
-                    </article>
-                  </div>
-                  <div class="swiper-slide">
-                    <article class="prd-item">
-                      <div class="img-container">
-                        <a href="#" class="prd-item-img">
-                          <img src="./images/uploads/prd-img-03.jpg" alt="무항생제 황토 유정란 10입">
-                        </a>
-                      </div>
-                      <div class="detail">
-                        <a href="#">
-                          <h4 class="prd-item-tit">오불+오낙+쭈삼+만두증정</h4>
-                          <div class="prd-item-price">
-                            <div class="price"><span>3,480</span><small>원</small></div>
-                            <div class="price-org">4,800원</div>
-                          </div>
-                        </a>
-                      </div>
-                    </article>
-                  </div>
-                  <div class="swiper-slide">
-                    <article class="prd-item">
-                      <div class="img-container">
-                        <a href="#" class="prd-item-img">
-                          <img src="./images/uploads/prd-img-05.jpg" alt="무항생제 황토 유정란 10입">
-                        </a>
-                      </div>
-                      <div class="detail">
-                        <a href="#">
-                          <h4 class="prd-item-tit">오불+오낙+쭈삼+만두증정</h4>
-                          <div class="prd-item-price">
-                            <div class="price"><span>3,480</span><small>원</small></div>
-                            <div class="price-org">4,800원</div>
-                          </div>
-                        </a>
-                      </div>
-                    </article>
-                  </div>
+                <div class="pdp-detail-more">
+                  <button class="btn-view-down" onclick="clickPrdViewMore();">
+                    <span class="label">상세정보 펼쳐보기</span>
+                    <i class="wn-icon chevron-v-16 green"></i>
+                  </button>
                 </div>
-                <div class="swiper-pgn-dots-sub"></div>
-              </div>
-            </section>
-          </article>
+              </section>
+              <!-- 상품내 공지안내 -->
+                <%--            <section class="prd-detail-notice">
+                              <h3 class="hd hd-s"><i class="wn-icon alert-24-brown"></i><span>상품내 공지안내</span></h3>
+                              <div class="content">
+                                <ul class="list-dot">
+                                  <li>본상품은 신선식품으로 판매되고 있습니다.</li>
+                                  <li>상품 수취 후 4~5일 후 교환/반품 요청을 불가능합니다.</li>
+                                  <li>이점 유년하여 주문 부탁드립니다.</li>
+                                </ul>
+                              </div>
+                            </section>--%>
+              <hr class="spacer">
+
+              <!-- 꿀팁! 레시피 -->
+              <section class="com-container">
+                <header class="main-sec-header">
+                  <h3 class="tit">자연이랑 레시피</h3>
+                </header>
+                <div class="swiper-container swiper-pdp-recipe swiper-no-swiping">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <a href="#" class="pdp-recipe-banner">
+                        <div class="img-container">
+                          <img src="./images/uploads/recipeBanner.jpg" alt="지금 만들어 두새우! 제철 새우장">
+                        </div>
+                        <div class="detail">
+                          <div class="content">
+                            <div class="tit" data-swiper-parallax="-200">지금 만들어 두새우! 제철 새우장</div>
+                            <div class="desc" data-swiper-parallax="-200">
+                              입안 가득 꽉 차게 살이 오른 새우의 달달함과 싱싱함을 오래도록 즐기는 방법으로 새우장만한게 없죠.
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="swiper-slide">
+                      <a href="#" class="pdp-recipe-banner">
+                        <div class="img-container">
+                          <img src="./images/uploads/recipeBanner.jpg" alt="지금 만들어 두새우! 제철 새우장">
+                        </div>
+                        <div class="detail">
+                          <div class="content">
+                            <div class="tit" data-swiper-parallax="-200">지금 만들어 두새우! 제철 새우장</div>
+                            <div class="desc" data-swiper-parallax="-200">
+                              입안 가득 꽉 차게 살이 오른 새우의 달달함과 싱싱함을 오래도록 즐기는 방법으로 새우장만한게 없죠.
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="swiper-slide">
+                      <a href="#" class="pdp-recipe-banner">
+                        <div class="img-container">
+                          <img src="./images/uploads/recipeBanner.jpg" alt="지금 만들어 두새우! 제철 새우장">
+                        </div>
+                        <div class="detail">
+                          <div class="content">
+                            <div class="tit" data-swiper-parallax="-200">지금 만들어 두새우! 제철 새우장</div>
+                            <div class="desc" data-swiper-parallax="-200">
+                              입안 가득 꽉 차게 살이 오른 새우의 달달함과 싱싱함을 오래도록 즐기는 방법으로 새우장만한게 없죠.
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="swiper-pgn-dots-sub"></div>
+                </div>
+              </section>
+
+              <!-- 배송비 절약상품 모음 -->
+              <section class="com-container">
+                <header class="main-sec-header">
+                  <h3 class="tit">배송비 절약상품</h3>
+                </header>
+                <div class="swiper-container swiper-prd-2n swiper-no-swiping">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <article class="prd-item">
+                        <div class="img-container">
+                          <a href="#" class="prd-item-img">
+                            <img src="./images/uploads/prd-img-03.jpg" alt="무항생제 황토 유정란 10입">
+                          </a>
+                        </div>
+                        <div class="detail">
+                          <a href="#">
+                            <h4 class="prd-item-tit">오불+오낙+쭈삼+만두증정</h4>
+                            <div class="prd-item-price">
+                              <div class="price"><span>3,480</span><small>원</small></div>
+                              <div class="price-org">4,800원</div>
+                            </div>
+                          </a>
+                        </div>
+                      </article>
+                    </div>
+                    <div class="swiper-slide">
+                      <article class="prd-item">
+                        <div class="img-container">
+                          <a href="#" class="prd-item-img">
+                            <img src="./images/uploads/prd-img-05.jpg" alt="무항생제 황토 유정란 10입">
+                          </a>
+                        </div>
+                        <div class="detail">
+                          <a href="#">
+                            <h4 class="prd-item-tit">오불+오낙+쭈삼+만두증정</h4>
+                            <div class="prd-item-price">
+                              <div class="price"><span>3,480</span><small>원</small></div>
+                              <div class="price-org">4,800원</div>
+                            </div>
+                          </a>
+                        </div>
+                      </article>
+                    </div>
+                    <div class="swiper-slide">
+                      <article class="prd-item">
+                        <div class="img-container">
+                          <a href="#" class="prd-item-img">
+                            <img src="./images/uploads/prd-img-03.jpg" alt="무항생제 황토 유정란 10입">
+                          </a>
+                        </div>
+                        <div class="detail">
+                          <a href="#">
+                            <h4 class="prd-item-tit">오불+오낙+쭈삼+만두증정</h4>
+                            <div class="prd-item-price">
+                              <div class="price"><span>3,480</span><small>원</small></div>
+                              <div class="price-org">4,800원</div>
+                            </div>
+                          </a>
+                        </div>
+                      </article>
+                    </div>
+                    <div class="swiper-slide">
+                      <article class="prd-item">
+                        <div class="img-container">
+                          <a href="#" class="prd-item-img">
+                            <img src="./images/uploads/prd-img-05.jpg" alt="무항생제 황토 유정란 10입">
+                          </a>
+                        </div>
+                        <div class="detail">
+                          <a href="#">
+                            <h4 class="prd-item-tit">오불+오낙+쭈삼+만두증정</h4>
+                            <div class="prd-item-price">
+                              <div class="price"><span>3,480</span><small>원</small></div>
+                              <div class="price-org">4,800원</div>
+                            </div>
+                          </a>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                  <div class="swiper-pgn-dots-sub"></div>
+                </div>
+              </section>
+            </article>
           </c:forEach>
 
           <c:if test="${basicDetailInfo ne null and basicDetailInfo ne ''}">
@@ -629,76 +676,76 @@
                         <div class="content-center">
                           <table class="table-pdp">
                             <tbody>
+                            <tr>
+                              <th>상품명칭</th>
+                              <td>${itemDetail.gdname}</td>
+                            </tr>
+                            <tr>
+                              <th>상품유형</th>
+                              <td>${itemDetail.typename}</td>
+                            </tr>
+                            <tr>
+                              <th>생산자/수입자</th>
+                              <td>${itemDetail.producer}</td>
+                            </tr>
+                            <c:if test="${itemDetail.origin ne null and itemDetail.origin ne ''}">
                               <tr>
-                                <th>상품명칭</th>
-                                <td>${itemDetail.gdname}</td>
+                                <th>농수산물의 원산지 표시에 관한 법률에 따른 원산지</th>
+                                <td>${itemDetail.origin}</td>
                               </tr>
+                            </c:if>
+                            <tr>
+                              <th><span class="keep-all">품질유지기한/유통기한</span></th>
+                              <c:choose>
+                                <c:when test="${itemDetail.bestbeforedate ne null and itemDetail.bestbeforedate ne ''}">
+                                  <td>${itemDetail.bestbeforedate}</td>
+                                </c:when>
+                                <c:otherwise>
+                                  <td>농축수산물은 기본적으로 유통기한을 별도로 정하고 있지 않거나 상세상품 정보란에 표기합니다.</td>
+                                </c:otherwise>
+                              </c:choose>
+                            </tr>
+                            <c:if test="${itemDetail.dispatchtype eq 'I'}">
                               <tr>
-                                <th>상품유형</th>
-                                <td>${itemDetail.typename}</td>
-                              </tr>
-                              <tr>
-                                <th>생산자/수입자</th>
-                                <td>${itemDetail.producer}</td>
-                              </tr>
-                              <c:if test="${itemDetail.origin ne null and itemDetail.origin ne ''}">
-                                <tr>
-                                  <th>농수산물의 원산지 표시에 관한 법률에 따른 원산지</th>
-                                  <td>${itemDetail.origin}</td>
-                                </tr>
-                              </c:if>
-                              <tr>
-                                <th><span class="keep-all">품질유지기한/유통기한</span></th>
+                                <th>취급유형</th>
                                 <c:choose>
-                                  <c:when test="${itemDetail.bestbeforedate ne null and itemDetail.bestbeforedate ne ''}">
-                                    <td>${itemDetail.bestbeforedate}</td>
+                                  <c:when test="${itemDetail.putclass_cd eq '08'}">
+                                    <td>냉장상품</td>
                                   </c:when>
                                   <c:otherwise>
-                                    <td>농축수산물은 기본적으로 유통기한을 별도로 정하고 있지 않거나 상세상품 정보란에 표기합니다.</td>
+                                    <td>${itemDetail.putclass}</td>
                                   </c:otherwise>
                                 </c:choose>
                               </tr>
-                              <c:if test="${itemDetail.dispatchtype eq 'I'}">
-                                <tr>
-                                  <th>취급유형</th>
-                                  <c:choose>
-                                    <c:when test="${itemDetail.putclass_cd eq '08'}">
-                                      <td>냉장상품</td>
-                                    </c:when>
-                                    <c:otherwise>
-                                      <td>${itemDetail.putclass}</td>
-                                    </c:otherwise>
-                                  </c:choose>
-                                </tr>
-                              </c:if>
-                              <c:if test="${itemDetail.packaging ne null and itemDetail.packaging ne ''}">
-                                <tr>
-                                  <th>상품 구성 및 포장</th>
-                                  <td>
-                                      ${fn:replace(itemDetail.packaging, newLineChar, "<br/>")}
-                                  </td>
-                                </tr>
-                              </c:if>
-                              <c:if test="${itemDetail.handling ne null and itemDetail.handling ne ''}">
-                                <tr>
-                                  <th>보관/취급방법</th>
-                                  <td>
-                                      ${fn:replace(itemDetail.handling, newLineChar, "<br/>")}
-                                  </td>
-                                </tr>
-                              </c:if>
-                              <c:if test="${itemDetail.precaution1 ne null and itemDetail.precaution1 ne ''}">
-                                <th>주의사항(1)</th>
-                                <td>${fn:replace(itemDetail.precaution1, newLineChar, "<br/>")}</td>
-                              </c:if>
-                              <c:if test="${itemDetail.precaution2 ne null and itemDetail.precaution2 ne ''}">
-                                <th>주의사항(2)</th>
-                                <td>${fn:replace(itemDetail.precaution2, newLineChar, "<br/>")}</td>
-                              </c:if>
-                              <c:if test="${itemDetail.addinformation ne null and itemDetail.addinformation ne ''}">
-                                <th>상품관련정보</th>
-                                <td>${fn:replace(itemDetail.addinformation, newLineChar, "<br/>")}</td>
-                              </c:if>
+                            </c:if>
+                            <c:if test="${itemDetail.packaging ne null and itemDetail.packaging ne ''}">
+                              <tr>
+                                <th>상품 구성 및 포장</th>
+                                <td>
+                                    ${fn:replace(itemDetail.packaging, newLineChar, "<br/>")}
+                                </td>
+                              </tr>
+                            </c:if>
+                            <c:if test="${itemDetail.handling ne null and itemDetail.handling ne ''}">
+                              <tr>
+                                <th>보관/취급방법</th>
+                                <td>
+                                    ${fn:replace(itemDetail.handling, newLineChar, "<br/>")}
+                                </td>
+                              </tr>
+                            </c:if>
+                            <c:if test="${itemDetail.precaution1 ne null and itemDetail.precaution1 ne ''}">
+                              <th>주의사항(1)</th>
+                              <td>${fn:replace(itemDetail.precaution1, newLineChar, "<br/>")}</td>
+                            </c:if>
+                            <c:if test="${itemDetail.precaution2 ne null and itemDetail.precaution2 ne ''}">
+                              <th>주의사항(2)</th>
+                              <td>${fn:replace(itemDetail.precaution2, newLineChar, "<br/>")}</td>
+                            </c:if>
+                            <c:if test="${itemDetail.addinformation ne null and itemDetail.addinformation ne ''}">
+                              <th>상품관련정보</th>
+                              <td>${fn:replace(itemDetail.addinformation, newLineChar, "<br/>")}</td>
+                            </c:if>
                             </tbody>
                           </table>
                         </div>
@@ -1233,88 +1280,88 @@
             </section>
 
             <hr class="spacer">
-<%--            <c:choose>
-              <c:when test="${prodReviewDetail.size() > 0}">--%>
-                  <section class="el-container">
-                    <h3 class="hd-m px-m">포토구매후기</h3>
-                    <div class="content-center">
-                      <div class="pdp-photo-reviews">
-                        <a href="#" class="btn-more-num">+14</a>
-                        <ul class="pdp-preview-list">
-                          <li>
-                            <a href="javascript:void(0)" onclick="showPhotoReviewDetail(0)">
-                              <div class="img-square">
-                                <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" onclick="showPhotoReviewDetail(1)">
-                              <div class="img-square">
-                                <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" onclick="showPhotoReviewDetail(2)">
-                              <div class="img-square">
-                                <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
-                              </div>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <!-- <button class="button bt-outline bt-fill-gray btn-more-review">더보기</button> -->
-                    </div>
-                  </section>
-
-                  <section class="se-container">
-                    <h3 class="hd-m px-m pb-0">구매후기</h3>
-                    <div class="content-center">
-                      <ul class="review-list" id="prodReviewList">
-                        <c:forEach items="${prodReviewDetail}" var="review">
-                          <li>
-                            <article class="review-item">
-                              <div class="review-option">
-                                <span class="label">구매옵션</span>
-                                <span class="content">망고스틱 10개</span>
-                              </div>
-                              <div class="review-wrapper">
-                                <div class="review-detail">
-                                  <div class="content">
-                                      ${review.rmemo}
-                                  </div>
-                                  <div class="info">
-                                    <c:choose>
-                                      <c:when test="${review.orddt ne null and review.orddt ne ''}">
-                                        <span class="info-item">${review.orddt}</span>
-                                      </c:when>
-                                      <c:otherwise>
-                                        구매자
-                                      </c:otherwise>
-                                    </c:choose>
-                                    <span class="info-item">${review.nickn}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </article>
-                          </li>
-                        </c:forEach>
-                      </ul>
-                    </div>
-                  </section>
-<%--              </c:when>
-              <c:otherwise>
-                <div class="nodata no-msg">
-                  <div class="text">등록된 구매후기가 없습니다.</div>
-                  <div class="text-desc">
-                    첫 구매 후기를 작성하여
-                    <br>
-                    3,000P를 획득하세요!
-                  </div>
+            <%--            <c:choose>
+                          <c:when test="${prodReviewDetail.size() > 0}">--%>
+            <section class="el-container">
+              <h3 class="hd-m px-m">포토구매후기</h3>
+              <div class="content-center">
+                <div class="pdp-photo-reviews">
+                  <a href="#" class="btn-more-num">+14</a>
+                  <ul class="pdp-preview-list">
+                    <li>
+                      <a href="javascript:void(0)" onclick="showPhotoReviewDetail(0)">
+                        <div class="img-square">
+                          <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" onclick="showPhotoReviewDetail(1)">
+                        <div class="img-square">
+                          <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" onclick="showPhotoReviewDetail(2)">
+                        <div class="img-square">
+                          <div class="img-crop" style="background-image: url(./images/uploads/prd-review-test.jpg);"></div>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-              </c:otherwise>
-            </c:choose>--%>
+                <!-- <button class="button bt-outline bt-fill-gray btn-more-review">더보기</button> -->
+              </div>
+            </section>
+
+            <section class="se-container">
+              <h3 class="hd-m px-m pb-0">구매후기</h3>
+              <div class="content-center">
+                <ul class="review-list" id="prodReviewList">
+                  <c:forEach items="${prodReviewDetail}" var="review">
+                    <li>
+                      <article class="review-item">
+                        <div class="review-option">
+                          <span class="label">구매옵션</span>
+                          <span class="content">망고스틱 10개</span>
+                        </div>
+                        <div class="review-wrapper">
+                          <div class="review-detail">
+                            <div class="content">
+                                ${review.rmemo}
+                            </div>
+                            <div class="info">
+                              <c:choose>
+                                <c:when test="${review.orddt ne null and review.orddt ne ''}">
+                                  <span class="info-item">${review.orddt}</span>
+                                </c:when>
+                                <c:otherwise>
+                                  구매자
+                                </c:otherwise>
+                              </c:choose>
+                              <span class="info-item">${review.nickn}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </article>
+                    </li>
+                  </c:forEach>
+                </ul>
+              </div>
+            </section>
+            <%--              </c:when>
+                          <c:otherwise>
+                            <div class="nodata no-msg">
+                              <div class="text">등록된 구매후기가 없습니다.</div>
+                              <div class="text-desc">
+                                첫 구매 후기를 작성하여
+                                <br>
+                                3,000P를 획득하세요!
+                              </div>
+                            </div>
+                          </c:otherwise>
+                        </c:choose>--%>
           </article>
 
           <!-- 상품문의 -->
@@ -1424,10 +1471,20 @@
       </div><!-- /.swiper-prd-detail -->
 
       <hr class="spacer-bottom">
-
-      <div class="button-footer-fixed">
-        <button class="button bt-l bt-green bt-rect" id="plpBtnBuy" onclick="showBuyOption()">구매하기</button>
-      </div>
+      <c:forEach var="itemDetail" items="${itemDetail}">
+        <c:choose>
+          <c:when  test="${itemDetail.soldoutyn eq 'Y' or itemDetail.gdcnt <= '0'}">
+            <div class="button-footer-fixed">
+              <button class="button bt-l bt-yellow bt-rect" id="restockBtn" onclick="showRestockPop();" >재입고 알림 신청</button>
+            </div>
+          </c:when>
+          <c:otherwise>
+            <div class="button-footer-fixed">
+              <button class="button bt-l bt-green bt-rect" id="plpBtnBuy" onclick="showBuyOption()">구매하기</button>
+            </div>
+          </c:otherwise>
+        </c:choose>
+      </c:forEach>
     </div><!-- /.main-content -->
   </main>
   <div class="quick-menu" id="quick-menu">
@@ -1437,7 +1494,7 @@
 </div><!-- /.site-container -->
 
 <script>
-  $(document).ready(function () {
+  $(function () {
     $('.global-bottom').hide();
   });
 </script>

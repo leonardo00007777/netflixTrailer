@@ -322,27 +322,56 @@
     btnDec = inputNumber.find(".dec");
     btnInc = inputNumber.find(".inc");
     btnDec.on("click", function() {
-      decrement(inputNumber);
+      var prc = btnDec.val();
+      decrement(inputNumber, prc);
     });
+
     btnInc.on("click", function() {
-      increment(inputNumber);
+      var cnt = $('#gdcnt').val();
+      var prc = btnInc.val();
+      increment(inputNumber, prc, cnt);
     });
+
     detectDisabled(inputNumber);
   }
 
-  function increment(inputNumber) {
+  function increment(inputNumber, prc, cnt) {
     var inputNum = inputNumber.find(".num");
     var val = inputNum.val();
-    val = Number(val) + 1;
-    inputNum.val(val);
+    if(val <= cnt){
+      val = Number(val) + 1;
+      inputNum.val(val);
+    } else{
+      inputNumber.find(".inc").addClass("disabled");
+    }
+
+    var totalPrice = prc * val;
+    totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    $("#buyModalPrc").html( totalPrice + '<small>원</small>');
+    $("#totalPrc").html( totalPrice + '<small>원</small>');
 
     detectDisabled(inputNumber);
   }
-  function decrement(inputNumber) {
+  function decrement(inputNumber, prc) {
     var inputNum = inputNumber.find(".num");
     var val = inputNum.val();
     val = Math.max(1, val-1);
     inputNum.val(val);
+    var totalPrice = parseInt($('#totalPrc').text().replace(/,/g, '').replace('원',''));
+
+    totalPrice = totalPrice - prc;
+    totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    if(val > 1) {
+      $("#buyModalPrc").html( totalPrice + '<small>원</small>');
+      $("#totalPrc").html( totalPrice + '<small>원</small>');
+    } else {
+      totalPrice = prc;
+      totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      $("#buyModalPrc").html( totalPrice + '<small>원</small>');
+      $("#totalPrc").html( totalPrice + '<small>원</small>');
+    }
 
     detectDisabled(inputNumber);
   }
