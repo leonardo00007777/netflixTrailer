@@ -77,22 +77,28 @@ public class LoginController {
 		ModelAndView mv = new ModelAndView();
 		System.out.println("로그인 폼 진입");
 	    
+		//---------------------------		
 	    // 폼에서 받은값 (get/post)
+		//---------------------------		
 		String strLoginResult = (String) paramMap.get("loginresult");	// login 결과
 		String backurl = (String) paramMap.get("backurl");				// back url
 
-		// Cookie 있으면, (자동로그인) 처리
+		//-----------------------------------------		
+		// Cookie (자동로그인) 있으면 > 자동로그인
+		//-----------------------------------------		
 		Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
 		String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
 	    if ("".equals(strLoginResult) && "Y".equals(autoLogin)){
 	    	model.addAttribute("usec",  "Y");
 	    	model.addAttribute("backurl",  backurl);
 	    	
-  		 	mv.setViewName("login/login");
+  		 	mv.setViewName("login/login");			// login 시, mypage 진입
 	    	return mv;
 	    }
     	
-	    // Cookie (로그인 ID)  > view return
+	    //-----------------------------------------		
+	    // Cookie (로그인 ID) 있으면  > 로그인폼
+	    //-----------------------------------------		
     	Cookie userIdCookie = CookiesUtil.getCookie(request, "62userid");
     	String strUserId = userIdCookie == null ? "N" : userIdCookie.getValue();
 	    if (strUserId.length() > 30) {
@@ -105,6 +111,237 @@ public class LoginController {
   		return mv;
    }
 		
+	/**
+	 * 로그인 폼 > 로그인 이동      
+	 * (session 로그인정보 있는 경우 / 없는 경우)
+	 * 
+	 * @param memberInfo
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/login")
+	public ModelAndView login(@RequestParam Map<String, Object> paramMap
+											, HttpServletRequest request
+											, HttpServletResponse response
+											, Model model) throws Exception {
+										
+		ModelAndView mv = new ModelAndView();
+		System.out.println("로그인 진입");
+	    
+		//--------------------
+		// 폼에서 받은값
+		//---------------------		
+		String strLoginResult = (String) paramMap.get("loginresult");	// login 결과
+		String backurl = (String) paramMap.get("backurl");				// back url
+		
+		String usec = (String) paramMap.get("usec");
+		String strUserId = (String) paramMap.get("loginuserid");
+		String strPassword = (String) paramMap.get("loginpassword");
+		String autologin = (String) paramMap.get("autologin");
+		
+		//-----------------------------------------------------
+		// Cookie  (자동로그인)  있으면
+		//-----------------------------------------------------		
+		Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
+		String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
+	    if ("".equals(usec) && "Y".equals(autoLogin)){
+	    	
+			// 비밀번호 o (암호화 풀기)
+			if (strPassword.length() > 30) {
+				strUserId = EncryptAES.Decrypt(strUserId, Constants62life.ENC_KEY_NAME);
+				strPassword = EncryptAES.Decrypt(strPassword, Constants62life.ENC_KEY_NAME);
+				
+			// 비밀번호 x 
+			} else {
+				CookiesUtil.setCookie(request, response, "62autologin", ""	, (30 * 60),"/", sCookieDomain);
+			}
+			
+			// 로그인정보 없으면, 자동로그인 기능 해제
+			if ("".equals(strUserId) || "".equals(strPassword)) {
+				CookiesUtil.setCookie(request, response, "62autologin", ""	, (30 * 60),"/", sCookieDomain);
+			}
+	    }
+		
+		//-----------------------------------------------------
+		//  폼에서 넘어온, 로그인정보 없으면 > 다시 로그인폼
+		//-----------------------------------------------------		
+	    if ("".equals(strUserId) || "".equals(strPassword)) {
+	    	model.addAttribute("backurl",  backurl);
+	    	
+  		 	mv.setViewName("login/loginform");
+	    	return mv;
+	    }
+	    		
+		//-----------------------------------------------------
+		// 회원정보
+		//-----------------------------------------------------
+    	LoginProcess memberInfo = memberService.selectMemberInfo(paramMap);
+	    if(memberInfo != null) {
+	    	
+	    	String strRSMEMCD = memberInfo.getMemcd();  // 회원cd
+	    	String strMEMstcd = memberInfo.getMemstcd();  // 회원상태
+	    	String strRSIslocked = memberInfo.getIslocked(); //  잠김여부
+	    	String strRsPassYn = memberInfo.getPassyn(); //  비번여부 (비밀번호 실패횟수)
+	    	String strRSMEMID = memberInfo.getMemid(); //  
+	    	String strRSMEMNAME = memberInfo.getMemname(); //  
+	    	String strRSNickn = memberInfo.getNickn(); //  
+	    	String strRSIdUrl = memberInfo.getIdurl(); //  
+	    	String strRSMemLevel = memberInfo.getMemlevel(); //  
+	    	String strRSJobType = memberInfo.getJobtype(); //  
+	    	String strRSJobName = memberInfo.getJobname(); //  
+	    	String strRSIsblogger = memberInfo.getIsblogger(); //  
+	    	int strRSLogin_failed_count = memberInfo.getLoginFailedCount(); //  
+	    	
+		    //-----------------------------------------------------		    
+		    // [승급요청] 고객의 경우, 접근보류/안내페이지로 이동
+		    //-----------------------------------------------------		    
+	    	if(strMEMstcd == Constants62life.MEMST_UPREQ) {
+	    		model.addAttribute("mode",  "UPREQ");
+	    		mv.setViewName("login/loginHold");
+	    		return mv;	    		 
+	    	}
+		    
+			//-----------------------------------------------------
+			// 잠김 회원
+			//-----------------------------------------------------		    
+	    	if("1".equals(strRSIslocked)){
+	    		model.addAttribute("loginresult",  "LOCK");
+	    		model.addAttribute("backurl",  backurl);
+	    		mv.setViewName("login/loginform");
+	    		return mv;	    		 
+	    	}
+		    
+			//-----------------------------------------------------
+			// 비밀번호 실패횟수 저장 
+			//-----------------------------------------------------		    
+	    	int lockAccount = 0;
+	    	if("N".equals(strRsPassYn)){
+	        	int upCnt = memberService.savePasswordFailCnt(paramMap);
+	        
+	        	if(!"1".equals(strRSIslocked) && strRSLogin_failed_count < Constants62life.FAILED_LOGIN_LIMIT-1 ){
+	        		lockAccount = 0;
+	        	}else {
+	        		lockAccount = 1;
+	        	}
+	            
+	    		model.addAttribute("loginresult",  "FAIL");
+	    		model.addAttribute("backurl",  backurl);
+	  		 	mv.setViewName("login/loginform");
+		    	return mv;	    		 
+	    	}
+	    	
+	    	//-----------------------------------------------------
+	    	// 장바구니 정리
+	    	//-----------------------------------------------------	
+	    	// 장바구니 삭제
+	    	int odCartDelCnt = memberService.deleteOdCart(paramMap);
+	    
+	    	// 장바구니 7일이 넘었거나 판매중지 상품 삭제
+	    	int basketDelCnt1 = memberService.deleteAfterSevenDays(paramMap);
+	    	
+	    	// 예약주문 중, 판매하지 않는 상품 삭제
+	    	int basketDelCnt2 = memberService.deleteReserveProdStopSelling(paramMap);
+	    	
+	    	// 잠겨 있는 장바구니 상품 해제
+	    	int basketUpCnt = memberService.unlockCartProd(paramMap);
+
+	    	//---------------------------------------------------------------------------
+	    	// session (회원CD /회원ID /회원명 /회원별명, 회원레벨 /잡유형 /잡명 /회원그룹명)
+	    	//---------------------------------------------------------------------------
+	        request.getSession().setAttribute("memcd", strRSMEMCD);
+	        request.getSession().setAttribute("memid62", strRSMEMID);
+	        request.getSession().setAttribute("memname62", strRSMEMNAME);
+	        
+	        if ("".equals(strRSNickn)) {
+	        	request.getSession().setAttribute("nickname62", strRSMEMNAME);
+	        	
+	        }else {
+	        	request.getSession().setAttribute("nickname62", strRSNickn);
+	        }
+	        request.getSession().setAttribute("memlevel62", strRSMemLevel);
+	        request.getSession().setAttribute("jobtype62", strRSJobType);
+	        request.getSession().setAttribute("jobname62", strRSJobName);
+	        request.getSession().setAttribute("groupname", "group1");
+
+	    	//-----------------------------------------------------
+	    	// 로그인 정보저장
+	    	//-----------------------------------------------------		    	    
+	    	// 로그인 정보가 있을 경우 업데이트,  로그인 실패 정보 초기화  
+	    	int loginInfoUpCnt = memberService.saveExistMemberLoginInfo(paramMap);
+	    	// 로그인 정보가 없을 경우 저장
+	    	if (loginInfoUpCnt < 1) {
+	    		int loginInfoInCnt = memberService.saveNotExistLoginInfo(paramMap);
+	    	}
+
+	    	// 로그인 History 테이블 저장
+	    	int loginHistoryInCnt = memberService.saveLoginHistory(paramMap);
+		    
+			//-----------------------------------------------------
+			// 외부 연계접속(T-walk)이 있을 경우 연동정보 등록
+			//-----------------------------------------------------		  
+	    	String twalkPid = (String) request.getSession().getAttribute("twalk_pid");
+	    	if (!"".equals(twalkPid)) {
+	    		 // 외부 연계접속(T-walk 체크
+	    		 int twalkCnt = memberService.checkTwalkAccountInfo(paramMap);
+	    	
+	    		 if (twalkCnt < 1) {
+		    		int twalkInCnt = memberService.saveTwalkAccountInfo(paramMap);
+		    	 }
+	    	 }
+		    
+		    //-----------------------------------------------------
+		    // 	로그인 자동 포인트 부여 처리
+		    //-----------------------------------------------------			
+	    	Map<String, Object> pointGrantMap =  memberService.loginPointAutoGrant(paramMap);   
+	    	String idx = (String) pointGrantMap.get("idx");
+	    	String memo = (String) pointGrantMap.get("memo");
+	    	int points = (int) pointGrantMap.get("points");
+
+	    	if (pointGrantMap.size() > 0) {
+	    		// 포인트 권한적립
+	    		if (points > 0 ) {
+	    			int pointGrantUpCnt = memberService.pointGrantWithAuthority(paramMap);  
+	    		}
+	    	}
+		    
+		    //-----------------------------------------------------
+		    // 	자동로그인  /  id , pw  있을때  (자동로그인 정보저장) 
+		    //-----------------------------------------------------		
+		    CookiesUtil.setCookie(request, response, "memcd", strRSMEMCD	, (30 * 60),"/", sCookieDomain);
+		    
+		    // localStorage.setItem("memcd", "<%=strRSMEMCD%>");
+		    
+		    // 자동로그인 정보 저장 처리
+		    if ("on".equals(autologin) && !"".equals(strUserId) && !"".equals(strPassword)) {
+		    	
+		    	String encUserid = EncryptAES.Encrypt(strUserId, Constants62life.ENC_KEY_NAME);
+		    	String encPassword = EncryptAES.Encrypt(strPassword, Constants62life.ENC_KEY_NAME);
+		    	
+		    	CookiesUtil.setCookie(request, response, "62userid", encUserid	, (30 * 60),"/", sCookieDomain);
+		    	CookiesUtil.setCookie(request, response, "62passwd", encPassword	, (30 * 60),"/", sCookieDomain);
+		    	CookiesUtil.setCookie(request, response, "62autologin", "Y"	, (30 * 60),"/", sCookieDomain);
+		    }
+		    
+		    if ("".equals(backurl)) {
+		    	model.addAttribute("usec",  "Y");
+		    	mv.setViewName("/main/main");
+		    	return mv;	    	
+		    	
+		    } else {
+		    	model.addAttribute("backurl",  backurl);
+		    	mv.setViewName("login/loginform");
+		    	//	document.location.href = unescape('<%=backurl%>');
+		    	return mv;	    	
+		    }
+		    
+	    } // 회원정보 있을때
+	    	
+	    // 회원정보 없을때
+		mv.setViewName("/login/loginform");
+		return mv;	    	
+   }
+	
 	/**
 	 * 아이디 찾기 
 	 * 

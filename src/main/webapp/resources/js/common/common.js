@@ -34,7 +34,7 @@ var common = function() {
 		//-------------------------------------------------
 	    isLogin : function(){
 	    	
-	    	var url= "login/logincheck";
+	    	var url= "/login/logincheck";
 	        var loginResult = false;
 	        
 	        var checkLoginStatus = sessionStorage.getItem("checkLoginStatus");

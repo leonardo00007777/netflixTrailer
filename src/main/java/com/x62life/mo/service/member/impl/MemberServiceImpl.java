@@ -3,12 +3,9 @@ package com.x62life.mo.service.member.impl;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.x62life.mo.dao.login.LoginDao;
 import com.x62life.mo.dao.member.MemberDao;
 import com.x62life.mo.model.login.LoginProcess;
 import com.x62life.mo.model.member.MbMaster;
@@ -27,13 +24,74 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MbMaster selectMemberInfo(Map<String,Object> paramMap) {
+	public LoginProcess selectMemberInfo(Map<String,Object> paramMap) {
 		
-		MbMaster memberInfo = memberDao.selectMemberInfo(paramMap);
+		LoginProcess memberInfo = memberDao.selectMemberInfo(paramMap);
 		
 		return memberInfo;
 	}
-    
+	
+	@Override
+	public int savePasswordFailCnt(Map<String,Object> paramMap) {
+		int count = memberDao.savePasswordFailCnt(paramMap);
+		return count;
+	}
+	@Override
+	public int deleteOdCart(Map<String,Object> paramMap) {
+		int count = memberDao.deleteOdCart(paramMap);
+		return count;
+	}
+	@Override
+	public int deleteAfterSevenDays(Map<String,Object> paramMap) {
+		int count = memberDao.deleteAfterSevenDays(paramMap);
+		return count;
+	}
+	@Override
+	public int deleteReserveProdStopSelling(Map<String,Object> paramMap) {
+		int count = memberDao.deleteReserveProdStopSelling(paramMap);
+		return count;
+	}
+	@Override
+	public int unlockCartProd(Map<String,Object> paramMap) {
+		int count = memberDao.unlockCartProd(paramMap);
+		return count;
+	}
+	@Override
+	public int saveExistMemberLoginInfo(Map<String,Object> paramMap) {
+		int count = memberDao.saveExistMemberLoginInfo(paramMap);
+		return count;
+	}
+	@Override
+	public int saveNotExistLoginInfo(Map<String,Object> paramMap) {
+		int count = memberDao.saveNotExistLoginInfo(paramMap);
+		return count;
+	}
+	@Override
+	public int saveLoginHistory(Map<String,Object> paramMap) {
+		int count = memberDao.saveLoginHistory(paramMap);
+		return count;
+	}
+	@Override
+	public int checkTwalkAccountInfo(Map<String,Object> paramMap) {
+		int count = memberDao.checkTwalkAccountInfo(paramMap);
+		return count;
+	}
+	@Override
+	public int saveTwalkAccountInfo(Map<String,Object> paramMap) {
+		int count = memberDao.saveTwalkAccountInfo(paramMap);
+		return count;
+	}
+	@Override
+	public Map<String, Object> loginPointAutoGrant(Map<String, Object> paramMap) {
+		return memberDao.loginPointAutoGrant(paramMap);
+	}
+	@Override
+	public int pointGrantWithAuthority(Map<String,Object> paramMap) {
+		int count = memberDao.pointGrantWithAuthority(paramMap);
+		return count;
+	}
+	
+	
 	@Override
 	public List<MbMaster> list(MbMaster member) {
         List<MbMaster> list = memberDao.list(member);
