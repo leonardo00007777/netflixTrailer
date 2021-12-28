@@ -13,6 +13,46 @@ public class LoginProcess extends MbMaster {
     private String islocked;
     private int loginFailedCount;
 
+	private String passyn;
+    private String idx;
+    private String points;
+    private String memo;    
+    
+    
+    public int getLoginFailedCount() {
+    	return loginFailedCount;
+    }
+    public void setLoginFailedCount(int loginFailedCount) {
+    	this.loginFailedCount = loginFailedCount;
+    }
+	public String getIdx() {
+		return idx;
+	}
+
+	public void setIdx(String idx) {
+		this.idx = idx;
+	}
+	public String getPoints() {
+		return points;
+	}
+	public void setPoints(String points) {
+		this.points = points;
+	}
+	public String getMemo() {
+		return memo;
+	}
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+    public String getPassyn() {
+		return passyn;
+	}
+
+	public void setPassyn(String passyn) {
+		this.passyn = passyn;
+	}
+
     public String getNickn() {
         return nickn;
     }
@@ -69,11 +109,4 @@ public class LoginProcess extends MbMaster {
         this.islocked = islocked;
     }
 
-    public int getLoginFailedCount() {
-        return loginFailedCount;
-    }
-
-    public void setLoginFailedCount(int loginFailedCount) {
-        this.loginFailedCount = loginFailedCount;
-    }
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.x62life.mo.dao.member.MemberDao">
 
-    <select id="selectMemberInfo" resultType="com.x62life.mo.model.member.MbMaster" parameterType="java.lang.String">
+    <select id="selectMemberInfo" resultType="com.x62life.mo.model.login.LoginProcess" parameterType="java.lang.String">
         /* loginProcess 로그인 정보 get*/
         SELECT a.memcd
              , a.memid
@@ -30,7 +30,7 @@
            AND a.memid = #{strUserId} 
     </select>
     
-    <update id="savePasswordFailCnt">
+    <update id="savePasswordFailCnt" parameterType="java.util.Map">
         /*savePasswordFailCnt 비밀번호 입력 실패 횟수 저장  */
         UPDATE logininfo 
            SET login_failed_count = ISNULL(login_failed_count,0) + 1 
@@ -38,13 +38,13 @@
          WHERE memcd = #{strRSMEMCD}
     </update>
     
-    <delete id="deleteOdCart">
+    <delete id="deleteOdCart" parameterType="java.util.Map">
          /* deleteOdCart */
         DELETE FROM od_cart 
                 WHERE memcd = #{strRSMEMCD}
     </delete>
     
-    <delete id="deleteAfterSevenDays">
+    <delete id="deleteAfterSevenDays" parameterType="java.util.Map">
          /* deleteAfterSevenDays 담은지 7일이 넘었거나 판매중지인 상품 정리*/
         DELETE FROM shopping_basket 
                 WHERE memcd = #{strRSMEMCD}
@@ -60,7 +60,7 @@
                               )
     </delete>
 
-    <delete id="deleteReserveProdStopSelling">
+    <delete id="deleteReserveProdStopSelling" parameterType="java.util.Map">
         /* deleteReserveProdStopSelling 담은 예약주문 중, 현재 판매하지 않는 상품 정리*/
         DELETE FROM shopping_basket 
                 WHERE memcd = #{strRSMEMCD}
@@ -74,7 +74,7 @@
                                        AND useyn = 'Y' )
     </delete>
     
-    <update id="unlockCartProd">
+    <update id="unlockCartProd" parameterType="java.util.Map">
         /* unlockCartProd 잠겨 있는 장바구니 상품을 해제*/
         UPDATE shopping_basket
            SET freeze = '0'
@@ -82,7 +82,7 @@
            AND freeze = '1'
     </update>
     
-    <update id="saveExistMemberLoginInfo">
+    <update id="saveExistMemberLoginInfo" parameterType="java.util.Map">
         /*saveExistMemberLoginInfo 로그인 정보가 있을 경우 업데이트 */
         UPDATE logininfo 
            SET last_login = GETDATE() 
@@ -93,7 +93,7 @@
          WHERE memcd = #{strRSMEMCD}
     </update>
     
-    <insert id="saveNotExistLoginInfo">
+    <insert id="saveNotExistLoginInfo" parameterType="java.util.Map">
         /*saveNotExistLoginInfo 로그인 정보가 없을 경우 저장*/
         INSERT INTO logininfo(
                                memcd
@@ -115,7 +115,7 @@
                      )
     </insert>
 
-    <insert id="saveLoginHistory">
+    <insert id="saveLoginHistory" parameterType="java.util.Map">
         /* 로그인 History 테이블 저장 */
         INSERT INTO logininfo2(
                                 memcd
@@ -133,7 +133,7 @@
                       )
     </insert>
 
-    <select id="checkTwalkAccountInfo">
+    <select id="checkTwalkAccountInfo" parameterType="java.util.Map" resultType="int">
        /* checkTwalkAccountInfo 외부 연계접속(T-walk 체크*/
         SELECT COUNT(1) RCNT
         FROM TWALK_MEMBER
@@ -141,7 +141,7 @@
            AND tw_pid = #{pid}
     </select>
     
-    <insert id="saveTwalkAccountInfo">
+    <insert id="saveTwalkAccountInfo" parameterType="java.util.Map">
         /*  saveTwalkAccountInfo 외부 연계접속(T-walk)이 있을 경우 연동정보 등록*/
         INSERT INTO TWALK_MEMBER(
                                   tw_memcd
@@ -155,7 +155,7 @@
                       )
     </insert>
 
-    <select id="loginPointAutoGrant">
+    <select id="loginPointAutoGrant" parameterType="java.util.Map" resultType="java.util.Map">
         /* loginPointAutoGrant 로그인 포인트 자동 부여*/
         SELECT TOP 1 idx
              , ISNULL(points,0) points
@@ -169,7 +169,7 @@
         ORDER BY apydt DESC
     </select>
 
-    <update id="pointGrantWithAuthority">
+    <update id="pointGrantWithAuthority" parameterType="java.util.Map">
         /* pointGrantWithAuthority 포인트 권한적립*/
         UPDATE book_accpoint 
            SET used = 'Y'

@@ -106,7 +106,7 @@ var login = function() {
 		        	//---------------------------------
 		        	// 로그인 session  X ,  로그인 start
 		        	//---------------------------------
-	                var url =  "login/login";
+	                var url =  "/login/login";
 	                $.ajax({
 	                    url: url,
 	                    type: 'POST',
@@ -135,7 +135,7 @@ var login = function() {
 	        var bResult = false;
 	        $.ajax({
 	            type   : "POST"
-	            ,url    : "login/passwdchk"
+	            ,url    : "/login/passwdchk"
 	            ,data   : $("#loginForm").serialize()
 	            ,async  : false
 	            ,success: function(data){

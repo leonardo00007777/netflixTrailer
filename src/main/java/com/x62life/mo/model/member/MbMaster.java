@@ -54,7 +54,6 @@ public class MbMaster {
     private String jointype; //가입유형
     private String snsId; //sns id
 	private String mempw_hash; //비번 hash
-    private String login_failed_count; // 로그인 실패count
     private Boolean  isLoggedIn; // 로그인 유무
 	
 	public Boolean getIsLoggedIn() {
@@ -70,14 +69,6 @@ public class MbMaster {
 
 	public void setMempw_hash(String mempw_hash) {
 		this.mempw_hash = mempw_hash;
-	}
-
-	public String getLogin_failed_count() {
-		return login_failed_count;
-	}
-
-	public void setLogin_failed_count(String login_failed_count) {
-		this.login_failed_count = login_failed_count;
 	}
 
 	public String getSnsId() {
