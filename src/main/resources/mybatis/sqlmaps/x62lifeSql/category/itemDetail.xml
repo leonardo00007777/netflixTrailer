@@ -169,7 +169,7 @@
                  )
     </select>
     
-    <select id="itemDetailSetProdConfiguration" parameterType="java.util.Map" resultType="java.util.Map">
+    <select id="setItemDetailConfiguration" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT a.gdqty
              , b.gdname 
             FROM ( SELECT sgdcd, gdqty
@@ -339,5 +339,46 @@
         ORDER BY ISNULL(c.rrseqno, c.rseqno) DESC, c.rdepth, c.rseqno 
         OFFSET  #{offset} ROWS
         FETCH NEXT CONVERT(INTEGER ,#{intPagePerItem})  ROWS ONLY
+    </select>
+
+    <select id="getGoodsWeek" parameterType="java.util.Map" resultType="java.lang.String">
+         SELECT GDWEEK 
+           FROM CD_WEEK
+         <choose>
+             <when test="intBase == gdweekOrd">
+                 WHERE #{dtdDate} BETWEEN ORDSDT AND ORDEDT
+             </when>
+             <when test="intBase == gdweekDlv">
+                 WHERE #{dtdDate} BETWEEN DLVSDT AND DLVEDT
+             </when>
+             <otherwise>
+                 WHERE 1=0
+             </otherwise>
+         </choose>
+    </select>
+    
+    <select id="getGoodsYear" parameterType="java.util.Map" resultType="java.lang.String">
+      SELECT GDYEAR
+           FROM CD_WEEK
+      <choose>
+         <when test="intBase == gdweekOrd">
+             WHERE #{dtdDate} BETWEEN ORDSDT AND ORDEDT
+         </when>
+         <when test="intBase == gdweekDlv">
+             WHERE #{dtdDate} BETWEEN DLVSDT AND DLVEDT
+         </when>
+         <otherwise>
+             WHERE 1=0
+         </otherwise>
+      </choose>
+    </select>
+
+    <select id="getDLVDTbyHolidayGeneral" parameterType="java.util.Map" statementType="CALLABLE">
+           {  call sp_verifyDlvdt
+             (
+               #{deliveryDate, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+             , #{realDlvDt, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+             )
+           }
     </select>
 </mapper>

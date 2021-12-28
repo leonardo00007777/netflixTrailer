@@ -55,8 +55,7 @@
         <fmt:formatNumber type="number"
                           maxFractionDigits="0"
                           var="discountRate"
-                          value="${itemDetail.discountRate + ((itemDetail.discountRate%1>0.5)?(1-(itemDetail.discountRate%1))%1:-(itemDetail.discountRate%1))}"
-        />
+                          value="${itemDetail.discountRate + ((itemDetail.discountRate%1>0.5)?(1-(itemDetail.discountRate%1))%1:-(itemDetail.discountRate%1))}"/>
         <section class="prd-detail-info">
           <div class="prd-detail-share">
             <button class="btn-share-outline" onclick="$('#modalSNS').modal('show')"><i class="wn-icon wni-share">공유</i></button>
@@ -66,20 +65,30 @@
             <span class="prd-label sp">${itemDetail.gradedesc}</span>
           </div>
           <h3 class="prd-detail-tit toggle-point">${itemDetail.gdname}</h3>
-          <div class="prd-detail-desc">
-            ${itemDetail.shortdesc}
-          </div>
+          <c:if test="${itemDetail.shortdesc ne null and itemDetail.shortdesc ne ''}">
+            <div class="prd-detail-desc">
+                ${itemDetail.shortdesc}
+            </div>
+          </c:if>
+
           <div class="prd-detail-price prd-item-price">
             <c:if test="${discountRate > 0}">
               <div class="dc">
                 <span>${discountRate}</span><small>%</small>
               </div>
             </c:if>
+            <c:set var="prcText" value="${itemDetail.priceyn eq 'N' and strLoginMemCD eq '' ? '특별할인가' : ''}"/>
             <c:choose>
               <c:when test="${itemDetail.price1 ne itemDetail.saleprice}">
                 <div class="prd-item-price">
                   <div class="price">
-                    <span><fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" /></span><small>원</small>
+                    <span>
+                      <c:if test="${itemDetail.priceyn eq 'N' and strLoginMemCD eq ''}">
+                        ${prcText}
+                      </c:if>
+                      <fmt:formatNumber value="${itemDetail.saleprice}" pattern="#,###" />
+                    </span>
+                    <small>원</small>
                   </div>
                   <div class="price-org">
                     <fmt:formatNumber value="${itemDetail.price1}" pattern="#,###" />원
@@ -94,11 +103,11 @@
                 </div>
               </c:otherwise>
             </c:choose>
-<%--            <c:if test="">
+            <c:if test="${strMEMGRPCD ne null and strMEMGRPCD ne '' and strGroupSalePolicy eq 'N'}">
               <div class="dc-tag">
-                <span class="label">홍길동님 추가 할인 적용</span>
+                <span class="label">${strMEMGRPName}님 추가 할인 적용</span>
               </div>
-            </c:if>--%>
+            </c:if>
           </div>
           <ul class="prd-info-promo">
             <c:choose>
@@ -135,7 +144,36 @@
             </li>
           </ul>
         </section>
-
+        <c:choose>
+          <c:when test="${setItemDetailConfiguration.size() > 0}">
+            <c:forEach items="${setItemDetailConfiguration}" var="setItem">
+              <section class="prd-info-gift">
+                <h3 class="hd-xs bold">세트 구성상품</h3>
+                <div class="box">
+                  <ul class="pi-gift-list">
+                    <li>
+                      <div class="thumb-prd-gift">
+                        <div class="img">
+                          <img src="<%=_imgUrl %>/images/gdimg/prd-img-05.jpg" alt="${setItem.gdname}">
+                        </div>
+                        <div class="content">
+                          세트 상품 ${setItem.gdqty}
+                          <span class="name">${setItem.gdname}</span>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+            </c:forEach>
+          </c:when>
+          <c:otherwise>
+            <h3 class="hd-xs bold">세트 구성상품</h3>
+            <div class="box">
+              <span class="name">상품 구성정보가 없습니다.</span>
+            </div>
+          </c:otherwise>
+        </c:choose>
         <section class="prd-info-gift">
           <h3 class="hd-xs bold">사은품</h3>
           <div class="box">
@@ -147,7 +185,7 @@
               <li>
                 <div class="thumb-prd-gift">
                   <div class="img">
-                    <img src="<%=_imgUrl %>/images/gdimg/prd-img-05.jpg" alt="${itemDetail.shortdesc}" style="height: 57px; width: 47px; !important;">
+                    <img src="<%=_imgUrl %>/images/gdimg/prd-img-05.jpg" alt="${itemDetail.shortdesc}">
                   </div>
                   <div class="content">
                     상품 3개 이상 주문 시,
@@ -158,7 +196,7 @@
               <li>
                 <div class="thumb-prd-gift">
                   <div class="img">
-                    <img src="<%=_imgUrl %>/images/gdimg/prd-img-05.jpg" alt="${itemDetail.shortdesc}" style="height: 57px; width: 47px; !important;">
+                    <img src="<%=_imgUrl %>/images/gdimg/prd-img-05.jpg" alt="${itemDetail.shortdesc}">
                   </div>
                   <div class="content">
                     상품 2개 주문 시,
@@ -168,9 +206,9 @@
               </li>
             </ul>
           </div>
-        <div class="guide">사은품 재고 소진 시 조기 종료될 수 있습니다.</div>
-      </section>
-     </c:forEach>
+          <div class="guide">사은품 재고 소진 시 조기 종료될 수 있습니다.</div>
+        </section>
+      </c:forEach>
 
       <section class="section-prd-detail-tab">
         <div class="prd-detail-tab-container divider-top" id="prdDetailTabContainer">
@@ -317,7 +355,7 @@
                     <table class="table-basic-spec">
                       <tr>
                         <th>배송기간</th>
-                        <td>${itemDetail.odFrom} ~ ${itemDetail.odTo}</td>
+                        <td id="dlvDtYn"></td>
                       </tr>
                     </table>
                   </div>

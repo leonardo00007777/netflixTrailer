@@ -1,6 +1,7 @@
 package com.x62life.mo.common.util;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * 날짜관련 Util
@@ -747,5 +749,94 @@ public class DateTime {
         String endOfMonth = String.valueOf(endDay);
  
         return today.substring(0, 4) + today.substring(4, 6) + endOfMonth;
+    }
+
+    /**
+     * 주문 요일 별 배송일자 구하기
+     * 월요일 : + 8d/ 화,수,목,금: + 7d / 토 : + 6d / 일  : + 9d
+     * @param dteToday
+     * @return
+     * @throws ParseException
+     */
+
+    public static String getDLVDTofToday() throws Exception{
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dteToday = df.format(cal.getTime());
+
+        switch (cal.get(Calendar.DAY_OF_WEEK)){
+            case 2:
+                cal.add(cal.DATE , 8);
+                dteToday = df.format(cal.getTime());
+                break;
+            case 3 :
+            case 4 :
+            case 5 :
+            case 6 :
+                cal.add(cal.DATE, 7);
+                dteToday= df.format(cal.getTime());
+                break;
+            case 7 :
+                cal.add(cal.DATE, 6);
+                dteToday = df.format(cal.getTime());
+                break;
+            case 1 :
+                cal.add(cal.DATE, 9);
+                dteToday = df.format(cal.getTime());
+                break;
+        }
+
+        return dteToday;
+    }
+
+    public static String getDLVDTofDate(String dteToday) throws Exception{
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        dteToday = df.format(cal.getTime());
+
+        switch (cal.get(Calendar.DAY_OF_WEEK)){
+            case 2:
+            case 3 :
+            case 4 :
+            case 5 :
+            case 6 :
+                cal.add(cal.DATE, 1);
+                dteToday= df.format(cal.getTime());
+                break;
+            case 7 :
+                cal.add(cal.DATE, 3);
+                dteToday = df.format(cal.getTime());
+                break;
+            case 1 :
+                cal.add(cal.DATE, 2);
+                dteToday = df.format(cal.getTime());
+                break;
+        }
+
+        return dteToday;
+    }
+
+    public static long getDirectDlv() throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String dteNow = df.format(cal.getTime());
+
+        cal.set(cal.HOUR_OF_DAY , 13);
+        cal.set(cal.MINUTE,00);
+        cal.set(cal.SECOND, 00);
+        String dteStandard = df.format(cal.getTime());
+
+        Date dteNowTime = df.parse(dteNow);
+        Date dteStandardTime = df.parse(dteStandard);
+
+        long diffHour = (dteNowTime.getTime() - dteStandardTime.getTime()) / 3600000;
+
+        return diffHour;
     }
 }

@@ -36,6 +36,11 @@ public class GdMasterEx extends GdMaster{
     private String typename; //상품유형
     private String putclass;
     private String putclass_cd;
+    private String dlvdt;
+    private boolean directDespatchFlag;
+    private String orderDeadlineDate;
+    private String nextOrderDeadlineDate;
+    private String nextDeliveryDate;
 
     public String getGdcnt() {
         return gdcnt;
@@ -283,5 +288,45 @@ public class GdMasterEx extends GdMaster{
 
     public void setPutclass_cd(String putclass_cd) {
         this.putclass_cd = putclass_cd;
+    }
+
+    public String getDlvdt() {
+        return dlvdt;
+    }
+
+    public void setDlvdt(String dlvdt) {
+        this.dlvdt = dlvdt;
+    }
+
+    public boolean isDirectDespatchFlag() {
+        return directDespatchFlag;
+    }
+
+    public void setDirectDespatchFlag(boolean directDespatchFlag) {
+        this.directDespatchFlag = directDespatchFlag;
+    }
+
+    public String getOrderDeadlineDate() {
+        return orderDeadlineDate;
+    }
+
+    public void setOrderDeadlineDate(String orderDeadlineDate) {
+        this.orderDeadlineDate = orderDeadlineDate;
+    }
+
+    public String getNextOrderDeadlineDate() {
+        return nextOrderDeadlineDate;
+    }
+
+    public void setNextOrderDeadlineDate(String nextOrderDeadlineDate) {
+        this.nextOrderDeadlineDate = nextOrderDeadlineDate;
+    }
+
+    public String getNextDeliveryDate() {
+        return nextDeliveryDate;
+    }
+
+    public void setNextDeliveryDate(String nextDeliveryDate) {
+        this.nextDeliveryDate = nextDeliveryDate;
     }
 }

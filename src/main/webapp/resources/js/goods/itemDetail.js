@@ -87,3 +87,75 @@ function reviewInsert(){
         , dataType: 'text'
     });
 }
+
+function countDownTimer(dt, id) {
+    var end = new Date(dt);
+    var _second = 1000;
+    var _minute = _second * 60;
+    var _hour = _minute * 60;
+    var _day = _hour * 24;
+    var timer;
+
+    function showRemaining() {
+        var now = new Date();
+        var distance = end - now;
+        if (distance < 0) {
+
+            clearInterval(timer);
+            //$('#'+id).html('종료되었습니다. 새로고침하세요.');
+            countDownTimer('<%=nextOrderDeadlineDate%><%=deadLine%>', 'spanDeliveryTime');
+            $('#spanDeliveryDate').html('<%=nextDeliveryDate%>');
+            return;
+        }
+        var days = Math.floor(distance / _day);
+        var hours = Math.floor((distance % _day) / _hour);
+        var minutes = Math.floor((distance % _hour) / _minute);
+        var seconds = Math.floor((distance % _minute) / _second);
+
+        var strRemainTime = "";
+        strRemainTime += days + '일 ';
+        strRemainTime += hours + '시간 ';
+        strRemainTime += minutes + '분 '
+        strRemainTime += seconds + '초'
+        $('#'+id).html(strRemainTime);
+        $('#'+id).html(strRemainTime);
+    }
+
+    timer = setInterval(showRemaining, 1000);
+}
+
+function countDownTimer(dt, id) {
+    var end = new Date(dt);
+    var _second = 1000;
+    var _minute = _second * 60;
+    var _hour = _minute * 60;
+    var _day = _hour * 24;
+    var timer;
+
+    function showRemaining() {
+        var now = new Date();
+        var distance = end - now;
+        if (distance < 0) {
+
+            clearInterval(timer);
+            //$('#'+id).html('종료되었습니다. 새로고침하세요.');
+            countDownTimer('<%=nextOrderDeadlineDate%><%=deadLine%>', 'spanDeliveryTime');
+            $('#spanDeliveryDate').html('<%=nextDeliveryDate%>');
+            return;
+        }
+        var days = Math.floor(distance / _day);
+        var hours = Math.floor((distance % _day) / _hour);
+        var minutes = Math.floor((distance % _hour) / _minute);
+        var seconds = Math.floor((distance % _minute) / _second);
+
+        var strRemainTime = "";
+        strRemainTime += days + '일 ';
+        strRemainTime += hours + '시간 ';
+        strRemainTime += minutes + '분 '
+        strRemainTime += seconds + '초'
+        $('#'+id).html(strRemainTime);
+        $('#'+id).html(strRemainTime);
+    }
+
+    timer = setInterval(showRemaining, 1000);
+}
