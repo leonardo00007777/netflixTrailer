@@ -122,3 +122,9 @@ function countDownTimer(dt, id, nextDlvDt) {
 
     timer = setInterval(showRemaining, 1000);
 }
+
+function shareFaceBook() {
+    var thisUrl = '62life.com';
+    var url = "http://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(thisUrl);
+    window.open(url, "", "width=486, height=286");
+}

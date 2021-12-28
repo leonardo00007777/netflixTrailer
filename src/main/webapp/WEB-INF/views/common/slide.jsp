@@ -1383,71 +1383,73 @@
       <div class="modal-content">
         <button class="btn-close" data-dismiss="modal">닫기</button>
         <div class="overflow-auto">
-          <div class="wn-modal-body">
-            <article class="section-share">
-              <div class="share-item">
-                <div class="thumb">
-                  <div class="img-square rounded-8">
-                    <div class="img-crop" style="background-image: url(images/uploads/prd-img-01.jpg);"></div>
+          <c:forEach var="itemDetail" items="${itemDetail}">
+            <div class="wn-modal-body">
+              <article class="section-share">
+                <div class="share-item">
+                  <div class="thumb">
+                    <div class="img-square rounded-8">
+                      <div class="img-crop" style="background-image: url(<%=_imgUrl%>images/uploads/${itemDetail.mgdimg1});"></div>
+                    </div>
+                  </div>
+                  <div class="content">
+                    <h3 class="label">공유하기</h3>
+                    <div class="tit">${itemDetail.gdname}</div>
                   </div>
                 </div>
-                <div class="content">
-                  <h3 class="label">공유하기</h3>
-                  <div class="tit">[정덕원 농부] 제주의 달콤향긋 애플망고 2kg (5~7수)</div>
-                </div>
-              </div>
-              <ul class="sns-tile">
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-kakaostory"></i>
-                    <div class="label">카카오스토리</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-band"></i>
-                    <div class="label">밴드</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-line"></i>
-                    <div class="label">라인</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-facebook"></i>
-                    <div class="label">페이스북</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-twitter"></i>
-                    <div class="label">트위터</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-kakaotalk"></i>
-                    <div class="label">카카오톡</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-sms"></i>
-                    <div class="label">문자 (SMS)</div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="sns-thumb">
-                    <i class="wn-icon sns-link"></i>
-                    <div class="label">링크 복사</div>
-                  </a>
-                </li>
-              </ul>
-            </article>
-          </div>
+                <ul class="sns-tile">
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-kakaostory"></i>
+                      <div class="label">카카오스토리</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-band"></i>
+                      <div class="label">밴드</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-line"></i>
+                      <div class="label">라인</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:void(0)" onclick="shareFaceBook();" class="sns-thumb">
+                      <i class="wn-icon sns-facebook"></i>
+                      <div class="label">페이스북</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-twitter"></i>
+                      <div class="label">트위터</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-kakaotalk"></i>
+                      <div class="label">카카오톡</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-sms"></i>
+                      <div class="label">문자 (SMS)</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="sns-thumb">
+                      <i class="wn-icon sns-link"></i>
+                      <div class="label">링크 복사</div>
+                    </a>
+                  </li>
+                </ul>
+              </article>
+            </div>
+          </c:forEach>
         </div>
       </div>
     </div>
