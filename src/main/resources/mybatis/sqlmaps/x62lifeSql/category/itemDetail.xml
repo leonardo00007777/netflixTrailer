@@ -373,7 +373,12 @@
       </choose>
     </select>
 
-    <select id="getDLVDTbyHolidayGeneral" parameterType="java.lang.String" statementType="CALLABLE" resultType="java.util.Map">
-        { call sp_verifyDlvdt (#{dteToday mode=IN}, #{@dlvdt mode=OUT})}
+    <select id="getDLVDTbyHolidayGeneral" parameterType="java.util.Map" statementType="CALLABLE">
+           {  call sp_verifyDlvdt
+             (
+               #{deliveryDate, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+             , #{realDlvDt, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+             )
+           }
     </select>
 </mapper>

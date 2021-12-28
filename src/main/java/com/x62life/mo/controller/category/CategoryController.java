@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.x62life.mo.common.util.DateTime.getDLVDTofToday;
+import static com.x62life.mo.common.util.DateTime.getDirectDlv;
 
 @Controller
 public class CategoryController {
@@ -80,11 +80,6 @@ public class CategoryController {
                 model.addAttribute("setItemDetailConfiguration", setItemDetailConfiguration);
             }
         }
-
-        String dteToday = getDLVDTofToday();
-
-        Map<String, Object> getDLVDTbyHolidayGeneral = categoryService.getDLVDTbyHolidayGeneral(dteToday);
-        model.addAttribute("getDLVDTbyHolidayGeneral", getDLVDTbyHolidayGeneral);
 
         Map<String, Object> itemDlvDeadlineMsg = categoryService.itemDlvDeadlineMsg(paramMap);
         model.addAttribute("itemDlvDeadlineMsg", itemDlvDeadlineMsg);

@@ -3,19 +3,15 @@ package com.x62life.mo.service.category.impl;
 import com.x62life.mo.dao.category.CategoryDao;
 import com.x62life.mo.model.product.*;
 import com.x62life.mo.service.category.CategoryService;
-import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.*;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.x62life.mo.common.util.DateTime.*;
 
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService{
@@ -56,11 +52,57 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<GdMasterEx> itemDetail(Map<String, Object> paramMap) throws IOException, SQLException {
+	public List<GdMasterEx> itemDetail(Map<String, Object> paramMap) throws Exception {
 		List<GdMasterEx> itemDetail = categoryDao.itemDetail(paramMap);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+		String dteToday = df.format(cal.getTime());
 
-		for(int i = 0; i < itemDetail.size(); i++){
-			itemDetail.get(i).setExplain(itemDetail.get(i).getExplain().replaceAll("src=\"/userfiles", "src=\"/resources/images/userfiles"));
+		if(itemDetail.size() > 0) {
+			for(int i = 0; i < itemDetail.size(); i++){
+				itemDetail.get(i).setExplain(itemDetail.get(i).getExplain().replaceAll("src=\"/userfiles", "src=\"/resources/images/userfiles"));
+				itemDetail.get(i).setDirectDespatchFlag(true);
+				
+				if(itemDetail.get(i).getDeliverydtyn().equals("Y")){
+				
+					itemDetail.get(i).setDlvdt((String) paramMap.get("realDlvDt"));
+				
+				} else if(itemDetail.get(i).getOdtype()!= null && itemDetail.get(i).getThedaysyn() != null
+						  && itemDetail.get(i).getOdtype().equals("02") && itemDetail.get(i).getThedaysyn().equals('Y')){
+				    DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+
+					//당일발송 가능 상품일 경우 날짜 계산
+					long diffHour = getDirectDlv();
+					if(diffHour >= 0) {
+						cal.add(cal.DATE , 1);
+						dteToday = df.format(cal.getTime());
+						itemDetail.get(i).setDirectDespatchFlag(false);
+					}
+					//실제 도착가능일자 구함
+					String deliveryDate = getDLVDTofDate(dteToday);
+					paramMap.put("deliveryDate", deliveryDate);
+					
+					//도착일자가 휴일이면 +1d 씩 날짜 증가 프로시저 호출, 휴일이 아닌 날짜로 세팅
+					categoryDao.getDLVDTbyHolidayGeneral(paramMap);
+					String realDlvDt = (String) paramMap.get("realDlvDt");
+					
+					//도착가능일자 이전일까지 주문가능일자
+					Date orderDeadlineDate = df2.parse(realDlvDt);
+					cal.setTime(orderDeadlineDate);
+					cal.add(cal.DATE, -1);
+					itemDetail.get(i).setOrderDeadlineDate(df.format(cal.getTime()));
+					
+					//다음 주문 가능일자
+					itemDetail.get(i).setNextOrderDeadlineDate(realDlvDt);
+					
+					//다음 주문 배송일자
+					Date nextDeliveryDate = df2.parse(realDlvDt);
+					cal.setTime(nextDeliveryDate);
+					cal.add(cal.DATE, 1);
+					itemDetail.get(i).setNextDeliveryDate(df.format(cal.getTime()));
+				}
+			}
 		}
 
 		return itemDetail;
@@ -148,11 +190,5 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public String getGoodsYear(Map<String, Object> paramMap){
 		return categoryDao.getGoodsYear(paramMap);
-	}
-
-	@Override
-	public Map<String, Object> getDLVDTbyHolidayGeneral(String dteToday){
-
-		return categoryDao.getDLVDTbyHolidayGeneral(dteToday);
 	}
 }

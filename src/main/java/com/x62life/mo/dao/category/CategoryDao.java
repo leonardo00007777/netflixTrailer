@@ -42,5 +42,5 @@ public interface CategoryDao {
 
     String getGoodsYear(Map<String, Object> paramMap);
 
-    Map<String, Object> getDLVDTbyHolidayGeneral(String dteToday);
+    Map<String, Object> getDLVDTbyHolidayGeneral(Map<String, Object> paramMap);
 }
