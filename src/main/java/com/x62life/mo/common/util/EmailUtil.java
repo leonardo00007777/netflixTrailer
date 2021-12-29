@@ -1,7 +1,6 @@
 package com.x62life.mo.common.util;
 
 import com.x62life.mo.common.exception.MemberServiceException;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -429,7 +428,7 @@ public class EmailUtil {
 		setCcRecipients(message, ccAddr);
 		setBccRecipients(message, bccAddr);				
 		
-		Address[] allAddr = (Address[]) ArrayUtils.addAll(toAddr, ArrayUtils.addAll(ccAddr, bccAddr));
+		Address[] allAddr = (Address[]) org.apache.commons.lang3.ArrayUtils.addAll(toAddr, ccAddr, bccAddr);
 				
 		//      Create a multi-part to combine the parts
 		MimeMultipart mpRoot = new MimeMultipart("mixed");
