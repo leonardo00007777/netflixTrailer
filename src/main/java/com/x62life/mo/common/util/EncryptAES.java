@@ -4,8 +4,7 @@ package com.x62life.mo.common.util;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.util.Base64;
 
 public class EncryptAES {
 
@@ -24,8 +23,7 @@ public class EncryptAES {
           IvParameterSpec ivSpec = new IvParameterSpec(keyBytes);
           cipher.init(Cipher.DECRYPT_MODE,keySpec,ivSpec);
 
-          BASE64Decoder decoder = new BASE64Decoder();
-          byte [] results = cipher.doFinal(decoder.decodeBuffer(text));
+          byte [] results = cipher.doFinal(Base64.getDecoder().decode(text));
 
           return new String(results,"UTF-8");
     }
@@ -46,9 +44,8 @@ public class EncryptAES {
           cipher.init(Cipher.ENCRYPT_MODE,keySpec,ivSpec);
 
           byte[] results = cipher.doFinal(text.getBytes("UTF-8"));
-          BASE64Encoder encoder = new BASE64Encoder();
 
-          return encoder.encode(results);
+          return Base64.getEncoder().encodeToString(results);
     }
 		
 	//  as-is  소스	
