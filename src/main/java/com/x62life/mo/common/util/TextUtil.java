@@ -1,15 +1,14 @@
 package com.x62life.mo.common.util;
 
+import com.x62life.mo.common.constants.Constants;
+
+import javax.xml.bind.DatatypeConverter;
 import java.io.CharArrayWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.bind.DatatypeConverter;
-
-import com.x62life.mo.common.constants.Constants;
 
 
 /**

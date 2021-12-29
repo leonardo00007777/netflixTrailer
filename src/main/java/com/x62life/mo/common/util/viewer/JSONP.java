@@ -1,14 +1,12 @@
 package com.x62life.mo.common.util.viewer;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.x62life.mo.common.util.viewer.abstractView.JSONView;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.x62life.mo.common.util.viewer.abstractView.JSONView;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 public class JSONP extends ModelAndView {
 

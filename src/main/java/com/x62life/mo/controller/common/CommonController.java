@@ -1,16 +1,14 @@
 package com.x62life.mo.controller.common;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.x62life.mo.service.category.CategoryService;
+import com.x62life.mo.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.x62life.mo.service.category.CategoryService;
-import com.x62life.mo.service.main.MainService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/common")

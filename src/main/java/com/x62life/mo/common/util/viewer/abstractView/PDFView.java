@@ -1,20 +1,14 @@
 package com.x62life.mo.common.util.viewer.abstractView;
 
-import java.util.List;
-import java.util.Map;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfWriter;
+import org.springframework.web.servlet.view.document.AbstractPdfView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.view.document.AbstractPdfView;
-
-import com.lowagie.text.Cell;
-import com.lowagie.text.Document;
-import com.lowagie.text.Font;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Table;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfWriter;
+import java.util.List;
+import java.util.Map;
 
 public class PDFView extends AbstractPdfView {
 

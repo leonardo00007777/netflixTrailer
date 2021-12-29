@@ -1,6 +1,9 @@
 package com.x62life.mo.controller.category;
 
-import com.x62life.mo.model.product.*;
+import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.GdPipnRef;
+import com.x62life.mo.model.product.GdSugar;
+import com.x62life.mo.model.product.ProductReviewEx;
 import com.x62life.mo.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,14 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import static com.x62life.mo.common.util.DateTime.getDirectDlv;
 
 @Controller
 public class CategoryController {

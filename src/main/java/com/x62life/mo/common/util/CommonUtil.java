@@ -1,5 +1,6 @@
 package com.x62life.mo.common.util;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,8 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class CommonUtil
 {

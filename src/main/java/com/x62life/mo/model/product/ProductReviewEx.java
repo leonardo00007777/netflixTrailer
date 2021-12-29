@@ -1,7 +1,5 @@
 package com.x62life.mo.model.product;
 
-import java.sql.Timestamp;
-
 /*@Alias("productReview")*/
 public class ProductReviewEx extends ProductReview {
    private String nickn;

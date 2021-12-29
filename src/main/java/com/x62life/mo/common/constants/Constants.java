@@ -1,10 +1,10 @@
 package com.x62life.mo.common.constants;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * 프로그램 코드용 상수 클래스

@@ -1,11 +1,10 @@
 package com.x62life.mo.dao.login;
 
-import java.util.List;
-import java.util.Map;
-
+import com.x62life.mo.model.login.LoginProcess;
 import org.springframework.stereotype.Repository;
 
-import com.x62life.mo.model.login.LoginProcess;
+import java.util.List;
+import java.util.Map;
 
 @Repository("loginDao")
 public interface LoginDao {

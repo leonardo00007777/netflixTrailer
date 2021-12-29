@@ -1,11 +1,10 @@
 package com.x62life.mo.common.util;
 
-import javax.servlet.http.HttpSession;
-
+import com.x62life.mo.model.member.MbMaster;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.x62life.mo.model.member.MbMaster;
+import javax.servlet.http.HttpSession;
 
 public class SessionUtil {
 

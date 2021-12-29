@@ -1,14 +1,11 @@
 package com.x62life.mo.common.util;
-import java.util.HashMap;
 
-/**
- * 
- */
+import com.x62life.mo.model.member.MbMaster;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.x62life.mo.model.member.MbMaster;
+import java.util.HashMap;
 /**
  * @author shanth
  *

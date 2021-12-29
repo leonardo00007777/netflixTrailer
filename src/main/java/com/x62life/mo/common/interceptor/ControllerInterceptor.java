@@ -1,17 +1,16 @@
 package com.x62life.mo.common.interceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.x62life.mo.common.constants.Constants;
+import com.x62life.mo.common.constants.StoreConsts;
+import com.x62life.mo.common.util.TextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.x62life.mo.common.constants.Constants;
-import com.x62life.mo.common.constants.StoreConsts;
-import com.x62life.mo.common.util.TextUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Controller Interceptor Class Interceptor for Timing / Login / Authorization

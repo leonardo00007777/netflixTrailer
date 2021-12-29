@@ -1475,12 +1475,12 @@
         <c:choose>
           <c:when  test="${itemDetail.soldoutyn eq 'Y' or itemDetail.gdcnt <= '0'}">
             <div class="button-footer-fixed">
-              <button class="button bt-l bt-yellow bt-rect" id="restockBtn" onclick="showRestockPop();" >재입고 알림 신청</button>
+              <button class="button bt-l bt-yellow bt-rect" id="restockBtn" onclick="modalShowHide('modalRestock', 'show');" >재입고 알림 신청</button>
             </div>
           </c:when>
           <c:otherwise>
             <div class="button-footer-fixed">
-              <button class="button bt-l bt-green bt-rect" id="plpBtnBuy" onclick="showBuyOption()">구매하기</button>
+              <button class="button bt-l bt-green bt-rect" id="plpBtnBuy" onclick="modalShowHide('modalBuyOptionDetail', 'show')">구매하기</button>
             </div>
           </c:otherwise>
         </c:choose>

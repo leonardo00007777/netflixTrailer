@@ -1,9 +1,10 @@
 package com.x62life.mo.service.category;
 
-import com.x62life.mo.model.product.*;
+import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.GdPipnRef;
+import com.x62life.mo.model.product.GdSugar;
+import com.x62life.mo.model.product.ProductReviewEx;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 

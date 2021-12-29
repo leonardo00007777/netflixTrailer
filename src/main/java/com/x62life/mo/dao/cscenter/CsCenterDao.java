@@ -3,7 +3,6 @@ package com.x62life.mo.dao.cscenter;
 import com.x62life.mo.model.boardcontents.BdFaq;
 import com.x62life.mo.model.boardcontents.BdNotice;
 import com.x62life.mo.model.boardcontents.BdNoticeEx;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

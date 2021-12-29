@@ -1,16 +1,14 @@
 package com.x62life.mo.common.util;
 
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.x62life.mo.common.constants.StoreConsts;
+import com.x62life.mo.model.common.UserAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.x62life.mo.common.constants.StoreConsts;
-import com.x62life.mo.model.common.UserAgent;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 브라우저 User Agent 유틸 Mozilla/[version] ([system and browser information])

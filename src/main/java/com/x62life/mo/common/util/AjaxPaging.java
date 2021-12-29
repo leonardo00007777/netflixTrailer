@@ -1,12 +1,11 @@
 package com.x62life.mo.common.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.dom4j.tree.AbstractEntity;
-
 import com.x62life.mo.common.constants.StoreConsts;
 import com.x62life.mo.model.common.BaseCommonEntity;
+import org.dom4j.tree.AbstractEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AjaxPaging extends AbstractEntity {

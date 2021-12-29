@@ -1,7 +1,5 @@
 package com.x62life.mo.model.product;
 
-import org.apache.ibatis.type.Alias;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;

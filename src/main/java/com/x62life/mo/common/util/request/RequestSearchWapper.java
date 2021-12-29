@@ -1,11 +1,10 @@
 package com.x62life.mo.common.util.request;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.x62life.mo.common.util.TextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.x62life.mo.common.util.TextUtil;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Request Wapper...

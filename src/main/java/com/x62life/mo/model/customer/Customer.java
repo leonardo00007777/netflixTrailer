@@ -1,12 +1,11 @@
 package com.x62life.mo.model.customer;
 
+import org.dom4j.tree.AbstractEntity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.type.Alias;
-import org.dom4j.tree.AbstractEntity;
 
 /*@Alias("customer")*/
 public class Customer extends AbstractEntity implements Serializable {

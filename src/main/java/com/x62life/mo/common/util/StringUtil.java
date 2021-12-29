@@ -15,6 +15,9 @@ package com.x62life.mo.common.util;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import com.x62life.mo.model.common.Code;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -24,8 +27,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.x62life.mo.model.common.Code;
 
 /**
  * @PackageName: com.happyfnc.util

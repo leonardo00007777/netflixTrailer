@@ -1,13 +1,13 @@
 package com.x62life.mo.controller.login;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.x62life.mo.common.constants.Constants62life;
+import com.x62life.mo.common.util.CookiesUtil;
+import com.x62life.mo.common.util.EncryptAES;
+import com.x62life.mo.common.util.TextUtil;
+import com.x62life.mo.model.login.LoginProcess;
+import com.x62life.mo.model.member.MbMaster;
+import com.x62life.mo.service.login.LoginService;
+import com.x62life.mo.service.member.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.x62life.mo.common.constants.Constants62life;
-import com.x62life.mo.common.util.CookiesUtil;
-import com.x62life.mo.common.util.EncryptAES;
-import com.x62life.mo.common.util.TextUtil;
-import com.x62life.mo.common.util.UserAgentUtil;
-import com.x62life.mo.model.common.UserAgent;
-import com.x62life.mo.model.login.LoginProcess;
-import com.x62life.mo.model.member.MbMaster;
-import com.x62life.mo.service.login.LoginService;
-import com.x62life.mo.service.member.MemberService;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/login")

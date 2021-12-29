@@ -1,7 +1,5 @@
 package com.x62life.mo.common.util;
 
-import com.x62life.mo.common.util.RuleChecker;
-
 public class RequestParamFilterUtil {
 		
 	    public static String handleRequestParam(String param) {

@@ -1,6 +1,9 @@
 package com.x62life.mo.dao.category;
 
-import com.x62life.mo.model.product.*;
+import com.x62life.mo.model.product.GdMasterEx;
+import com.x62life.mo.model.product.GdPipnRef;
+import com.x62life.mo.model.product.GdSugar;
+import com.x62life.mo.model.product.ProductReviewEx;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

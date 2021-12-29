@@ -1,16 +1,11 @@
 package com.x62life.mo.common.util.request;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.x62life.mo.common.constants.Constants;
+import com.x62life.mo.common.util.TextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.x62life.mo.common.constants.Constants;
-import com.x62life.mo.common.util.TextUtil;
+import javax.servlet.http.*;
 
 /**
  * Request Wapper...

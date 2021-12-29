@@ -1,16 +1,13 @@
 package com.x62life.mo.common.util.viewer.abstractView;
 
-import java.io.PrintWriter;
-import java.util.Map;
+import com.x62life.mo.common.util.StringUtil;
+import net.sf.json.JSONObject;
+import org.springframework.web.servlet.view.AbstractView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.view.AbstractView;
-
-import com.x62life.mo.common.util.StringUtil;
-
-import net.sf.json.JSONObject;
+import java.io.PrintWriter;
+import java.util.Map;
 
 public class JSONPView extends AbstractView {
     public JSONPView() {

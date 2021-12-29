@@ -1,12 +1,11 @@
 package com.x62life.mo.common.util.tags;
 
-import java.io.IOException;
+import com.x62life.mo.model.common.Code;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import com.x62life.mo.model.common.Code;
+import java.io.IOException;
 
 public class ShortTitleTag extends TagSupport{
 

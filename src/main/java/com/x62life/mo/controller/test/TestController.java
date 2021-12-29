@@ -1,15 +1,13 @@
 package com.x62life.mo.controller.test;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.x62life.mo.common.util.MessageUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.x62life.mo.common.util.MessageUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/test")

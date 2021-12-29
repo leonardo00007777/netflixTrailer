@@ -1,25 +1,16 @@
 package com.x62life.mo.common.util;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
+import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
+import com.x62life.mo.common.exception.SSOServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.InputSource;
-
-import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
-import com.x62life.mo.common.exception.SSOServiceException;
+import java.io.*;
 
 public class XmlUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(XmlUtil.class);

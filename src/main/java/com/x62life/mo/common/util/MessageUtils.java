@@ -1,8 +1,8 @@
 package com.x62life.mo.common.util;
- 
-import java.util.Locale;
 
 import org.springframework.context.support.MessageSourceAccessor;
+
+import java.util.Locale;
    
 public class MessageUtils {
 	

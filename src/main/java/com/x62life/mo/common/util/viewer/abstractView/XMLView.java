@@ -1,17 +1,15 @@
 package com.x62life.mo.common.util.viewer.abstractView;
 
+import com.x62life.mo.common.util.StringUtil;
+import org.springframework.web.servlet.view.AbstractView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.view.AbstractView;
-
-import com.x62life.mo.common.util.StringUtil;
 
 public class XMLView extends AbstractView {
     public XMLView() {

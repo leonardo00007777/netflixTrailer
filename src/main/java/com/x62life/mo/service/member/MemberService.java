@@ -1,10 +1,10 @@
 package com.x62life.mo.service.member;
 
-import java.util.List;
-import java.util.Map;
-
 import com.x62life.mo.model.login.LoginProcess;
 import com.x62life.mo.model.member.MbMaster;
+
+import java.util.List;
+import java.util.Map;
 
 public interface MemberService {
 	
