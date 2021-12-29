@@ -1119,7 +1119,7 @@
                           </c:if>
                         </a>
                         <div class="prd-item-buttons">
-                          <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
+                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('newProdListBuyOption','show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
                         </div>
                       </div>
                       <div class="detail">
@@ -1167,7 +1167,7 @@
                           </div>
                         </a>
                         <div class="prd-item-buttons">
-                          <button class="btn btn-bell" onclick="$('#modalRestock').modal('show')"><i class="wn-icon wni-bell-w">입고알림</i></button>
+                          <button class="btn btn-bell" onclick="common_pop.modalShowHide('newProdListBuyOption','show')"><i class="wn-icon wni-bell-w">입고알림</i></button>
                         </div>
                       </div>
                       <div class="detail">
@@ -1341,7 +1341,7 @@
                           </c:if>
                         </a>
                         <div class="prd-item-buttons">
-                          <a href="javascript:void(0)" onclick="$('#modalBuyOption').modal('show')" class="btn btn-cart">
+                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('dcProdListBuyOption','show')" class="btn btn-cart">
                             <i class="wn-icon wni-cart-w">장바구니</i>
                           </a>
                         </div>

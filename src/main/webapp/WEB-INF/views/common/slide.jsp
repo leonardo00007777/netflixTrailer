@@ -926,10 +926,102 @@
       </div>
     </div>
   </div>
+
+<!-- Modal - Buy Option -->
+<div class="modal fade wn-modal-bottom modal-buy-option" id="newProdListBuyOption">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <button class="btn-close" data-dismiss="modal">닫기</button>
+      <div class="overflow-auto">
+        <div class="wn-modal-body">
+          <div class="buy-options">
+            <div class="buy-option-item">
+              <div class="label">맛있는 아이스 홍시 1개입</div>
+              <div class="content">
+                <div class="input-number">
+                  <button class="dec"></button>
+                  <input class="num" type="text" value="1" readonly>
+                  <button class="inc"></button>
+                </div>
+                <div class="price-format">3,480<small>원</small></div>
+              </div>
+            </div>
+            <div class="buy-option-total">
+              <span class="label">합계</span>
+              <span class="price-format">3,480<small>원</small></span>
+            </div>
+          </div>
+        </div>
+        <footer class="wn-modal-footer">
+          <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
+          <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
+          <button class="button bt-l bt-green bt-rect"  onclick="location.href = 'WN_PB_MO_ORD_010101.html' ">장바구니</button>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal - Buy Option -->
+<div class="modal fade wn-modal-bottom modal-buy-option" id="dcProdListBuyOption">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <button class="btn-close" data-dismiss="modal">닫기</button>
+      <div class="overflow-auto">
+        <div class="wn-modal-body">
+          <div class="buy-options">
+            <div class="buy-option-item">
+              <div class="label">맛있는 아이스 홍시 1개입</div>
+              <div class="content">
+                <div class="input-number">
+                  <button class="dec"></button>
+                  <input class="num" type="text" value="1" readonly>
+                  <button class="inc"></button>
+                </div>
+                <div class="price-format">3,480<small>원</small></div>
+              </div>
+            </div>
+            <div class="buy-option-item">
+              <div class="label">맛있는 아이스 홍시 & 바나나</div>
+              <div class="content">
+                <div class="input-number">
+                  <button class="dec"></button>
+                  <input class="num" type="text" value="0" readonly>
+                  <button class="inc"></button>
+                </div>
+                <div class="price-format">0<small>원</small></div>
+              </div>
+            </div>
+            <div class="buy-option-item">
+              <div class="label">맛있는 아이스 바나나</div>
+              <div class="content">
+                <div class="input-number">
+                  <button class="dec"></button>
+                  <input class="num" type="text" value="0" readonly>
+                  <button class="inc"></button>
+                </div>
+                <div class="price-format">0<small>원</small></div>
+              </div>
+            </div>
+            <div class="buy-option-total">
+              <span class="label">합계</span>
+              <span class="price-format">3,480<small>원</small></span>
+            </div>
+          </div>
+        </div>
+        <footer class="wn-modal-footer">
+          <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
+          <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
+          <button class="button bt-l bt-green bt-rect"  onclick="location.href = 'WN_PB_MO_ORD_010101.html' ">장바구니</button>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
   
   <!-- Modal - Buy Option -->
   <!-- 개수선택 + 정기배송신청 / 장바구니 / 바로구매 -->
-  <div class="modal fade wn-modal-bottom modal-buy-option" id="modalBuyOption">
+  <div class="modal fade wn-modal-bottom modal-buy-option" id="modalBuyOptionDetail">
     <div class="modal-dialog">
       <div class="modal-content">
         <button class="btn-close" onclick="closeBuyOption();" data-dismiss="modal">닫기</button>
