@@ -100,7 +100,7 @@
 
   function init() {
     // optionItems.each(function() {
-    //   if($(this).hasClass('selected')) 
+    //   if($(this).hasClass('selected'))
     // });
     setOpen();
     setClose();
@@ -519,7 +519,7 @@
 
   function init(customSelect) {
     buildAltElements(customSelect);
-    
+
     var select = customSelect.find("select");
     addSelectChangeHandler(select);
     select.trigger("change");
@@ -567,7 +567,7 @@
     var selElmnt = customSelect.find("select");
 
     customSelect.find(".select-items").remove();
-    
+
     var selectItems = $("<div></div>");
     selectItems.addClass(className);
 
@@ -588,14 +588,14 @@
       $(this).toggleClass("select-arrow-active");
     });
   }
-  
+
   function addItemClickHandler(item, index) {
     item.on("click", function() {
       var customSelect = item.parent().prev().parent();
       var selElmnt = item.parent().prev().prev();
       var selectSelected = item.parent().prev();
       var selectedItemClass = "same-as-selected";
-  
+
       var selectedIndex = selElmnt.prop("selectedIndex");
       if(selectedIndex != index) {
         selectSelected.html($(this).html());
@@ -606,7 +606,7 @@
         selectSelected.click();
 
         //if has sub items
-        
+
       }
     });
   }
@@ -630,7 +630,7 @@
     }
     UI.CustomSelect(selectSubSelector);
   }
-  
+
   UI.CustomSelect = CustomSelect;
   window.UI = UI;
 })(window);//CustomSelect
@@ -671,7 +671,7 @@ document.addEventListener("click", closeAllCustomSelect);
       }
     });
   }
-  
+
   function addCheckChangeHandler(checkbox) {
     checkbox.on("change", function() {
       if(checkbox.prop("checked")) {
@@ -807,6 +807,37 @@ document.addEventListener("click", closeAllCustomSelect);
 })();
 
 /**
+ *tag-item Group
+ */
+(function() {
+  var SELECT_ITEM_SELECTOR = ".tag-item";
+
+  $(".tags-wrapper").each(function() {
+    initTagItem($(this));
+  });
+
+  function initTagItem(tagItem) {
+    var items = tagItem.find(SELECT_ITEM_SELECTOR);
+    items.each(function(index) {
+      $(this).on("click", function() {
+        groupOn(tagItem, index);
+      });
+    });
+  }
+
+  function groupOn(tagItem, index) {
+    var items = tagItem.find(SELECT_ITEM_SELECTOR);
+    items.each(function(i) {
+      if(i == index) {
+        $(this).addClass("active");
+      } else {
+        $(this).removeClass("active");
+      }
+    })
+  }
+})();
+
+/**
  * Datepicker
  */
 (function() {
@@ -906,7 +937,7 @@ document.addEventListener("click", closeAllCustomSelect);
     //update active
     activate(checkPrdBox)
   }
-  
+
   function activate(checkPrdBox) {
     var checkbox = checkPrdBox.find("input:checkbox");
     if(checkbox.prop("checked") == true) {
@@ -993,7 +1024,7 @@ document.addEventListener("click", closeAllCustomSelect);
       $('.search-autocomplete').toggleClass('on');
     });
   }
-  
+
   function addInputSearchChangeHandler($inputSearch) {
     $inputSearch.on("input", function() {
       if($(this).val()) {
@@ -1024,7 +1055,7 @@ document.addEventListener("click", closeAllCustomSelect);
   $(".fold-button").each(function() {
     addBtnClickHandler($(this));
   });
-  
+
   function initFoldSection($foldSection) {
     if($foldSection.hasClass("open")) {
       var $foldShows = $foldSection.find(".fold-open-show");
@@ -1070,7 +1101,7 @@ document.addEventListener("click", closeAllCustomSelect);
 	$(".toggle-point").each(function() {
 		addPointHandler($(this));
 	});
-	
+
 	function addPointHandler(target) {
 		new Waypoint({
       element: target,
@@ -1157,17 +1188,17 @@ document.addEventListener("click", closeAllCustomSelect);
     marker.setAttribute("orient", "auto");
     marker.setAttribute("refX", "5");
     marker.setAttribute("refY", "5");
-    
+
     dot.setAttribute("cx", "5");
     dot.setAttribute("cy", "5");
     dot.setAttribute("r", "1");
     dot.setAttribute("fill", "#fa5252");
     dot.setAttribute("stroke", "none");
-    
+
     marker.appendChild(dot);
     defs.appendChild(marker);
     $svg.prepend(defs);
-    
+
     var path = $svg.find(".circle-progress-value");
     path.attr("marker-end", "url(#" + markerId + ")");
   }
