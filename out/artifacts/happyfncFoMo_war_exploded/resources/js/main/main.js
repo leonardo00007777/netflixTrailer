@@ -722,21 +722,23 @@ function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, divcd) {
 
 }
 
-function newProdCart(gdname, price1, saleprice, gdcnt){
-	$('#newPrdCartCnt').val('1');
-	$('#newPrdCartGdNm').text(gdname);
-	$('#newPrdCnt').val(gdcnt);
-	if(price1 == saleprice){
-		price1 = price1.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		$('#newPrdCartPrice').html( price1 + '<small>원</small>');
-		$('#newPrdCartTotalPrc').html( price1 + '<small>원</small>');
-		$('#newPrdCartDec').val(price1);
-		$('#newPrdCartInc').val(price1);
-	}else{
-		saleprice = saleprice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		$('#newPrdCartPrice').html( saleprice + '<small>원</small>');
-		$('#newPrdCartTotalPrc').html( saleprice + '<small>원</small>');
-		$('#newPrdCartDec').val(saleprice);
-		$('#newPrdCartInc').val(saleprice);
+function prdListCart(gdName, price, salePrice, gdCnt, checkPoint){
+	if(checkPoint === 'newPrdList'){
+		$('#newPrdCartCnt').val('1');
+		$('#newPrdCartGdNm').text(gdName);
+		$('#newPrdCnt').val(gdCnt);
+		if(price == salePrice){
+			price = price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('#newPrdCartPrice').html( price + '<small>원</small>');
+			$('#newPrdCartTotalPrc').html( price + '<small>원</small>');
+			$('#newPrdCartDec').val(price);
+			$('#newPrdCartInc').val(price);
+		}else{
+			salePrice = salePrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('#newPrdCartPrice').html( salePrice + '<small>원</small>');
+			$('#newPrdCartTotalPrc').html( salePrice + '<small>원</small>');
+			$('#newPrdCartDec').val(salePrice);
+			$('#newPrdCartInc').val(salePrice);
+		}
 	}
 }

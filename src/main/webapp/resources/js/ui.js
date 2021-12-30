@@ -318,37 +318,44 @@
   });
 
   function initInputNumber(inputNumber) {
-    var divarication;
+    var checkPoint;
     var btnDec, btnInc;
     var cnt;
+    var prc;
     btnDec = inputNumber.find(".dec");
     btnInc = inputNumber.find(".inc");
     btnDec.on("click", function() {
-      var prc = btnDec.val();
-      decrement(inputNumber, prc);
+      if(btnDec.attr('id') == 'newPrdCartDec'){
+        checkPoint = 'newProd';
+        cnt = $('#newPrdCnt').val();
+      } else if(btnDec.attr('id')==='dtlCartDec'){
+        checkPoint = 'prdDtl';
+        cnt = $('#dtlCnt').val();
+      }
+      prc = btnDec.val();
+      decrement(inputNumber, prc, checkPoint);
     });
 
     btnInc.on("click", function() {
       if(btnInc.attr('id') === 'newPrdCartInc'){
-        divarication = 'newProd';
+        checkPoint = 'newProd';
         cnt = $('#newPrdCnt').val();
       } else if(btnInc.attr('id') === 'dtlCartInc') {
-        divarication = 'prdDtl';
+        checkPoint = 'prdDtl';
         cnt = $('#dtlCnt').val();
       }
-
-      var prc = btnInc.val();
-      increment(inputNumber, prc, cnt, divarication);
+      prc = btnInc.val();
+      increment(inputNumber, prc, cnt, checkPoint);
     });
 
-    detectDisabled(inputNumber);
+    detectDisabled(inputNumber, cnt);
   }
 
-  function increment(inputNumber, prc, cnt, divarication) {
+  function increment(inputNumber, prc, cnt, checkPoint) {
     var inputNum = inputNumber.find(".num");
     prc = parseInt(prc.toString().replace(/,/g, '').replace('원',''));
     var val = inputNum.val();
-    if(val <= cnt){
+    if(Number(val) < Number(cnt)){
       val = Number(val) + 1;
       inputNum.val(val);
     }
@@ -356,49 +363,66 @@
     var totalPrice = prc * val;
     totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-    if(divarication === 'newProd') {
+    if(checkPoint === 'newProd') {
       $("#newPrdCartPrice").html( totalPrice + '<small>원</small>');
       $("#newPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
-    } else if(divarication === 'prdDtl'){
+    } else if(checkPoint === 'prdDtl'){
       $("#dtlPrc").html( totalPrice + '<small>원</small>');
       $("#dtlTotalPrc").html( totalPrice + '<small>원</small>');
     }
 
-    detectDisabled(inputNumber);
+    detectDisabled(inputNumber, cnt);
   }
-  function decrement(inputNumber, prc) {
+
+  function decrement(inputNumber, prc, checkPoint) {
     var inputNum = inputNumber.find(".num");
     var val = inputNum.val();
     val = Math.max(1, val-1);
     inputNum.val(val);
-    var totalPrice = parseInt($('#totalPrc').text().replace(/,/g, '').replace('원',''));
-
+    var totalPrice;
+    if(checkPoint === 'newProd') {
+      totalPrice = parseInt($('#newPrdCartTotalPrc').text().replace(/,/g, '').replace('원',''));
+    } else if(checkPoint === 'prdDtl'){
+      totalPrice = parseInt($('#dtlTotalPrc').text().replace(/,/g, '').replace('원',''));
+    }
+    prc = parseInt(prc.toString().replace(/,/g, ''));
     totalPrice = totalPrice - prc;
     totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     if(val > 1) {
-      $("#dtlPrc").html( totalPrice + '<small>원</small>');
-      $("#dtlTotalPrc").html( totalPrice + '<small>원</small>');
-      $("#newPrdCartPrice").html( totalPrice + '<small>원</small>');
-      $("#newPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
+      if(checkPoint === 'newProd'){
+        $("#newPrdCartPrice").html( totalPrice + '<small>원</small>');
+        $("#newPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
+      } else if(checkPoint === 'prdDtl'){
+        $("#dtlPrc").html( totalPrice + '<small>원</small>');
+        $("#dtlTotalPrc").html( totalPrice + '<small>원</small>');
+      }
     } else {
       totalPrice = prc;
       totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      $("#dtlPrc").html( totalPrice + '<small>원</small>');
-      $("#dtlTotalPrc").html( totalPrice + '<small>원</small>');
-      $("#newPrdCartPrice").html( totalPrice + '<small>원</small>');
-      $("#newPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
+      if(checkPoint === 'newProd'){
+        $("#newPrdCartPrice").html( totalPrice + '<small>원</small>');
+        $("#newPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
+      } else if(checkPoint === 'prdDtl'){
+        $("#dtlPrc").html( totalPrice + '<small>원</small>');
+        $("#dtlTotalPrc").html( totalPrice + '<small>원</small>');
+      }
     }
 
     detectDisabled(inputNumber);
   }
 
-  function detectDisabled(inputNumber) {
+  function detectDisabled(inputNumber, cnt) {
     var val = inputNumber.find(".num").val();
     if(val <= 1) {
       inputNumber.find(".dec").addClass("disabled");
     } else {
       inputNumber.find(".dec").removeClass("disabled");
+    }
+    if(val >= cnt){
+      inputNumber.find(".inc").addClass("disabled");
+    } else {
+      inputNumber.find(".inc").removeClass("disabled");
     }
   }
 })();//InputNumber

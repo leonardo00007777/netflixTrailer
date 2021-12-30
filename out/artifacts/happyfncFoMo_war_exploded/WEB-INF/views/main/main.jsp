@@ -1119,7 +1119,7 @@
                           </c:if>
                         </a>
                         <div class="prd-item-buttons">
-                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('newProdListBuyOption','show'); newProdCart('${newProd.gdname}','${newProd.price1}', '${newProd.saleprice}', '${newProd.gdcnt}');" class="btn btn-cart"><i class="wn-icon wni-cart-w" id="newPrdCart">장바구니</i></a>
+                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('newProdListBuyOption','show'); prdListCart('${newProd.gdname}','${newProd.price1}', '${newProd.saleprice}', '${newProd.gdcnt}', 'newPrdList');" class="btn btn-cart"><i class="wn-icon wni-cart-w" id="newPrdCart">장바구니</i></a>
                         </div>
                       </div>
                       <div class="detail">
