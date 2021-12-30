@@ -927,7 +927,7 @@
     </div>
   </div>
 
-<!-- Modal - Buy Option -->
+<!-- Modal - Buy Option <newProdList> -->
 <div class="modal fade wn-modal-bottom modal-buy-option" id="newProdListBuyOption">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -963,7 +963,7 @@
   </div>
 </div>
 
-<!-- Modal - Buy Option -->
+<!-- Modal - Buy Option <discountProdList> -->
 <div class="modal fade wn-modal-bottom modal-buy-option" id="dcProdListBuyOption">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -972,41 +972,20 @@
         <div class="wn-modal-body">
           <div class="buy-options">
             <div class="buy-option-item">
-              <div class="label">맛있는 아이스 홍시 1개입</div>
+              <div class="label" id="dcPrdCartGdNm"></div>
               <div class="content">
                 <div class="input-number">
-                  <button class="dec"></button>
-                  <input class="num" type="text" value="1" readonly>
-                  <button class="inc"></button>
+                  <input type="hidden" value="" id="dcPrdCnt"/>
+                  <button class="dec" id="dcPrdCartDec" value=""></button>
+                  <input class="num" id="dcPrdCartCnt" type="text" value="1" readonly>
+                  <button class="inc" id="dcPrdCartInc" value=""></button>
                 </div>
-                <div class="price-format">3,480<small>원</small></div>
-              </div>
-            </div>
-            <div class="buy-option-item">
-              <div class="label">맛있는 아이스 홍시 & 바나나</div>
-              <div class="content">
-                <div class="input-number">
-                  <button class="dec"></button>
-                  <input class="num" type="text" value="0" readonly>
-                  <button class="inc"></button>
-                </div>
-                <div class="price-format">0<small>원</small></div>
-              </div>
-            </div>
-            <div class="buy-option-item">
-              <div class="label">맛있는 아이스 바나나</div>
-              <div class="content">
-                <div class="input-number">
-                  <button class="dec"></button>
-                  <input class="num" type="text" value="0" readonly>
-                  <button class="inc"></button>
-                </div>
-                <div class="price-format">0<small>원</small></div>
+                <div class="price-format" id="dcPrdCartPrice"><small>원</small></div>
               </div>
             </div>
             <div class="buy-option-total">
               <span class="label">합계</span>
-              <span class="price-format">3,480<small>원</small></span>
+              <span class="price-format" id="dcPrdCartTotalPrc"><small>원</small></span>
             </div>
           </div>
         </div>

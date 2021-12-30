@@ -322,30 +322,37 @@
     var btnDec, btnInc;
     var cnt;
     var prc;
-    btnDec = inputNumber.find(".dec");
     btnInc = inputNumber.find(".inc");
-    btnDec.on("click", function() {
-      if(btnDec.attr('id') == 'newPrdCartDec'){
-        checkPoint = 'newProd';
-        cnt = $('#newPrdCnt').val();
-      } else if(btnDec.attr('id')==='dtlCartDec'){
-        checkPoint = 'prdDtl';
-        cnt = $('#dtlCnt').val();
-      }
-      prc = btnDec.val();
-      decrement(inputNumber, prc, checkPoint);
-    });
+    btnDec = inputNumber.find(".dec");
 
     btnInc.on("click", function() {
       if(btnInc.attr('id') === 'newPrdCartInc'){
         checkPoint = 'newProd';
         cnt = $('#newPrdCnt').val();
+      } else if(btnInc.attr('id') === 'dcPrdCartInc'){
+        checkPoint = 'dcProd';
+        cnt = $('#dcPrdCnt').val();
       } else if(btnInc.attr('id') === 'dtlCartInc') {
         checkPoint = 'prdDtl';
         cnt = $('#dtlCnt').val();
       }
       prc = btnInc.val();
       increment(inputNumber, prc, cnt, checkPoint);
+    });
+
+    btnDec.on("click", function() {
+      if(btnDec.attr('id') == 'newPrdCartDec'){
+        checkPoint = 'newProd';
+        cnt = $('#newPrdCnt').val();
+      } else if(btnDec.attr('id') === 'dcPrdCartDec'){
+        checkPoint = 'dcProd';
+        cnt = $('#dcPrdCnt').val();
+      } else if(btnDec.attr('id')==='dtlCartDec'){
+        checkPoint = 'prdDtl';
+        cnt = $('#dtlCnt').val();
+      }
+      prc = btnDec.val();
+      decrement(inputNumber, prc, checkPoint);
     });
 
     detectDisabled(inputNumber, cnt);
@@ -366,6 +373,9 @@
     if(checkPoint === 'newProd') {
       $("#newPrdCartPrice").html( totalPrice + '<small>원</small>');
       $("#newPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
+    } else if(checkPoint === 'dcProd'){
+      $("#dcPrdCartPrice").html( totalPrice + '<small>원</small>');
+      $("#dcPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
     } else if(checkPoint === 'prdDtl'){
       $("#dtlPrc").html( totalPrice + '<small>원</small>');
       $("#dtlTotalPrc").html( totalPrice + '<small>원</small>');
@@ -375,13 +385,16 @@
   }
 
   function decrement(inputNumber, prc, checkPoint) {
+    var totalPrice;
     var inputNum = inputNumber.find(".num");
     var val = inputNum.val();
     val = Math.max(1, val-1);
     inputNum.val(val);
-    var totalPrice;
+
     if(checkPoint === 'newProd') {
       totalPrice = parseInt($('#newPrdCartTotalPrc').text().replace(/,/g, '').replace('원',''));
+    } else if(checkPoint === 'dcProd'){
+      totalPrice = parseInt($('#dcPrdCartTotalPrc').text().replace(/,/g, '').replace('원',''));
     } else if(checkPoint === 'prdDtl'){
       totalPrice = parseInt($('#dtlTotalPrc').text().replace(/,/g, '').replace('원',''));
     }
@@ -390,19 +403,26 @@
     totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     if(val > 1) {
-      if(checkPoint === 'newProd'){
+      if(checkPoint === 'newProd') {
         $("#newPrdCartPrice").html( totalPrice + '<small>원</small>');
         $("#newPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
-      } else if(checkPoint === 'prdDtl'){
+      } else if(checkPoint === 'dcProd') {
+        $("#dcPrdCartPrice").html( totalPrice + '<small>원</small>');
+        $("#dcPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
+      } else if(checkPoint === 'prdDtl') {
         $("#dtlPrc").html( totalPrice + '<small>원</small>');
         $("#dtlTotalPrc").html( totalPrice + '<small>원</small>');
       }
     } else {
       totalPrice = prc;
       totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
       if(checkPoint === 'newProd'){
         $("#newPrdCartPrice").html( totalPrice + '<small>원</small>');
         $("#newPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
+      } else if(checkPoint === 'dcProd') {
+        $("#dcPrdCartPrice").html( totalPrice + '<small>원</small>');
+        $("#dcPrdCartTotalPrc").html( totalPrice + '<small>원</small>');
       } else if(checkPoint === 'prdDtl'){
         $("#dtlPrc").html( totalPrice + '<small>원</small>');
         $("#dtlTotalPrc").html( totalPrice + '<small>원</small>');

@@ -1341,7 +1341,7 @@
                           </c:if>
                         </a>
                         <div class="prd-item-buttons">
-                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('dcProdListBuyOption','show')" class="btn btn-cart">
+                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('dcProdListBuyOption','show'); prdListCart('${discountProd.gdname}', '${discountProd.price1}', '${discountProd.saleprice}', '${discountProd.gdcnt}', 'dcPrdList')" class="btn btn-cart">
                             <i class="wn-icon wni-cart-w">장바구니</i>
                           </a>
                         </div>
