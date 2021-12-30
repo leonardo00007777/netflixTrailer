@@ -721,3 +721,22 @@ function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, divcd) {
 		          + "&lastTitle=" + lastTitle + "&strItemDivCd=" + divcd);
 
 }
+
+function newProdCart(gdname, price1, saleprice, gdcnt){
+	$('#newPrdCartCnt').val('1');
+	$('#newPrdCartGdNm').text(gdname);
+	$('#newPrdCnt').val(gdcnt);
+	if(price1 == saleprice){
+		price1 = price1.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		$('#newPrdCartPrice').html( price1 + '<small>원</small>');
+		$('#newPrdCartTotalPrc').html( price1 + '<small>원</small>');
+		$('#newPrdCartDec').val(price1);
+		$('#newPrdCartInc').val(price1);
+	}else{
+		saleprice = saleprice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		$('#newPrdCartPrice').html( saleprice + '<small>원</small>');
+		$('#newPrdCartTotalPrc').html( saleprice + '<small>원</small>');
+		$('#newPrdCartDec').val(saleprice);
+		$('#newPrdCartInc').val(saleprice);
+	}
+}
