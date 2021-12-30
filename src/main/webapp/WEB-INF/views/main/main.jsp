@@ -109,7 +109,7 @@
                     <div class="swiper-slide">
                      <article class="prd-item">
                        <div class="img-container">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}', '${newProdList.divcd}')" class="prd-item-img">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}', '${newProdList.divcd}', '${newProdList.optionp}')" class="prd-item-img">
                            <img src="<%=_imgUrl %>images/uploads/${newProdList.mgdimg1}" alt="${newProdList.unit}">
                            <fmt:formatNumber value="${newProdList.discountRate}" var="discountRate" maxFractionDigits="0"/>
                            <c:if test="${discountRate > 0}">
@@ -121,7 +121,7 @@
                          </a>
                        </div>
                        <div class="detail">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}', '${newProdList.divcd}')">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}', '${newProdList.divcd}', '${newProdList.optionp}')">
                            <h4 class="prd-item-tit">${newProdList.gdname}</h4>
                            <c:choose>
                              <c:when test="${newProdList.price1 ne newProdList.saleprice}">
@@ -601,7 +601,7 @@
                    <div class="swiper-slide">
                      <article class="prd-item">
                        <div class="img-container">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}', '${newProdList.divcd}')" class="prd-item-img">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}', '${newProdList.divcd}', '${newProdList.optionp}')" class="prd-item-img">
                            <img src="<%=_imgUrl %>/images/uploads/${newProdList.mgdimg1}" alt="${newProdList.gdname}">
                            <c:if test="${discountRate > 0 }">
                              <div class="prd-item-badge dc">
@@ -612,7 +612,7 @@
                          </a>
                        </div>
                        <div class="detail">
-                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}', '${newProdList.divcd}');">
+                         <a href="javascript:void(0)" onclick="itemDetail('${newProdList.gdcd}', '${newProdList.odtype}', '${newProdList.odtype2}', '${newProdList.div1}', '${newProdList.divcd}','${newProdList.optionp}');">
                            <h4 class="prd-item-tit">${newProdList.gdname}</h4>
                            <c:choose>
                              <c:when test="${newProdList.price1 ne newProdList.saleprice}">
@@ -823,7 +823,7 @@
                   <div class="swiper-slide">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}', '${discountProd.optionp}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" alt="${discountProd.shortdesc}">
                           <c:if test="${discountRate > 0 }">
                             <div class="prd-item-badge dc">
@@ -834,7 +834,7 @@
                         </a>
                       </div>
                       <div class="detail">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}')" >
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}', '${discountProd.optionp}')" >
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${discountProd.price1 ne discountProd.saleprice}">
@@ -1109,7 +1109,7 @@
                   <c:when test="${newProd.gdcnt gt 0}">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="javascript:void(0)" onclick="itemDetail('${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}', '${newProd.divcd}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}', '${newProd.divcd}', '${newProd.optionp}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/uploads/${newProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${newProd.mgdimg1}"}' alt="${newProd.gdname}"/>
                           <c:if test="${discountRate > 0}">
                             <div class="prd-item-badge dc">
@@ -1123,7 +1123,7 @@
                         </div>
                       </div>
                       <div class="detail">
-                        <a href="javascript:void(0)" onclick="itemDetail('${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}', '${newProd.divcd}')">
+                        <a href="javascript:void(0)" onclick="itemDetail('${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}', '${newProd.divcd}', '${newProd.optionp}')">
                           <h4 class="prd-item-tit" id="newPrdGdnm">${newProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${newProd.price1 ne newProd.saleprice}">
@@ -1331,7 +1331,7 @@
                   <c:when test="${discountProd.gdcnt > 0}">
                     <article class="prd-item">
                       <div class="img-container">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}', '${discountProd.optionp}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <c:if test="${discountRate > 0}">
                             <div class="prd-item-badge dc">
@@ -1347,7 +1347,7 @@
                         </div>
                       </div>
                       <div class="detail">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}')">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}', '${discountProd.optionp}')">
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${discountProd.price1 ne discountProd.saleprice}">
@@ -1379,7 +1379,7 @@
                   <c:otherwise>
                     <article class="prd-item soldout">
                       <div class="img-container">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}', '${discountProd.optionp}')" class="prd-item-img">
                           <img src="<%=_imgUrl %>images/gdimg/${discountProd.mgdimg1}" data-src='{"v":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}", "h":"<%=_imgUrl %>images/uploads/${discountProd.mgdimg1}"}' alt="${discountProd.gdname}">
                           <div class="prd-item-soldout">
                             <div class="tit">일시품절</div>
@@ -1397,7 +1397,7 @@
                         </div>
                       </div>
                       <div class="detail">
-                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}')" class="prd-item-img">
+                        <a href="javascript:void(0)" onclick="itemDetail('${discountProd.gdcd}', '${discountProd.odtype}', '${discountProd.odtype2}', '${discountProd.div1}', '${discountProd.divcd}', '${discountProd.optionp}')" class="prd-item-img">
                           <h4 class="prd-item-tit">${discountProd.gdname}</h4>
                           <div class="prd-item-price">
                             <div class="price">

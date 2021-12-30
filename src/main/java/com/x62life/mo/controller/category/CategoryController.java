@@ -98,6 +98,9 @@ public class CategoryController {
         List<ProductReviewEx> prodReviewDetail = categoryService.prodReviewDetail(paramMap);
         model.addAttribute("prodReviewDetail",prodReviewDetail);
 
+        List<GdMasterEx> optionProduct = categoryService.optionProduct(paramMap);
+        model.addAttribute("optionProduct", optionProduct);
+
         modelAndView.setViewName("category/itemDetail");
 
         return modelAndView;

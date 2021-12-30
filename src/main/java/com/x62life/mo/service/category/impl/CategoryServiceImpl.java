@@ -197,4 +197,9 @@ public class CategoryServiceImpl implements CategoryService{
 	public String getGoodsYear(Map<String, Object> paramMap){
 		return categoryDao.getGoodsYear(paramMap);
 	}
+
+	@Override
+	public List<GdMasterEx> optionProduct(Map<String, Object> paramMap){
+		return categoryDao.optionProduct(paramMap);
+	}
 }

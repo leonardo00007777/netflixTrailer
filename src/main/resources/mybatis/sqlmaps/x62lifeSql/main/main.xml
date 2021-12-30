@@ -789,6 +789,7 @@
                                , g.div1
                                , g.indt
                                , g.updt
+                               , g.optionp
                                , g.shortdesc
                                , ISNULL(g.soldoutyn,'N') soldoutyn
                                , ISNULL(s.gdcnt,99999) gdcnt

@@ -558,6 +558,9 @@ function prodFilter(filterDivision){
 	var dispatchtype = '';
 	var intPage = 1;
 	var imgUrl = 'resources/images/gdimg/';
+	var division;
+	var modal;
+	var showhide = 'show';
 
 	if(filterDivision == 'newProd'){
 		$('input[name="orderByNew"]').each(function() {
@@ -573,6 +576,8 @@ function prodFilter(filterDivision){
 				deliveryType = $(this).val();
 			}
 		});
+		division = 'newPrdList';
+		modal = 'newProdListBuyOption';
 	} else if(filterDivision == 'dcProd'){
 		$('input[name="orderByDis"]').each(function() {
 			var checked = $(this).prop('checked');
@@ -587,6 +592,8 @@ function prodFilter(filterDivision){
 				deliveryType = $(this).val();
 			}
 		});
+		division = 'dcPrdList';
+		modal = 'dcProdListBuyOption';
 	}
 
 	$.ajax({
@@ -614,8 +621,8 @@ function prodFilter(filterDivision){
 				var html = '';
 				html += '<article class="prd-item">';
 				html +=	  '<div class="img-container">';
-				html +=		'<a href="javascript:void(0)" onclick="itemDetail('+ "'" + el.strMEMGRPCD + "'" + ","  + "'" + el.gdcd + "'" + "," + "'" + el.odtype + "'" + "," + "'" + el.odtype2 + "'"
-					+ "," + "'" + el.div1 + "'" + ')"' + 'class="prd-item-img">';
+				html +=		'<a href="javascript:void(0)" onclick="itemDetail('+"'" + el.gdcd + "'" + "," + "'" + el.odtype + "'" + "," + "'" + el.odtype2 + "'"
+					+ ","+"'" + el.gdtype + "'" + "," + "'" + el.div1 + "'"+"," + "'" + el.optionp + "'" + ')"' + 'class="prd-item-img">';
 				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
 				if(Math.round(el.discountrate) > 0){
 					html +=			'<div class="prd-item-badge dc">';
@@ -625,7 +632,8 @@ function prodFilter(filterDivision){
 				}
 				html +=		'</a>';
 				html +=		'<div class="prd-item-buttons">';
-				html +=       '<a href="javascript:void(0)"'+ 'onclick="cartModalShow();" class="btn btn-cart">'
+				html +=       '<a href="javascript:void(0)"'+ 'onclick="common_pop.modalShowHide('+ "'" + modal + "'" + "," + "'" + showhide  + "'" + ');' +
+					                                          'prdListCart(' + "'"+ el.gdname +"'" + "," + "'" + el.price1 + "'" + "," + "'" + el.saleprice1 + "'" + "," + "'" + el.gdcnt + "'" + "," + "'" + division + "'" +');"' + 'class="btn btn-cart">'
 					        +     '<i class="wn-icon wni-cart-w">장바구니</i>'
 					        + '</a>';
 				html +=		'</div>';
@@ -665,11 +673,9 @@ function prodFilter(filterDivision){
 		}
 	});
 }
-function cartModalShow() {
-	$("#modalBuyOption").modal("show");
-}
 
-function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, divcd) {
+
+function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, divcd, strItemOptionp) {
 	if(strGdtype == null || strGdtype == '' && strOdtype == '12'){
 		strGdtype = '01';
 	}
@@ -718,8 +724,7 @@ function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, divcd) {
 
 	location.href = encodeURI( "/main/itemDetail?" + "strGDCD=" + gdcd + "&strOdtype=" + strOdtype
 		          + "&strOdtype2=" + strOdtype2 + "&strGdtype=" + strGdtype + "&preOrderInfo=" + preOrderInfo
-		          + "&lastTitle=" + lastTitle + "&strItemDivCd=" + divcd);
-
+		          + "&lastTitle=" + lastTitle + "&strItemDivCd=" + divcd + "&strItemOptionp=" + strItemOptionp);
 }
 
 function prdListCart(gdName, price, salePrice, gdCnt, checkPoint){
