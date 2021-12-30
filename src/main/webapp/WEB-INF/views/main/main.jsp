@@ -1119,19 +1119,19 @@
                           </c:if>
                         </a>
                         <div class="prd-item-buttons">
-                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('newProdListBuyOption','show')" class="btn btn-cart"><i class="wn-icon wni-cart-w">장바구니</i></a>
+                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('newProdListBuyOption','show'); prdListCart('${newProd.gdname}','${newProd.price1}', '${newProd.saleprice}', '${newProd.gdcnt}', 'newPrdList');" class="btn btn-cart"><i class="wn-icon wni-cart-w" id="newPrdCart">장바구니</i></a>
                         </div>
                       </div>
                       <div class="detail">
                         <a href="javascript:void(0)" onclick="itemDetail('${newProd.gdcd}', '${newProd.odtype}', '${newProd.odtype2}', '${newProd.div1}', '${newProd.divcd}')">
-                          <h4 class="prd-item-tit">${newProd.gdname}</h4>
+                          <h4 class="prd-item-tit" id="newPrdGdnm">${newProd.gdname}</h4>
                           <c:choose>
                             <c:when test="${newProd.price1 ne newProd.saleprice}">
                               <div class="prd-item-price">
                                 <div class="price">
                                   <span>${salePrice}</span><small>원</small>
                                 </div>
-                                <div class="price-org">
+                                <div class="price-org" >
                                     ${originalPrice} 원
                                 </div>
                               </div>
@@ -1341,7 +1341,7 @@
                           </c:if>
                         </a>
                         <div class="prd-item-buttons">
-                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('dcProdListBuyOption','show')" class="btn btn-cart">
+                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('dcProdListBuyOption','show'); prdListCart('${discountProd.gdname}', '${discountProd.price1}', '${discountProd.saleprice}', '${discountProd.gdcnt}', 'dcPrdList')" class="btn btn-cart">
                             <i class="wn-icon wni-cart-w">장바구니</i>
                           </a>
                         </div>
@@ -2549,3 +2549,7 @@
       </div>
     </div>
   </div>
+
+<script>
+
+</script>

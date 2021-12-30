@@ -721,3 +721,45 @@ function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, divcd) {
 		          + "&lastTitle=" + lastTitle + "&strItemDivCd=" + divcd);
 
 }
+
+function prdListCart(gdName, price, salePrice, gdCnt, checkPoint){
+	if(checkPoint === 'newPrdList'){
+		$('#newPrdCartInc').removeClass("disabled");
+		$('#newPrdCartDec').addClass("disabled");
+		$('#newPrdCartCnt').val('1');
+		$('#newPrdCartGdNm').text(gdName);
+		$('#newPrdCnt').val(gdCnt);
+		if(price == salePrice){
+			price = price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('#newPrdCartPrice').html( price + '<small>원</small>');
+			$('#newPrdCartTotalPrc').html( price + '<small>원</small>');
+			$('#newPrdCartDec').val(price);
+			$('#newPrdCartInc').val(price);
+		}else{
+			salePrice = salePrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('#newPrdCartPrice').html( salePrice + '<small>원</small>');
+			$('#newPrdCartTotalPrc').html( salePrice + '<small>원</small>');
+			$('#newPrdCartDec').val(salePrice);
+			$('#newPrdCartInc').val(salePrice);
+		}
+	} else if(checkPoint === 'dcPrdList'){
+		$('#dcPrdCartInc').removeClass("disabled");
+		$('#dcPrdCartDec').addClass("disabled");
+		$('#dcPrdCartCnt').val('1');
+		$('#dcPrdCartGdNm').text(gdName);
+		$('#dcPrdCnt').val(gdCnt);
+		if(price == salePrice){
+			price = price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('#dcPrdCartPrice').html( price + '<small>원</small>');
+			$('#dcPrdCartTotalPrc').html( price + '<small>원</small>');
+			$('#dcPrdCartDec').val(price);
+			$('#dcPrdCartInc').val(price);
+		}else{
+			salePrice = salePrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('#dcPrdCartPrice').html( salePrice + '<small>원</small>');
+			$('#dcPrdCartTotalPrc').html( salePrice + '<small>원</small>');
+			$('#dcPrdCartDec').val(salePrice);
+			$('#dcPrdCartInc').val(salePrice);
+		}
+	}
+}

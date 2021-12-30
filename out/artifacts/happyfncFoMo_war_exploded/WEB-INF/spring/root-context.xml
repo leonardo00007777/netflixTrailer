@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+	    http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+	
+
+	<!-- db 연결 -->
+	<util:properties id="jdbc" location="classpath:config/jdbc.properties"/>
+    <import resource="jdbc-config.xml"/>
+	
+	<!-- interceptor / jackson 한국어처리 -->
+	<import resource="classpath:/spring/interceptor-config.xml" />
+	  
+	<!-- properties -->  
+    <import resource="classpath:/spring/properties-config.xml" /> 
+  	  
+	<!-- 다국어 메세지 -->  
+    <import resource="classpath:/spring/message-config.xml" />
+  	  
+  	<!-- dao 매핑 -->  
+	<mybatis:scan base-package="com.x62life.mo.dao"/>
+	
+	
+</beans>

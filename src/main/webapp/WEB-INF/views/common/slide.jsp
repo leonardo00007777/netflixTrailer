@@ -927,7 +927,7 @@
     </div>
   </div>
 
-<!-- Modal - Buy Option -->
+<!-- Modal - Buy Option <newProdList> -->
 <div class="modal fade wn-modal-bottom modal-buy-option" id="newProdListBuyOption">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -936,19 +936,20 @@
         <div class="wn-modal-body">
           <div class="buy-options">
             <div class="buy-option-item">
-              <div class="label">맛있는 아이스 홍시 1개입</div>
+              <div class="label" id="newPrdCartGdNm"></div>
               <div class="content">
                 <div class="input-number">
-                  <button class="dec"></button>
-                  <input class="num" type="text" value="1" readonly>
-                  <button class="inc"></button>
+                  <input type="hidden" value="" id="newPrdCnt"/>
+                  <button class="dec" id="newPrdCartDec" value=""></button>
+                  <input class="num" id="newPrdCartCnt" type="text" value="1" readonly>
+                  <button class="inc" id="newPrdCartInc" value=""></button>
                 </div>
-                <div class="price-format">3,480<small>원</small></div>
+                <div class="price-format" id="newPrdCartPrice"><small>원</small></div>
               </div>
             </div>
             <div class="buy-option-total">
               <span class="label">합계</span>
-              <span class="price-format">3,480<small>원</small></span>
+              <span class="price-format" id="newPrdCartTotalPrc"><small>원</small></span>
             </div>
           </div>
         </div>
@@ -962,7 +963,7 @@
   </div>
 </div>
 
-<!-- Modal - Buy Option -->
+<!-- Modal - Buy Option <discountProdList> -->
 <div class="modal fade wn-modal-bottom modal-buy-option" id="dcProdListBuyOption">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -971,41 +972,20 @@
         <div class="wn-modal-body">
           <div class="buy-options">
             <div class="buy-option-item">
-              <div class="label">맛있는 아이스 홍시 1개입</div>
+              <div class="label" id="dcPrdCartGdNm"></div>
               <div class="content">
                 <div class="input-number">
-                  <button class="dec"></button>
-                  <input class="num" type="text" value="1" readonly>
-                  <button class="inc"></button>
+                  <input type="hidden" value="" id="dcPrdCnt"/>
+                  <button class="dec" id="dcPrdCartDec" value=""></button>
+                  <input class="num" id="dcPrdCartCnt" type="text" value="1" readonly>
+                  <button class="inc" id="dcPrdCartInc" value=""></button>
                 </div>
-                <div class="price-format">3,480<small>원</small></div>
-              </div>
-            </div>
-            <div class="buy-option-item">
-              <div class="label">맛있는 아이스 홍시 & 바나나</div>
-              <div class="content">
-                <div class="input-number">
-                  <button class="dec"></button>
-                  <input class="num" type="text" value="0" readonly>
-                  <button class="inc"></button>
-                </div>
-                <div class="price-format">0<small>원</small></div>
-              </div>
-            </div>
-            <div class="buy-option-item">
-              <div class="label">맛있는 아이스 바나나</div>
-              <div class="content">
-                <div class="input-number">
-                  <button class="dec"></button>
-                  <input class="num" type="text" value="0" readonly>
-                  <button class="inc"></button>
-                </div>
-                <div class="price-format">0<small>원</small></div>
+                <div class="price-format" id="dcPrdCartPrice"><small>원</small></div>
               </div>
             </div>
             <div class="buy-option-total">
               <span class="label">합계</span>
-              <span class="price-format">3,480<small>원</small></span>
+              <span class="price-format" id="dcPrdCartTotalPrc"><small>원</small></span>
             </div>
           </div>
         </div>
@@ -1033,31 +1013,45 @@
                   <div class="label">${itemDetail.gdname}</div>
                   <div class="content">
                     <div class="input-number" id="inputNumber">
-                      <input type="hidden" value="${itemDetail.gdcnt}" id="gdcnt"/>
-                      <button class="dec" value="${itemDetail.saleprice}"></button>
-                      <input class="num" id="itemNum" type="text" value="1" readonly>
-                      <button class="inc" value="${itemDetail.saleprice}"></button>
-                    </div>
-                    <div class="price-format" id="buyModalPrc">
+                      <input type="hidden" value="${itemDetail.gdcnt}" id="dtlCnt"/>
                       <c:choose>
                         <c:when test="${itemDetail.price1 eq itemDetail.saleprice}">
-                          <fmt:formatNumber value="${itemDetail.saleprice}"/><small>원</small>
+                          <button class="dec" id="dtlCartDec" value="${itemDetail.price1}"></button>
                         </c:when>
                         <c:otherwise>
+                          <button class="dec" id="dtlCartDec" value="${itemDetail.saleprice}"></button>
+                        </c:otherwise>
+                      </c:choose>
+                      <input class="num" id="itemNum" type="text" value="1" readonly>
+                      <c:choose>
+                        <c:when test="${itemDetail.price1 eq itemDetail.saleprice}">
+                          <button class="inc" id="dtlCartInc" value="${itemDetail.price1}"></button>
+                        </c:when>
+                        <c:otherwise>
+                          <button class="inc" id="dtlCartInc" value="${itemDetail.saleprice}"></button>
+                        </c:otherwise>
+                      </c:choose>
+                    </div>
+                    <div class="price-format" id="dtlPrc">
+                      <c:choose>
+                        <c:when test="${itemDetail.price1 eq itemDetail.saleprice}">
                           <fmt:formatNumber value="${itemDetail.price1}"/><small>원</small>
+                        </c:when>
+                        <c:otherwise>
+                          <fmt:formatNumber value="${itemDetail.saleprice}"/><small>원</small>
                         </c:otherwise>
                       </c:choose>
                     </div>
                   </div>
                   <div class="buy-option-total">
                     <span class="label">합계</span>
-                    <span class="price-format" id="totalPrc">
+                    <span class="price-format" id="dtlTotalPrc">
                       <c:choose>
                         <c:when test="${itemDetail.price1 eq itemDetail.saleprice}">
-                          <fmt:formatNumber value="${itemDetail.saleprice}"/><small>원</small>
+                          <fmt:formatNumber value="${itemDetail.price1}"/><small>원</small>
                         </c:when>
                         <c:otherwise>
-                          <fmt:formatNumber value="${itemDetail.price1}"/><small>원</small>
+                          <fmt:formatNumber value="${itemDetail.saleprice}"/><small>원</small>
                         </c:otherwise>
                       </c:choose>
                   </span>
@@ -2705,19 +2699,3 @@
       </div>
     </div>
   </div>
-  <script>
-    $(function () {
-      //팝업 & 탭 시연용 테스트 코드 
-      var queryString = window.location.search;
-      var urlParams = new URLSearchParams(queryString);
-      
-      if (urlParams.has('modalID')) {
-        var modalSelector = "#" + urlParams.get('modalID');
-        $(modalSelector).modal('show');
-      }
-      if (urlParams.has('tabID')) {
-        var tabSelector = "#" + urlParams.get('tabID');
-        $(tabSelector).tab('show');
-      }
-    }); //jQuery Ready
-  </script>

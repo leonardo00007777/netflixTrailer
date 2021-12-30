@@ -1,0 +1,947 @@
+@charset "UTF-8";
+/* 컴포넌트 - 메인 키비주얼 ******************* */
+.kv-scroll-guide {
+  position: absolute;
+  left: 50%;
+  bottom: 47px;
+  margin-left: -11px;
+  z-index: 1;
+}
+
+.icon-scroll-down {
+  display: block;
+  width: 22px;
+  height: 38px;
+  background: url("../images/icons/scrollDown@2x.png") 0 0 no-repeat;
+  background-size: contain;
+  -webkit-animation: ani-jump 1.5s ease-in-out infinite;
+          animation: ani-jump 1.5s ease-in-out infinite;
+}
+
+@-webkit-keyframes ani-jump {
+  0% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  50% {
+    -webkit-transform: translate(0, -16px);
+            transform: translate(0, -16px);
+  }
+}
+
+@keyframes ani-jump {
+  0% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  50% {
+    -webkit-transform: translate(0, -16px);
+            transform: translate(0, -16px);
+  }
+}
+
+/* 메인 키 비주얼 A */
+.com-keyvisual-a {
+  position: relative;
+}
+
+.kv-banner-a {
+  display: block;
+  width: 100%;
+  height: calc(var(--vh, 1vh) * 100 - 60px);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media screen and (orientation: landscape) {
+  .kv-banner-a {
+    padding-top: 162.1333%;
+    height: 0;
+  }
+}
+
+/* 메인 키 비주얼 A-2 */
+.com-keyvisual-a .kv-container {
+  position: relative;
+}
+
+/* *****************************
+전문관
+****************************** */
+/* 컴포넌트 - 전문관 A1 */
+.com-sp-shop-a1 {
+  padding-bottom: 30px;
+}
+
+.sp-shop-banner-a1 {
+  display: block;
+}
+
+.sp-shop-banner-a1 .detail {
+  padding-top: 10px;
+}
+
+.sp-shop-banner-a1 .tit {
+  color: #222222;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 25px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sp-shop-banner-a1 .desc {
+  color: #999999;
+  font-size: 11px;
+}
+
+/* 컴포넌트 - 전문관 A2 */
+.com-sp-shop-a2 {
+  padding-bottom: 30px;
+}
+
+.sp-shop-banner-a2 {
+  position: relative;
+  display: block;
+  margin-left: 15px;
+}
+
+.sp-shop-banner-a2 .detail {
+  position: absolute;
+  left: 0;
+  bottom: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 20px 15px;
+  width: calc(100% - 20px);
+  background-color: #fff;
+}
+
+.sp-shop-banner-a2 .content {
+  width: calc(100% - 40px);
+}
+
+.sp-shop-banner-a2 .tit {
+  color: #222222;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 25px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sp-shop-banner-a2 .desc {
+  color: #999999;
+  font-size: 11px;
+}
+
+/* 컴포넌트 - 전문관 A3 */
+.com-sp-shop-a3 {
+  padding-bottom: 30px;
+}
+
+.sp-shop-thumb-a3 {
+  display: block;
+}
+
+.sp-shop-thumb-a3 .detail {
+  padding-top: 10px;
+}
+
+.sp-shop-thumb-a3 .tit {
+  color: #222222;
+  font-size: 16px;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sp-shop-thumb-a3 .desc {
+  color: #999999;
+  font-size: 11px;
+}
+
+.sp-shop-banner-a3 {
+  position: relative;
+  display: block;
+}
+
+.sp-shop-banner-a3 .detail {
+  position: absolute;
+  left: 0;
+  bottom: 95px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 15px;
+  padding-bottom: 10px;
+}
+
+.sp-shop-banner-a3 .tit {
+  color: #222222;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 25px;
+}
+
+.sp-shop-banner-a3 .desc {
+  margin-left: 5px;
+  color: #999999;
+  font-size: 11px;
+}
+
+.com-sp-shop-a3 .swiper-sp-shop-thumb-a3 {
+  margin-top: -95px;
+}
+
+.com-sp-shop-a3 .swiper-free {
+  margin-top: -82px;
+}
+
+.swiper-sp-shop-thumb-a3 {
+  position: relative;
+  padding-left: 15px;
+  padding-right: 90px;
+}
+
+.com-sp-shop-c5 {
+  padding-bottom: 30px;
+}
+
+.swiper-sp-shop-c5 {
+  padding-left: 15px;
+  padding-right: 140px;
+}
+
+.swiper-sp-shop-c5.single-slide {
+  padding-right: 15px;
+}
+
+.swiper-sp-shop-c5.single-slide .swiper-slide {
+  margin-right: 0 !important;
+  width: 100% !important;
+}
+
+/* 컴포넌트 -
+ * 신상품, 할인상품, 이상품어때요, MD추천상품 공통
+ *********************** */
+.com-new-items-a {
+  padding-bottom: 30px;
+}
+
+.com-new-items-b {
+  padding-bottom: 30px;
+}
+
+/* 컴포넌트 - 오늘의 특가 */
+.com-today-price-a {
+  padding-bottom: 30px;
+}
+
+.today-price-header {
+  padding-top: 50px;
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+.today-price-header .tit-top {
+  margin-bottom: 6px;
+  color: #999999;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.today-price-header .tit {
+  color: #222222;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.today-price-item-a {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 265px;
+  width: 100%;
+}
+
+.today-price-item-a .detail {
+  text-align: center;
+}
+
+.today-price-item-a .remain {
+  padding-top: 22px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eeeeee;
+  color: #222222;
+  font-size: 18px;
+}
+
+.today-price-item-a .tit {
+  padding-top: 15px;
+  color: #222222;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+}
+
+.today-price-item-a .price-wrap {
+  padding-top: 4px;
+}
+
+.today-price-item-a .price {
+  display: inline-block;
+  color: #fa5252;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.today-price-item-a .price-org {
+  display: inline-block;
+  margin-left: 4px;
+  padding-bottom: 3px;
+  color: #999999;
+  font-size: 15px;
+  text-decoration: line-through;
+  vertical-align: middle;
+}
+
+.swiper-today-price-a {
+  padding: 0 27px;
+}
+
+.swiper-today-price-a .swiper-slide {
+  padding: 0 27px;
+}
+
+.com-today-price-b {
+  position: relative;
+  margin-top: 60px;
+  padding-bottom: 30px;
+}
+
+.com-today-price-b::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 54%;
+  background-color: #eeeeee;
+  z-index: -1;
+}
+
+.com-today-price-b .today-price-header {
+  padding-bottom: 25px;
+}
+
+.today-price-item-b {
+  display: block;
+  margin: 0 auto;
+  padding: 0 42px;
+  max-width: 480px;
+}
+
+.today-price-item-b .visual-wrapper {
+  position: relative;
+}
+
+.today-price-item-b .today-price-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.today-price-item-b .img-container {
+  position: relative;
+  padding: 4.2%;
+  overflow: hidden;
+}
+
+.today-price-item-b .prd-img {
+  margin-bottom: -3%;
+  padding-top: 100%;
+  width: 100%;
+  height: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  border-radius: 50%;
+}
+
+.today-price-item-b .remain {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.today-price-item-b .detail {
+  text-align: center;
+}
+
+.today-price-item-b .tit {
+  padding-top: 15px;
+  color: #222222;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+}
+
+.today-price-item-b .price-wrap {
+  padding-top: 4px;
+}
+
+.today-price-item-b .dc,
+.today-price-item-b .price {
+  display: inline-block;
+  color: #fa5252;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.today-price-item-b .dc {
+  margin-right: 14px;
+}
+
+.today-price-item-b .price-org {
+  display: inline-block;
+  margin-left: 4px;
+  padding-bottom: 3px;
+  color: #999999;
+  font-size: 15px;
+  text-decoration: line-through;
+  vertical-align: middle;
+}
+
+.today-price-remain {
+  position: relative;
+  display: block;
+  margin: 0 11.168%;
+  padding-top: 13px;
+  height: 43px;
+  background-color: #fa5252;
+  border-radius: 21px;
+}
+
+.today-price-remain .item {
+  position: absolute;
+  width: 100%;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.today-price-remain .item:nth-child(1) {
+  -webkit-animation: fade-out-in 7s ease-out infinite;
+          animation: fade-out-in 7s ease-out infinite;
+}
+
+.today-price-remain .item:nth-child(2) {
+  -webkit-animation: fade-in-out 7s ease-out infinite;
+          animation: fade-in-out 7s ease-out infinite;
+  opacity: 0;
+}
+
+@-webkit-keyframes fade-out-in {
+  3% {
+    opacity: 1;
+  }
+  47% {
+    opacity: 1;
+  }
+  53% {
+    opacity: 0;
+  }
+  97% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out-in {
+  3% {
+    opacity: 1;
+  }
+  47% {
+    opacity: 1;
+  }
+  53% {
+    opacity: 0;
+  }
+  97% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fade-in-out {
+  3% {
+    opacity: 0;
+  }
+  47% {
+    opacity: 0;
+  }
+  53% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-out {
+  3% {
+    opacity: 0;
+  }
+  47% {
+    opacity: 0;
+  }
+  53% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 1;
+  }
+}
+
+.today-price-progress {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+}
+
+.today-price-progress .circle-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+.today-price-progress .circle-progress-circle {
+  stroke-width: 1.5px;
+  stroke: transparent;
+}
+
+.today-price-circle-bar,
+.today-price-circle-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+}
+
+.today-price-circle-bg .circle-progress-value {
+  stroke-width: 1.5px;
+  stroke: #d5d5d5;
+  stroke-linecap: round;
+  -webkit-transform: scale(0.98, 0.98);
+          transform: scale(0.98, 0.98);
+  -webkit-transform-origin: center;
+          transform-origin: center;
+}
+
+.today-price-circle-bar .circle-progress-value {
+  stroke-width: 1.5px;
+  stroke: #fa5252;
+  stroke-linecap: round;
+  -webkit-transform: scale(0.98, 0.98);
+          transform: scale(0.98, 0.98);
+  -webkit-transform-origin: center;
+          transform-origin: center;
+}
+
+.today-price-circle-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 100%;
+  width: 100%;
+  height: 0;
+}
+
+.today-price-circle-marker .circle-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+.swiper-today-price-b {
+  overflow: visible;
+}
+
+/* 오늘발송상품 ***************** */
+.com-ship-today {
+  padding-bottom: 30px;
+}
+
+.com-ship-today .ship-today-banner {
+  margin: 0 15px;
+}
+
+.ship-today-banner {
+  display: block;
+}
+
+.ship-today-banner img {
+  display: block;
+}
+
+/* 컴포넌트 - 꾸러미 */
+.com-package {
+  padding-bottom: 30px;
+}
+
+/* 컴포넌트 - 기획전 ******************* */
+.com-plan-shop-a1 {
+  padding-bottom: 30px;
+}
+
+.plan-shop-banner-a1 {
+  position: relative;
+  display: block;
+  margin-right: 15px;
+}
+
+.plan-shop-banner-a1 .detail {
+  position: absolute;
+  left: 0;
+  bottom: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 6px 0 15px;
+  width: calc(100% - 20px);
+  height: 95px;
+  background-color: #fff;
+}
+
+.plan-shop-banner-a1 .content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding-right: 10px;
+  overflow: hidden;
+}
+
+.plan-shop-banner-a1 .wn-icon {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+.plan-shop-banner-a1 .tag {
+  margin-bottom: 5px;
+  color: #066b4c;
+  font-size: 14px;
+}
+
+.plan-shop-banner-a1 .tit {
+  color: #222222;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.plan-shop-banner-a1 .desc {
+  margin-top: 3px;
+  color: #999999;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.com-plan-shop-a2 {
+  padding-bottom: 30px;
+}
+
+.plan-shop-group-a2 .prd-list {
+  margin-top: -126px;
+}
+
+.plan-shop-banner-a2 {
+  position: relative;
+  display: block;
+}
+
+.plan-shop-banner-a2 .detail {
+  position: absolute;
+  left: 0;
+  bottom: 126px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+}
+
+.plan-shop-banner-a2 .tit {
+  color: #222222;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 25px;
+}
+
+.plan-shop-banner-a2 .desc {
+  color: #999999;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.com-plan-shop-a3 {
+  padding-bottom: 30px;
+}
+
+.plan-shop-banner-a3 {
+  display: block;
+}
+
+.plan-shop-banner-a3 .detail {
+  padding-top: 10px;
+}
+
+.plan-shop-banner-a3 .tit {
+  color: #222222;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 25px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.plan-shop-banner-a3 .desc {
+  color: #999999;
+  font-size: 11px;
+}
+
+/* 컴포넌트 - 상품랭킹 ************** */
+.com-raking-a {
+  padding-bottom: 30px;
+}
+
+.ranking-list-a {
+  padding: 0 15px;
+}
+
+.ranking-item-a {
+  display: block;
+}
+
+.ranking-item-a .img-container {
+  position: relative;
+}
+
+.ranking-item-a img {
+  display: block;
+}
+
+.ranking-item-a .flag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(6, 107, 76, 0.9);
+  color: #fff;
+  font-size: 17px;
+  letter-spacing: 0;
+}
+
+.ranking-item-a .detail {
+  padding-top: 10px;
+}
+
+.ranking-item-a .tit-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.ranking-item-a .tit-row .tit {
+  width: 210px;
+}
+
+.ranking-item-a .tit {
+  color: #222222;
+  font-size: 15px;
+  line-height: 19px;
+}
+
+.ranking-item-a .price-wrap-format:not(.vertical) {
+  margin-top: 10px;
+}
+
+.ranking-item-a .price-wrap-format.vertical {
+  margin-left: auto;
+}
+
+.ranking-item-a .prd-labels {
+  margin-top: 5px;
+}
+
+.ranking-item-a .tit-row + .prd-labels {
+  margin-top: 10px;
+}
+
+.ranking-item-a + .ranking-item-a {
+  margin-top: 60px;
+}
+
+.com-raking-b {
+  padding-bottom: 30px;
+}
+
+.swiper-ranking-b {
+  padding-left: 15px;
+  padding-right: 20px;
+}
+
+.ranking-item-b {
+  position: relative;
+  display: block;
+}
+
+.ranking-item-b .detail {
+  padding: 10px 15px 15px;
+  background-color: #fff;
+}
+
+.ranking-item-b .tit {
+  color: #222222;
+  font-size: 15px;
+  line-height: 19px;
+}
+
+.ranking-item-b .price-wrap-format {
+  margin-top: 10px;
+}
+
+.ranking-item-b .price-format {
+  color: #222222;
+}
+
+.ranking-flag {
+  position: relative;
+  margin-bottom: 10px;
+  padding-top: 0.1px;
+  width: 25px;
+  height: 26px;
+}
+
+.ranking-flag .flag-shape {
+  width: 100%;
+  height: 100%;
+  background: url("../images/icons/chipBest@2x.png") 0 0 no-repeat;
+  background-size: contain;
+}
+
+.ranking-flag .text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 컴포넌트 - 매거진 */
+.com-magazine {
+  padding: 60px 0;
+}
+
+/**
+Home Main
+**/
+.slide-up.ani-on {
+  opacity: 1 !important;
+  -webkit-transform: translate(0, 0) !important;
+          transform: translate(0, 0) !important;
+  -webkit-transition-duration: .4s !important;
+          transition-duration: .4s !important;
+  -webkit-transition-property: opacity,-webkit-transform !important;
+  transition-property: opacity,-webkit-transform !important;
+  transition-property: opacity,transform !important;
+  transition-property: opacity,transform,-webkit-transform !important;
+  -webkit-transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1) !important;
+          transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1) !important;
+}
+
+/* 전문샵 ************************ */
+/* Shop A1 */
+/* Shop B */
+/* Shop C1 */
+/* 신상품 *************************** */
+/* New Items A */
+/* New Items B */
+/* 오늘의 특가 ******************************* */
+/* Today A */
+/* Today B */
+/* 할인상품 **************************** */
+/* Discount A */
+/* 이 상품 어때요 *********************** */
+/* recommend D */
+/* MD 추천상품 ************************** */
+/* MD A */
+/* 매거진 ***************************** */
+/* Magazine A */
+/* Magazine B */
+/* 꾸러미 **************************** */
+/* Package A */
+/* Package B */
+/* 오늘 발송 */
+/* 기획전 *************************** */
+/* Plan Shop C */
+/* 금주의 랭킹 **************************** */
+/* Raking A */
+/* 자연이랑 인기 태그 **************** */
+/*# sourceMappingURL=home.css.map */
