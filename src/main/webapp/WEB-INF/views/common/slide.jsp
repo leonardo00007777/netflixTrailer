@@ -936,6 +936,16 @@
         <div class="wn-modal-body">
           <div class="buy-options">
             <div class="buy-option-item">
+              <div class="custom-select">
+                <select>
+                  <option value="">옵션 선택하기</option>
+                  <option value="">옵션 1</option>
+                  <option value="">옵션 2</option>
+                  <option value="">옵션 3</option>
+                </select>
+                <div class="select-selected">옵션 선택하기</div><div class="select-items select-hide"><div>옵션 선택하기</div><div>옵션 1</div><div>옵션 2</div><div>옵션 3</div></div></div>
+            </div>
+            <div class="buy-option-item">
               <div class="label" id="newPrdCartGdNm"></div>
               <div class="content">
                 <div class="input-number">
@@ -1009,6 +1019,24 @@
           <div class="wn-modal-body">
             <div class="buy-options">
               <c:forEach items="${itemDetail}" var="itemDetail">
+                <c:if test="${fn:length(optionProduct) > 0 and itemDetail.optionp eq 'Y'}">
+                  <div class="buy-option-item">
+                    <div class="custom-select">
+                      <c:forEach var="option" items="${optionProduct}" varStatus="i">
+                        <select onchange="changeTest('${option.gdname}','${option.gdcd}','${option.price1}','${option.saleprice}');">
+                          <option value="${option.gdcd}">${option.gdname}</option>
+                        </select>
+                      </c:forEach>
+                      <div class="select-selected">옵션 선택하기</div>
+                      <div class="select-items select-hide">
+                        <div>옵션 선택하기</div>
+                        <div>옵션 1</div>
+                        <div>옵션 2</div>
+                        <div>옵션 3</div>
+                      </div>
+                    </div>
+                  </div>
+                </c:if>
                 <div class="buy-option-item">
                   <div class="label">${itemDetail.gdname}</div>
                   <div class="content">

@@ -381,4 +381,37 @@
              )
            }
     </select>
+
+    <select id="optionProduct" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        SELECT gm.gdcd
+             , gm.gdname
+             , gm.price1
+             , dbo.getMasterPrice(gm.gdcd) saleprice
+             , ISNULL(gc.gdcnt,99999) gdcnt
+             , gm.minqty
+             , gm.maxqty
+          FROM gd_master gm
+            LEFT JOIN gd_cnt gc
+                   ON gm.gdcd=gc.gdcd
+            LEFT JOIN od_reservegoods r
+                   ON gm.gdcd = r.gdcd
+                  AND r.useyn = 'Y'
+                 <![CDATA[
+                  AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
+                  AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
+                 ]]>
+           WHERE 1=1
+             AND gm.useyn = 'Y'
+             AND (gm.reserveyn = 'N' OR (gm.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
+             <choose>
+                 <when test='strItemOptionp != null and  strItemOptionp == "Y"'>
+                     AND (gm.gdcd IN (SELECT mpcode FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y')
+                                  OR gm.mpcode IN (SELECT gdcd FROM gd_master WHERE gdcd IN (SELECT mpcode FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y')))
+                 </when>
+                 <otherwise>
+                     AND (gm.gdcd = #{strGDCD} OR gm.mpcode IN (SELECT gdcd FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y'))
+                 </otherwise>
+             </choose>
+          ORDER BY gdcd
+    </select>
 </mapper>

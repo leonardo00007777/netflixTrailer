@@ -128,3 +128,7 @@ function shareFaceBook() {
     var url = "http://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(thisUrl);
     window.open(url, "", "width=486, height=286");
 }
+
+function changeTest(gdName, gdCd, price, salePrice){
+    console.log('gdName:::',gdName, 'gdCd:::', gdCd, 'price:::', price, 'salePrice:::', salePrice);
+}

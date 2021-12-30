@@ -43,4 +43,6 @@ public interface CategoryService {
     String getGoodsWeek(Map<String, Object> paramMap);
 
     String getGoodsYear(Map<String, Object> paramMap);
+
+    List<GdMasterEx> optionProduct(Map<String, Object> paramMap);
 }
