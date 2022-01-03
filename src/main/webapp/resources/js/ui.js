@@ -565,14 +565,18 @@
   function buildAltItems(customSelect) {
     var className = "select-items select-hide";
     var selElmnt = customSelect.find("select");
-
     customSelect.find(".select-items").remove();
-
+    var optionValue = selElmnt.find('option').map(function (){
+      return $(this).val();
+    }).get();
     var selectItems = $("<div></div>");
     selectItems.addClass(className);
 
     selElmnt.find("option").each(function(i) {
       var item = $("<div></div>");
+
+      item.attr('data-value', optionValue[i]);
+
       item.html($(this).html());
       addItemClickHandler(item, i);
       selectItems.append(item);
@@ -604,9 +608,7 @@
         selElmnt.prop("selectedIndex", index);
         selElmnt.trigger("change");
         selectSelected.click();
-
-        //if has sub items
-
+        optionProdSet(item.attr("data-value"));
       }
     });
   }

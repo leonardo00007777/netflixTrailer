@@ -129,6 +129,38 @@ function shareFaceBook() {
     window.open(url, "", "width=486, height=286");
 }
 
-function changeTest(gdName, gdCd, price, salePrice){
-    console.log('gdName:::',gdName, 'gdCd:::', gdCd, 'price:::', price, 'salePrice:::', salePrice);
+function optionProdSet(e){
+    var valResult = e.replace(/'/g, '');
+    var result = valResult.split(",");
+    var gdCd = result[0];
+    var gdName = result[1];
+    var price = result[2];
+    var salePrice = result[3];
+    var optionSel = result[4];
+
+    if(optionSel == "dtlOption"){
+        $('#dtlGdName').text(gdName);
+        if(price === salePrice){
+            $('#dtlPrc').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dtlTotalPrc').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dtlCartInc').val(price);
+            $('#dtlCartDec').val(price);
+            if($('#itemNum').val() > '1'){
+                var totalPrc = Number(price) * Number($('#itemNum').val());
+                $('#dtlPrc').text(totalPrc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                $('#dtlTotalPrc').text(totalPrc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            }
+        }else{
+            $('#dtlPrc').text(salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dtlTotalPrc').text(salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dtlCartInc').val(salePrice);
+            $('#dtlCartDec').val(salePrice);
+            if($('#itemNum').val() > '1'){
+                var totalPrc = Number(salePrice) * Number($('#itemNum').val());
+                $('#dtlPrc').text(totalPrc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                $('#dtlTotalPrc').text(totalPrc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            }
+        }
+    }
+
 }
