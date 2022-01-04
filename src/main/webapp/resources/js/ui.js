@@ -352,7 +352,7 @@
         cnt = $('#dtlCnt').val();
       }
       prc = btnDec.val();
-      decrement(inputNumber, prc, checkPoint);
+      decrement(inputNumber, prc, checkPoint, cnt);
     });
 
     detectDisabled(inputNumber, cnt);
@@ -366,7 +366,6 @@
       val = Number(val) + 1;
       inputNum.val(val);
     }
-
     var totalPrice = prc * val;
     totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
@@ -381,10 +380,10 @@
       $("#dtlTotalPrc").html( totalPrice + '<small>원</small>');
     }
 
-    detectDisabled(inputNumber, cnt);
+    detectDisabled(inputNumber, val, cnt);
   }
 
-  function decrement(inputNumber, prc, checkPoint) {
+  function decrement(inputNumber, prc, checkPoint, cnt) {
     var totalPrice;
     var inputNum = inputNumber.find(".num");
     var val = inputNum.val();
@@ -429,11 +428,10 @@
       }
     }
 
-    detectDisabled(inputNumber);
+    detectDisabled(inputNumber, val, cnt);
   }
 
-  function detectDisabled(inputNumber, cnt) {
-    var val = inputNumber.find(".num").val();
+  function detectDisabled(inputNumber, val, cnt) {
     if(val <= 1) {
       inputNumber.find(".dec").addClass("disabled");
     } else {

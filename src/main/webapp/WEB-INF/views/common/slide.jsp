@@ -935,6 +935,18 @@
       <div class="overflow-auto">
         <div class="wn-modal-body">
           <div class="buy-options">
+            <c:if test="${fn:length(newProdOptionProduct) > 0}">
+              <div class="buy-option-item">
+                <div class="custom-select">
+                  <select id="newPrdCartOption">
+                    <option></option>
+                  </select>
+                  <div class="select-selected"></div>
+                  <div class="select-items select-hide">
+                  </div>
+                </div>
+              </div>
+            </c:if>
             <div class="buy-option-item">
               <div class="label" id="newPrdCartGdNm"></div>
               <div class="content">
@@ -971,6 +983,18 @@
       <div class="overflow-auto">
         <div class="wn-modal-body">
           <div class="buy-options">
+            <c:if test="${fn:length(dcProdOptionProduct) > 0}">
+              <div class="buy-option-item">
+                <div class="custom-select">
+                  <select id="dcPrdCartOption">
+                    <option></option>
+                  </select>
+                  <div class="select-selected"></div>
+                  <div class="select-items select-hide">
+                  </div>
+                </div>
+              </div>
+            </c:if>
             <div class="buy-option-item">
               <div class="label" id="dcPrdCartGdNm"></div>
               <div class="content">
@@ -1014,7 +1038,7 @@
                     <div class="custom-select">
                       <select>
                         <c:forEach var="option" items="${optionProduct}" varStatus="i">
-                          <option value="'${option.gdcd}','${option.gdname}','${option.price1}','${option.saleprice}','dtlOption'">${option.gdname}</option>
+                          <option value="'${option.gdcd}','${option.gdname}','${option.price1}','${option.saleprice}','dtlOption','${option.gdcnt}'">${option.gdname}</option>
                         </c:forEach>
                       </select>
                       <div class="select-selected"></div>

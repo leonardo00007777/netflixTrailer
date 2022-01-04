@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -120,9 +117,27 @@ public class MainController {
 		List<BdContents> eventList = mainService.eventList(paramMap);
 		model.addAttribute("eventList", eventList);
 
-		//상품 옵션
-		List<GdMasterEx> optionProdViwYn = mainService.optionProdViwYn((String)paramMap.get("strGDCD"));
-		model.addAttribute("optionProdViwYn", optionProdViwYn);
+		//신상품 옵션상품 체크
+		if(newProdList.size() > 0) {
+			List<List<GdMasterEx>> newProdOptionProduct = new ArrayList<>();
+			for(GdMasterEx gdMasterEx : newProdList){
+				paramMap.put("strGDCD", gdMasterEx.getGdcd());
+				paramMap.put("strItemOptionp", gdMasterEx.getOptionp());
+				newProdOptionProduct.add(categoryService.optionProduct(paramMap));
+			}
+			model.addAttribute("newProdOptionProduct", newProdOptionProduct);
+		}
+		
+		//할인상품 옵션상품 체크
+		if(discountProdList.size() > 0) {
+			List<List<GdMasterEx>> dcProdOptionProduct = new ArrayList<>();
+			for(GdMasterEx gdMasterEx : discountProdList){
+				paramMap.put("strGDCD", gdMasterEx.getGdcd());
+				paramMap.put("strItemOptionp", gdMasterEx.getOptionp());
+				dcProdOptionProduct.add(categoryService.optionProduct(paramMap));
+				model.addAttribute("dcProdOptionProduct", dcProdOptionProduct);
+			}
+		}
 
 		mv.setViewName("/main/main");
 
@@ -133,8 +148,6 @@ public class MainController {
 	@ResponseBody
 	public Map<String, Object> newProdListAjax(@RequestParam Map<String, Object> paramMap) throws Exception{
 
-		System.out.println(paramMap);
-
 		Map<String, Object> resultMap = new HashMap<>();
 		Map<String, Object> prodListPagingAjax = mainService.prodListPagingAjax(paramMap);
 		List<Map<String, Object>> prodListAjax = mainService.prodListAjax(paramMap);
@@ -143,5 +156,13 @@ public class MainController {
 		resultMap.put("prodListAjax", prodListAjax);
 
 		return resultMap;
+	}
+
+	@RequestMapping(value = "/main/prdOptionCheck")
+	@ResponseBody
+	public List<GdMasterEx> prdOptionCheck(@RequestParam Map<String, Object> paramMap) throws Exception {
+		List<GdMasterEx> prdOptionCheck = categoryService.optionProduct(paramMap);
+
+		return prdOptionCheck;
 	}
 }

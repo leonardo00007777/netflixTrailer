@@ -129,38 +129,100 @@ function shareFaceBook() {
     window.open(url, "", "width=486, height=286");
 }
 
-function optionProdSet(e){
-    var valResult = e.replace(/'/g, '');
+function optionProdSet(optionProd){
+    var valResult = optionProd.replace(/'/g, '');
     var result = valResult.split(",");
     var gdCd = result[0];
     var gdName = result[1];
     var price = result[2];
     var salePrice = result[3];
     var optionSel = result[4];
+    var gdCnt = result[5];
+    var html = '<small>원</small>';
 
-    if(optionSel == "dtlOption"){
+    if(optionSel == "dtlOption") {
         $('#dtlGdName').text(gdName);
+        $('#dtlCnt').val(gdCnt);
         if(price === salePrice){
             $('#dtlPrc').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dtlPrc').append(html);
             $('#dtlTotalPrc').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dtlTotalPrc').append(html);
             $('#dtlCartInc').val(price);
             $('#dtlCartDec').val(price);
             if($('#itemNum').val() > '1'){
-                var totalPrc = Number(price) * Number($('#itemNum').val());
-                $('#dtlPrc').text(totalPrc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                $('#dtlTotalPrc').text(totalPrc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                $('#itemNum').val('1');
+                $('#dtlCartInc').removeClass('disabled');
+                $('#dtlCartDec').addClass('disabled');
             }
-        }else{
+        }else {
             $('#dtlPrc').text(salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dtlPrc').append(html);
             $('#dtlTotalPrc').text(salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dtlTotalPrc').append(html);
             $('#dtlCartInc').val(salePrice);
             $('#dtlCartDec').val(salePrice);
             if($('#itemNum').val() > '1'){
-                var totalPrc = Number(salePrice) * Number($('#itemNum').val());
-                $('#dtlPrc').text(totalPrc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                $('#dtlTotalPrc').text(totalPrc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                $('#itemNum').val('1');
+                $('#dtlCartInc').removeClass('disabled');
+                $('#dtlCartDec').addClass('disabled');
+            }
+        }
+    } else if(optionSel === 'newPrdList') {
+        $('#newPrdCartGdNm').text(gdName);
+        $('#newPrdCnt').val(gdCnt);
+        if(price === salePrice){
+            $('#newPrdCartPrice').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#newPrdCartPrice').append(html);
+            $('#newPrdCartTotalPrc').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#newPrdCartTotalPrc').append(html);
+            $('#newPrdCartInc').val(price);
+            $('#newPrdCartDec').val(price);
+            if($('#newPrdCartCnt').val() > '1'){
+                $('#newPrdCartCnt').val('1');
+                $('#newPrdCartInc').removeClass('disabled');
+                $('#newPrdCartDec').addClass('disabled');
+            }
+        }else {
+            $('#newPrdCartPrice').text(salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#newPrdCartPrice').append(html);
+            $('#newPrdCartTotalPrc').text(salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#newPrdCartTotalPrc').append(html);
+            $('#newPrdCartInc').val(salePrice);
+            $('#newPrdCartDec').val(salePrice);
+            if($('#newPrdCartCnt').val() > '1'){
+                $('#newPrdCartCnt').val('1');
+                $('#newPrdCartInc').removeClass('disabled');
+                $('#newPrdCartDec').addClass('disabled');
+            }
+        }
+    } else if(optionSel == 'dcPrdList') {
+        $('#dcPrdCartGdNm').text(gdName);
+        $('#dcPrdCnt').val(gdCnt);
+        if(price === salePrice){
+            $('#dcPrdCartPrice').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dcPrdCartPrice').append(html);
+            $('#dcPrdCartTotalPrc').text(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dcPrdCartTotalPrc').append(html);
+            $('#dcPrdCartInc').val(price);
+            $('#dcPrdCartDec').val(price);
+            if($('#dcPrdCartCnt').val() > '1'){
+                $('#dcPrdCartCnt').val('1');
+                $('#dcPrdCartInc').removeClass('disabled');
+                $('#dcPrdCartDec').addClass('disabled');
+            }
+        }else {
+            $('#dcPrdCartPrice').text(salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dcPrdCartPrice').append(html);
+            $('#dcPrdCartTotalPrc').text(salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $('#dcPrdCartTotalPrc').append(html);
+            $('#dcPrdCartInc').val(salePrice);
+            $('#dcPrdCartDec').val(salePrice);
+            if($('#dcPrdCartCnt').val() > '1'){
+                $('#dcPrdCartCnt').val('1');
+                $('#dcPrdCartInc').removeClass('disabled');
+                $('#dcPrdCartDec').addClass('disabled');
             }
         }
     }
-
 }
