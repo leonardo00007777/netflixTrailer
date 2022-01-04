@@ -937,7 +937,7 @@
           <div class="buy-options">
             <c:if test="${fn:length(newProdOptionProduct) > 0}">
               <div class="buy-option-item">
-                <div class="custom-select">
+                <div class="custom-select mb-20">
                   <select id="newPrdCartOption">
                     <option></option>
                   </select>
@@ -985,7 +985,7 @@
           <div class="buy-options">
             <c:if test="${fn:length(dcProdOptionProduct) > 0}">
               <div class="buy-option-item">
-                <div class="custom-select">
+                <div class="custom-select mb-20">
                   <select id="dcPrdCartOption">
                     <option></option>
                   </select>
@@ -1035,7 +1035,7 @@
               <c:forEach items="${itemDetail}" var="itemDetail">
                 <c:if test="${fn:length(optionProduct) > 0}">
                   <div class="buy-option-item">
-                    <div class="custom-select">
+                    <div class="custom-select mb-20">
                       <select>
                         <c:forEach var="option" items="${optionProduct}" varStatus="i">
                           <option value="'${option.gdcd}','${option.gdname}','${option.price1}','${option.saleprice}','dtlOption','${option.gdcnt}'">${option.gdname}</option>
