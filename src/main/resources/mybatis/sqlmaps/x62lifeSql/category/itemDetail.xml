@@ -58,6 +58,7 @@
     '20210929   chhyeon 1.3.0   쿠폰테스트-->
 
     <select id="itemDetail" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        /*itemDetail 상품 상세 페이지*/
         SELECT g.gdcd
              , g.gdname
              , g.gdimg
@@ -170,6 +171,7 @@
     </select>
     
     <select id="setItemDetailConfiguration" parameterType="java.util.Map" resultType="java.util.Map">
+        /* setItemDetailConfiguration  세트구성상품 내역(세트상품일경우에만) */
         SELECT a.gdqty
              , b.gdname 
             FROM ( SELECT sgdcd, gdqty
@@ -187,6 +189,7 @@
     </select>
     
     <select id="itemDlvDeadlineMsg" parameterType="java.util.Map" resultType="java.util.Map">
+        /* itemDlvDeadlineMsg 상품 배송 데드라인 메시지 */
         SELECT w.deadline_msg gdmsg
              , s.deadline_msg supmsg  
           FROM wmsl_wssart w 
@@ -197,12 +200,14 @@
     </select>
 
     <select id="radiationTestInfo" parameterType="java.lang.String" resultType="java.lang.String">
+        /* radiationTestInfo 방사능 측정 정보 jpg 이름 */
         SELECT testpath
           FROM c_pesticide_residue
            WHERE testidx = #{testidx}
     </select>
 
     <select id="fruitsSugarInfo" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdSugar">
+        /* fruitsSugarInfo 과일 당도 정보 */
          SELECT TOP 1 gasuga
               , gasug1
               , gasug2
@@ -214,12 +219,14 @@
     </select>
     
     <select id="basicDetailInfo" parameterType="java.lang.String" resultType="java.lang.String">
+        /* basicDetailInfo 상품기본상세정보 */
         SELECT ppcode 
           FROM gd_pipn 
            WHERE ppartc = #{strGDCD}
     </select>
     
     <select id="usePpCode" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdPipnRef">
+        /* usePpCode 상품 설명 ppcode */
         SELECT b.ppartc
              , b.ppcode
              , b.pp01
@@ -261,6 +268,7 @@
     </select>
 
     <select id="getCartOrderType" parameterType="java.lang.String" resultType="java.util.Map">
+        /* getCartOrderType 장바구니 주문타입 */
         SELECT CASE WHEN ISNULL(g.dispatchtype, 'I') = 'O' THEN '15' 
                     WHEN ISNULL(g.dispatchtype, 'I') = 'I' THEN
                          CASE WHEN g.reserveyn = 'Y' THEN '12'
@@ -275,6 +283,7 @@
     </select>
     
     <select id="isRightAwayEnableDay" parameterType="java.lang.String" resultType="java.lang.String">
+        /* isRightAwayEnableDay 상품 배송 가능 날짜(휴일 제외) */
         SELECT hliname
           FROM cd_holiday
            WHERE #{datex} BETWEEN hlidt AND hlidt_to
@@ -282,6 +291,7 @@
     </select>
     
     <select id="prodReviewPaging" parameterType="java.util.Map" resultType="java.util.Map">
+       /* prodReviewPaging 상품리뷰페이징 */
         SELECT CEILING( CAST(COUNT(1) AS FLOAT)/ #{intPagePerItem} ) MAXPAGE
              , COUNT(rseqno) CNT
           FROM productreview
@@ -294,6 +304,7 @@
     </select>
     
     <select id="prodReviewDetail" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.ProductReviewEx">
+        /* prodReviewDetail 상품리뷰상세  */
         SELECT c.rseqno
              , c.rtype
              , ISNULL(c.rrseqno,c.rseqno) RRSEQNO
@@ -342,6 +353,7 @@
     </select>
 
     <select id="getGoodsWeek" parameterType="java.util.Map" resultType="java.lang.String">
+        /* getGoodsWeek 상품 생산 주(week)체크  */
          SELECT GDWEEK 
            FROM CD_WEEK
          <choose>
@@ -358,6 +370,7 @@
     </select>
     
     <select id="getGoodsYear" parameterType="java.util.Map" resultType="java.lang.String">
+    /* getGoodsYear 상품년도  */
       SELECT GDYEAR
            FROM CD_WEEK
       <choose>
@@ -374,6 +387,7 @@
     </select>
 
     <select id="getDLVDTbyHolidayGeneral" parameterType="java.util.Map" statementType="CALLABLE">
+    /* getDLVDTbyHolidayGeneral 명절/휴일 체크 프로시저  */
            {  call sp_verifyDlvdt
              (
                #{deliveryDate, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
@@ -383,6 +397,7 @@
     </select>
 
     <select id="optionProduct" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+        /*optionProduct 옵션상품 체크*/
         SELECT gm.gdcd
              , gm.gdname
              , gm.price1
@@ -404,7 +419,7 @@
              AND gm.useyn = 'Y'
              AND (gm.reserveyn = 'N' OR (gm.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
              <choose>
-                 <when test='strItemOptionp != null and  strItemOptionp == "Y"'>
+                 <when test='strItemOptionp != null and strItemOptionp != "" and strItemOptionp == "Y"'>
                      AND (gm.gdcd IN (SELECT mpcode FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y')
                                   OR gm.mpcode IN (SELECT gdcd FROM gd_master WHERE gdcd IN (SELECT mpcode FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y')))
                  </when>

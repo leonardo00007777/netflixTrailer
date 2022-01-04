@@ -561,6 +561,7 @@ function prodFilter(filterDivision){
 	var division;
 	var modal;
 	var showhide = 'show';
+	var check = '';
 
 	if(filterDivision == 'newProd'){
 		$('input[name="orderByNew"]').each(function() {
@@ -578,6 +579,8 @@ function prodFilter(filterDivision){
 		});
 		division = 'newPrdList';
 		modal = 'newProdListBuyOption';
+		check = 'newPrdList';
+
 	} else if(filterDivision == 'dcProd'){
 		$('input[name="orderByDis"]').each(function() {
 			var checked = $(this).prop('checked');
@@ -594,6 +597,7 @@ function prodFilter(filterDivision){
 		});
 		division = 'dcPrdList';
 		modal = 'dcProdListBuyOption';
+		check = 'dcPrdList';
 	}
 
 	$.ajax({
@@ -621,8 +625,12 @@ function prodFilter(filterDivision){
 				var html = '';
 				html += '<article class="prd-item">';
 				html +=	  '<div class="img-container">';
-				html +=		'<a href="javascript:void(0)" onclick="itemDetail('+"'" + el.gdcd + "'" + "," + "'" + el.odtype + "'" + "," + "'" + el.odtype2 + "'"
-					+ ","+"'" + el.gdtype + "'" + "," + "'" + el.div1 + "'"+"," + "'" + el.optionp + "'" + ')"' + 'class="prd-item-img">';
+				html +=		'<a href="javascript:void(0)" onclick="itemDetail('+"'" + el.gdcd + "'"
+					                                                           + "," + "'" + el.odtype + "'"
+					                                                           + "," + "'" + el.odtype2 + "'"
+					                                                           + ","+"'" + el.gdtype + "'"
+					                                                           + "," + "'" + el.div1 + "'"
+					                                                           + "," + "'" + el.optionp + "'" + ')"' + 'class="prd-item-img">';
 				html +=			'<img src="' + imgUrl + el.mgdimg1 + '" alt="'+ el.gdname + '"/>';
 				if(Math.round(el.discountrate) > 0){
 					html +=			'<div class="prd-item-badge dc">';
@@ -632,9 +640,20 @@ function prodFilter(filterDivision){
 				}
 				html +=		'</a>';
 				html +=		'<div class="prd-item-buttons">';
-				html +=       '<a href="javascript:void(0)"'+ 'onclick="common_pop.modalShowHide('+ "'" + modal + "'" + "," + "'" + showhide  + "'" + ');' +
-					                                          'prdListCart(' + "'"+ el.gdname +"'" + "," + "'" + el.price1 + "'" + "," + "'" + el.saleprice1 + "'" + "," + "'" + el.gdcnt + "'" + "," + "'" + division + "'" +');"' + 'class="btn btn-cart">'
-					        +     '<i class="wn-icon wni-cart-w">장바구니</i>'
+				html +=       '<a href="javascript:void(0)"'+ 'onclick="common_pop.modalShowHide('+ "'" + modal + "'"
+					                                                                         + "," + "'" + showhide  + "'"
+					                                                                         + ');'
+					                                                             + 'prdListCart(' + "'"+ el.gdname + "'"
+					                                                                        + "," + "'" + el.price1 + "'"
+					                                                                        + "," + "'" + el.saleprice1 + "'"
+					                                                                        + "," + "'" + el.gdcnt + "'"
+					                                                                        + "," + "'" + division + "'"
+					                                                                        + ');'
+					                                                             + 'optionCheck(' + "'" +el.gdcd + "'"
+					                                                                        + "," + "'" + el.optionp + "'"
+					                                                                        + "," + "'" + check + "'"
+					                                                                        + ');' + '"'
+					        + 'class="btn btn-cart">' + '<i class="wn-icon wni-cart-w">장바구니</i>'
 					        + '</a>';
 				html +=		'</div>';
 				html +=	  '</div>';
@@ -767,4 +786,41 @@ function prdListCart(gdName, price, salePrice, gdCnt, checkPoint){
 			$('#dcPrdCartInc').val(salePrice);
 		}
 	}
+}
+function optionCheck(gdCd, option, check) {
+	$('.select-selected').text('');
+	var html;
+
+	if(check == 'newPrdList'){
+		check = 'newPrdList';
+	} else if(check == 'dcPrdList'){
+		check = 'dcPrdList';
+	}
+
+	$.ajax({
+		  url : "/main/prdOptionCheck"
+		, data : {
+			     "strGDCD" : gdCd
+			   , "strItemOptionp" : option
+		       }
+		,  success : function (data){
+			data.forEach(function (element, i){
+				html += '<option value="'+ "'"+ element.gdcd + "'"
+				 	 + "," + "'" + element.gdname + "'"
+					 + "," + "'" + element.price1 + "'"
+					 + "," + "'" + element.saleprice + "'"
+					 + "," + "'" + check + "'"
+					 + "," + "'" + element.gdcnt + "'"
+					 + '">'+ element.gdname + '</option>';
+			});
+			if(check == 'newPrdList'){
+				$('#newPrdCartOption').empty();
+				$('#newPrdCartOption').append(html);
+			} else if(check == 'dcPrdList'){
+				$('#dcPrdCartOption').empty();
+				$('#dcPrdCartOption').append(html);
+			}
+			UI.CustomSelect($('.custom-select'));
+		}
+	});
 }

@@ -45,6 +45,4 @@ public interface MainDao {
     Map<String, Object> prodListPagingAjax(Map<String, Object> paramMap);
 
     List<Map<String, Object>> prodListAjax(Map<String, Object> paramMap);
-
-    List<GdMasterEx> optionProdViwYn(String strGDCD);
 }

@@ -935,16 +935,18 @@
       <div class="overflow-auto">
         <div class="wn-modal-body">
           <div class="buy-options">
-            <div class="buy-option-item">
-              <div class="custom-select">
-                <select>
-                  <option value="">옵션 선택하기</option>
-                  <option value="">옵션 1</option>
-                  <option value="">옵션 2</option>
-                  <option value="">옵션 3</option>
-                </select>
-                <div class="select-selected">옵션 선택하기</div><div class="select-items select-hide"><div>옵션 선택하기</div><div>옵션 1</div><div>옵션 2</div><div>옵션 3</div></div></div>
-            </div>
+            <c:if test="${fn:length(newProdOptionProduct) > 0}">
+              <div class="buy-option-item">
+                <div class="custom-select">
+                  <select id="newPrdCartOption">
+                    <option></option>
+                  </select>
+                  <div class="select-selected"></div>
+                  <div class="select-items select-hide">
+                  </div>
+                </div>
+              </div>
+            </c:if>
             <div class="buy-option-item">
               <div class="label" id="newPrdCartGdNm"></div>
               <div class="content">
@@ -981,6 +983,18 @@
       <div class="overflow-auto">
         <div class="wn-modal-body">
           <div class="buy-options">
+            <c:if test="${fn:length(dcProdOptionProduct) > 0}">
+              <div class="buy-option-item">
+                <div class="custom-select">
+                  <select id="dcPrdCartOption">
+                    <option></option>
+                  </select>
+                  <div class="select-selected"></div>
+                  <div class="select-items select-hide">
+                  </div>
+                </div>
+              </div>
+            </c:if>
             <div class="buy-option-item">
               <div class="label" id="dcPrdCartGdNm"></div>
               <div class="content">
@@ -1019,26 +1033,22 @@
           <div class="wn-modal-body">
             <div class="buy-options">
               <c:forEach items="${itemDetail}" var="itemDetail">
-                <c:if test="${fn:length(optionProduct) > 0 and itemDetail.optionp eq 'Y'}">
+                <c:if test="${fn:length(optionProduct) > 0}">
                   <div class="buy-option-item">
                     <div class="custom-select">
-                      <c:forEach var="option" items="${optionProduct}" varStatus="i">
-                        <select onchange="changeTest('${option.gdname}','${option.gdcd}','${option.price1}','${option.saleprice}');">
-                          <option value="${option.gdcd}">${option.gdname}</option>
-                        </select>
-                      </c:forEach>
-                      <div class="select-selected">옵션 선택하기</div>
+                      <select>
+                        <c:forEach var="option" items="${optionProduct}" varStatus="i">
+                          <option value="'${option.gdcd}','${option.gdname}','${option.price1}','${option.saleprice}','dtlOption','${option.gdcnt}'">${option.gdname}</option>
+                        </c:forEach>
+                      </select>
+                      <div class="select-selected"></div>
                       <div class="select-items select-hide">
-                        <div>옵션 선택하기</div>
-                        <div>옵션 1</div>
-                        <div>옵션 2</div>
-                        <div>옵션 3</div>
                       </div>
                     </div>
                   </div>
                 </c:if>
                 <div class="buy-option-item">
-                  <div class="label">${itemDetail.gdname}</div>
+                  <div class="label" id="dtlGdName">${itemDetail.gdname}</div>
                   <div class="content">
                     <div class="input-number" id="inputNumber">
                       <input type="hidden" value="${itemDetail.gdcnt}" id="dtlCnt"/>

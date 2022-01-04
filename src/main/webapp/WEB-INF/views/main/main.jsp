@@ -1119,7 +1119,11 @@
                           </c:if>
                         </a>
                         <div class="prd-item-buttons">
-                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('newProdListBuyOption','show'); prdListCart('${newProd.gdname}','${newProd.price1}', '${newProd.saleprice}', '${newProd.gdcnt}', 'newPrdList');" class="btn btn-cart"><i class="wn-icon wni-cart-w" id="newPrdCart">장바구니</i></a>
+                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('newProdListBuyOption','show');
+                                                                prdListCart('${newProd.gdname}','${newProd.price1}', '${newProd.saleprice}', '${newProd.gdcnt}', 'newPrdList');
+                                                                optionCheck('${newProd.gdcd}', '${newProd.optionp}', 'newPrdList');" class="btn btn-cart">
+                            <i class="wn-icon wni-cart-w" id="newPrdCart">장바구니</i>
+                          </a>
                         </div>
                       </div>
                       <div class="detail">
@@ -1341,7 +1345,9 @@
                           </c:if>
                         </a>
                         <div class="prd-item-buttons">
-                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('dcProdListBuyOption','show'); prdListCart('${discountProd.gdname}', '${discountProd.price1}', '${discountProd.saleprice}', '${discountProd.gdcnt}', 'dcPrdList')" class="btn btn-cart">
+                          <a href="javascript:void(0)" onclick="common_pop.modalShowHide('dcProdListBuyOption','show');
+                                                                prdListCart('${discountProd.gdname}', '${discountProd.price1}', '${discountProd.saleprice}', '${discountProd.gdcnt}', 'dcPrdList');
+                                                                optionCheck('${discountProd.gdcd}', '${discountProd.optionp}', 'dcPrdList');" class="btn btn-cart">
                             <i class="wn-icon wni-cart-w">장바구니</i>
                           </a>
                         </div>
@@ -2551,5 +2557,4 @@
   </div>
 
 <script>
-
 </script>

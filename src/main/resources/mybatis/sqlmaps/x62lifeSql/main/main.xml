@@ -554,6 +554,7 @@
     </select>
 
     <select id="magazineNum" resultType="int">
+        /* magazineDetail 매거진 넘버 */
         SELECT TOP 1 h.zhidx
            FROM magazine_h h
              JOIN magazine_l l
@@ -563,6 +564,7 @@
     </select>
 
     <select id="magazineDetail" resultType="com.x62life.mo.model.boardcontents.MagazineLEx">
+        /* magazineDetail 매거진 상세 */
         SELECT *
            FROM (
                   SELECT * FROM (
@@ -657,6 +659,7 @@
     </select>
 
     <select id="eventList" parameterType="java.util.Map" resultType="com.x62life.mo.model.boardcontents.BdContents">
+        /* eventList 이벤트 리스트 */
         SELECT TOP 3 ctsidx
              , title
              , content
@@ -708,6 +711,7 @@
 
 
     <select id="prodListPagingAjax" parameterType="java.util.Map" resultType="java.util.Map">
+        /* prodListPagingAjax 상품 정렬기준 페이징 Ajax */
         SELECT CEILING( CAST(COUNT(1) AS FLOAT)/#{intPagePerItem}) maxPage
              , COUNT(gdcd) CNT
           FROM (
@@ -753,6 +757,7 @@
     </select>
 
     <select id="prodListAjax" parameterType="java.util.Map" resultType="java.util.Map">
+         /* prodListAjax 상품 정렬기준 Ajax */
         SELECT *
              <!--, dbo.getProductPrice(#{strMEMGRPCD},#{strGroupSalePolicy},gdcd) saleprice -->
           FROM (
@@ -861,39 +866,5 @@
                           ) a
               ) AS pl
         WHERE cPage = #{intPage}
-    </select>
-
-    <select id="optionProdViwYn" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdMasterEx">
-        SELECT gm.gdcd
-             , gm.gdname
-             , gm.price1
-             , dbo.getMasterPrice(gm.gdcd) saleprice
-             , ISNULL(gc.gdcnt,99999) gdcnt
-             , gm.minqty
-             , gm.maxqty
-        FROM gd_master gm
-          LEFT JOIN gd_cnt gc
-                 ON gm.gdcd=gc.gdcd
-        LEFT JOIN od_reservegoods r
-               ON gm.gdcd = r.gdcd
-              AND r.useyn = 'Y'
-              AND DATEDIFF(D,CONVERT(DATETIME,r.od_from,120),GETDATE()) >= 0
-              AND DATEDIFF(D,GETDATE(),CONVERT(DATETIME,r.od_to,120)) >= 0
-         WHERE 1=1
-           AND gm.useyn = 'Y'
-           AND (gm.reserveyn = 'N' OR (gm.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
-         <choose>
-             <when test="strItemOptionp = 'Y'">
-                 AND (gm.gdcd IN (SELECT mpcode FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y')
-                      OR gm.mpcode IN (SELECT gdcd FROM gd_master WHERE gdcd IN (SELECT mpcode FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y'))
-                     )
-             </when>
-             <otherwise>
-                 AND (gm.gdcd = #{strGDCD}
-                      OR gm.mpcode IN (SELECT gdcd FROM gd_master WHERE gdcd = #{strGDCD} AND useyn = 'Y')
-                     )
-            </otherwise>
-        </choose>
-        ORDER BY gdcd
     </select>
 </mapper>
