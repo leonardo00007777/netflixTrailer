@@ -5,12 +5,14 @@
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
 
+${mode}
+
 <div class="gwrapper">
     <ul class="login-box">
         <li class="content10 align-center">
             <div id="loginBox" class="shadowborder" style="padding:40px;">
 				<c:choose>
-				   		<c:when test="${infoMode eq  'UPREQ'}">
+				   		<c:when test="${mode eq  'UPREQ'}">
 						    <span class="text-title color-skred">
 				                <strong>"현재 고객님은 '승급신청' 상태 입니다."</strong>
 				            </span>
@@ -20,7 +22,7 @@
 				            자세한 사항은 고객상담실(<a href="tel:0803036363">080-303-6262, 수신자 부담</a>)로 문의하시기 바랍니다.			
 				      	</c:when>
 				      	
-				   		<c:when test="${infoMode eq  'LAYOFF'}">
+				   		<c:when test="${mode eq  'LAYOFF'}">
 				            <span class="text-title color-skred">
 				                <strong>"현재 고객님은 '휴직 중' 상태 입니다."</strong>
 				            </span>

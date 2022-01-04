@@ -4,6 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
+
+<script src="<%=_jsUrl %>login/login.js"></script>
+
 <%--  test ---------------------------------------------------
 			<c:set var="blankCnt" value="5"> </c:set>
 			<c:if test="${ blankCnt < 4 }">

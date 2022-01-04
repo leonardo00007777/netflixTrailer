@@ -52,6 +52,22 @@ var common_link = function() {
 			document.body.appendChild(f);
 			f.submit();
 		},
+
+		goMappingUrl2 : function(_url, _data1, _value1) {
+			
+			var newForm = $('<form></form>'); 
+
+			newForm.attr("name", "newForm"); 
+			newForm.attr("method", "post"); 
+			newForm.attr("action", _url); 
+			
+			if(_data1 != null || _data1 !=""){
+				newForm.append($('<input/>', {type: 'hidden', name: _data1, value:_value1 })); 
+			}
+			newForm.appendTo('body'); 
+
+			newForm.submit();
+		},
 		
 		goReplaceUrl : function(_url) {
 			setTimeout(function(){
@@ -65,8 +81,28 @@ var common_link = function() {
 
 	    goPath : function(_path) {
 	    	location.href =  _path;
-	    }
+	    },
 		
+		// form submit 후, 이동 target url
+		formSubmit : function(form, url, target) {
+		    $(form).submit(function(event) {
+		        $.post(url, $(form).serialize())
+		            .done(function(res) {
+		                if (res.success) {
+		                    window.location = target;
+		                }
+		                else {
+		                    alert(res.error);
+		                }
+		            })
+		            .fail(function(res) {
+		                alert("Server Error: " + res.status + " " + res.statusText);
+
+		            })
+		        event.preventDefault();
+		    });
+		}
+			    
 
 	}
 }();

@@ -1,13 +1,17 @@
 package com.x62life.mo.controller.test;
 
-import com.x62life.mo.common.util.MessageUtils;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import com.x62life.mo.common.constants.Constants62life;
+import com.x62life.mo.common.util.EncryptAES;
+import com.x62life.mo.common.util.MessageUtils;
 
 @Controller
 @RequestMapping("/test")
@@ -30,5 +34,21 @@ public class TestController {
    		return "test/test1";
     }
         
-	
+    
+    @RequestMapping(value="/test2")
+    public String test2(@RequestParam Map<String, Object> paramMap
+    		, HttpServletRequest request
+    		, Model model) throws Exception {
+    	
+    	String test = "";
+    	String id = EncryptAES.Decrypt("ttochi37", Constants62life.ENC_KEY_NAME);
+    	//String pw = EncryptAES.Decrypt("803F913F5DCB2038E06495EB1E42EA621136F4B54644E7DBAEFF2B5725756EFB", Constants62life.ENC_KEY_NAME);    
+    	
+    	System.out.println("id = " + id);
+    	//System.out.println("pw = " + pw);
+    	
+    	return "test/test1";
+    }
 }
+    
+    

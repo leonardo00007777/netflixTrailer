@@ -4,21 +4,28 @@
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp"
 %>
+<!-- <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script> -->
+<script src="<%=_jsUrl %>login/loginForm.js"></script>
+<script src="<%=_jsUrl %>login/login.js"></script>
 <%
 	//String currentLanguage = LocaleContextHolder.getLocale().getLanguage();
+    //String loginresult = request.getParameter("loginresult"); 
+
+	String loginresult = (String) request.getAttribute("loginresult");
+	String backurl = (String) request.getAttribute("backurl");
+	String refererx = request.getHeader("REFERER");
 
 	String strUserId = (String) request.getAttribute("loginuserid");
 	String strPassword = (String) request.getAttribute("loginpassword");
-	String autologin = (String) request.getAttribute("autologin");
-
 %>
 
-<%= strUserId %>
-<%= strPassword %>
+ loginresult : <%= loginresult %>
+ backurl : <%= backurl %>
+ refererx : <%= refererx %>
 
-<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
-<script src="<%=_jsUrl %>login/loginForm.js"></script>
-<script src="<%=_jsUrl %>login/login.js"></script>
+ id : <%= strUserId %>
+ pw : <%= strPassword %>
+
 
 <body class="page-login header-float">
   <div class="site-container">
@@ -36,9 +43,9 @@
     </header>
     <main class="main-container" id="main-container">
       <div class="main-content" id="main-content">
-		<form id="loginForm" name="loginForm">
-<%-- 		    <input type="hidden" name="backurl" id="backurl" value="<%=backurl%>" />
-            <input type="hidden" name="refererx" id="refererx" value="<%=refererx%>" /> --%>
+		<form id="loginForm" name="loginForm" method="POST">
+ 		    <input type="hidden" name="backurl" id="backurl" value="${backurl }" />
+            <input type="hidden" name="refererx" id="refererx" value="${refererx }" /> 
 			<!-- 애플로그인 -->
 			<%-- <input type="hidden" id="easyLoginFormYn"      name="easyLoginFormYn"      value="${appleLoginCertSucsYn}" /><!-- 간편로그인폼 -->
 			<input type="hidden" id="easyLoginType"        name="easyLoginType"        value="${easyLoginType}" /><!-- 간편로그인폼 --> --%>
@@ -47,7 +54,7 @@
           <div class="page-login-content">
             <h3 class="logo-tit"><img src="<%=_imgUrl %>/images/loginLogo@2x.png" alt="자연이랑"></h3>  
            
-            <section class="form-login">
+            <section class="form-login" id="loginFormGroup">
                <!-- id -->
               <input type="text" class="input-login" id="loginuserid" value="<%=strUserId%>"  maxlength="12"  tabindex="2"  autocomplete="off"  placeholder="아이디"  title="아이디를 입력해주세요.">
                <!-- pw -->
@@ -57,9 +64,21 @@
                 <input type="checkbox"  id="autologin" name="autologin" tabindex="5" checked="checked" title="자동로그인 선택">
                 <span class="label">자동 로그인</span>
               </label>
-              <button class="button bt-green bt-l w-100 btn-login"   id="loginBtn"   tabindex="5" onclick="javascript:login.loginSubmit();">로그인</button>
+              <button class="button bt-green bt-l w-100 btn-login"   id="loginBtn"   tabindex="5" >로그인</button>
             </section>
 								
+            <p class="user-msg">
+			<c:choose>
+			   		<c:when test="${strLoginResult eq  'FAIL'}">
+				 	     ⓘ 로그인 정보가 정확하지 않습니다! 
+			      	</c:when>
+			   		<c:when test="${strLoginResult eq  'LOCK'}">
+				 	     ⓘ 계정이 잠겨있습니다!
+			      	</c:when>
+			      	<c:otherwise>
+			      	</c:otherwise> 
+			</c:choose>
+            </p>
             <section class="management-box" id="loginGroup">
               <a href="javascript:void(0)"  id="btnSearchId">아이디 찾기</a>
               <a href="javascript:void(0)"  id="btnResetPwd">비밀번호 재설정</a>

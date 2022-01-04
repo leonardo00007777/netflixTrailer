@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x62life.mo.dao.mypage.MypageDao">
+
+<!--  
+'System        : m.62life.com
+'Program       :
+'Title         : 자연이랑모바일 - 마이페이지
+'File          : mypage_m.asp
+'Program Type  : asp
+'Analyst       :
+'Author        : hwkim
+'Date Started  : 20130621
+'Last Modified :
+'Called By     :
+'Parameters    :
+'Purpose       :
+'Version       :
+'
+'Modified   Author  V/M     Reason For Modification
+'20130621   hwkim   0.9     처음 작성
+'20141210   hwkim   0.9.1   1대1문의 목록 추가
+'20161127   hwkim   0.9.2   리뉴얼
+'20170808   hwkim   0.9.3   12주년 배너 임시 추가 - 추후 삭제 함.
+'20171214   hwkim   0.9.4   상담내역 목록 표시 변경
+'20180205   hwkim   0.9.5   회원정보 수정 추가
+'20190104   hwkim   0.9.6   지원금 완전소진 정보(별) 표시 제거
+'20200616   sykim   -       MONTHLYCLOSING, subvention_dss(친환경기여도) 표시 안하는 정보 주석처리.
+'20200827   chhyeon 0.9.7   진행주문보기 버튼 추가
+'20200925   hnjang  0.9.8   일반회원 표시문구 수정(멤버십 등급 출력)                                                                                     
+'20210128   chhyeon 1.0     ui 개선 및 헤더연동(headermTitle변수 사용)
+'20210729   hwkim   1.0.1   쿠폰 링크 추가
+'20210929   hwkim   1.0.2   지원금, SK포인트 해당자만 노출처리, 당월소멸예정 적립포인트, 당월만료예정 쿠폰 표시
+'20211104   hwkim   1.0.3   쿠폰도입에 따른 체계 변경으로 적립포인트가 ttlprice에 포함되어, 멤버십 실적에서 제외 적용/ ttlprice-accprice
+'20211119   hwkim   -       적립포인트 에누리할인 처리로 다시 환원처리 / ttlprice only
+ -->
+  
+   <select id="mypageOrdList" resultType="com.x62life.mo.model.mypage.Mypage" parameterType="java.lang.String">
+     	 /* 진행주문 / 배송중 / 지난달 구매금액 / 이번달 구매혜택 */
+        <![CDATA[
+	    SELECT 
+	    		    ordered, indelivery, lastmonthttl, thismonthttl 
+	      FROM ( 
+	            SELECT COUNT(a.paynum) ordered 
+	              FROM od_pay a 
+	                   JOIN od_header b ON a.paynum = b.paynum 
+	             WHERE a.memcd = #{strLoginMEMCD} 
+	               AND a.paystcd BETWEEN #{PAYST_INSTAY} AND #{PAYST_PAY} 
+	               AND DATEDIFF(d,a.fixdt,GETDATE()) <= 30 
+	               AND b.paystcd BETWEEN #{PAYST_INSTAY} AND #{PAYST_PAY} 
+	               AND b.dlvstcd <= #{DLVST_DLV} 
+	           ) AS a 
+	         , ( 
+	            SELECT COUNT(a.paynum) indelivery 
+	              FROM od_pay a 
+	                   JOIN od_header b ON a.paynum = b.paynum 
+	             WHERE a.memcd = #{strLoginMEMCD} 
+	               AND a.paystcd = #{PAYST_PAY} 
+	               AND DATEDIFF(d,a.fixdt,GETDATE()) <= 30 
+	               AND b.paystcd = #{PAYST_PAY} 
+	               AND (b.dlvstcd >= #{DLVST_DLV} AND b.dlvstcd < #{DLVST_COMPLETE}) 
+	           ) AS b 
+	         , ( 
+	            SELECT 
+	            			ISNULL(SUM(CASE WHEN paydt >= CONVERT(DATETIME,#{lastMonthFirstDay},21) AND 
+	                                        paydt < CONVERT(DATETIME,#{lastMonthLastDay},21)+1 
+	                                   THEN ttlprice ELSE 0 END),0) lastmonthttl 
+	                 		, ISNULL(SUM(CASE WHEN paydt >= CONVERT(DATETIME,#{thisMonthFirstDay},21) AND 
+	                                        paydt < CONVERT(DATETIME,#{Date},21)+1 
+	                                   THEN ttlprice ELSE 0 END),0) thismonthttl 
+	              FROM od_pay 
+	             WHERE memcd = #{strLoginMEMCD} 
+	               AND paystcd = #{PAYST_PAY} 
+	               AND paydt >= CONVERT(DATETIME,#{lastMonthFirstDay},21) 
+	               AND paydt < CONVERT(DATETIME,#{Date},21)+1 
+	               AND paynum IN (SELECT paynum FROM od_header 
+	                               WHERE paystcd = #{PAYST_PAY} 
+	                                 AND odgubun IN (#{N_SALES_ORDERTYPE})) 
+	           ) AS c 
+	               ]]>
+    </select>
+                                
+    <select id="mypageLevelInfo" parameterType="java.util.Map"  resultType="com.x62life.mo.model.member.MemberProfile">
+        /* 멤버십 레벨 기본값 */
+       SELECT 
+       				l.mlevel, m.mvlevel, m.mvpntr 
+          FROM 
+          			member_level l 
+            LEFT JOIN member_level_master m 
+            	       ON l.mlevel = m.mvcode 
+                     AND m.mvuse = 'Y' 
+        WHERE l.yyyymm = CONVERT(CHAR(4),DATEPART(YY,GETDATE())) 
+                     + RIGHT('0'+CONVERT(VARCHAR(2),DATEPART(M,GETDATE())),2) 
+        AND l.memcd = #{strLoginMemCd} 
+    </select>
+    
+    <select id="mypageRemainPointInfo" parameterType="java.util.Map" resultType="com.x62life.mo.model.member.MbAccPoint">
+        /* 당월 소멸예정 적립포인트 */
+        SELECT 
+        		    a.memcd, SUM(a.remain) remain 
+	      FROM 
+	      			mb_accpoint a 
+	        JOIN mb_master m 
+	          ON a.memcd = m.memcd 
+	    WHERE a.useyn = 'Y' 
+	        <![CDATA[
+	        AND ISNULL(a.remain,0) > 0 
+	        AND a.expdt >= getdate() 
+	        AND DATEDIFF(d, EOMONTH(getdate()), a.expdt) < 1 
+            ]]>
+	        AND a.memcd = #{strLoginMemCd} 
+	    GROUP BY a.memcd             
+    </select>
+
+    <select id="enableCouponCntAjax" parameterType="java.util.Map" resultType="java.util.Map">
+        /* 사용 가능한 쿠폰 수(다운로드 가능 쿠폰 포함) */
+         SELECT 
+         			 COUNT(1) CNT 
+      		FROM 
+      				 coupon_wallet cw 
+		      JOIN coupon_master m 
+		      	 ON m.cmcidx = cw.cwcidx AND m.cmusyn = 'Y' 
+		     WHERE 1=1 
+	            <![CDATA[
+		       AND ((cw.cwstcd='01' AND DATEDIFF(day, getdate(),m.cmipedt)>=0) 
+		       	  OR (cw.cwstcd = '10' AND DATEDIFF(d, getdate(), cw.cwepedt) >= 0)) 
+                ]]>
+		       AND cwmemcd = #{strLoginMEMCD} 
+    </select>
+
+    <select id="expireCouponCntAjax" parameterType="java.util.Map" resultType="java.util.Map">
+        /* 당월 만료예정 쿠폰 수 */
+       SELECT 
+       				COUNT(1) CNT 
+       	  FROM 
+       	  			coupon_wallet w 
+       	    JOIN coupon_master m 
+       	       ON w.cwcidx = m.cmcidx 
+       	      AND m.cmusyn = 'Y' 
+        WHERE 1=1 
+	        AND w.cwstcd IN ('10') 
+	        AND DATEDIFF(day, getdate(),w.cwepedt) >= 0 
+	        AND DATEPART(mm, getdate()) = DATEPART(mm,w.cwepedt) 
+	        AND cwmemcd = #{strLoginMEMCD} 
+    </select>
+
+</mapper>

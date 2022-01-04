@@ -1,13 +1,14 @@
 package com.x62life.mo.controller.login;
 
-import com.x62life.mo.common.constants.Constants62life;
-import com.x62life.mo.common.util.CookiesUtil;
-import com.x62life.mo.common.util.EncryptAES;
-import com.x62life.mo.common.util.TextUtil;
-import com.x62life.mo.model.login.LoginProcess;
-import com.x62life.mo.model.member.MbMaster;
-import com.x62life.mo.service.login.LoginService;
-import com.x62life.mo.service.member.MemberService;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import com.x62life.mo.common.constants.Constants62life;
+import com.x62life.mo.common.util.CookiesUtil;
+import com.x62life.mo.common.util.EncryptAES;
+import com.x62life.mo.common.util.TextUtil;
+import com.x62life.mo.model.login.LoginProcess;
+import com.x62life.mo.model.member.MbMaster;
+import com.x62life.mo.service.login.LoginService;
+import com.x62life.mo.service.member.MemberService;
 
 @Controller
 @RequestMapping(value = "/login")
@@ -79,22 +82,22 @@ public class LoginController {
 		String strLoginResult = (String) paramMap.get("loginresult");	// login 결과
 		String backurl = (String) paramMap.get("backurl");				// back url
 
-		//-----------------------------------------		
-		// Cookie (자동로그인) 있으면 > 자동로그인
-		//-----------------------------------------		
+		//--------------------------------------------		
+		// Cookie (자동로그인) 있으면 > 로그인 이동
+		//--------------------------------------------		
 		Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
 		String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
 	    if ("".equals(strLoginResult) && "Y".equals(autoLogin)){
 	    	model.addAttribute("usec",  "Y");
 	    	model.addAttribute("backurl",  backurl);
 	    	
-  		 	mv.setViewName("login/login");			// login 시, mypage 진입
+  		 	mv.setViewName("/login/login");			// login 시, mypage 진입
 	    	return mv;
 	    }
     	
-	    //-----------------------------------------		
-	    // Cookie (로그인 ID) 있으면  > 로그인폼
-	    //-----------------------------------------		
+	    //--------------------------------------------		
+	    // Cookie (로그인 ID) 있으면  > 복호화
+	    //--------------------------------------------		
     	Cookie userIdCookie = CookiesUtil.getCookie(request, "62userid");
     	String strUserId = userIdCookie == null ? "N" : userIdCookie.getValue();
 	    if (strUserId.length() > 30) {
@@ -102,11 +105,12 @@ public class LoginController {
 	    	model.addAttribute("strUserId",  strUserId);
 	    }
 	    		
-  		 mv.setViewName("login/loginForm");
+ 		mv.setViewName("/login/loginForm");
     		
   		return mv;
    }
 		
+	
 	/**
 	 * 로그인 폼 > 로그인 이동      
 	 * (session 로그인정보 있는 경우 / 없는 경우)
@@ -117,12 +121,14 @@ public class LoginController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/login")
-	public ModelAndView login(@RequestParam Map<String, Object> paramMap
+	@ResponseBody
+	public  Map<String, Object>  login(@RequestParam Map<String, Object> paramMap
 											, HttpServletRequest request
 											, HttpServletResponse response
 											, Model model) throws Exception {
 										
 		ModelAndView mv = new ModelAndView();
+		Map<String, Object> resultMap = new HashMap<>();
 		System.out.println("로그인 진입");
 	    
 		//--------------------
@@ -132,28 +138,48 @@ public class LoginController {
 		String backurl = (String) paramMap.get("backurl");				// back url
 		
 		String usec = (String) paramMap.get("usec");
+		String autologin = (String) paramMap.get("autologin") == "true" ? "on":"off";
+		
 		String strUserId = (String) paramMap.get("loginuserid");
 		String strPassword = (String) paramMap.get("loginpassword");
-		String autologin = (String) paramMap.get("autologin");
 		
+		if ("".equals(backurl)){
+			backurl = "/main";
+		}
+		
+		//-----------------------------------------------------
+		//  test
+		//-----------------------------------------------------		    
+    	if(true){
+    		//model.addAttribute("loginresult",  "LOCK");
+    		//model.addAttribute("backurl",  backurl);
+    		//mv.setViewName("/login/loginForm");
+    		
+    		resultMap.put("result", true);
+    		resultMap.put("loginresult",  "UPREQ");
+    		resultMap.put("backurl",  "/login/loginhold");
+    		
+    		return resultMap;	    		 
+    	}
+    	
 		//-----------------------------------------------------
 		// Cookie  (자동로그인)  있으면
 		//-----------------------------------------------------		
 		Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
 		String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
-	    if ("".equals(usec) && "Y".equals(autoLogin)){
+	    if ("Y".equals(usec) && "Y".equals(autoLogin)){
 	    	
-			// 비밀번호 o (암호화 풀기)
+			// 비밀번호 o (암호화 풀기)	
 			if (strPassword.length() > 30) {
 				strUserId = EncryptAES.Decrypt(strUserId, Constants62life.ENC_KEY_NAME);
 				strPassword = EncryptAES.Decrypt(strPassword, Constants62life.ENC_KEY_NAME);
 				
-			// 비밀번호 x 
+			// 자동로그인 초기화
 			} else {
 				CookiesUtil.setCookie(request, response, "62autologin", ""	, (30 * 60),"/", sCookieDomain);
 			}
 			
-			// 로그인정보 없으면, 자동로그인 기능 해제
+			// 로그인정보 없으면, 자동로그인 초기화
 			if ("".equals(strUserId) || "".equals(strPassword)) {
 				CookiesUtil.setCookie(request, response, "62autologin", ""	, (30 * 60),"/", sCookieDomain);
 			}
@@ -163,56 +189,72 @@ public class LoginController {
 		//  폼에서 넘어온, 로그인정보 없으면 > 다시 로그인폼
 		//-----------------------------------------------------		
 	    if ("".equals(strUserId) || "".equals(strPassword)) {
-	    	model.addAttribute("backurl",  backurl);
+	    	//model.addAttribute("backurl",  backurl);
+  		 	//mv.setViewName("/login/loginForm");
+	    	//return mv;
 	    	
-  		 	mv.setViewName("login/loginform");
-	    	return mv;
+    		resultMap.put("result", true);
+    		resultMap.put("backurl",  "/login/loginform");
+    		return resultMap;	    	    	
 	    }
 	    		
+	    // memstOut
 		//-----------------------------------------------------
 		// 회원정보
 		//-----------------------------------------------------
     	LoginProcess memberInfo = memberService.selectMemberInfo(paramMap);
 	    if(memberInfo != null) {
 	    	
-	    	String strRSMEMCD = memberInfo.getMemcd();  // 회원cd
-	    	String strMEMstcd = memberInfo.getMemstcd();  // 회원상태
-	    	String strRSIslocked = memberInfo.getIslocked(); //  잠김여부
-	    	String strRsPassYn = memberInfo.getPassyn(); //  비번여부 (비밀번호 실패횟수)
-	    	String strRSMEMID = memberInfo.getMemid(); //  
-	    	String strRSMEMNAME = memberInfo.getMemname(); //  
-	    	String strRSNickn = memberInfo.getNickn(); //  
-	    	String strRSIdUrl = memberInfo.getIdurl(); //  
-	    	String strRSMemLevel = memberInfo.getMemlevel(); //  
-	    	String strRSJobType = memberInfo.getJobtype(); //  
-	    	String strRSJobName = memberInfo.getJobname(); //  
-	    	String strRSIsblogger = memberInfo.getIsblogger(); //  
-	    	int strRSLogin_failed_count = memberInfo.getLoginFailedCount(); //  
+	    	String strRSMEMCD = memberInfo.getMemcd();  		   // 회원cd
+	    	String strMEMstcd = memberInfo.getMemstcd();  		   // 회원상태
+	    	String strRSIslocked = memberInfo.getIslocked(); 		   // 잠김여부
+	    	String strRsPassYn = memberInfo.getPassyn(); 			   // 비번여부 (비밀번호 실패횟수)
+	    	String strRSMEMID = memberInfo.getMemid(); 			   // 회원id
+	    	String strRSMEMNAME = memberInfo.getMemname(); // 회원명
+	    	String strRSNickn = memberInfo.getNickn(); 
+	    	String strRSIdUrl = memberInfo.getIdurl();  
+	    	String strRSMemLevel = memberInfo.getMemlevel();   
+	    	String strRSJobType = memberInfo.getJobtype(); 
+	    	String strRSJobName = memberInfo.getJobname();  
+	    	String strRSIsblogger = memberInfo.getIsblogger();  
+	    	int strRSLogin_failed_count = memberInfo.getLoginFailedCount();   
 	    	
 		    //-----------------------------------------------------		    
-		    // [승급요청] 고객의 경우, 접근보류/안내페이지로 이동
+		    // (로그인실패) 승급요청 회원  > 접근보류/안내페이지 이동
 		    //-----------------------------------------------------		    
 	    	if(strMEMstcd == Constants62life.MEMST_UPREQ) {
-	    		model.addAttribute("mode",  "UPREQ");
-	    		mv.setViewName("login/loginHold");
-	    		return mv;	    		 
+	    		//model.addAttribute("mode",  "UPREQ");
+	    		//mv.setViewName("login/loginHold");
+	    		//return mv;	    		 
+	    		
+	    		resultMap.put("result", true);
+	    		//resultMap.put("mode", "UPREQ");
+	    		resultMap.put("loginresult", "UPREQ");
+	    		resultMap.put("backurl",  "/login/loginhold");
+	    		return resultMap;	    		    		
 	    	}
 		    
 			//-----------------------------------------------------
-			// 잠김 회원
+			// (로그인실패) 잠김 회원
 			//-----------------------------------------------------		    
 	    	if("1".equals(strRSIslocked)){
-	    		model.addAttribute("loginresult",  "LOCK");
-	    		model.addAttribute("backurl",  backurl);
-	    		mv.setViewName("login/loginform");
-	    		return mv;	    		 
+	    		//model.addAttribute("loginresult",  "LOCK");
+	    		//model.addAttribute("backurl",  backurl);
+	    		//mv.setViewName("/login/loginForm");
+	    		//return mv;	    		 
+	    		
+	    		resultMap.put("result", true);
+	    		resultMap.put("loginresult",  "LOCK");
+	    		resultMap.put("backurl", "/main");
+	    		return resultMap;	   	    		
 	    	}
 		    
 			//-----------------------------------------------------
-			// 비밀번호 실패횟수 저장 
+			// (로그인실패) 비밀번호 실패
 			//-----------------------------------------------------		    
 	    	int lockAccount = 0;
 	    	if("N".equals(strRsPassYn)){
+	    		// 실패횟수 저장 
 	        	int upCnt = memberService.savePasswordFailCnt(paramMap);
 	        
 	        	if(!"1".equals(strRSIslocked) && strRSLogin_failed_count < Constants62life.FAILED_LOGIN_LIMIT-1 ){
@@ -221,10 +263,16 @@ public class LoginController {
 	        		lockAccount = 1;
 	        	}
 	            
-	    		model.addAttribute("loginresult",  "FAIL");
-	    		model.addAttribute("backurl",  backurl);
-	  		 	mv.setViewName("login/loginform");
-		    	return mv;	    		 
+	    		//model.addAttribute("loginresult",  "FAIL");
+	    		//model.addAttribute("backurl",  backurl);
+	  		 	//mv.setViewName("/login/loginForm");
+		    	//return mv;	    		 
+		    	
+	    		resultMap.put("result", true);
+	    		resultMap.put("loginresult",  "FAIL");
+	    		resultMap.put("backurl", "/login/loginform");
+	    		return resultMap;	   
+	    		
 	    	}
 	    	
 	    	//-----------------------------------------------------
@@ -245,20 +293,23 @@ public class LoginController {
 	    	//---------------------------------------------------------------------------
 	    	// session (회원CD /회원ID /회원명 /회원별명, 회원레벨 /잡유형 /잡명 /회원그룹명)
 	    	//---------------------------------------------------------------------------
-	        request.getSession().setAttribute("memcd", strRSMEMCD);
-	        request.getSession().setAttribute("memid62", strRSMEMID);
-	        request.getSession().setAttribute("memname62", strRSMEMNAME);
+	    	HttpSession session = request.getSession(); 
+	    	//세션 날리기 session.invalidate();
+	    		
+	        session.setAttribute("memcd", strRSMEMCD);
+	        session.setAttribute("memid62", strRSMEMID);
+	        session.setAttribute("memname62", strRSMEMNAME);
 	        
 	        if ("".equals(strRSNickn)) {
-	        	request.getSession().setAttribute("nickname62", strRSMEMNAME);
+	        	session.setAttribute("nickname62", strRSMEMNAME);
 	        	
 	        }else {
-	        	request.getSession().setAttribute("nickname62", strRSNickn);
+	        	session.setAttribute("nickname62", strRSNickn);
 	        }
-	        request.getSession().setAttribute("memlevel62", strRSMemLevel);
-	        request.getSession().setAttribute("jobtype62", strRSJobType);
-	        request.getSession().setAttribute("jobname62", strRSJobName);
-	        request.getSession().setAttribute("groupname", "group1");
+	        session.setAttribute("memlevel62", strRSMemLevel);
+	        session.setAttribute("jobtype62", strRSJobType);
+	        session.setAttribute("jobname62", strRSJobName);
+	        session.setAttribute("groupname", "group1");
 
 	    	//-----------------------------------------------------
 	    	// 로그인 정보저장
@@ -276,7 +327,7 @@ public class LoginController {
 			//-----------------------------------------------------
 			// 외부 연계접속(T-walk)이 있을 경우 연동정보 등록
 			//-----------------------------------------------------		  
-	    	String twalkPid = (String) request.getSession().getAttribute("twalk_pid");
+	    	String twalkPid = (String) session.getAttribute("twalk_pid");
 	    	if (!"".equals(twalkPid)) {
 	    		 // 외부 연계접속(T-walk 체크
 	    		 int twalkCnt = memberService.checkTwalkAccountInfo(paramMap);
@@ -320,23 +371,58 @@ public class LoginController {
 		    }
 		    
 		    if ("".equals(backurl)) {
-		    	model.addAttribute("usec",  "Y");
-		    	mv.setViewName("/main/main");
-		    	return mv;	    	
+		    	//model.addAttribute("usec",  "Y");
+		    	//mv.setViewName("/main/main");
+		    	//return mv;
+		    	
+	    		resultMap.put("result", true);
+	    		resultMap.put("usec",  "Y");
+	    		resultMap.put("backurl", "/main");		    	
 		    	
 		    } else {
-		    	model.addAttribute("backurl",  backurl);
-		    	mv.setViewName("login/loginform");
-		    	//	document.location.href = unescape('<%=backurl%>');
-		    	return mv;	    	
+		    	//model.addAttribute("backurl",  backurl);
+		    	//mv.setViewName("/login/loginForm");
+		    	////	document.location.href = unescape('<%=backurl%>');
+		    	//return mv;	    	
+		    	
+	    		resultMap.put("result", true);
+	    		resultMap.put("backurl", "/login/loginform");   	
 		    }
+    		return resultMap;	   		    
 		    
-	    } // 회원정보 있을때
+	    } // 회원정보 o
 	    	
-	    // 회원정보 없을때
-		mv.setViewName("/login/loginform");
-		return mv;	    	
+	    // 회원정보 x
+		//mv.setViewName("/login/loginForm");
+		//return mv;	    	
+		resultMap.put("result", true);
+		resultMap.put("backurl", "/login/loginform");   		
+		return resultMap;	   		    
    }
+	
+	/**
+	 * loginHold 이동
+	 * 
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+    @RequestMapping(value ="/loginhold", method = { RequestMethod.POST })	
+	public ModelAndView loginHold(@RequestParam Map<String, Object> paramMap
+			, HttpServletRequest request
+			, HttpServletResponse response
+			, Model model) throws Exception {
+		
+		ModelAndView mv = new ModelAndView();
+		System.out.println("loginHold 진입");
+		System.out.println("mode = " +  (String) paramMap.get("mode"));
+		
+		model.addAttribute("mode", (String) paramMap.get("mode"));
+		
+		mv.setViewName("/login/loginHold");
+		
+		return mv;
+	}
 	
 	/**
 	 * 아이디 찾기 
@@ -531,7 +617,7 @@ public class LoginController {
 //        request.setAttribute("referer", referer);
 //        request.getSession().setAttribute("referer", referer);
 //
-//   		 mv.setViewName("login/loginForm");
+//   		 mv.setViewName("/login/loginForm");
 //   		
 //   		return mv;
 //    }
@@ -760,11 +846,11 @@ public class LoginController {
 //                }*/
 //            } else {
 //                model.addAttribute("showMessage", "회원 정보가 올바르지 않아 메인으로 이동합니다.");
-//                return "login/login";
+//                return "/login/login";
 //            }
 //        } else {
 //            model.addAttribute("showMessage", "회원 정보가 올바르지 않아 메인으로 이동합니다.");
-//            return "login/login";
+//            return "/login/login";
 //        }
 //    }
 	
@@ -853,7 +939,7 @@ public class LoginController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/passwdchk")
+    @RequestMapping(value ="/passwdchk", method = { RequestMethod.POST })
     @ResponseBody
     public Map<String, Object>  passwdChk(@RequestParam Map<String, Object> paramMap
     															,HttpServletRequest request
