@@ -33,11 +33,11 @@ public class HomeController {
 //	}
 //	
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = {"/" , ""}, method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		 ModelAndView mv = new ModelAndView();
 		
-		return "redirect: /main";
+		return "redirect:/main";
 	}	
 	
 	
