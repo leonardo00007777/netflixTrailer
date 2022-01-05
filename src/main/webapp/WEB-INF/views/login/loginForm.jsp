@@ -15,18 +15,17 @@
 	String backurl = (String) request.getAttribute("backurl");
 	String refererx = request.getHeader("REFERER");
 
-	String strUserId = (String) request.getAttribute("loginuserid");
+	String strUserId = (String) request.getAttribute("strUserId");
 	String strPassword = (String) request.getAttribute("loginpassword");
 %>
-
+strUserId : ${strUserId}
  loginresult : <%= loginresult %>
  backurl : <%= backurl %>
  refererx : <%= refererx %>
-
  id : <%= strUserId %>
  pw : <%= strPassword %>
 
-
+				   		
 <body class="page-login header-float">
   <div class="site-container">
     <header class="local-header">

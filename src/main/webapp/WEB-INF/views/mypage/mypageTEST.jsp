@@ -5,13 +5,22 @@
 <%@ page session="false" %>
 
 <%
-	String _loginuserid = (String)request.getAttribute("loginuserid");
-	String _loginpassword = (String)request.getAttribute("loginpassword");
+	String id = (String)request.getAttribute("loginuserid");
 
 %>	
+<c:set var="pw2">${loginpassword}</c:set>
 
 <script type="text/javascript" charset="utf-8">
-	var _id  = '<%=_loginuserid%>';
+	
+	
+	var _id  = '<%=id%>';
+	alert("id = " + _id);
+
+	var _pw = "${loginpassword}";
+	alert("pw = " + _pw);
+	
+	var _pw2 =  '<c:out value="${pw2}" />'; 
+	alert("pw2 = " + _pw2);
 	
 </script>
 	
@@ -51,7 +60,7 @@
               <div class="icon-mem-lv lv-2"></div>
               <div class="content">
                 <div class="mem-sk">SK하이닉스</div>
-                <div class="mem-welcome"><b><%=_loginuserid%></b> 님, 건강한 하루 보내세요.</div>
+                <div class="mem-welcome"><b>박혜원</b>님 건강한 하루 보내세요.</div>
                 <div class="mem-accounts">
                   <i class="wn-icon sns-20-kko"></i>
                   <i class="wn-icon sns-20-nv"></i>

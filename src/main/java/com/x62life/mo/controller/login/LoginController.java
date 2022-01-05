@@ -83,16 +83,14 @@ public class LoginController {
 		String backurl = (String) paramMap.get("backurl");				// back url
 
 		//--------------------------------------------		
-		// Cookie (자동로그인) 있으면 > 로그인 이동
+		// Cookie (자동로그인) 있으면 > 로그인 
 		//--------------------------------------------		
 		Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
 		String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
 	    if ("".equals(strLoginResult) && "Y".equals(autoLogin)){
-	    	model.addAttribute("usec",  "Y");
-	    	model.addAttribute("backurl",  backurl);
-	    	
-  		 	mv.setViewName("/login/login");			// login 시, mypage 진입
-	    	return mv;
+	    	paramMap.put("usec",  "Y");
+  		 	
+  		 	login(paramMap, request, response);
 	    }
     	
 	    //--------------------------------------------		
@@ -112,7 +110,7 @@ public class LoginController {
 		
 	
 	/**
-	 * 로그인 폼 > 로그인 이동      
+	 * 로그인 
 	 * (session 로그인정보 있는 경우 / 없는 경우)
 	 * 
 	 * @param memberInfo
@@ -125,43 +123,47 @@ public class LoginController {
 	public  Map<String, Object>  login(@RequestParam Map<String, Object> paramMap
 											, HttpServletRequest request
 											, HttpServletResponse response
-											, Model model) throws Exception {
+											) throws Exception {
 										
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> resultMap = new HashMap<>();
 		System.out.println("로그인 진입");
 	    
 		//--------------------
-		// 폼에서 받은값
+		// 받은값
 		//---------------------		
-		String strLoginResult = (String) paramMap.get("loginresult");	// login 결과
-		String backurl = (String) paramMap.get("backurl");				// back url
-		
+		// login 결과
+		String strLoginResult = (String) paramMap.get("loginresult");	
+		String backurl = (String) paramMap.get("backurl");			
+		// 자동로그인 유무
 		String usec = (String) paramMap.get("usec");
 		String autologin = (String) paramMap.get("autologin") == "true" ? "on":"off";
-		
+		// 계정
 		String strUserId = (String) paramMap.get("loginuserid");
 		String strPassword = (String) paramMap.get("loginpassword");
 		
-		if ("".equals(backurl)){
+		if(TextUtil.isEmpty(backurl)){			
 			backurl = "/main";
 		}
 		
 		//-----------------------------------------------------
-		//  test
-		//-----------------------------------------------------		    
-    	if(true){
-    		//model.addAttribute("loginresult",  "LOCK");
-    		//model.addAttribute("backurl",  backurl);
-    		//mv.setViewName("/login/loginForm");
-    		
-    		resultMap.put("result", true);
-    		resultMap.put("loginresult",  "UPREQ");
-    		resultMap.put("backurl",  "/login/loginhold");
-    		
-    		return resultMap;	    		 
+		//  로그인 id,pw 없으면 >  로그인폼
+		//-----------------------------------------------------		
+    	if(TextUtil.isEmpty(strUserId) || TextUtil.isEmpty(strPassword)){
+    		 resultMap.put("result", true);
+    		 resultMap.put("backurl",  "/login/loginform");
+    		 return resultMap;	    	    	
     	}
-    	
+    	 
+	    //-----------------------------------------------------
+	    //  TEST    (id , pw 쿠키값 있는 조건)
+	    //-----------------------------------------------------		
+		/*
+		 * resultMap.put("result", true); resultMap.put("loginuserid", "testID");
+		 * resultMap.put("loginpassword", "testPW"); resultMap.put("backurl",
+		 * "/mypage");
+		 */
+		
 		//-----------------------------------------------------
 		// Cookie  (자동로그인)  있으면
 		//-----------------------------------------------------		
@@ -169,10 +171,24 @@ public class LoginController {
 		String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
 	    if ("Y".equals(usec) && "Y".equals(autoLogin)){
 	    	
-			// 비밀번호 o (암호화 풀기)	
-			if (strPassword.length() > 30) {
-				strUserId = EncryptAES.Decrypt(strUserId, Constants62life.ENC_KEY_NAME);
-				strPassword = EncryptAES.Decrypt(strPassword, Constants62life.ENC_KEY_NAME);
+	    	// id 쿠키값 
+	    	Cookie userIdCookie = CookiesUtil.getCookie(request, "62userid");
+	    	String sUserIdCookie = userIdCookie == null ? "N" : userIdCookie.getValue();
+	    	
+	    	// pw 쿠키값 
+	    	Cookie userPwCookie = CookiesUtil.getCookie(request, "62passwd");
+	    	String sUserPwCookie = userPwCookie == null ? "N" : userPwCookie.getValue();
+		  
+	    	// 쿠키값있으면  id, pw복호화 > 마이페이지
+	    	if (sUserIdCookie.length() > 30 && sUserPwCookie.length() > 30) { 
+	    		String sUserIdCookieDec = EncryptAES.Decrypt(sUserIdCookie, Constants62life.ENC_KEY_NAME);
+	    		String sUserPwCookieDec = EncryptAES.Decrypt(sUserPwCookie, Constants62life.ENC_KEY_NAME);
+
+	    		resultMap.put("result", true);
+	    		resultMap.put("loginuserid", sUserIdCookieDec);
+	    		resultMap.put("loginpassword", sUserPwCookieDec);
+	    		resultMap.put("backurl",  "/mypage");
+	    		return resultMap;	    
 				
 			// 자동로그인 초기화
 			} else {
@@ -185,22 +201,11 @@ public class LoginController {
 			}
 	    }
 		
-		//-----------------------------------------------------
-		//  폼에서 넘어온, 로그인정보 없으면 > 다시 로그인폼
-		//-----------------------------------------------------		
-	    if ("".equals(strUserId) || "".equals(strPassword)) {
-	    	//model.addAttribute("backurl",  backurl);
-  		 	//mv.setViewName("/login/loginForm");
-	    	//return mv;
-	    	
-    		resultMap.put("result", true);
-    		resultMap.put("backurl",  "/login/loginform");
-    		return resultMap;	    	    	
-	    }
 	    		
-	    // memstOut
+	    // 회원가입 상태 (00, 10 .. )
+	    paramMap.put("memstOut", "10");	
 		//-----------------------------------------------------
-		// 회원정보
+		// 로그인 회원정보
 		//-----------------------------------------------------
     	LoginProcess memberInfo = memberService.selectMemberInfo(paramMap);
 	    if(memberInfo != null) {
@@ -223,10 +228,6 @@ public class LoginController {
 		    // (로그인실패) 승급요청 회원  > 접근보류/안내페이지 이동
 		    //-----------------------------------------------------		    
 	    	if(strMEMstcd == Constants62life.MEMST_UPREQ) {
-	    		//model.addAttribute("mode",  "UPREQ");
-	    		//mv.setViewName("login/loginHold");
-	    		//return mv;	    		 
-	    		
 	    		resultMap.put("result", true);
 	    		//resultMap.put("mode", "UPREQ");
 	    		resultMap.put("loginresult", "UPREQ");
@@ -238,11 +239,6 @@ public class LoginController {
 			// (로그인실패) 잠김 회원
 			//-----------------------------------------------------		    
 	    	if("1".equals(strRSIslocked)){
-	    		//model.addAttribute("loginresult",  "LOCK");
-	    		//model.addAttribute("backurl",  backurl);
-	    		//mv.setViewName("/login/loginForm");
-	    		//return mv;	    		 
-	    		
 	    		resultMap.put("result", true);
 	    		resultMap.put("loginresult",  "LOCK");
 	    		resultMap.put("backurl", "/main");
@@ -263,16 +259,10 @@ public class LoginController {
 	        		lockAccount = 1;
 	        	}
 	            
-	    		//model.addAttribute("loginresult",  "FAIL");
-	    		//model.addAttribute("backurl",  backurl);
-	  		 	//mv.setViewName("/login/loginForm");
-		    	//return mv;	    		 
-		    	
 	    		resultMap.put("result", true);
 	    		resultMap.put("loginresult",  "FAIL");
 	    		resultMap.put("backurl", "/login/loginform");
 	    		return resultMap;	   
-	    		
 	    	}
 	    	
 	    	//-----------------------------------------------------
@@ -371,32 +361,23 @@ public class LoginController {
 		    }
 		    
 		    if ("".equals(backurl)) {
-		    	//model.addAttribute("usec",  "Y");
-		    	//mv.setViewName("/main/main");
-		    	//return mv;
-		    	
 	    		resultMap.put("result", true);
 	    		resultMap.put("usec",  "Y");
 	    		resultMap.put("backurl", "/main");		    	
 		    	
 		    } else {
-		    	//model.addAttribute("backurl",  backurl);
-		    	//mv.setViewName("/login/loginForm");
-		    	////	document.location.href = unescape('<%=backurl%>');
-		    	//return mv;	    	
-		    	
 	    		resultMap.put("result", true);
 	    		resultMap.put("backurl", "/login/loginform");   	
 		    }
     		return resultMap;	   		    
 		    
-	    } // 회원정보 o
-	    	
-	    // 회원정보 x
-		//mv.setViewName("/login/loginForm");
-		//return mv;	    	
-		resultMap.put("result", true);
-		resultMap.put("backurl", "/login/loginform");   		
+    	// 회원정보 o    		
+	    } else {
+	    	// 회원정보 x
+	    	resultMap.put("result", true);
+	    	resultMap.put("backurl", "/login/loginform");   		
+	    }
+		
 		return resultMap;	   		    
    }
 	

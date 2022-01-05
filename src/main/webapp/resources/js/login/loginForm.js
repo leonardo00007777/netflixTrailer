@@ -20,7 +20,7 @@ var loginForm = function() {
 	return {
 		init : function() {
 
-			// sessionStorage 체크
+			// sessionStorage 체크 (로그인 진행상태)
 			loginForm.initSessionStorage();
 			
 			// Autologin 체크
@@ -36,7 +36,9 @@ var loginForm = function() {
 			var isLoginStart = sessionStorage.getItem("loginStart");
 			var backurl = sessionStorage.getItem("backurl");
 			var loginresult =sessionStorage.getItem("loginresult");
-			
+			var loginuserid =sessionStorage.getItem("loginuserid");
+			var loginpassword =sessionStorage.getItem("loginpassword");
+
 			if(isLoginStart){
 				sessionStorage.removeItem("loginStart");
 				
@@ -45,7 +47,7 @@ var loginForm = function() {
 					// 결과 url로 화면이동(post)
 					if(loginresult == "UPREQ"){
 						// 승급의 경우, mode값 전달하여 이동	
-						common_link.goMappingUrl2(backurl, "mode", loginresult);
+						common_link.goMappingUrl1(backurl, "mode", loginresult);
 					}else {
 						common_link.goMappingUrl(backurl);
 					}
@@ -56,9 +58,9 @@ var loginForm = function() {
 					if (backurl == null || backurl == "" || backurl == undefined){
 						common_link.goMappingUrl("/main");
 					}
-					
+		    		
 					// mypage 이동
-					common_link.goMappingUrl("/mypage");
+					common_link.goMappingUrl2("/mypage", "loginuserid", loginuserid, "loginpassword", loginpassword);
 					
 				}
 			}
@@ -150,11 +152,11 @@ var loginForm = function() {
 			}
 			
 			// 로그인 session  X ,  로그인 start (cookie / session 처리)
+			var autologin = $("input:checkbox[id='autologin']").is(":checked") ;   // true/false
 	    	var id = $("#loginuserid").val();
 	    	var pw = $("#loginpassword").val();
 			var _url = "/login/login";
-			var autologin = $("input:checkbox[id='autologin']").is(":checked") ;   // true/false
-			var _param = { "id" :  id, "pw" : pw, "autologin": autologin};			
+			var _param = { "loginuserid" :  id, "loginpassword" : pw, "autologin": autologin};			
 			common_ajax.sendRequest("POST",  _url, _param, loginForm.loginStartCallback, false);
 		},
 		
@@ -165,6 +167,8 @@ var loginForm = function() {
 				sessionStorage.setItem("loginStart", true);
 				sessionStorage.setItem("loginresult", data.loginresult);
 				sessionStorage.setItem("backurl", data.backurl);
+				sessionStorage.setItem("loginuserid", data.loginuserid);
+				sessionStorage.setItem("loginpassword", data.loginpassword);
 				
 			//  로그인 처리(실패) session x	
 			}else{
@@ -207,7 +211,8 @@ var loginForm = function() {
 			
 			// 로그인 상태 아닌경우, 초기화
 			if(!common.isLogin()){
-				$("#loginuserid").val("");
+				//$("#loginuserid").val(""); 
+				$("#loginuserid").val("I0000021");  //test 
 				$("#loginpassword").val("");
 
 				$("#loginuserid").focus();	  

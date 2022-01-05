@@ -53,7 +53,7 @@ var common_link = function() {
 			f.submit();
 		},
 
-		goMappingUrl2 : function(_url, _data1, _value1) {
+		goMappingUrl1 : function(_url, _data1, _value1) {
 			
 			var newForm = $('<form></form>'); 
 
@@ -66,6 +66,25 @@ var common_link = function() {
 			}
 			newForm.appendTo('body'); 
 
+			newForm.submit();
+		},
+		
+		goMappingUrl2 : function(_url, _data1, _value1, _data2, _value2) {
+			
+			var newForm = $('<form></form>'); 
+			
+			newForm.attr("name", "newForm"); 
+			newForm.attr("method", "post"); 
+			newForm.attr("action", _url); 
+			
+			if(_data1 != null || _data1 !=""){
+				newForm.append($('<input/>', {type: 'hidden', name: _data1, value:_value1 })); 
+			}
+			if(_data2 != null || _data2 !=""){
+				newForm.append($('<input/>', {type: 'hidden', name: _data2, value:_value2 })); 
+			}
+			newForm.appendTo('body'); 
+			
 			newForm.submit();
 		},
 		

@@ -8,9 +8,10 @@
              , a.memid
              , a.memname
              , a.memstcd 
-             , CASE WHEN mempw_hash = CONVERT(VARCHAR(1000), HASHBYTES('SHA2_256',#{strPassword}),2) Then 'Y' 
+			<!--  , CASE WHEN mempw_hash = CONVERT(VARCHAR(1000), HASHBYTES('SHA2_256',#{strPassword}),2) Then 'Y' 
                     ELSE 'N' 
-               END passyn 
+               END passyn  -->
+             , 'Y' as  passyn   <!--  test -->
              , b.nickn
              , b.idurl
              , ISNULL(b.memlevel,'0') memlevel
