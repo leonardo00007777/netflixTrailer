@@ -36,7 +36,7 @@ public class CartController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/cartlist")
+	@RequestMapping("/mypage/cartlist")
 	public ModelAndView cartList(HttpServletRequest request, Map<String, Object> commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
@@ -44,11 +44,13 @@ public class CartController {
 
 		mv.addObject("commandMap", commandMap);
 
-		mv.setViewName("/cart/cartList");
+		mv.setViewName("/mypage/cart");
 
 		return mv;
 	}
-	
-	
-	    
+
+	@RequestMapping("/mypage/addCartAjax")
+	public void addCartAjax(Map<String, Object> paramMap) throws Exception {
+
+	}
 }

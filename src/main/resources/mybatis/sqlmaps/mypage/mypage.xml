@@ -143,5 +143,119 @@
 	        AND DATEPART(mm, getdate()) = DATEPART(mm,w.cwepedt) 
 	        AND cwmemcd = #{strLoginMEMCD} 
     </select>
+	
+	<select id="checkProdList" parameterType="java.util.Map" resultType="java.lang.String">
+		/* checkProdList 각 카테고리 별 존재하는 상품인지 검사*/
+		SELECT m.gdcd 
+		  FROM gd_master m 
+            LEFT JOIN gd_cnt c 
+                   ON m.gdcd = c.gdcd 
+           WHERE m.gdcd = #{strGDCD} 
+             AND m.useyn = 'Y'
+             <![CDATA[
+             AND ISNULL(c.gdcnt,99999) >= #{strGDCNT}
+		     ]]>
+	</select>
 
+	<select id="checkAlreadyCart" parameterType="java.util.Map" resultType="com.x62life.mo.model.order.ShoppingBasket">
+		/*'장바구니에 담겨있는 상품인지 아닌지 검사*/
+		SELECT crtidx
+		     , gdcnt
+		  FROM shopping_basket 
+           WHERE memcd = #{strLoginMemCd}
+             AND gdcd = #{strGDCD}
+             AND od_gubun = #{strCartODTYPE}
+	</select>
+
+	<insert id="addCart" parameterType="java.util.Map">
+        /*addCart '장바구니에 없는 상품이라면*/
+		INSERT INTO shopping_basket ( memcd
+		                            , crtidx
+		                            , gdcd
+		                            , gdcnt
+		                            , indt
+		                            , od_gubun
+		                            )
+		SELECT #{strLoginMemCd}
+		     , ISNULL(MAX(CRTIDX),0)+1
+		     , #{strGDCD}
+		     , #{strGDCNT}
+		     , GETDATE()
+		     , #{strCartODTYPE}
+		FROM shopping_basket
+		 WHERE memcd = #{strLoginMemCd}
+	</insert>
+	
+	<select id="checkReservedAndFast" parameterType="int" resultType="java.util.Map">
+		/*'장바구니에 있는 상품이라면 예약과 신속의 경우 Cart의 수량과 추가되는 수량이 제한 재고량내인지 확인*/
+		SELECT m.gdcd
+		     , ISNULL(c.gdcnt,99999) gdcnt
+		  FROM gd_master m 
+            LEFT JOIN gd_cnt c 
+                   ON m.gdcd = c.gdcd 
+           WHERE m.gdcd = #{strGDCD} 
+             AND m.useyn = 'Y'
+             AND ISNULL(c.gdcnt,99999) >= #{sumCnt}
+	</select>
+	
+	<update id="cartProdCntUpdate" parameterType="java.util.Map">
+        /*cartProdCntUpdate 장바구니 수량 수정*/
+		UPDATE shopping_basket 
+          SET gdcnt = #{prdCnt}
+            , indt = GETDATE()
+           WHERE memcd = #{strLoginMemCd}
+             AND crtidx = #{strCRTIDX}
+	</update>
+	
+	<select id="">
+		SELECT a.gdcd
+		     , a.gdcnt
+		     , a.od_gubun
+		     , ISNULL(d.gdcnt, 99999) cnt
+		 FROM shopping_basket a 
+           JOIN gd_master e 
+             ON a.gdcd = e.gdcd 
+           LEFT OUTER JOIN gd_cnt d 
+                        ON a.gdcd = d.gdcd 
+          WHERE a.memcd  = #{strLoginMemCD}
+            AND a.crtidx = #{strCRTIDX}
+	</select>
+	
+	<delete id="deleteProdOneFromCart" parameterType="java.util.Map">
+		DELETE FROM shopping_basket 
+		        WHERE memcd = #{strLoginMemCd} 
+		          AND crtidx = #{strCRTIDX}
+	</delete>
+	
+	<delete id="deleteProdOneFromOdCart" parameterType="java.util.Map">
+		DELETE FROM od_cart
+		        WHERE memcd = #{strLoginMemCd}
+		          AND crtidx = #{strCRTIDX}
+	</delete>
+
+	<delete id="deleteProdListFromCart" parameterType="java.util.Map">
+		DELETE FROM shopping_basket
+		        WHERE memcd = #{strLoginMemCd}
+                <foreach collection="arrCrtIdx" item="arrCrtIdx">
+					AND crtidx = #{arrCrtIdx}
+				</foreach>
+	</delete>
+
+	<delete id="deleteProdListFromOdCart" parameterType="java.util.Map">
+		DELETE FROM od_cart
+		        WHERE memcd = #{strLoginMemCd}
+		        <foreach collection="arrCrtIdx" item="arrCrtIdx">
+		          AND crtidx = #{arrCrtIdx}
+                </foreach>
+	</delete>
+
+	<delete id="clearAllProdFromCart" parameterType="java.util.Map">
+		DELETE FROM shopping_basket
+		        WHERE memcd = #{strLoginMemCd}
+	</delete>
+
+	<delete id="clearAllProdFormOdCart" parameterType="java.util.Map">
+		DELETE FROM od_cart
+		        WHERE memcd = #{strLoginMemCd}
+	</delete>
 </mapper>
