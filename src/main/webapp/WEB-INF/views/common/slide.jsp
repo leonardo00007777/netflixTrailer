@@ -968,7 +968,7 @@
         <footer class="wn-modal-footer">
           <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
           <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
-          <button class="button bt-l bt-green bt-rect"  onclick="location.href = 'WN_PB_MO_ORD_010101.html' ">장바구니</button>
+          <button class="button bt-l bt-green bt-rect"  onclick="location.href = '/mypage/cartlist' ">장바구니</button>
         </footer>
       </div>
     </div>
@@ -1016,7 +1016,7 @@
         <footer class="wn-modal-footer">
           <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
           <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
-          <button class="button bt-l bt-green bt-rect"  onclick="location.href = 'WN_PB_MO_ORD_010101.html' ">장바구니</button>
+          <button class="button bt-l bt-green bt-rect"  onclick="location.href = '/mypage/cartlist' ">장바구니</button>
         </footer>
       </div>
     </div>
@@ -1099,7 +1099,7 @@
             </div>
             <footer class="wn-modal-footer">
               <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
-              <button class="button bt-l bt-green bt-rect"  onclick="location.href = 'WN_PB_MO_ORD_010101.html' ">장바구니</button>
+              <button class="button bt-l bt-green bt-rect"  onclick="location.href = '/mypage/cartlist' ">장바구니</button>
             </footer>
           </div>
         </div>

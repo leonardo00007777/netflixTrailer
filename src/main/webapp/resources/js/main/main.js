@@ -824,3 +824,7 @@ function optionCheck(gdCd, option, check) {
 		}
 	});
 }
+
+function addCart(){
+
+}
