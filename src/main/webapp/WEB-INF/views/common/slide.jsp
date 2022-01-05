@@ -952,6 +952,7 @@
               <div class="content">
                 <div class="input-number">
                   <input type="hidden" value="" id="newPrdCnt"/>
+                  <input type="hidden" value="" id="newPrdGdcd"/>
                   <button class="dec" id="newPrdCartDec" value=""></button>
                   <input class="num" id="newPrdCartCnt" type="text" value="1" readonly>
                   <button class="inc" id="newPrdCartInc" value=""></button>
@@ -968,7 +969,7 @@
         <footer class="wn-modal-footer">
           <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
           <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
-          <button class="button bt-l bt-green bt-rect"  onclick="location.href = '/mypage/cartlist' ">장바구니</button>
+          <button class="button bt-l bt-green bt-rect"  onclick="addCart();">장바구니</button>
         </footer>
       </div>
     </div>

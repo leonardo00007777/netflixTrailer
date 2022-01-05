@@ -24,7 +24,7 @@ var gnbSub = function() {
 			
 			switch (_url) {
 				case "cart":
-					url = "/cartlist";
+					url = "/mypage/cartList";
 					break;
 					
 				case "alarm":

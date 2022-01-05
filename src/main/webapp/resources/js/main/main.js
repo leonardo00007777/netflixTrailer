@@ -648,6 +648,7 @@ function prodFilter(filterDivision){
 					                                                                        + "," + "'" + el.saleprice1 + "'"
 					                                                                        + "," + "'" + el.gdcnt + "'"
 					                                                                        + "," + "'" + division + "'"
+					                                                                        + "," + "'" + el.gdcd  + "'"
 					                                                                        + ');'
 					                                                             + 'optionCheck(' + "'" +el.gdcd + "'"
 					                                                                        + "," + "'" + el.optionp + "'"
@@ -746,13 +747,14 @@ function itemDetail(gdcd, strOdtype, strOdtype2, strGdtype, divcd, strItemOption
 		          + "&lastTitle=" + lastTitle + "&strItemDivCd=" + divcd + "&strItemOptionp=" + strItemOptionp);
 }
 
-function prdListCart(gdName, price, salePrice, gdCnt, checkPoint){
+function prdListCart(gdName, price, salePrice, gdCnt, checkPoint, gdCd){
 	if(checkPoint === 'newPrdList'){
 		$('#newPrdCartInc').removeClass("disabled");
 		$('#newPrdCartDec').addClass("disabled");
 		$('#newPrdCartCnt').val('1');
 		$('#newPrdCartGdNm').text(gdName);
 		$('#newPrdCnt').val(gdCnt);
+		$('#newPrdGdcd').val(gdCd);
 		if(price == salePrice){
 			price = price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 			$('#newPrdCartPrice').html( price + '<small>원</small>');
@@ -826,5 +828,14 @@ function optionCheck(gdCd, option, check) {
 }
 
 function addCart(){
+	var strGDCD = $('#newPrdGdcd').val();
+	var strGDCNT = $('#newPrdCartCnt').val();
 
+	$.ajax({
+		  url : "/mypage/addCartAjax"
+		, data : {
+			        "strGDCD" : strGDCD
+			      , "strGDCNT" : strGDCNT
+		         }
+	});
 }

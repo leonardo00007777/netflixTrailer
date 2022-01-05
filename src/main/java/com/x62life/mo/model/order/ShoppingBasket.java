@@ -12,6 +12,7 @@ public class ShoppingBasket {
     private String odGubun; //주문유형
     private int idxlink; //회원상품별카트일련번호
     private String freeze; //장바구니 잠금여부
+    private int cnt;
 
     public String getMemcd() {
         return memcd;
@@ -75,5 +76,13 @@ public class ShoppingBasket {
 
     public void setFreeze(String freeze) {
         this.freeze = freeze;
+    }
+
+    public int getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(int cnt) {
+        this.cnt = cnt;
     }
 }
