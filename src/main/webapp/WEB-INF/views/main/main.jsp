@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
 
 <div class="site-container">
-  <header class="global-header" id="global-header">
+  <header class="global-header" id="global-header" style="height: 0px;">
     <div class="global-header-wrap" id="sticky-header">
       <div class="global-top" id="global-top">
         <div class="header-logo-container">
@@ -19,7 +19,7 @@
             <i class="wn-icon wni-bell" onclick="$('#modalNotification').modal('show')">Notification</i>
             <span class="circle-badge"></span>
           </a>
-          <a href="javascript:void(0)" class="menu-item"  id="gnbBtnCart">>
+          <a href="javascript:void(0)" class="menu-item"  id="gnbBtnCart">
             <i class="wn-icon wni-cart">장바구니</i>
             <span class="num-badge">9</span>
           </a>
