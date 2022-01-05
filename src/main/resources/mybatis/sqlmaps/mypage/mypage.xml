@@ -221,19 +221,19 @@
             AND a.crtidx = #{strCRTIDX}
 	</select>
 	
-	<delete id="deleteProdOneFromCart">
+	<delete id="deleteProdOneFromCart" parameterType="java.util.Map">
 		DELETE FROM shopping_basket 
 		        WHERE memcd = #{strLoginMemCd} 
 		          AND crtidx = #{strCRTIDX}
 	</delete>
 	
-	<delete id="deleteProdOneFromOdCart">
+	<delete id="deleteProdOneFromOdCart" parameterType="java.util.Map">
 		DELETE FROM od_cart
 		        WHERE memcd = #{strLoginMemCd}
 		          AND crtidx = #{strCRTIDX}
 	</delete>
 
-	<delete id="deleteProdListFromCart">
+	<delete id="deleteProdListFromCart" parameterType="java.util.Map">
 		DELETE FROM shopping_basket
 		        WHERE memcd = #{strLoginMemCd}
                 <foreach collection="arrCrtIdx" item="arrCrtIdx">
@@ -241,11 +241,21 @@
 				</foreach>
 	</delete>
 
-	<delete id="deleteProdListFromOdCart">
+	<delete id="deleteProdListFromOdCart" parameterType="java.util.Map">
 		DELETE FROM od_cart
 		        WHERE memcd = #{strLoginMemCd}
 		        <foreach collection="arrCrtIdx" item="arrCrtIdx">
 		          AND crtidx = #{arrCrtIdx}
                 </foreach>
+	</delete>
+
+	<delete id="clearAllProdFromCart" parameterType="java.util.Map">
+		DELETE FROM shopping_basket
+		        WHERE memcd = #{strLoginMemCd}
+	</delete>
+
+	<delete id="clearAllProdFormOdCart" parameterType="java.util.Map">
+		DELETE FROM od_cart
+		        WHERE memcd = #{strLoginMemCd}
 	</delete>
 </mapper>
