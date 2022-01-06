@@ -212,7 +212,7 @@ var loginForm = function() {
 			// 로그인 상태 아닌경우, 초기화
 			if(!common.isLogin()){
 				//$("#loginuserid").val(""); 
-				$("#loginuserid").val("I0000021");  //test 
+				$("#loginuserid").val("I1008121");  //test 
 				$("#loginpassword").val("");
 
 				$("#loginuserid").focus();	  

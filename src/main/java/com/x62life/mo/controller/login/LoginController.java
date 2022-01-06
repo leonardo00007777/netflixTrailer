@@ -87,7 +87,7 @@ public class LoginController {
 		//--------------------------------------------		
 		Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
 		String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
-	    if ("".equals(strLoginResult) && "Y".equals(autoLogin)){
+	    if (TextUtil.isEmpty(strLoginResult) && "Y".equals(autoLogin)){
 	    	paramMap.put("usec",  "Y");
   		 	
   		 	login(paramMap, request, response);
@@ -127,6 +127,10 @@ public class LoginController {
 										
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> resultMap = new HashMap<>();
+		
+		String referer = request.getHeader("referer");
+		String ipx = request.getRemoteAddr();
+		String userAgent = request.getHeader("User-Agent");
 		System.out.println("로그인 진입");
 	    
 		//--------------------
@@ -196,7 +200,7 @@ public class LoginController {
 			}
 			
 			// 로그인정보 없으면, 자동로그인 초기화
-			if ("".equals(strUserId) || "".equals(strPassword)) {
+			if (TextUtil.isEmpty(strUserId) || TextUtil.isEmpty(strPassword)) {
 				CookiesUtil.setCookie(request, response, "62autologin", ""	, (30 * 60),"/", sCookieDomain);
 			}
 	    }
@@ -204,6 +208,8 @@ public class LoginController {
 	    		
 	    // 회원가입 상태 (00, 10 .. )
 	    paramMap.put("memstOut", "10");	
+	    paramMap.put("strUserId", strUserId);	
+	    paramMap.put("strPassword", strPassword);	
 		//-----------------------------------------------------
 		// 로그인 회원정보
 		//-----------------------------------------------------
@@ -268,7 +274,8 @@ public class LoginController {
 	    	//-----------------------------------------------------
 	    	// 장바구니 정리
 	    	//-----------------------------------------------------	
-	    	// 장바구니 삭제
+	    	// 장바구니 삭제 
+	    	paramMap.put("strRSMEMCD", strRSMEMCD);
 	    	int odCartDelCnt = memberService.deleteOdCart(paramMap);
 	    
 	    	// 장바구니 7일이 넘었거나 판매중지 상품 삭제
@@ -290,7 +297,7 @@ public class LoginController {
 	        session.setAttribute("memid62", strRSMEMID);
 	        session.setAttribute("memname62", strRSMEMNAME);
 	        
-	        if ("".equals(strRSNickn)) {
+	        if (TextUtil.isEmpty(strRSNickn)) {
 	        	session.setAttribute("nickname62", strRSMEMNAME);
 	        	
 	        }else {
@@ -310,16 +317,20 @@ public class LoginController {
 	    	if (loginInfoUpCnt < 1) {
 	    		int loginInfoInCnt = memberService.saveNotExistLoginInfo(paramMap);
 	    	}
-
+            
 	    	// 로그인 History 테이블 저장
+            paramMap.put("ipx", ipx);
+            paramMap.put("refererx", referer);
+            paramMap.put("userAgent", userAgent);
 	    	int loginHistoryInCnt = memberService.saveLoginHistory(paramMap);
 		    
 			//-----------------------------------------------------
 			// 외부 연계접속(T-walk)이 있을 경우 연동정보 등록
 			//-----------------------------------------------------		  
 	    	String twalkPid = (String) session.getAttribute("twalk_pid");
-	    	if (!"".equals(twalkPid)) {
+	    	if (!TextUtil.isEmpty(twalkPid)) {
 	    		 // 외부 연계접속(T-walk 체크
+	    		paramMap.put("pid", "1234567890");   // test 
 	    		 int twalkCnt = memberService.checkTwalkAccountInfo(paramMap);
 	    	
 	    		 if (twalkCnt < 1) {
@@ -338,6 +349,7 @@ public class LoginController {
 	    	if (pointGrantMap.size() > 0) {
 	    		// 포인트 권한적립
 	    		if (points > 0 ) {
+	    			paramMap.put("rsIdx", idx);  
 	    			int pointGrantUpCnt = memberService.pointGrantWithAuthority(paramMap);  
 	    		}
 	    	}
@@ -350,7 +362,7 @@ public class LoginController {
 		    // localStorage.setItem("memcd", "<%=strRSMEMCD%>");
 		    
 		    // 자동로그인 정보 저장 처리
-		    if ("on".equals(autologin) && !"".equals(strUserId) && !"".equals(strPassword)) {
+		    if ("on".equals(autologin) && !TextUtil.isEmpty(strUserId) && !TextUtil.isEmpty(strPassword)) {
 		    	
 		    	String encUserid = EncryptAES.Encrypt(strUserId, Constants62life.ENC_KEY_NAME);
 		    	String encPassword = EncryptAES.Encrypt(strPassword, Constants62life.ENC_KEY_NAME);
@@ -360,20 +372,19 @@ public class LoginController {
 		    	CookiesUtil.setCookie(request, response, "62autologin", "Y"	, (30 * 60),"/", sCookieDomain);
 		    }
 		    
-		    if ("".equals(backurl)) {
+		    if (TextUtil.isEmpty(backurl)) {
 	    		resultMap.put("result", true);
 	    		resultMap.put("usec",  "Y");
 	    		resultMap.put("backurl", "/main");		    	
 		    	
 		    } else {
 	    		resultMap.put("result", true);
-	    		resultMap.put("backurl", "/login/loginform");   	
+	    		resultMap.put("backurl", "/mypage");
 		    }
     		return resultMap;	   		    
 		    
-    	// 회원정보 o    		
+    	// 회원정보 X 		
 	    } else {
-	    	// 회원정보 x
 	    	resultMap.put("result", true);
 	    	resultMap.put("backurl", "/login/loginform");   		
 	    }
@@ -579,7 +590,7 @@ public class LoginController {
 //        //이전 페이지 주소 호출
 //        String referer = (String)request.getSession().getAttribute("redirectUrl");
 //
-//        if (referer == null || "".equals(referer)) {
+//        if (referer == null || TextUtil.isEmpty(referer)) {
 //            referer = RequestContext.getCurrent("baseUrl") + config.get("mainUrl");
 //        }
 //
@@ -621,9 +632,9 @@ public class LoginController {
 		//--------------------
 		/*
 		 * if (paramMap.getEmail_address() == null ||
-		 * "".equals(paramMap.getEmail_address()) ) { return null; }
+		 * TextUtil.isEmpty(paramMap.getEmail_address()) ) { return null; }
 		 * 
-		 * if (paramMap.getPassword() == null || "".equals(paramMap.getPassword()) ) {
+		 * if (paramMap.getPassword() == null || TextUtil.isEmpty(paramMap.getPassword()) ) {
 		 * return null; }
 		 */
     	
