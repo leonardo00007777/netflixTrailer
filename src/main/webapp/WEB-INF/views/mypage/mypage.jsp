@@ -7,14 +7,15 @@
 <%
 	String _loginuserid = (String)request.getAttribute("loginuserid");
 	String _loginpassword = (String)request.getAttribute("loginpassword");
+	String _loginUserNm = (String)request.getAttribute("loginUserNm");
 
 %>	
 
 <script type="text/javascript" charset="utf-8">
 	var _id  = '<%=_loginuserid%>';
+	var _loginUserNm  = '<%=_loginUserNm%>';
 	
 </script>
-	
 
 
 <body>

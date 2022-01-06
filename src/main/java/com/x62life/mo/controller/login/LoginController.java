@@ -207,7 +207,7 @@ public class LoginController {
 		
 	    		
 	    // 회원가입 상태 (00, 10 .. )
-	    paramMap.put("memstOut", "10");	
+	    paramMap.put("memstOut", "00");			// TEST 용
 	    paramMap.put("strUserId", strUserId);	
 	    paramMap.put("strPassword", strPassword);	
 		//-----------------------------------------------------
@@ -229,6 +229,9 @@ public class LoginController {
 	    	String strRSJobName = memberInfo.getJobname();  
 	    	String strRSIsblogger = memberInfo.getIsblogger();  
 	    	int strRSLogin_failed_count = memberInfo.getLoginFailedCount();   
+	    	
+	    	System.out.println("로그인 strRSMEMNAME=" + strRSMEMNAME);
+	    	System.out.println("로그인 strRSNickn=" + strRSNickn);
 	    	
 		    //-----------------------------------------------------		    
 		    // (로그인실패) 승급요청 회원  > 접근보류/안내페이지 이동
@@ -342,18 +345,20 @@ public class LoginController {
 		    // 	로그인 자동 포인트 부여 처리
 		    //-----------------------------------------------------			
 	    	Map<String, Object> pointGrantMap =  memberService.loginPointAutoGrant(paramMap);   
-	    	String idx = (String) pointGrantMap.get("idx");
-	    	String memo = (String) pointGrantMap.get("memo");
-	    	int points = (int) pointGrantMap.get("points");
-
-	    	if (pointGrantMap.size() > 0) {
-	    		// 포인트 권한적립
-	    		if (points > 0 ) {
-	    			paramMap.put("rsIdx", idx);  
-	    			int pointGrantUpCnt = memberService.pointGrantWithAuthority(paramMap);  
-	    		}
+	    	if(pointGrantMap != null) {
+		    	String idx = (String) pointGrantMap.get("idx");
+		    	String memo = (String) pointGrantMap.get("memo");
+		    	int points = (int) pointGrantMap.get("points");
+	
+		    	if (pointGrantMap.size() > 0) {
+		    		// 포인트 권한적립
+		    		if (points > 0 ) {
+		    			paramMap.put("rsIdx", idx);  
+		    			int pointGrantUpCnt = memberService.pointGrantWithAuthority(paramMap);  
+		    		}
+		    	}
 	    	}
-		    
+	    	
 		    //-----------------------------------------------------
 		    // 	자동로그인  /  id , pw  있을때  (자동로그인 정보저장) 
 		    //-----------------------------------------------------		
@@ -379,6 +384,8 @@ public class LoginController {
 		    	
 		    } else {
 	    		resultMap.put("result", true);
+	    		resultMap.put("loginuserid", strUserId);
+	    		resultMap.put("loginUserNm", strRSMEMNAME);
 	    		resultMap.put("backurl", "/mypage");
 		    }
     		return resultMap;	   		    
