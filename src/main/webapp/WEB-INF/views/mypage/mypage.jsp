@@ -2,25 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script src="<%=_jsUrl %>mypage/mypage.js"></script>
-<%
-	boolean _isLogin = false;
-	
-	HttpSession session = request.getSession(); 
-	if(session != null && session.getAttribute("isLogin") != null && !session.getAttribute("isLogin").equals("")){
-		_isLogin = true;
-	}
-	
-	String _sessionMemId = (String) request.getSession().getAttribute("memid");
-	String _sessionMemCd = (String) request.getSession().getAttribute("memcd");
-	String _sessionMemNm = (String) request.getSession().getAttribute("memname62");
-	String _sessionMemStcd = (String) request.getSession().getAttribute("memstcd");
-%>	
-<c:set var="_isLogin" value="<%=_isLogin %>" />
+<%@ include file="/WEB-INF/views/common/env.jsp"%>
+
+<c:set var="_isLoginYn" value="<%=_isLoginYn %>" />
 <c:choose>
-   		<c:when test="${_isLogin eq true}">
+   		<c:when test="${_isLoginYn eq true}">
 	   		<script>
-	   			alert("_islogin true ");
+	   			alert("_isLoginYn true ");
 	   		</script>
       	</c:when>
       	<c:otherwise>
@@ -28,6 +16,7 @@
       	</c:otherwise> 
 </c:choose>
 
+<script src="<%=_jsUrl %>mypage/mypage.js"></script>
 
 <body>
   <div class="site-container">
