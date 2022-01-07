@@ -41,7 +41,7 @@ public class MainController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/main")
+	@RequestMapping(value = {"/main", "", "/"})
 	public ModelAndView main(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
 		ModelAndView mv = new ModelAndView();
 

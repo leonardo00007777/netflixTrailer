@@ -34,7 +34,7 @@ var mainm = function() {
 			var url = "/cart";
 			switch (_url) {
 				case "cart":
-					url = "/cartlist";
+					url = "/mypage/cartList";
 					break;
 				default:
 					break;

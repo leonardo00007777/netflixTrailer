@@ -57,7 +57,7 @@ public class OdReserveGoodsEx extends OdReserveGoods{
     private String optionp;
     private String mpcode;
     private String alltimesale;
-    private int delpol;
+    private String delpol;
     private BigDecimal limamt;
     private BigDecimal delcharge;
     private String specifications;
@@ -482,11 +482,11 @@ public class OdReserveGoodsEx extends OdReserveGoods{
         this.alltimesale = alltimesale;
     }
 
-    public int getDelpol() {
+    public String getDelpol() {
         return delpol;
     }
 
-    public void setDelpol(int delpol) {
+    public void setDelpol(String delpol) {
         this.delpol = delpol;
     }
 
