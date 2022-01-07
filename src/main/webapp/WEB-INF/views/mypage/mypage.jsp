@@ -8,7 +8,7 @@
 <c:choose>
    		<c:when test="${_isLoginYn eq true}">
 	   		<script>
-	   			alert("_isLoginYn true ");
+	   			//alert("_isLoginYn true ");
 	   		</script>
       	</c:when>
       	<c:otherwise>
