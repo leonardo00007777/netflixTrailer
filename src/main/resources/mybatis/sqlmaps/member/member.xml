@@ -130,7 +130,7 @@
                       , #{ipx}
                       , #{refererx}
                       , 'M'
-                      , #{user_agent}
+                      , #{userAgent}
                       )
     </insert>
 
