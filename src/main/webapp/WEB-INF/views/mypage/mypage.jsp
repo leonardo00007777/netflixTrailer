@@ -2,10 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script src="<%=_jsUrl %>mypage/mypage.js"></script>
 <%
 	boolean _isLogin = false;
 	
-HttpSession session = request.getSession(); 
+	HttpSession session = request.getSession(); 
 	if(session != null && session.getAttribute("isLogin") != null && !session.getAttribute("isLogin").equals("")){
 		_isLogin = true;
 	}
@@ -15,17 +16,12 @@ HttpSession session = request.getSession();
 	String _sessionMemNm = (String) request.getSession().getAttribute("memname62");
 	String _sessionMemStcd = (String) request.getSession().getAttribute("memstcd");
 %>	
-
-<script>
-</script>
 <c:set var="_isLogin" value="<%=_isLogin %>" />
-
 <c:choose>
    		<c:when test="${_isLogin eq true}">
-   		<script>
-   		alert("_islogin true ");
-   		</script>
-   		
+	   		<script>
+	   			alert("_islogin true ");
+	   		</script>
       	</c:when>
       	<c:otherwise>
 			<%@ include file="/WEB-INF/views/member/joinMember.jsp" %>
