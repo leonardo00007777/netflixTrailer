@@ -10,7 +10,6 @@
 <%
 	//String currentLanguage = LocaleContextHolder.getLocale().getLanguage();
     //String loginresult = request.getParameter("loginresult"); 
-
 	String loginresult = (String) request.getAttribute("loginresult");
 	String backurl = (String) request.getAttribute("backurl");
 	String refererx = request.getHeader("REFERER");
@@ -18,12 +17,6 @@
 	String strUserId = (String) request.getAttribute("strUserId");
 	String strPassword = (String) request.getAttribute("loginpassword");
 %>
-strUserId : ${strUserId}
- loginresult : <%= loginresult %>
- backurl : <%= backurl %>
- refererx : <%= refererx %>
- id : <%= strUserId %>
- pw : <%= strPassword %>
 
 				   		
 <body class="page-login header-float">

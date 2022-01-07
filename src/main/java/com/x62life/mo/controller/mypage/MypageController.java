@@ -37,41 +37,58 @@ public class MypageController
      * @throws Exception
      */
     @RequestMapping(value="/mypage")
-	public ModelAndView mypage(@RequestParam Map<String, Object> paramMap, Model model) throws Exception{
+	public ModelAndView mypage(@RequestParam Map<String, Object> paramMap
+												, HttpServletRequest request
+												, HttpServletResponse response
+												, Model model) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		
 		logger.info("/mypage");
-		paramMap.put("member", null);
-	    paramMap.put("memstOut", "10");	// 회원상태
 	    
-		//-----------------------------------------------------
-		// 로그인 회원정보
-		//-----------------------------------------------------
-    	LoginProcess memberInfo = memberService.selectMemberInfo(paramMap);
-	    if(memberInfo != null) {
-	    	
-	    	String strRSMEMCD = memberInfo.getMemcd();  		   // 회원cd
-	    	String strMEMstcd = memberInfo.getMemstcd();  		   // 회원상태
-	    	String strRSIslocked = memberInfo.getIslocked(); 		   // 잠김여부
-	    	String strRsPassYn = memberInfo.getPassyn(); 			   // 비번여부 (비밀번호 실패횟수)
-	    	String strRSMEMID = memberInfo.getMemid(); 			   // 회원id
-	    	String strRSMEMNAME = memberInfo.getMemname(); // 회원명
-	    	String strRSNickn = memberInfo.getNickn(); 
-	    	String strRSIdUrl = memberInfo.getIdurl();  
-	    	String strRSMemLevel = memberInfo.getMemlevel();   
-	    	String strRSJobType = memberInfo.getJobtype(); 
-	    	String strRSJobName = memberInfo.getJobname();  
-	    	String strRSIsblogger = memberInfo.getIsblogger();  
-	    	int strRSLogin_failed_count = memberInfo.getLoginFailedCount();   
-	    	
-	    	
-	    }
-	    	
+		// 세션 o
+		HttpSession session = request.getSession(); 
+		if(session != null && session.getAttribute("isLogin") != null && !session.getAttribute("isLogin").equals("")){
+			String sessionMemid =  (String) request.getSession().getAttribute("memid62");
+			String sessionMemcd =  (String) request.getSession().getAttribute("memcd");
+			String sessionMemstcd =  (String) request.getSession().getAttribute("memstcd");
+			
+			//-----------------------------------------------------
+			// 로그인 회원정보
+			//-----------------------------------------------------
+			paramMap.put("strUserId", sessionMemid);	
+			paramMap.put("strRSMEMCD", sessionMemcd);	
+			paramMap.put("memstOut",  "00");			//TEST "00"	
+			paramMap.put("strPassword", "");	
+			
+	    	LoginProcess memberInfo = memberService.selectMemberInfo(paramMap);
+		    if(memberInfo != null) {
+		    	
+		    	String strRSMEMCD = memberInfo.getMemcd();  		   // 회원cd
+		    	String strMEMstcd = memberInfo.getMemstcd();  		   // 회원상태
+		    	String strRSIslocked = memberInfo.getIslocked(); 		   // 잠김여부
+		    	String strRsPassYn = memberInfo.getPassyn(); 			   // 비번여부 (비밀번호 실패횟수)
+		    	String strRSMEMID = memberInfo.getMemid(); 			   // 회원id
+		    	String strRSMEMNAME = memberInfo.getMemname(); // 회원명
+		    	String strRSNickn = memberInfo.getNickn(); 
+		    	String strRSIdUrl = memberInfo.getIdurl();  
+		    	String strRSMemLevel = memberInfo.getMemlevel();   
+		    	String strRSJobType = memberInfo.getJobtype(); 
+		    	String strRSJobName = memberInfo.getJobname();  
+		    	String strRSIsblogger = memberInfo.getIsblogger();  
+		    	int strRSLogin_failed_count = memberInfo.getLoginFailedCount();   
+		    	
+		    	model.addAttribute("loginuserid", strRSMEMID);
+		    	model.addAttribute("loginUserNm", strRSMEMNAME);
 
-		model.addAttribute("loginuserid", (String) paramMap.get("loginuserid"));
-		model.addAttribute("loginpassword", (String) paramMap.get("loginpassword"));
-		
-		mv.setViewName("/mypage/mypage");
+		    	mv.setViewName("/mypage/mypage");
+		    	
+		    }else {
+		    	mv.setViewName("/login/loginForm");   		
+		    }
+
+		// 세션 x
+		}else{
+			mv.setViewName("/login/loginForm");   		
+		}
 
 		return mv;
     }

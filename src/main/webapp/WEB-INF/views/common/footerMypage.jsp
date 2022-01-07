@@ -14,7 +14,7 @@
 			</c:if>
 ---------------------------------------------------------------- --%>
 
-<c:set var="_isLogin" value="false"> </c:set>
+<c:set var="_isLogin" value="true"> </c:set>
 
 
 <c:choose>
