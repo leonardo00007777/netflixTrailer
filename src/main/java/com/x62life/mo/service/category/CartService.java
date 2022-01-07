@@ -9,8 +9,6 @@ import java.util.Map;
 public interface CartService {
     List<ShoppingBasketEx> cartProdList(Map<String, Object> paramMap);
 
-    List<String> cartCategory(Map<String, Object> paramMap);
-
     Map<String,Object> cartListTotalAmount(Map<String, Object> paramMap);
 
     String checkProdCategory(Map<String, Object> paramMap);

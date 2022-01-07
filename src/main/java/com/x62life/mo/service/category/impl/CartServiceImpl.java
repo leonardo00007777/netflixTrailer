@@ -21,23 +21,6 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public List<String> cartCategory(Map<String, Object> paramMap){
-		List<ShoppingBasketEx> cartProdList = cartDao.cartProdList(paramMap);
-
-		List<String> cartCategory = new ArrayList<>();
-
-		LinkedHashSet<String> titleSet = new LinkedHashSet();
-
-		for(ShoppingBasketEx shoppingBasketEx : cartProdList){
-			titleSet.add(shoppingBasketEx.getScode());
-		}
-
-		cartCategory.addAll(titleSet);
-
-		return cartCategory;
-	}
-
-	@Override
 	public Map<String,Object> cartListTotalAmount(Map<String, Object> paramMap){
 		return cartDao.cartListTotalAmount(paramMap);
 	}

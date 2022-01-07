@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp" %>
-
+<c:set value="" var="title"/>
 <div class="site-container">
   <header class="local-header">
     <div class="fixed-top">
@@ -46,91 +46,97 @@
             4가지 <a href="javascript:void(0)" onclick="$('#popDeliveryCase').modal('show')">배송유형</a>에 맞춰 17개 상품이 담겨있습니다.
           </div>
         </header>
-        <c:forEach items="${cartCategory}" var="cartCate" varStatus="i">
-          <section class="cart-group cart-group-cat fold-section open">
+        <section class="cart-group cart-group-cat fold-section open">
+        <c:forEach items="${cartProdList}" var="cartPrd" varStatus="i">
+          <c:set value="${cartProdList[i.index - 1].scode}" var="scodePrev"/>
+          <c:set value="${cartProdList[i.index + 1].scode}" var="scodeNext"/>
           <!-- 배송 유형 그룹: 자연배송 -->
-            <header class="cart-group-header">
-              <div class="wrapper c-top-trigger">
-                <div class="top-row">
-                  <div class="tit">
-                    <label class="checkbox">
-                      <input type="checkbox" onclick="cartCheckBox(this.checked(), '${cartPrd.scode}');">
-                      <div class="label">
-                        <c:forEach items="${cartProdList}" var="cartTitle">
-                          <c:if test="${cartTitle.scode eq cartCate}">
-                            ${cartTitle.sname}
-                          </c:if>
-                          <c:if test="${empty cartCate}">
-                            자연이랑
-                          </c:if>
-                        </c:forEach>
-                      </div>
-                    </label>
-                  </div>
-                  <div class="right">
-                    <div class="content">3</div>
-                    <button class="btn-toggle fold-button"><i class="wn-icon chevron-v-18 fold-icon"></i></button>
-                  </div>
-                </div>
-                <div class="bottom-row">
-                  <div class="progress-bar xsmall" data-percent="71">
-                  </div>
-                  <div class="text add-r">
-                    <div class="content"><em class="t-brown">29,000원</em> 추가 시 배송비 절약</div>
-                    <div class="add">
-                      <a href="#" class="btn-add">
-                        <i class="icon-math plus"></i>
-                        <b>배송비 절약 상품담기</b>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </header>
-        </c:forEach>
-          <div class="fold-open-show">
-            <section class="cart-item-list">
-              <article class="cart-item">
-                <label class="checkbox">
-                  <input type="checkbox" id="check_${cartPrd.scode}">
-                  <span class="label"></span>
-                </label>
-                <div class="cart-item-content">
-                  <div class="prd-thumb">
-                    <div class="img-container">
-                      <a href="#" class="prd-img thumb-7">
-                        <img src="<%=_imgUrl %>images/uploads/${cartPrd.gdimg}" alt="${cartPrd.gdname}">
-                      </a>
-                      <div class="label-bottom sand">추가할인</div>
-                    </div>
-                    <div class="detail">
-                      <div class="tit-wrap">
-                        <div class="tit single-line">${cartPrd.gdname}</div>
-                        <button class="btn-remove">
-                          <i class="wn-icon x-16 gray"></i>
-                        </button>
-                      </div>
-                      <footer class="prd-thumb-footer">
-                        <div class="price-wrap">
-                          <div class="price-org"><fmt:formatNumber value="${cartPrd.origprice}" pattern="#,###" /></div>
-                          <div class="price-format price-18">
-                            <fmt:formatNumber value="${cartPrd.origprice}" pattern="#,###" /><small>원</small>
-                          </div>
+            <c:if test="${cartPrd.scode ne scodePrev}">
+              <header class="cart-group-header">
+                <div class="wrapper c-top-trigger">
+                  <div class="top-row">
+                    <div class="tit">
+                      <label class="checkbox">
+                        <input type="checkbox" onclick="cartCheckBox(this.checked(), '${cartPrd.scode}');">
+                        <div class="label">
+                          <span>
+                            <c:choose>
+                              <c:when test="${empty cartPrd.sname}">
+                                자연이랑
+                              </c:when>
+                              <c:otherwise>
+                                ${cartPrd.sname}
+                              </c:otherwise>
+                            </c:choose>
+                          </span>
                         </div>
-                        <div class="right">
-                          <div class="input-number">
-                            <button class="dec"></button>
-                            <input class="num" type="text" value="1" readonly="">
-                            <button class="inc"></button>
-                          </div>
-                        </div>
-                      </footer>
+                      </label>
+                    </div>
+                    <div class="right">
+                      <div class="content">3</div>
+                      <button class="btn-toggle fold-button"><i class="wn-icon chevron-v-18 fold-icon"></i></button>
+                    </div>
+                  </div>
+                  <div class="bottom-row">
+                    <div class="progress-bar xsmall" data-percent="71">
+                    </div>
+                    <div class="text add-r">
+                      <div class="content"><em class="t-brown">29,000원</em> 추가 시 배송비 절약</div>
+                      <div class="add">
+                        <a href="#" class="btn-add">
+                          <i class="icon-math plus"></i>
+                          <b>배송비 절약 상품담기</b>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </article>
-            </section>
-          </div>
+              </header>
+            </c:if>
+            <div class="fold-open-show">
+              <section class="cart-item-list">
+                <article class="cart-item">
+                  <label class="checkbox">
+                    <input type="checkbox" id="check_${cartPrd.scode}">
+                    <span class="label"></span>
+                  </label>
+                  <div class="cart-item-content">
+                    <div class="prd-thumb">
+                      <div class="img-container">
+                        <a href="#" class="prd-img thumb-7">
+                          <img src="<%=_imgUrl %>images/uploads/${cartPrd.gdimg}" alt="${cartPrd.gdname}">
+                        </a>
+                        <div class="label-bottom sand">추가할인</div>
+                      </div>
+                      <div class="detail">
+                        <div class="tit-wrap">
+                          <div class="tit single-line">${cartPrd.gdname}</div>
+                          <button class="btn-remove">
+                            <i class="wn-icon x-16 gray"></i>
+                          </button>
+                        </div>
+                        <footer class="prd-thumb-footer">
+                          <div class="price-wrap">
+                            <div class="price-org"><fmt:formatNumber value="${cartPrd.origprice}" pattern="#,###" /></div>
+                            <div class="price-format price-18">
+                              <fmt:formatNumber value="${cartPrd.origprice}" pattern="#,###" /><small>원</small>
+                            </div>
+                          </div>
+                          <div class="right">
+                            <div class="input-number">
+                              <button class="dec"></button>
+                              <input class="num" type="text" value="1" readonly="">
+                              <button class="inc"></button>
+                            </div>
+                          </div>
+                        </footer>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </section>
+            </div>
+          <c:if test="${cartPrd.scode ne scodeNext}">
           <footer class="cart-group-footer">
             <div class="cart-group-total-box">
               <div class="cell">
@@ -167,10 +173,10 @@
             </div>
             <div class="c-bottom-trigger"></div>
           </footer>
-          </section>
-
+          </c:if>
+        </c:forEach>
+        </section>
         <hr class="spacer">
-
         <section class="cart-total">
           <div class="content-center">
             <div class="label-content-justify">
@@ -205,9 +211,7 @@
             </div>
           </div>
         </section>
-
         <hr class="spacer-bottom">
-
         <div class="button-footer-fixed">
           <a href="WN_PB_MO_ORD_020101.html" class="button bt-l bt-rect bt-green">52,000원 결제하기</a>
         </div>

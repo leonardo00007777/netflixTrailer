@@ -53,10 +53,6 @@ public class CartController {
 
 		model.addAttribute("cartProdList", cartProdList);
 
-		List<String> cartCategory = cartService.cartCategory(paramMap);
-
-		model.addAttribute("cartCategory", cartCategory);
-
 		Map<String,Object> cartListTotalAmount = cartService.cartListTotalAmount(paramMap);
 		model.addAttribute("cartListTotalAmount", cartListTotalAmount);
 
