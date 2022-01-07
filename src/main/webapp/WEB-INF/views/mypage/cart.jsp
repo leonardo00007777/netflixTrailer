@@ -3,12 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
+<%@ include file="/WEB-INF/views/common/env.jsp" %>
 
 <div class="site-container">
   <header class="local-header">
     <div class="fixed-top">
       <div class="local-top">
-        <a href="#" class="btn-prev"><i class="wn-icon wni-arrow-left"></i></a>
+        <a href="javascript:void(0);" onclick="history.back();" class="btn-prev"><i class="wn-icon wni-arrow-left"></i></a>
         <div class="h-row">
           <div class="h-col h-tit">
             <h1 class="page-tit text-center">장바구니</h1>
@@ -45,64 +46,75 @@
             4가지 <a href="javascript:void(0)" onclick="$('#popDeliveryCase').modal('show')">배송유형</a>에 맞춰 17개 상품이 담겨있습니다.
           </div>
         </header>
-        <!-- 배송 유형 그룹: 자연배송 -->
-        <section class="cart-group cart-group-cat fold-section open">
-          <header class="cart-group-header">
-            <div class="wrapper c-top-trigger">
-              <div class="top-row">
-                <div class="tit">
-                  <label class="checkbox">
-                    <input type="checkbox">
-                    <div class="label">
-                      <span>자연배송상품</span>
+        <c:forEach items="${cartCategory}" var="cartCate" varStatus="i">
+          <section class="cart-group cart-group-cat fold-section open">
+          <!-- 배송 유형 그룹: 자연배송 -->
+            <header class="cart-group-header">
+              <div class="wrapper c-top-trigger">
+                <div class="top-row">
+                  <div class="tit">
+                    <label class="checkbox">
+                      <input type="checkbox" onclick="cartCheckBox(this.checked(), '${cartPrd.scode}');">
+                      <div class="label">
+                        <c:forEach items="${cartProdList}" var="cartTitle">
+                          <c:if test="${cartTitle.scode eq cartCate}">
+                            ${cartTitle.sname}
+                          </c:if>
+                          <c:if test="${empty cartCate}">
+                            자연이랑
+                          </c:if>
+                        </c:forEach>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="right">
+                    <div class="content">3</div>
+                    <button class="btn-toggle fold-button"><i class="wn-icon chevron-v-18 fold-icon"></i></button>
+                  </div>
+                </div>
+                <div class="bottom-row">
+                  <div class="progress-bar xsmall" data-percent="71">
+                  </div>
+                  <div class="text add-r">
+                    <div class="content"><em class="t-brown">29,000원</em> 추가 시 배송비 절약</div>
+                    <div class="add">
+                      <a href="#" class="btn-add">
+                        <i class="icon-math plus"></i>
+                        <b>배송비 절약 상품담기</b>
+                      </a>
                     </div>
-                  </label>
-                </div>
-                <div class="right">
-                  <div class="content">3</div>
-                  <button class="btn-toggle fold-button"><i class="wn-icon chevron-v-18 fold-icon"></i></button>
-                </div>
-              </div>
-              <div class="bottom-row">
-                <div class="progress-bar xsmall" data-percent="71">
-                </div>
-                <div class="text add-r">
-                  <div class="content"><em class="t-brown">29,000원</em> 추가 시 배송비 절약</div>
-                  <div class="add">
-                    <a href="#" class="btn-add">
-                      <i class="icon-math plus"></i>
-                      <b>배송비 절약 상품담기</b>
-                    </a>
                   </div>
                 </div>
               </div>
-            </div>
-          </header>
+            </header>
+        </c:forEach>
           <div class="fold-open-show">
             <section class="cart-item-list">
               <article class="cart-item">
                 <label class="checkbox">
-                  <input type="checkbox">
+                  <input type="checkbox" id="check_${cartPrd.scode}">
                   <span class="label"></span>
                 </label>
                 <div class="cart-item-content">
                   <div class="prd-thumb">
                     <div class="img-container">
                       <a href="#" class="prd-img thumb-7">
-                        <img src="./images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
+                        <img src="<%=_imgUrl %>images/uploads/${cartPrd.gdimg}" alt="${cartPrd.gdname}">
                       </a>
                       <div class="label-bottom sand">추가할인</div>
                     </div>
                     <div class="detail">
                       <div class="tit-wrap">
-                        <div class="tit single-line">심야포차국수(얼큰한맛) 한줄로만 한줄로만 한줄로만</div>
-                        <button class="btn-remove"><i class="wn-icon x-16 gray"></i></button>
+                        <div class="tit single-line">${cartPrd.gdname}</div>
+                        <button class="btn-remove">
+                          <i class="wn-icon x-16 gray"></i>
+                        </button>
                       </div>
                       <footer class="prd-thumb-footer">
                         <div class="price-wrap">
-                          <div class="price-org">15,000원</div>
+                          <div class="price-org"><fmt:formatNumber value="${cartPrd.origprice}" pattern="#,###" /></div>
                           <div class="price-format price-18">
-                            10,000<small>원</small>
+                            <fmt:formatNumber value="${cartPrd.origprice}" pattern="#,###" /><small>원</small>
                           </div>
                         </div>
                         <div class="right">
@@ -111,72 +123,6 @@
                             <input class="num" type="text" value="1" readonly="">
                             <button class="inc"></button>
                           </div>
-                        </div>
-                      </footer>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <article class="cart-item">
-                <label class="checkbox">
-                  <input type="checkbox">
-                  <span class="label"></span>
-                </label>
-                <div class="cart-item-content">
-                  <div class="prd-thumb sold-out">
-                    <div class="img-container">
-                      <a href="#" class="prd-img thumb-7">
-                        <img src="./images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
-                      </a>
-                      <div class="sold-out"><span class="label">판매종료</span></div>
-                    </div>
-                    <div class="detail">
-                      <div class="tit-wrap">
-                        <div class="tit single-line">심야포차국수(얼큰한맛) 한줄로만 한줄로만 한줄로만</div>
-                        <button class="btn-remove"><i class="wn-icon x-16 gray"></i></button>
-                      </div>
-                      <footer class="prd-thumb-footer">
-                        <div class="price-wrap">
-                          <div class="price-org">15,000원</div>
-                          <div class="price-format price-18">
-                            10,000<small>원</small>
-                          </div>
-                        </div>
-                        <div class="right">
-                          <button class="button bt-xs bt-outline bt-steel">같은 카테고리 상품 보기</button>
-                        </div>
-                      </footer>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <article class="cart-item">
-                <label class="checkbox">
-                  <input type="checkbox">
-                  <span class="label"></span>
-                </label>
-                <div class="cart-item-content">
-                  <div class="prd-thumb">
-                    <div class="img-container">
-                      <a href="#" class="prd-img thumb-7">
-                        <img src="./images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
-                      </a>
-                      <div class="sold-out"><span class="label">일시품절</span></div>
-                    </div>
-                    <div class="detail">
-                      <div class="tit-wrap">
-                        <div class="tit single-line">심야포차국수(얼큰한맛) 한줄로만 한줄로만 한줄로만</div>
-                        <button class="btn-remove"><i class="wn-icon x-16 gray"></i></button>
-                      </div>
-                      <footer class="prd-thumb-footer">
-                        <div class="price-wrap">
-                          <div class="price-org">15,000원</div>
-                          <div class="price-format price-18">
-                            10,000<small>원</small>
-                          </div>
-                        </div>
-                        <div class="right">
-                          <button class="button bt-xs bt-yellow">재입고 알림</button>
                         </div>
                       </footer>
                     </div>
@@ -221,237 +167,7 @@
             </div>
             <div class="c-bottom-trigger"></div>
           </footer>
-        </section>
-
-        <hr class="spacer">
-
-        <!-- 배송 유형 그룹: 업체배송 -->
-        <section class="cart-group cart-group-cat fold-section">
-          <header class="cart-group-header">
-            <div class="wrapper c-top-trigger">
-              <div class="top-row">
-                <div class="tit">
-                  <label class="checkbox">
-                    <input type="checkbox">
-                    <div class="label">
-                      <span>농업회사 법인 자연두레 농업회사 법인 자연두레</span>
-                    </div>
-                  </label>
-                  <div class="tag t-yellow">업체직송</div>
-                </div>
-                <div class="right">
-                  <div class="content">3</div>
-                  <button class="btn-toggle fold-button"><i class="wn-icon chevron-v-18 fold-icon"></i></button>
-                </div>
-              </div>
-              <div class="bottom-row">
-                <div class="progress-bar xsmall" data-percent="71">
-                </div>
-                <div class="text add-r">
-                  <div class="content"><em class="t-brown">29,000원</em> 추가 시 배송비 절약</div>
-                  <div class="add">
-                    <a href="#" class="btn-add">
-                      <i class="icon-math plus"></i>
-                      <b>배송비 절약 상품담기</b>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </header>
-          <div class="fold-open-show">
-            <section class="cart-item-list">
-              <article class="cart-item">
-                <label class="checkbox">
-                  <input type="checkbox">
-                  <span class="label"></span>
-                </label>
-                <div class="cart-item-content">
-                  <div class="prd-thumb">
-                    <div class="img-container">
-                      <a href="#" class="prd-img thumb-7">
-                        <img src="./images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
-                      </a>
-                      <div class="label-bottom sand">추가할인</div>
-                    </div>
-                    <div class="detail">
-                      <div class="tit-wrap">
-                        <div class="tit single-line">심야포차국수(얼큰한맛) 한줄로만 한줄로만 한줄로만</div>
-                        <button class="btn-remove"><i class="wn-icon x-16 gray"></i></button>
-                      </div>
-                      <footer class="prd-thumb-footer">
-                        <div class="price-wrap">
-                          <div class="price-org">15,000원</div>
-                          <div class="price-format price-18">
-                            10,000<small>원</small>
-                          </div>
-                        </div>
-                        <div class="right">
-                          <div class="input-number">
-                            <button class="dec"></button>
-                            <input class="num" type="text" value="1" readonly="">
-                            <button class="inc"></button>
-                          </div>
-                        </div>
-                      </footer>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </section>
-          </div>
-          <footer class="cart-group-footer">
-            <div class="cart-group-total-box">
-              <div class="cell">
-                <div class="t-price t-price-14">119,000<small>원</small></div>
-                <div class="label">상품금액 </div>
-              </div>
-              <div class="cell">
-                <i class="icon-math minus"></i>
-              </div>
-              <div class="cell">
-                <div class="t-price t-price-14">8,000<small>원</small></div>
-                <div class="label">할인금액</div>
-              </div>
-              <div class="cell">
-                <i class="icon-math plus"></i>
-              </div>
-              <div class="cell">
-                <div class="t-price t-price-14">3,000<small>원</small></div>
-                <div class="label">배송비</div>
-              </div>
-              <div class="cell">
-                <i class="icon-math equal"></i>
-              </div>
-              <div class="cell">
-                <div class="t-price t-price-14">200,000<small>원</small></div>
-                <div class="label">주문합계</div>
-              </div>
-            </div>
-            <div class="bottom-row">
-              <a href="#" class="btn-add">
-                <i class="icon-math plus"></i>
-                <b>배송비 절약 상품담기</b>
-              </a>
-            </div>
-            <div class="c-bottom-trigger"></div>
-          </footer>
-        </section>
-
-        <hr class="spacer">
-
-        <!-- 배송 유형 그룹: 업체배송 -->
-        <section class="cart-group cart-group-cat fold-section">
-          <header class="cart-group-header">
-            <div class="wrapper c-top-trigger">
-              <div class="top-row">
-                <div class="tit">
-                  <label class="checkbox">
-                    <input type="checkbox">
-                    <div class="label">
-                      <span>(주)대디스팜</span>
-                    </div>
-                  </label>
-                  <div class="tag t-yellow">업체직송</div>
-                </div>
-                <div class="right">
-                  <div class="content">6</div>
-                  <button class="btn-toggle fold-button"><i class="wn-icon chevron-v-18 fold-icon"></i></button>
-                </div>
-              </div>
-              <div class="bottom-row">
-                <div class="progress-bar xsmall" data-percent="71">
-                </div>
-                <div class="text add-r">
-                  <div class="content"><em class="t-brown">29,000원</em> 추가 시 배송비 절약</div>
-                  <div class="add">
-                    <a href="#" class="btn-add">
-                      <i class="icon-math plus"></i>
-                      <b>배송비 절약 상품담기</b>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </header>
-          <div class="fold-open-show">
-            <section class="cart-item-list">
-              <article class="cart-item">
-                <label class="checkbox">
-                  <input type="checkbox">
-                  <span class="label"></span>
-                </label>
-                <div class="cart-item-content">
-                  <div class="prd-thumb">
-                    <div class="img-container">
-                      <a href="#" class="prd-img thumb-7">
-                        <img src="./images/uploads/prd-img-03.jpg" alt="심야포차국수(얼큰한맛)">
-                      </a>
-                      <div class="label-bottom sand">추가할인</div>
-                    </div>
-                    <div class="detail">
-                      <div class="tit-wrap">
-                        <div class="tit single-line">심야포차국수(얼큰한맛) 한줄로만 한줄로만 한줄로만</div>
-                        <button class="btn-remove"><i class="wn-icon x-16 gray"></i></button>
-                      </div>
-                      <footer class="prd-thumb-footer">
-                        <div class="price-wrap">
-                          <div class="price-org">15,000원</div>
-                          <div class="price-format price-18">
-                            10,000<small>원</small>
-                          </div>
-                        </div>
-                        <div class="right">
-                          <div class="input-number">
-                            <button class="dec"></button>
-                            <input class="num" type="text" value="1" readonly="">
-                            <button class="inc"></button>
-                          </div>
-                        </div>
-                      </footer>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </section>
-          </div>
-          <footer class="cart-group-footer">
-            <div class="cart-group-total-box">
-              <div class="cell">
-                <div class="t-price t-price-14">119,000<small>원</small></div>
-                <div class="label">상품금액 </div>
-              </div>
-              <div class="cell">
-                <i class="icon-math minus"></i>
-              </div>
-              <div class="cell">
-                <div class="t-price t-price-14">8,000<small>원</small></div>
-                <div class="label">할인금액</div>
-              </div>
-              <div class="cell">
-                <i class="icon-math plus"></i>
-              </div>
-              <div class="cell">
-                <div class="t-price t-price-14">3,000<small>원</small></div>
-                <div class="label">배송비</div>
-              </div>
-              <div class="cell">
-                <i class="icon-math equal"></i>
-              </div>
-              <div class="cell">
-                <div class="t-price t-price-14">200,000<small>원</small></div>
-                <div class="label">주문합계</div>
-              </div>
-            </div>
-            <div class="bottom-row">
-              <a href="#" class="btn-add">
-                <i class="icon-math plus"></i>
-                <b>배송비 절약 상품담기</b>
-              </a>
-            </div>
-            <div class="c-bottom-trigger"></div>
-          </footer>
-        </section>
+          </section>
 
         <hr class="spacer">
 

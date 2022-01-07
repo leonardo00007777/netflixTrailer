@@ -3,6 +3,7 @@ package com.x62life.mo.model.order;
 import com.x62life.mo.model.product.GdMaster;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class ShoppingBasketEx extends GdMaster {
     private String odtype;
@@ -43,7 +44,7 @@ public class ShoppingBasketEx extends GdMaster {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = price.setScale(0, RoundingMode.DOWN);
     }
 
     public int getGdcnt() {
@@ -59,7 +60,7 @@ public class ShoppingBasketEx extends GdMaster {
     }
 
     public void setTsales(BigDecimal tsales) {
-        this.tsales = tsales;
+        this.tsales = tsales.setScale(0, RoundingMode.DOWN);
     }
 
     public int getLimitgdcnt() {
@@ -115,7 +116,7 @@ public class ShoppingBasketEx extends GdMaster {
     }
 
     public void setOrigprice(BigDecimal origprice) {
-        this.origprice = origprice;
+        this.origprice = origprice.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getOrigtotal() {
@@ -123,7 +124,7 @@ public class ShoppingBasketEx extends GdMaster {
     }
 
     public void setOrigtotal(BigDecimal origtotal) {
-        this.origtotal = origtotal;
+        this.origtotal = origtotal.setScale(0, RoundingMode.DOWN);
     }
 
     public String getDelpol() {
@@ -139,7 +140,7 @@ public class ShoppingBasketEx extends GdMaster {
     }
 
     public void setLimamt(BigDecimal limamt) {
-        this.limamt = limamt;
+        this.limamt = limamt.setScale(0, RoundingMode.DOWN);
     }
 
     public BigDecimal getDelcharge() {
@@ -147,6 +148,6 @@ public class ShoppingBasketEx extends GdMaster {
     }
 
     public void setDelcharge(BigDecimal delcharge) {
-        this.delcharge = delcharge;
+        this.delcharge = delcharge.setScale(0, RoundingMode.DOWN);
     }
 }

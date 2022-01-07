@@ -7,8 +7,7 @@ import com.x62life.mo.service.category.CartService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("cartService")
 public class CartServiceImpl implements CartService {
@@ -20,6 +19,24 @@ public class CartServiceImpl implements CartService {
 	public List<ShoppingBasketEx> cartProdList(Map<String, Object> paramMap){
 		return cartDao.cartProdList(paramMap);
 	}
+
+	@Override
+	public List<String> cartCategory(Map<String, Object> paramMap){
+		List<ShoppingBasketEx> cartProdList = cartDao.cartProdList(paramMap);
+
+		List<String> cartCategory = new ArrayList<>();
+
+		LinkedHashSet<String> titleSet = new LinkedHashSet();
+
+		for(ShoppingBasketEx shoppingBasketEx : cartProdList){
+			titleSet.add(shoppingBasketEx.getScode());
+		}
+
+		cartCategory.addAll(titleSet);
+
+		return cartCategory;
+	}
+
 	@Override
 	public Map<String,Object> cartListTotalAmount(Map<String, Object> paramMap){
 		return cartDao.cartListTotalAmount(paramMap);

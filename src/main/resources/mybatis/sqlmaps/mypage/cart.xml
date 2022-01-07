@@ -201,14 +201,14 @@
 		 WHERE memcd = #{strLoginMemCd}
 	</insert>
 	
-	<select id="checkReservedAndFast" parameterType="int" resultType="java.util.Map">
+	<select id="checkReservedAndFast" parameterType="java.util.Map" resultType="java.util.Map">
 		/*'장바구니에 있는 상품이라면 예약과 신속의 경우 Cart의 수량과 추가되는 수량이 제한 재고량내인지 확인*/
 		SELECT m.gdcd
 		     , ISNULL(c.gdcnt,99999) gdcnt
 		  FROM gd_master m 
             LEFT JOIN gd_cnt c 
                    ON m.gdcd = c.gdcd 
-           WHERE m.gdcd = #{strGDCD} 
+           WHERE m.gdcd = #{strGDCD}
              AND m.useyn = 'Y'
              AND ISNULL(c.gdcnt,99999) >= #{sumCnt}
 	</select>
@@ -217,7 +217,7 @@
 	<update id="cartProdCntUpdate" parameterType="java.util.Map">
         /*cartProdCntUpdate 장바구니 수량 수정*/
 		UPDATE shopping_basket 
-          SET gdcnt = #{prdCnt}
+          SET gdcnt = #{sumCnt}
             , indt = GETDATE()
            WHERE memcd = #{strLoginMemCd}
              AND crtidx = #{strCRTIDX}

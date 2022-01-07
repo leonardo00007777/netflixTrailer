@@ -774,6 +774,7 @@ function prdListCart(gdName, price, salePrice, gdCnt, checkPoint, gdCd){
 		$('#dcPrdCartCnt').val('1');
 		$('#dcPrdCartGdNm').text(gdName);
 		$('#dcPrdCnt').val(gdCnt);
+		$('#dcPrdGdcd').val(gdCd);
 		if(price == salePrice){
 			price = price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 			$('#dcPrdCartPrice').html( price + '<small>원</small>');
@@ -827,10 +828,17 @@ function optionCheck(gdCd, option, check) {
 	});
 }
 
-function addCart(){
-	var strGDCD = $('#newPrdGdcd').val();
-	var strGDCNT = $('#newPrdCartCnt').val();
+function addCart(division){
+	var strGDCD = '';
+	var strGDCNT = '';
 
+	if(division == 'newPrd'){
+		strGDCD = $('#newPrdGdcd').val();
+		strGDCNT =  $('#newPrdCartCnt').val();
+	} else if(division == 'dcPrd'){
+		strGDCD = $('#dcPrdGdcd').val();
+		strGDCNT =  $('#dcPrdCartCnt').val();
+	}
 	$.ajax({
 		  url : "/mypage/addCartAjax"
 		, data : {

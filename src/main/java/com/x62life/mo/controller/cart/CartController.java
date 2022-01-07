@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 @Controller
 public class CartController {
@@ -50,9 +48,14 @@ public class CartController {
 	@RequestMapping("/mypage/cartList")
 	public ModelAndView cartList(@RequestParam Map<String, Object> paramMap, Model model) throws Exception {
 		ModelAndView mv = new ModelAndView();
-
+		paramMap.put("strLoginMemCd", "develop");
 		List<ShoppingBasketEx> cartProdList = cartService.cartProdList(paramMap);
+
 		model.addAttribute("cartProdList", cartProdList);
+
+		List<String> cartCategory = cartService.cartCategory(paramMap);
+
+		model.addAttribute("cartCategory", cartCategory);
 
 		Map<String,Object> cartListTotalAmount = cartService.cartListTotalAmount(paramMap);
 		model.addAttribute("cartListTotalAmount", cartListTotalAmount);
@@ -83,16 +86,14 @@ public class CartController {
 
 				for(ShoppingBasket shoppingBasket : checkAlreadyCart) {
 					sumCnt = shoppingBasket.getGdcnt() + Integer.parseInt(paramMap.get("strGDCNT").toString());
+					paramMap.put("strCRTIDX", shoppingBasket.getCrtidx());
+					paramMap.put("sumCnt", sumCnt);
+
+					Map<String, Object> checkReservedAndFast = cartService.checkReservedAndFast(paramMap);
+					if(checkReservedAndFast != null && !checkReservedAndFast.isEmpty()){
+						cartService.cartProdCntUpdate(paramMap);
+					}
 				}
-
-				paramMap.put("sumCnt",sumCnt);
-
-				Map<String, Object> checkReservedAndFast = cartService.checkReservedAndFast(paramMap);
-
-				if(checkReservedAndFast != null && !checkReservedAndFast.isEmpty()){
-					cartService.cartProdCntUpdate(paramMap);
-				}
-
 			} else {
 				cartService.addCart(paramMap);
 			}
