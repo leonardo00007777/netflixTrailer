@@ -25,9 +25,9 @@
               <a href="javascript:void(0)" class="menu-item toggle-point-show" onclick="$('#modalSNS').modal('show')">
                 <i class="wn-icon wni-share">공유</i>
               </a>
-              <a href="WN_PB_MO_ORD_010101.html" class="menu-item">
+              <a href="javascript:void(0)" class="menu-item" id="gnbBtnCart">
                 <i class="wn-icon wni-cart">장바구니</i>
-                <!-- <span class="num-badge">0</span> -->
+                <span class="num-badge">9</span>
               </a>
             </div>
           </div>
