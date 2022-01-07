@@ -81,29 +81,36 @@ public class LoginController {
 		//---------------------------		
 		String strLoginResult = (String) paramMap.get("loginresult");	// login 결과
 		String backurl = (String) paramMap.get("backurl");				// back url
+		
+		// 세션 o
+		HttpSession session = request.getSession(); 
+		if(session != null && session.getAttribute("isLogin") != null && !session.getAttribute("isLogin").equals("")){
+			mv.setViewName("/mypage/mypage");
 
-		//--------------------------------------------		
-		// Cookie (자동로그인) 있으면 > 로그인 
-		//--------------------------------------------		
-		Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
-		String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
-	    if (TextUtil.isEmpty(strLoginResult) && "Y".equals(autoLogin)){
-	    	paramMap.put("usec",  "Y");
-  		 	
-  		 	login(paramMap, request, response);
-	    }
-    	
-	    //--------------------------------------------		
-	    // Cookie (로그인 ID) 있으면  > 복호화
-	    //--------------------------------------------		
-    	Cookie userIdCookie = CookiesUtil.getCookie(request, "62userid");
-    	String strUserId = userIdCookie == null ? "N" : userIdCookie.getValue();
-	    if (strUserId.length() > 30) {
-	    	strUserId = EncryptAES.Decrypt(strUserId, Constants62life.ENC_KEY_NAME);
-	    	model.addAttribute("strUserId",  strUserId);
-	    }
-	    		
- 		mv.setViewName("/login/loginForm");
+		// 세션 x
+		}else{
+			//--------------------------------------------		
+			// Cookie (자동로그인) 있으면 > 로그인 
+			//--------------------------------------------		
+			Cookie autoLoginCookie = CookiesUtil.getCookie(request, "62autologin");
+			String autoLogin = autoLoginCookie == null ? "N" : autoLoginCookie.getValue();
+			if (TextUtil.isEmpty(strLoginResult) && "Y".equals(autoLogin)){
+				paramMap.put("usec",  "Y");
+				
+				login(paramMap, request, response);
+			}
+			
+			//--------------------------------------------		
+			// Cookie (로그인 ID) 있으면  > 복호화
+			//--------------------------------------------		
+			Cookie userIdCookie = CookiesUtil.getCookie(request, "62userid");
+			String strUserId = userIdCookie == null ? "N" : userIdCookie.getValue();
+			if (strUserId.length() > 30) {
+				strUserId = EncryptAES.Decrypt(strUserId, Constants62life.ENC_KEY_NAME);
+				model.addAttribute("strUserId",  strUserId);
+			}
+			mv.setViewName("/login/loginForm");
+		}
     		
   		return mv;
    }
@@ -216,11 +223,11 @@ public class LoginController {
     	LoginProcess memberInfo = memberService.selectMemberInfo(paramMap);
 	    if(memberInfo != null) {
 	    	
+	    	String strRSMEMID = memberInfo.getMemid(); 			   // 회원id
 	    	String strRSMEMCD = memberInfo.getMemcd();  		   // 회원cd
 	    	String strMEMstcd = memberInfo.getMemstcd();  		   // 회원상태
 	    	String strRSIslocked = memberInfo.getIslocked(); 		   // 잠김여부
 	    	String strRsPassYn = memberInfo.getPassyn(); 			   // 비번여부 (비밀번호 실패횟수)
-	    	String strRSMEMID = memberInfo.getMemid(); 			   // 회원id
 	    	String strRSMEMNAME = memberInfo.getMemname(); // 회원명
 	    	String strRSNickn = memberInfo.getNickn(); 
 	    	String strRSIdUrl = memberInfo.getIdurl();  
@@ -299,6 +306,7 @@ public class LoginController {
 	        session.setAttribute("memcd", strRSMEMCD);
 	        session.setAttribute("memid62", strRSMEMID);
 	        session.setAttribute("memname62", strRSMEMNAME);
+	        session.setAttribute("memstcd", strMEMstcd);
 	        
 	        if (TextUtil.isEmpty(strRSNickn)) {
 	        	session.setAttribute("nickname62", strRSMEMNAME);
@@ -310,6 +318,7 @@ public class LoginController {
 	        session.setAttribute("jobtype62", strRSJobType);
 	        session.setAttribute("jobname62", strRSJobName);
 	        session.setAttribute("groupname", "group1");
+	        session.setAttribute("isLogin", true);
 
 	    	//-----------------------------------------------------
 	    	// 로그인 정보저장
@@ -918,14 +927,13 @@ public class LoginController {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("result", true);
         
-        MbMaster sessionMember = (MbMaster) request.getSession().getAttribute("sessionMember");
+        String isLogin = (String) request.getSession().getAttribute("isLogin");
 
-        if (sessionMember == null || !sessionMember.getIsLoggedIn()) {
+        if(TextUtil.isEmpty(isLogin)) {
         	resultMap.put("result", false);
         	resultMap.put("url", loginFormUrl);
-
-            return resultMap;
         }
+        
         return resultMap;
     }
 	

@@ -2,26 +2,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page session="false" %>
+<%@ include file="/WEB-INF/views/common/env.jsp"%>
 
-<%
-	String _loginuserid = (String)request.getAttribute("loginuserid");
-	String _loginpassword = (String)request.getAttribute("loginpassword");
-	String _loginUserNm = (String)request.getAttribute("loginUserNm");
+<c:set var="_isLoginYn" value="<%=_isLoginYn %>" />
+<c:choose>
+   		<c:when test="${_isLoginYn eq true}">
+	   		<script>
+	   			//alert("_isLoginYn true ");
+	   		</script>
+      	</c:when>
+      	<c:otherwise>
+			<%@ include file="/WEB-INF/views/member/joinMember.jsp" %>
+      	</c:otherwise> 
+</c:choose>
 
-%>	
-
-<script type="text/javascript" charset="utf-8">
-	var _id  = '<%=_loginuserid%>';
-	var _loginUserNm  = '<%=_loginUserNm%>';
-	
-</script>
-
+<script src="<%=_jsUrl %>mypage/mypage.js"></script>
 
 <body>
-  <div style="position: absolute; top: 12%; left: 12%; right: 12%; bottom:52%; background: rgba(255, 0, 0, 0.3); color: #F23045; font-size: 2.2rem; z-index: 999; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 700;">
-    디자인 수정중
-  </div>
   <div class="site-container">
     <header class="local-header">
       <div class="fixed-top">
@@ -52,7 +49,7 @@
               <div class="icon-mem-lv lv-2"></div>
               <div class="content">
                 <div class="mem-sk">SK하이닉스</div>
-                <div class="mem-welcome"><b><%=_loginuserid%></b> 님, 건강한 하루 보내세요.</div>
+                <div class="mem-welcome"><b><%=_sessionMemNm %></b> 님, 건강한 하루 보내세요.</div>
                 <div class="mem-accounts">
                   <i class="wn-icon sns-20-kko"></i>
                   <i class="wn-icon sns-20-nv"></i>
