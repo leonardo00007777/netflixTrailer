@@ -969,11 +969,20 @@
         <footer class="wn-modal-footer">
           <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
           <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
-          <button class="button bt-l bt-green bt-rect"  onclick="addCart('newPrd');">장바구니</button>
+          <button class="button bt-l bt-green bt-rect"  onclick="addCart('newPrd'); cartToastMsg('newPrdList');">장바구니</button>
         </footer>
       </div>
     </div>
   </div>
+  <section class="wn-toast-container">
+    <div class="wn-toast-wrapper cart"><!-- 장바구니용 간격 cart 추가 -->
+      <div class="toast wn-toast fade hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" id="newPrdListToastAutoClose">
+        <div class="toast-body">
+          <span>장바구니에 상품을 담았습니다.</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <!-- Modal - Buy Option <discountProdList> -->
@@ -1018,11 +1027,20 @@
         <footer class="wn-modal-footer">
           <button class="button bt-l bt-white gray-7 bt-rect" onclick="location.href = '' ">정기배송 신청</button>
           <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
-          <button class="button bt-l bt-green bt-rect"  onclick="addCart('dcPrd');">장바구니</button>
+          <button class="button bt-l bt-green bt-rect"  onclick="addCart('dcPrd'); cartToastMsg('dcPrdList');">장바구니</button>
         </footer>
       </div>
     </div>
   </div>
+  <section class="wn-toast-container">
+    <div class="wn-toast-wrapper cart"><!-- 장바구니용 간격 cart 추가 -->
+      <div class="toast wn-toast fade hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" id="dcPrdListToastAutoClose">
+        <div class="toast-body">
+          <span>장바구니에 상품을 담았습니다.</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
   
   <!-- Modal - Buy Option -->
@@ -1053,6 +1071,7 @@
                   <div class="label" id="dtlGdName">${itemDetail.gdname}</div>
                   <div class="content">
                     <div class="input-number" id="inputNumber">
+                      <input type="hidden" value="${itemDetail.gdcd}" id="dtlGdcd"/>
                       <input type="hidden" value="${itemDetail.gdcnt}" id="dtlCnt"/>
                       <c:choose>
                         <c:when test="${itemDetail.price1 eq itemDetail.saleprice}">
@@ -1062,7 +1081,7 @@
                           <button class="dec" id="dtlCartDec" value="${itemDetail.saleprice}"></button>
                         </c:otherwise>
                       </c:choose>
-                      <input class="num" id="itemNum" type="text" value="1" readonly>
+                      <input class="num" id="dtlPrdCartCnt" type="text" value="1" readonly>
                       <c:choose>
                         <c:when test="${itemDetail.price1 eq itemDetail.saleprice}">
                           <button class="inc" id="dtlCartInc" value="${itemDetail.price1}"></button>
@@ -1101,13 +1120,23 @@
             </div>
             <footer class="wn-modal-footer">
               <button class="button bt-l bt-gray bt-rect" onclick="location.href = 'WN_PB_MO_ORD_020101.html' ">바로구매</button>
-              <button class="button bt-l bt-green bt-rect"  onclick="location.href = '/mypage/cartlist' ">장바구니</button>
+              <button class="button bt-l bt-green bt-rect"  onclick="addCart('dtlPrd'); cartToastMsg('dtlPrdList');">장바구니</button>
             </footer>
           </div>
         </div>
       </div>
     </div>
+    <section class="wn-toast-container">
+      <div class="wn-toast-wrapper cart"><!-- 장바구니용 간격 cart 추가 -->
+        <div class="toast wn-toast fade hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" id="dtlPrdToastAutoClose">
+          <div class="toast-body">
+            <span>장바구니에 상품을 담았습니다.</span>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
+
  
 
   <!-- Modal - Buy Option 2  -->

@@ -79,7 +79,6 @@ function textAreaCheck(text){
 
 function reviewInsert(){
     var reviewText = $('#reviewText').val();
-    console.log("111111111111111", reviewText);
     $.ajax({
           url : "/main/reviewInsert"
         , data : {"reviewText" : reviewText}
@@ -150,8 +149,8 @@ function optionProdSet(optionProd){
             $('#dtlTotalPrc').append(html);
             $('#dtlCartInc').val(price);
             $('#dtlCartDec').val(price);
-            if($('#itemNum').val() > '1'){
-                $('#itemNum').val('1');
+            if($('#dtlPrdCartCnt').val() > '1'){
+                $('#dtlPrdCartCnt').val('1');
                 $('#dtlCartInc').removeClass('disabled');
                 $('#dtlCartDec').addClass('disabled');
             }
@@ -162,8 +161,8 @@ function optionProdSet(optionProd){
             $('#dtlTotalPrc').append(html);
             $('#dtlCartInc').val(salePrice);
             $('#dtlCartDec').val(salePrice);
-            if($('#itemNum').val() > '1'){
-                $('#itemNum').val('1');
+            if($('#dtlPrdCartCnt').val() > '1'){
+                $('#dtlPrdCartCnt').val('1');
                 $('#dtlCartInc').removeClass('disabled');
                 $('#dtlCartDec').addClass('disabled');
             }

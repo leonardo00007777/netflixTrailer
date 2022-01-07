@@ -838,6 +838,9 @@ function addCart(division){
 	} else if(division == 'dcPrd'){
 		strGDCD = $('#dcPrdGdcd').val();
 		strGDCNT =  $('#dcPrdCartCnt').val();
+	} else if(division == 'dtlPrd'){
+		strGDCD = $('#dtlGdcd').val();
+		strGDCNT =  $('#dtlPrdCartCnt').val();
 	}
 	$.ajax({
 		  url : "/mypage/addCartAjax"
