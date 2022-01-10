@@ -28,6 +28,7 @@ public class CartServiceImpl implements CartService {
 		List<ShoppingBasketEx> cartProdList = cartDao.cartProdList(paramMap);
 		int cnt = 0;
 		if(cartProdList.size() > 0) {
+			String scode = null;
 			for(ShoppingBasketEx shoppingBasketEx : cartProdList){
 				if(shoppingBasketEx.getOdtype().equals("02")){
 					if(shoppingBasketEx.getThedaysyn().equals("Y")){

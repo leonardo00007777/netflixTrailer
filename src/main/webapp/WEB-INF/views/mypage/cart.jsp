@@ -49,9 +49,10 @@
         <c:forEach items="${cartProdList}" var="cartPrd" varStatus="i">
           <c:set value="${cartProdList[i.index - 1].scode}" var="scodePrev"/>
           <c:set value="${cartProdList[i.index + 1].scode}" var="scodeNext"/>
+          <c:set var="total" value="0"/>
           <!-- 배송 유형 그룹: 자연배송 -->
             <c:if test="${cartPrd.scode ne scodePrev}">
-              <section class="cart-group cart-group-cat fold-section open">
+              <section class="cart-group cart-group-cat fold-section open" data-scode="${cartPrd.scode}">
               <header class="cart-group-header">
                 <div class="wrapper c-top-trigger">
                   <div class="top-row">
@@ -138,6 +139,7 @@
                 </div>
               </header>
             </c:if>
+          ${total + cartPrd.origprice}
           <div class="fold-open-show" data-scode="${cartPrd.scode}">
             <section class="cart-item-list">
               <article class="cart-item">
@@ -186,7 +188,7 @@
               <div class="cart-group-total-box">
                 <div class="cell">
                   <div class="t-price t-price-14">
-                    ${cartPrd.origprice}<small>원</small>
+                      ${cartPrd.origprice}<small>원</small>
                   </div>
                   <div class="label">상품금액</div>
                 </div>
@@ -253,7 +255,7 @@
             <div class="order-total">
               <div class="label-content-justify">
                 <h4 class="label">총 주문합계</h4>
-                <div class="content"><b class="t-price t-price-20">52,000<small>원</small></b></div>
+                <div class="content"><b class="t-price t-price-20"><small>원</small></b></div>
               </div>
             </div>
           </div>
