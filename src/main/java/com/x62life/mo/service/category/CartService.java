@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CartService {
-    List<ShoppingBasketEx> cartProdList(Map<String, Object> paramMap);
+    List<ShoppingBasketEx> cartProdList(Map<String, Object> paramMap) throws Exception;
 
     Map<String,Object> cartListTotalAmount(Map<String, Object> paramMap);
 

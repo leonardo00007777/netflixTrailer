@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x62life.mo.dao.procedure.ProcedureDao">
+
+    <select id="getDLVDTbyHolidayGeneral" parameterType="java.util.Map" statementType="CALLABLE">
+    /* getDLVDTbyHolidayGeneral 명절/휴일 체크 프로시저  */
+           {  call sp_verifyDlvdt
+             (
+               #{deliveryDate, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+             , #{realDlvDt, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+             )
+           }
+    </select>
+
+</mapper>

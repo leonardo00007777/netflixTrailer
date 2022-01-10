@@ -22,6 +22,7 @@ public class ShoppingBasketEx extends GdMaster {
     private String delpol;
     private BigDecimal limamt;
     private BigDecimal delcharge;
+    private String strDLVDT;
 
     public String getOdtype() {
         return odtype;
@@ -149,5 +150,13 @@ public class ShoppingBasketEx extends GdMaster {
 
     public void setDelcharge(BigDecimal delcharge) {
         this.delcharge = delcharge.setScale(0, RoundingMode.DOWN);
+    }
+
+    public String getStrDLVDT() {
+        return strDLVDT;
+    }
+
+    public void setStrDLVDT(String strDLVDT) {
+        this.strDLVDT = strDLVDT;
     }
 }

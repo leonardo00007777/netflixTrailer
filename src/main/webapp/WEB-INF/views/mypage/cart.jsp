@@ -71,6 +71,18 @@
                           </span>
                         </div>
                       </label>
+                      <c:choose>
+                        <c:when test="${cartPrd.odtype eq '02'}">
+                          <div class="tag t-yellow">배송일지정 주문 ${cartPrd.strDLVDT} 도착예정</div>
+                        </c:when>
+                        <c:when test="${cartPrd.odtype eq '12'}">
+                          <div class="tag t-yellow">예약 주문, 예정된 일자에 도착예정</div>
+                        </c:when>
+                        <c:when test="${cartPrd.odtype eq 'PKG'}">
+                          <div class="tag t-yellow">패키지</div>
+                        </c:when>
+                      </c:choose>
+                      <div class="tag t-yellow">업체직송</div>
                     </div>
                     <div class="right">
                       <div class="content">3</div>
@@ -140,8 +152,10 @@
             <footer class="cart-group-footer">
               <div class="cart-group-total-box">
                 <div class="cell">
-                  <div class="t-price t-price-14">119,000<small>원</small></div>
-                  <div class="label">상품금액 </div>
+                  <div class="t-price t-price-14">
+                    119,000<small>원</small>
+                  </div>
+                  <div class="label">상품금액</div>
                 </div>
                 <div class="cell">
                   <i class="icon-math minus"></i>
