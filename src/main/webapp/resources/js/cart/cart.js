@@ -1,3 +1,7 @@
+$(function (){
+
+})
+
 function cartToastMsg(checkDiv){
     if(checkDiv == 'newPrdList' || checkDiv == 'newProd'){
         $('.toast').toast('hide');

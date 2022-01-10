@@ -12,4 +12,14 @@
            }
     </select>
 
+    <select id="getDlvDtByHolidayPackage" parameterType="java.util.Map" statementType="CALLABLE">
+        {
+            call sp_getDlvDtByHoliday_Package
+            (
+                #{weekSeq, mode=IN, jdbcType=INTEGER, javaType=int}
+            ,   #{dlvdtOut, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+            )
+        }
+    </select>
+
 </mapper>

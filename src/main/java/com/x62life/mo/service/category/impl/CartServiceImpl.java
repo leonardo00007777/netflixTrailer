@@ -26,22 +26,43 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public List<ShoppingBasketEx> cartProdList(Map<String, Object> paramMap) throws Exception {
 		List<ShoppingBasketEx> cartProdList = cartDao.cartProdList(paramMap);
-
+		int cnt = 0;
 		if(cartProdList.size() > 0) {
 			for(ShoppingBasketEx shoppingBasketEx : cartProdList){
-				if(shoppingBasketEx.getThedaysyn().equals("Y")){
-					String baseTime = getDateString3() + " " + DAY_PAY_DEADLINE_TIME;
-					long diffHour = getDiffHour(baseTime);
-					if(diffHour >= 0) {
-						String rltDt = addDay(1, baseTime);
-						paramMap.put("deliveryDate", rltDt);
-						procedureDao.getDLVDTbyHolidayGeneral(paramMap);
+				if(shoppingBasketEx.getOdtype().equals("02")){
+					if(shoppingBasketEx.getThedaysyn().equals("Y")){
+						String baseTime = getDateString3() + " " + DAY_PAY_DEADLINE_TIME;
+						long diffHour = getDiffHour(baseTime);
+						if(diffHour >= 0) {
+							String rltDt = addDay(1, baseTime);
+							paramMap.put("deliveryDate", rltDt);
+							procedureDao.getDLVDTbyHolidayGeneral(paramMap);
+							shoppingBasketEx.setStrDLVDT((String) paramMap.get("realDlvDt"));
+						}
+					}else {
+						String baseTime = getDLVDTofToday();
+						paramMap.put("deliveryDate", baseTime);
 						shoppingBasketEx.setStrDLVDT((String) paramMap.get("realDlvDt"));
 					}
-				}else {
-					String baseTime = getDLVDTofToday();
-					paramMap.put("deliveryDate", baseTime);
-					shoppingBasketEx.setStrDLVDT((String) paramMap.get("realDlvDt"));
+				} else if(shoppingBasketEx.getOdtype().equals("PKG")){
+					if(shoppingBasketEx.getGdcd().equals("A1")){
+						int weekSeq = 0;
+						for(int i = 0; i < 3; i++){
+							weekSeq = weekSeq + i;
+							paramMap.put("weekSeq", weekSeq);
+							procedureDao.getDlvDtByHolidayPackage(paramMap);
+							shoppingBasketEx.setStrDLVDT((String)paramMap.get("dlvdtOut"));
+						}
+					} else {
+						paramMap.put("weekSeq", 1);
+						procedureDao.getDlvDtByHolidayPackage(paramMap);
+						shoppingBasketEx.setStrDLVDT((String)paramMap.get("dlvdtOut"));
+						paramMap.put("weekSeq", 3);
+						procedureDao.getDlvDtByHolidayPackage(paramMap);
+						shoppingBasketEx.setStrDLVDT2((String)paramMap.get("dlvdtOut"));
+					}
+					int packageProduct = 0;
+					packageProduct = packageProduct + 1;
 				}
 			}
 		}

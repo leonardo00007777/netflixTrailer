@@ -386,16 +386,6 @@
       </choose>
     </select>
 
-    <select id="getDLVDTbyHolidayGeneral" parameterType="java.util.Map" statementType="CALLABLE">
-    /* getDLVDTbyHolidayGeneral 명절/휴일 체크 프로시저  */
-           {  call sp_verifyDlvdt
-             (
-               #{deliveryDate, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
-             , #{realDlvDt, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
-             )
-           }
-    </select>
-
     <select id="optionProduct" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
         /*optionProduct 옵션상품 체크*/
         SELECT gm.gdcd

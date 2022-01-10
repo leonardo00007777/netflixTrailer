@@ -62,7 +62,7 @@
                           <span>
                             <c:choose>
                               <c:when test="${empty cartPrd.sname}">
-                                자연이랑
+                                자연이랑 발송
                               </c:when>
                               <c:otherwise>
                                 ${cartPrd.sname}
@@ -79,10 +79,22 @@
                           <div class="tag t-yellow">예약 주문, 예정된 일자에 도착예정</div>
                         </c:when>
                         <c:when test="${cartPrd.odtype eq 'PKG'}">
-                          <div class="tag t-yellow">패키지</div>
+                          <div class="tag t-yellow">
+                            패키지
+                            <c:choose>
+                              <c:when test="${cartPrd.gdcd eq 'A1'}">
+                                ${cartPrd.strDLVDT} 도착 예정
+                              </c:when>
+                              <c:otherwise>
+                                ${cartPrd.strDLVDT} ~ ${cartPrd.strDLVDT2} 도착예정
+                              </c:otherwise>
+                            </c:choose>
+                          </div>
+                        </c:when>
+                        <c:when test="${cartPrd.odtype eq '15'}">
+                          <div class="tag t-yellow">업체직송</div>
                         </c:when>
                       </c:choose>
-                      <div class="tag t-yellow">업체직송</div>
                     </div>
                     <div class="right">
                       <div class="content">3</div>
@@ -93,7 +105,28 @@
                     <div class="progress-bar xsmall" data-percent="71">
                     </div>
                     <div class="text add-r">
-                      <div class="content"><em class="t-brown">29,000원</em> 추가 시 배송비 절약</div>
+                      <div class="content">
+                        <c:choose>
+                          <c:when test="${cartPrd.odtype eq '15'}">
+                            <c:choose>
+                              <c:when test="${cartPrd.delpol eq '02'}">
+                                <em class="t-brown"><fmt:formatNumber value="${cartPrd.limamt}" pattern="#,###" />원</em>
+                                이상 배송비 무료
+                              </c:when>
+                              <c:when test="${cartPrd.delpol eq '03'}">
+                                <em class="t-brown"></em>
+                              </c:when>
+                              <c:otherwise>
+                                <em class="t-brown">배송비 무료</em>
+                              </c:otherwise>
+                            </c:choose>
+                          </c:when>
+                          <c:otherwise>
+                            <em class="t-brown"><fmt:formatNumber value="40000" pattern="#,###" />원</em>
+                            이상 배송비 무료, 단 세트/패키지 상품 제외
+                          </c:otherwise>
+                        </c:choose>
+                      </div>
                       <div class="add">
                         <a href="#" class="btn-add">
                           <i class="icon-math plus"></i>
@@ -105,7 +138,7 @@
                 </div>
               </header>
             </c:if>
-          <div class="fold-open-show" data-value="${cartPrd.scode}">
+          <div class="fold-open-show" data-scode="${cartPrd.scode}">
             <section class="cart-item-list">
               <article class="cart-item">
                 <label class="checkbox">
@@ -153,7 +186,7 @@
               <div class="cart-group-total-box">
                 <div class="cell">
                   <div class="t-price t-price-14">
-                    119,000<small>원</small>
+                    ${cartPrd.origprice}<small>원</small>
                   </div>
                   <div class="label">상품금액</div>
                 </div>
@@ -168,7 +201,7 @@
                   <i class="icon-math plus"></i>
                 </div>
                 <div class="cell">
-                  <div>무료배송</div>
+                  <div id="delcharge">${cartPrd.delcharge}</div>
                   <div class="label">배송비</div>
                 </div>
                 <div class="cell">
