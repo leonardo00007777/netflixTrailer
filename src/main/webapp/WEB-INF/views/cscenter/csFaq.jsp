@@ -9,7 +9,9 @@
     <header class="local-header">
       <div class="fixed-top">
         <div class="local-top">
-          <a href="WN_PB_MO_MYP_000100.html" class="btn-prev"><i class="wn-icon wni-arrow-left"></i></a>
+        	<button class="btn-prev"  id="backBtn">
+	         	<i class="wn-icon wni-arrow-left"></i>
+	        </button>
           <div class="h-row">
             <div class="h-col h-tit">
               <h1 class="page-tit text-center">자주 찾는 질문</h1>

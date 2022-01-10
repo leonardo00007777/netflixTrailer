@@ -60,7 +60,7 @@ var loginForm = function() {
 					}
 		    		
 					// mypage 이동
-					common_link.goMappingUrl2("/mypage", "loginuserid", loginuserid, "loginpassword", loginpassword);
+					common_link.goMappingUrl2("/mypage/mypage", "loginuserid", loginuserid, "loginpassword", loginpassword);
 					
 				}
 			}
@@ -175,6 +175,11 @@ var loginForm = function() {
 				$("#loginpassword").val("");
 				$("#loginpassword").focus();	        		
 				
+				/*$('#modalFailed').modal("show");
+				var msg ="자연이랑 회원이 아닙니다.<br>";
+				msg += "다시 로그인바랍니다.";
+				$("#modalFailed").find("#msg").html(msg);*/
+				
 				common_link.goMappingUrl("/main");
 			}		
 		},
@@ -222,6 +227,7 @@ var loginForm = function() {
 				} else{
 					$("#loginpassword").focus();	  
 				}
+				
 				//$("input:checkbox[id='autologin']").attr("checked", false);
 			}
 			

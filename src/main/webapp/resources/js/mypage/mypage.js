@@ -53,25 +53,100 @@ var mypage = function() {
 		// Key Event 
 		//---------------------------------------------------------------------------
 		initKeyEvent : function() {
-/*			//---------------------------------------------
-		    // 고객 센터
-		    //---------------------------------------------
-			$("#aa").find("#bb").bind("click", function() {
-
+			//---------------------------------------------
+			// 나의 주문
+			//---------------------------------------------
+			// 주문/배송 내역
+			$("#myOrderGroup").find("#btnMyOrderDelivery").bind("click", function() {
+				common_link.goMappingUrl("/mypage/myorderdelivery");
+			});
+			// 취소/교환/반품 내역
+			$("#myOrderGroup").find("#btnMyCancelRebate").bind("click", function() {
+				common_link.goMappingUrl("/mypage/mycancelrebate");
+			});
+			// 정기배송 관리
+			$("#myOrderGroup").find("#btnMyRegularDelivery").bind("click", function() {
+				common_link.goMappingUrl("/mypage/myregulardelivery");
+			});
+			//---------------------------------------------
+			// 나의 정보
+			//---------------------------------------------
+			// 개인정보 관리
+			$("#myInfoGroup").find("#btnMyInfo").bind("click", function() {
+				common_link.goMappingUrl("/mypage/myinfo");
+			});
+			// 배송지 관리
+			$("#myInfoGroup").find("#btnMyDeliveryPlace").bind("click", function() {
+				common_link.goMappingUrl("/mypage/mydeliveryplace");
+			});
+			//---------------------------------------------
+			// 나의 활동 
+			//---------------------------------------------
+			// 작성 가능한 구매후기
+			$("#myActivityGroup").find("#btnMyReview").bind("click", function() {
+				common_link.goMappingUrl("/mypage/myreview");
+			});
+			// 상품 문의 내역
+			$("#myActivityGroup").find("#btnMyGoodsQna").bind("click", function() {
+				common_link.goMappingUrl("/mypage/mygoodsqna");
+			});
+			// 1:1 문의 내역
+			$("#myActivityGroup").find("#btnMyQna").bind("click", function() {
+				common_link.goMappingUrl("/mypage/myqna");
+			});
+			// 댓글 내역
+			$("#myActivityGroup").find("#btnMyReply").bind("click", function() {
+				common_link.goMappingUrl("/mypage/myreply");
+			});
+			// 이벤트 참여 내역
+			$("#myActivityGroup").find("#btnMyEventApply").bind("click", function() {
+				common_link.goMappingUrl("/mypage/myeventapply");
+			});
+			// 친구 추천하기
+			$("#myActivityGroup").find("#btnMyRecommend").bind("click", function() {
+				common_link.goMappingUrl("/mypage/myrecommend");
 			});
 			
-			
-			
+			//---------------------------------------------
+		    // 고객 센터
+		    //---------------------------------------------
+			// 공지사항
+			$("#csCenterGroup").find("#btnCsNotice").bind("click", function() {
+				common_link.goMappingUrl("/cscenter/csnotice");
+			});
+			// 자주찾는 질문
+			$("#csCenterGroup").find("#btnCsFaq").bind("click", function() {
+				common_link.goMappingUrl("/cscenter/csfaq");
+			});
+			// 풍성한 가입 혜택
+			$("#csCenterGroup").find("#btnJoinBenefit").bind("click", function() {
+				//common_link.goMappingUrl("/cscenter/joinbenefit");
+			});
+			// 멤버십 안내
+			$("#csCenterGroup").find("#btnJoinGuide").bind("click", function() {
+				//common_link.goMappingUrl("/cscenter/joinguide");
+			});
 			
 			//---------------------------------------------
 			// 설정
 			//---------------------------------------------
-			$("#cc").find("#ccc").bind("click", function() {
+			$("#settingGroup").find("btnMySetting").bind("click", function() {
+				//common_link.goMappingUrl("/common/setting");
 				
 			});
-			*/
 			
-			
+			//---------------------------------------------
+			// chatting
+			//---------------------------------------------
+			$("#chatGroup").find("#btnChatQna").bind("click", function() {
+				//common_link.goMappingUrl("/common/chatqna");
+			});
+			$("#chatGroup").find("#btnRealChat").bind("click", function() {
+				//common_link.goMappingUrl("/common/realchat");
+			});
+			$("#chatGroup").find("#btnDownloadApp").bind("click", function() {
+				//common_link.goMappingUrl("/common/downloadapp");
+			});
 			
 		},
 

@@ -29,6 +29,9 @@ public class CscenterController
 	@Autowired
 	private MemberService memberService;
 	
+	//---------------------------------------------
+    // 고객 센터
+    //---------------------------------------------	
     /**
      * 공지사항
      *
@@ -67,6 +70,48 @@ public class CscenterController
     	logger.info("/csfaq");
     	
     	mv.setViewName("/cscenter/csFaq");   		
+    	
+    	return mv;
+    }
+    
+    /**
+     * 풍성한 가입 혜택
+     *
+     * @param memberInfo
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/joinbenefit")
+    public ModelAndView joinbenefit(@RequestParam Map<String, Object> paramMap
+    		, HttpServletRequest request
+    		, HttpServletResponse response
+    		, Model model) throws Exception {
+    	ModelAndView mv = new ModelAndView();
+    	logger.info("/joinbenefit");
+    	
+    	mv.setViewName("/cscenter/joinbenefit");   		
+    	
+    	return mv;
+    }
+        
+    /**
+     * 멤버십 안내
+     *
+     * @param memberInfo
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/joinguide")
+    public ModelAndView joinguide(@RequestParam Map<String, Object> paramMap
+    		, HttpServletRequest request
+    		, HttpServletResponse response
+    		, Model model) throws Exception {
+    	ModelAndView mv = new ModelAndView();
+    	logger.info("/joinguide");
+    	
+    	mv.setViewName("/cscenter/joinguide");   		
     	
     	return mv;
     }

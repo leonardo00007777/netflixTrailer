@@ -633,7 +633,7 @@
   <div class="modal fade wn-modal wn-modal-msg" id="modalFailed" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="wn-modal-body">
+        <div class="wn-modal-body" id="msg">
           해당정보로 등록된 SK구성원 정보가
           <br>
           없습니다.
@@ -652,7 +652,7 @@
   <div class="modal fade wn-modal wn-modal-msg" id="modalSnsJoin" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="wn-modal-body">
+        <div class="wn-modal-body" id="msg">
           자연이랑 회원이 아닙니다.<br>
           SNS간편 회원가입을
           진행하시겠습니까?
