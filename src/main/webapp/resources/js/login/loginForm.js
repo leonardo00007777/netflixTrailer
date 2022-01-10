@@ -212,10 +212,16 @@ var loginForm = function() {
 			// 로그인 상태 아닌경우, 초기화
 			if(!common.isLogin()){
 				//$("#loginuserid").val(""); 
-				$("#loginuserid").val("hwkim");  //test 
+				$("#loginuserid").val("hwkim");  // TEST 
 				$("#loginpassword").val("");
 
-				$("#loginuserid").focus();	  
+				if($("#loginuserid").val() != "" && $("#loginpassword").val() != ""){
+					$("#loginpassword").focus();	  
+				}else if($("#loginuserid").val() != "" && $("#loginpassword").val() == ""){
+					$("#loginpassword").focus();	  
+				} else{
+					$("#loginpassword").focus();	  
+				}
 				//$("input:checkbox[id='autologin']").attr("checked", false);
 			}
 			

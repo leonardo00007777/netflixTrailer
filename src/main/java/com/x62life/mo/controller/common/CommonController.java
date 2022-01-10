@@ -103,7 +103,6 @@ public class CommonController {
 		return mv;
 	}
 	
-	
 	/**
 	 * <pre>
 	 * 1. MethodName : BNB / footerMypage
@@ -127,6 +126,33 @@ public class CommonController {
 		mv.addObject("commandMap", commandMap);
 		
 		mv.setViewName("/common/footerMypage");
+		
+		return mv;
+	}
+	
+	/**
+	 * <pre>
+	 * 1. MethodName : setting
+	 * 2. ClassName  : CommonController.java
+	 * 3. Comment    : 설정페이지
+	 * 4. 작성자       : jckim
+	 * 5. 작성일       : 2021. 12. 01.
+	 * </pre>
+	 *
+	 * @param request
+	 * @param commandMap
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/setting")
+	public ModelAndView setting(HttpServletRequest request, Map<String, Object> commandMap) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		
+		//System.out.println("MAIN : " + SessionsAdmin.isLoginAdmin(request));
+		
+		mv.addObject("commandMap", commandMap);
+		
+		mv.setViewName("/common/setting");
 		
 		return mv;
 	}

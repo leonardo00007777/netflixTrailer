@@ -52,6 +52,10 @@
 <c:set var="_imgUrl"><spring:eval expression='@configProperties["_imgUrl"]' /></c:set>
 <c:set var="_servletUrl"><spring:eval expression='@configProperties["_servletUrl"]' /></c:set>
 
+<c:set var="_contextServerScheme" value="${pageContext.request.scheme}" />
+<c:set var="_contextServerName" value="${pageContext.request.serverName}" />
+<c:set var="_contextServerPort" value="${pageContext.request.serverPort}" />
+
 <script>
 	//---------------------------------------------------------------------------
 	// Global  Variables
@@ -65,6 +69,9 @@
 	var _imgUrl = '<c:out value="${_imgUrl}" />';
 	var _servletUrl = '<c:out value="${_servletUrl}" />';
 	
+	var _contextServerScheme = '<c:out value="${_contextServerScheme}" />';
+	var _contextServerName = '<c:out value="${_contextServerName}" />';
+	var _contextServerPort = '<c:out value="${_contextServerPort}" />';
 	
 	
 </script>
