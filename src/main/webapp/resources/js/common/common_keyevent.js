@@ -73,6 +73,28 @@ var common_keyevent = function() {
 	        });
 
 	        	     
+	        //----------------------------------------------------------------------------------------------------- 
+	        //                                			         고객센터
+	        //-----------------------------------------------------------------------------------------------------      
+	        // 공지사항
+	        $("#csGroup").find("#btnCsNotice").bind("click", function() {
+	        	common_link.goMappingUrl("/cscenter/csnotice");
+	        });
+	        
+	        // 자주찾는 질문
+	        $("#csGroup").find("#btnCsFaq").bind("click", function() {
+	        	common_link.goMappingUrl("/cscenter/csfaq");
+	        });
+	        
+	        //----------------------------------------------------------------------------------------------------- 
+	        //                                			         설정
+	        //-----------------------------------------------------------------------------------------------------      
+	        // 설정
+	        $("#settingGroup").find("#btnSetting").bind("click", function() {
+	        	common_link.goMappingUrl("/common/setting");
+	        });
+	        
+	        
 	        
 		}
 	}

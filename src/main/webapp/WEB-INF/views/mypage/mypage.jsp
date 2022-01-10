@@ -8,17 +8,20 @@
 <c:choose>
    		<c:when test="${_isLoginYn eq true}">
 	   		<script>
-	   			//alert("_isLoginYn true ");
+	   			// alert("_isLoginYn true ");
 	   		</script>
       	</c:when>
       	<c:otherwise>
-			<%@ include file="/WEB-INF/views/member/joinMember.jsp" %>
+			<script>
+				var redirectURL = "/member/joinmember";
+				window.location.href = redirectURL;
+			</script>      	
       	</c:otherwise> 
 </c:choose>
 
 <script src="<%=_jsUrl %>mypage/mypage.js"></script>
 
-<body>
+<body onload="checkAccess()">
   <div class="site-container">
     <header class="local-header">
       <div class="fixed-top">

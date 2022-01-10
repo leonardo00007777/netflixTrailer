@@ -76,8 +76,6 @@
                 </li>
               </ul>
               <div class="button-group mt-30" id="joinMemberGroup">
-<!--                 <a href="WN_PB_MO_MEM_010000.html" class="button bt-green bt-l">회원가입</a>
-                <a href="WN_PB_MO_MYP_000100.html" class="button bt-green bt-l">로그인</a> -->
 		        	<button class="button bt-green bt-l"  id="btnJoinMember">
 		        	    회원가입
 			        </button>
@@ -88,14 +86,16 @@
             </div>
           </section>
 
+              
           <!-- 고객센터 -->
-          <section class="myp-se-container">
+          <section class="myp-se-container" id="csGroup">
             <header class="myp-se-header">
               <h3 class="hd-s">고객센터</h3>
             </header>
             <ul class="myp-menu-list">
               <li>
-                <a href="WN_PB_MO_MYP_050101.html" class="myp-menu-item">
+                <!-- <a href="WN_PB_MO_MYP_050101.html" class="myp-menu-item"> -->
+                <a href="javascript:void(0)" class="myp-menu-item" id="btnCsNotice">
                   <span class="tit">공지사항</span>
                   <div class="right">
                     <i class="wn-icon chevron-h-24 gray-5"></i>
@@ -103,7 +103,8 @@
                 </a>
               </li>
               <li>
-                <a href="WN_PB_MO_MYP_050201.html" class="myp-menu-item">
+                <!-- <a href="WN_PB_MO_MYP_050201.html" class="myp-menu-item"> -->
+                <a href="javascript:void(0)" class="myp-menu-item"  id="btnCsFaq">
                   <span class="tit">자주찾는 질문</span>
                   <div class="right">
                     <i class="wn-icon chevron-h-24 gray-5"></i>
@@ -132,10 +133,11 @@
           <hr class="spacer">
 
           <!-- 설정 -->
-          <section class="myp-se-container">
+          <section class="myp-se-container"  id="settingGroup">
             <ul class="myp-menu-list">
               <li>
-                <a href="WN_PB_MO_MYP_060100.html" class="myp-menu-item">
+                <!-- <a href="WN_PB_MO_MYP_060100.html" class="myp-menu-item"> -->
+                <a href="javascript:void(0)" class="myp-menu-item"  id="btnSetting">
                   <span class="tit">설정</span>
                   <div class="right">
                     <div class="content t-green">앱 버전 1.35</div>
@@ -148,8 +150,8 @@
 
           <section class="pt-30 px-m bg-gray-2">
             <div>
-              <a href="#" class="button bt-outline bt-steel bt-transparent d-block">자연이랑 APP 다운로드 <i
-                  class="wn-icon-16 down-16 ml-2"></i></a>
+              <a href="#" class="button bt-outline bt-steel bt-transparent d-block">자연이랑 APP 다운로드 <i class="wn-icon-16 down-16 ml-2"></i>
+              </a>
             </div>
 
             <hr class="spacer-bottom">

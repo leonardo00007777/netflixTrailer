@@ -89,7 +89,7 @@ var login = function() {
 
 	        });
 
-	        $("#loginId").focus();
+	        $("#loginuserid").focus();
 
 	        $(".banner_login_area").show();
 	        $(".banner_login_area a").click(function(){
@@ -1103,18 +1103,18 @@ var login = function() {
 	        common.wlog("do_login_mc");
 
 	        var formLogin = $("#formLogin");
-	        var login_id = $("#loginId").val();
-	        var password = $("#password").val();
+	        var login_id = $("#loginuserid").val();
+	        var password = $("#loginpassword").val();
 
-	        var validated1 = common.validateFieldNotEmpty("#loginId", "아이디를 입력해주세요.");
+	        var validated1 = common.validateFieldNotEmpty("#loginuserid", "아이디를 입력해주세요.");
 	        if(!validated1){
-	            $("#loginId").focus();
+	            $("#loginuserid").focus();
 	            return;
 	        }
 
-	        var validated2 = common.validateFieldNotEmpty("#password", "비밀번호를 입력해 주세요");
+	        var validated2 = common.validateFieldNotEmpty("#loginpassword", "비밀번호를 입력해 주세요");
 	        if (!validated2) {
-	            $("#password").focus();
+	            $("#loginpassword").focus();
 	            return;
 	        }
 
@@ -1130,10 +1130,10 @@ var login = function() {
 	                return false;
 	            } else if($('#autoBlockText').val().length != 6){
 	                alert('아이디, 비밀번호 혹은 자동입력 방지문자를 잘못 입력하셨습니다.');
-	                $("#password").val("");
+	                $("#loginpassword").val("");
 	                $("#autoBlockText").val("");
 	                mlogin.captcha.changeCaptcha(cwid, chei, csize);
-	                $("#password").focus();
+	                $("#loginpassword").focus();
 	                return false;
 	            }else if(mlogin.login.passwdChk()){
 
@@ -1157,10 +1157,10 @@ var login = function() {
 
 	                        }else{
 	                            alert('아이디, 비밀번호 혹은 자동입력 방지문자를 잘못 입력하셨습니다.');
-	                            $("#password").val("");
+	                            $("#loginpassword").val("");
 	                            $("#autoBlockText").val("");
 	                            mlogin.captcha.changeCaptcha(cwid, chei, csize);
-	                            $("#password").focus();
+	                            $("#loginpassword").focus();
 	                            return false;
 	                        }
 	                    }
@@ -1191,11 +1191,11 @@ var login = function() {
 	        sessionStorage.removeItem("checkLoginStatus");
 
 	        var formLogin = $("#formLogin");
-	        var login_id = $("#loginId").val();
+	        var login_id = $("#loginuserid").val();
 
-	        var validated1 = common.validateFieldNotEmpty("#loginId", "아이디를 다시 확인해주세요.");
+	        var validated1 = common.validateFieldNotEmpty("#loginuserid", "아이디를 다시 확인해주세요.");
 	        if(!validated1){
-	            $("#loginId").focus();
+	            $("#loginuserid").focus();
 	            return;
 	        }
 
