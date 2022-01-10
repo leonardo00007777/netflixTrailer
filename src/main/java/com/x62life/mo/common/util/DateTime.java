@@ -751,10 +751,9 @@ public class DateTime {
     }
 
     /**
-     * 주문 요일 별 배송일자 구하기
+     * 주문 요일 별 배송일자 구하기(자연이랑 전용)
      * 월요일 : + 8d/ 화,수,목,금: + 7d / 토 : + 6d / 일  : + 9d
-     * @param dteToday
-     * @return
+     * @return dteToday
      * @throws ParseException
      */
 
@@ -791,6 +790,13 @@ public class DateTime {
         return dteToday;
     }
 
+    /**
+     * 주문 요일 별 배송일자 구하기(자연이랑 전용)
+     * 월요일 : + 8d/ 화,수,목,금: + 7d / 토 : + 6d / 일  : + 9d
+     * @return dteToday
+     * @throws ParseException
+     */
+
     public static String getDLVDTofDate(String dteToday) throws Exception{
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -820,6 +826,15 @@ public class DateTime {
         return dteToday;
     }
 
+
+    /**
+     * 기준 시간과 현재 시간의 Hour 차이 구하기2(자연이랑 전용)
+     *
+     * @return diffHour
+     * @throws ParseException
+     */
+
+
     public static long getDirectDlv() throws ParseException {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -837,5 +852,39 @@ public class DateTime {
         long diffHour = (dteNowTime.getTime() - dteStandardTime.getTime()) / 3600000;
 
         return diffHour;
+    }
+
+    /**
+     * 기준 시간과 현재 시간의 Hour 차이 구하기2(자연이랑 전용)
+     * @param  baseTime
+     * @return diffHour
+     * @throws ParseException
+     */
+
+    public static long getDiffHour(String baseTime) throws Exception{
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+        String dteNow = df.format(cal.getTime());
+        Date dteNowTime = df.parse(dteNow);
+
+        Date dteStandardTime = df.parse(baseTime);
+
+        long diffHour = (dteNowTime.getTime() - dteStandardTime.getTime()) / 3600000;
+        return diffHour;
+    }
+
+    public static String addDay(int addDate, String baseDate) throws Exception{
+        System.out.println(baseDate);
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+
+        Date baseDt = df.parse(baseDate);
+        cal.setTime(baseDt);
+        cal.add(cal.DATE, addDate);
+
+        String rsltDt = df.format(cal.getTime());
+
+        return rsltDt;
     }
 }
