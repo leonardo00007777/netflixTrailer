@@ -94,7 +94,16 @@ var common_keyevent = function() {
 	        	common_link.goMappingUrl("/common/setting");
 	        });
 	        
-	        
+			//---------------------------------------------
+			// 로그아웃
+			//---------------------------------------------
+			$("#btnLogOut").bind("click", function() {				
+	            var isConfirm = confirm("로그아웃 하시겠습니까?");
+	            if(isConfirm){
+	                common_link.goMappingUrl("/login/logout");
+	            }
+			});
+		        
 	        
 		}
 	}

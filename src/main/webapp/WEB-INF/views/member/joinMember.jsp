@@ -131,6 +131,7 @@
           </section>
 
           <hr class="spacer">
+          <hr class="spacer">
 
           <!-- 설정 -->
           <section class="myp-se-container"  id="settingGroup">
@@ -147,7 +148,7 @@
               </li>
             </ul>
           </section>
-
+          
           <section class="pt-30 px-m bg-gray-2">
             <div>
               <a href="#" class="button bt-outline bt-steel bt-transparent d-block">자연이랑 APP 다운로드 <i class="wn-icon-16 down-16 ml-2"></i>

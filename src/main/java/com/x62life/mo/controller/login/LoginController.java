@@ -970,18 +970,43 @@ public class LoginController {
         return resultMap;
     }
 
-    
-	// log out
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpServletRequest request, HttpServletResponse response)
+    /**
+     * 로그아웃 처리
+     *
+     * @param request
+     * @param model
+     * @return
+     * @throws Exception
+     */
+	@RequestMapping(value = "/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response
+								, Model model) throws Exception 
 	{
-		// Session deletion
-		request.getSession().setAttribute("mbMaster", null);
-		
-		return "login";
+        // Cookie 제거
+		CookiesUtil.deleteAllCookie(request, response);
+
+		HttpSession session = request.getSession(false);
+		// session 제거
+		if(session != null){
+			String memcd = session.getAttribute("memcd").toString();
+			
+			Map<String, Object> paramMap = new HashMap<>();
+			paramMap.put("islogin", "0");
+			paramMap.put("strRSMEMCD", memcd);
+			
+			// 로그아웃 로그
+			if(!TextUtil.isEmpty(memcd)) {
+				int upCnt = memberService.saveExistMemberLoginInfo(paramMap);
+			}else {
+				int inCnt = memberService.saveNotExistLoginInfo(paramMap);
+			}
+			session.invalidate();
+		}
+
+        return "login/loginForm";
 	}
 
-	
+    
 	@RequestMapping( value="/error_403.jsp", method=RequestMethod.GET)
 	public String error_403(ModelMap model, HttpServletRequest request)
 	{

@@ -139,6 +139,22 @@ var common = function() {
 			}
 		},
 			    
+
+	    /**
+	     * 로그아웃 페이지로 이동
+	     */
+	    moveLogoutPage : function(){
+	        localStorage.removeItem("setTrackEvent");
+	        
+	        if (localStorage){
+	        	localStorage.removeItem("updateSkinYn");
+	        }
+	        sessionStorage.removeItem("checkLoginStatus");
+	        
+	        //window.location.replace("login/logout");
+	        common_link.goMappingUrl("/login/logout");
+	    },
+	    
 		/* ******************************************************************
 		 * validation
 		 ****************************************************************** */		

@@ -332,10 +332,26 @@
           <section class="myp-se-container"  id="settingGroup">
             <ul class="myp-menu-list">
               <li>
-                <a href="#" class="myp-menu-item" id="btnSetting">
+                <a href="javascript:void(0)" class="myp-menu-item" id="btnSetting">
                   <span class="tit">설정</span>
                   <div class="right">
                     <div class="content t-green">앱 버전 1.35</div>
+                    <i class="wn-icon chevron-h-24 gray-5"></i>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+          <hr class="spacer">          
+          <!-- 로그아웃 -->
+          <section class="myp-se-container"  id="loginGroup">
+            <ul class="myp-menu-list">
+              <li>
+                <a href="javascript:void(0)" class="myp-menu-item" id="btnLogOut">
+                  <span class="tit">로그아웃</span>
+                  <div class="right">
+                    <div class="content t-green"></div>
                     <i class="wn-icon chevron-h-24 gray-5"></i>
                   </div>
                 </a>
