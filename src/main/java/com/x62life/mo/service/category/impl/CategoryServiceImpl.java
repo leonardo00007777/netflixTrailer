@@ -1,6 +1,7 @@
 package com.x62life.mo.service.category.impl;
 
 import com.x62life.mo.dao.category.CategoryDao;
+import com.x62life.mo.dao.procedure.ProcedureDao;
 import com.x62life.mo.model.product.GdMasterEx;
 import com.x62life.mo.model.product.GdPipnRef;
 import com.x62life.mo.model.product.GdSugar;
@@ -24,6 +25,9 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Resource(name="categoryDao")
 	private CategoryDao categoryDao;
+
+	@Resource(name="procedureDao")
+	private ProcedureDao procedureDao;
 
 	@Override
 	public List<GdMasterEx> categoryList(Map<String, Object> paramMap){
@@ -90,7 +94,7 @@ public class CategoryServiceImpl implements CategoryService{
 					paramMap.put("deliveryDate", deliveryDate);
 					
 					//도착일자가 휴일이면 +1d 씩 날짜 증가 프로시저 호출, 휴일이 아닌 날짜로 세팅
-					categoryDao.getDLVDTbyHolidayGeneral(paramMap);
+					procedureDao.getDLVDTbyHolidayGeneral(paramMap);
 					String realDlvDt = (String) paramMap.get("realDlvDt");
 					
 					//도착가능일자 이전일까지 주문가능일자

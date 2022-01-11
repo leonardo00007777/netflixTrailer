@@ -281,5 +281,4 @@
 		DELETE FROM od_cart
 		        WHERE memcd = #{strLoginMemCd}
 	</delete>
-
 </mapper>

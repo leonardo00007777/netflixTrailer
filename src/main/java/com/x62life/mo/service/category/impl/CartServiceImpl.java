@@ -1,13 +1,18 @@
 package com.x62life.mo.service.category.impl;
 
 import com.x62life.mo.dao.mypage.CartDao;
+import com.x62life.mo.dao.procedure.ProcedureDao;
 import com.x62life.mo.model.order.ShoppingBasket;
 import com.x62life.mo.model.order.ShoppingBasketEx;
 import com.x62life.mo.service.category.CartService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+
+import static com.x62life.mo.common.constants.Constants62life.DAY_PAY_DEADLINE_TIME;
+import static com.x62life.mo.common.util.DateTime.*;
 
 @Service("cartService")
 public class CartServiceImpl implements CartService {
@@ -15,9 +20,54 @@ public class CartServiceImpl implements CartService {
 	@Resource(name="cartDao")
 	private CartDao cartDao;
 
+	@Resource(name="procedureDao")
+	private ProcedureDao procedureDao;
+
 	@Override
-	public List<ShoppingBasketEx> cartProdList(Map<String, Object> paramMap){
-		return cartDao.cartProdList(paramMap);
+	public List<ShoppingBasketEx> cartProdList(Map<String, Object> paramMap) throws Exception {
+		List<ShoppingBasketEx> cartProdList = cartDao.cartProdList(paramMap);
+		int cnt = 0;
+		if(cartProdList.size() > 0) {
+			String scode = null;
+			for(ShoppingBasketEx shoppingBasketEx : cartProdList){
+				if(shoppingBasketEx.getOdtype().equals("02")){
+					if(shoppingBasketEx.getThedaysyn().equals("Y")){
+						String baseTime = getDateString3() + " " + DAY_PAY_DEADLINE_TIME;
+						long diffHour = getDiffHour(baseTime);
+						if(diffHour >= 0) {
+							String rltDt = addDay(1, baseTime);
+							paramMap.put("deliveryDate", rltDt);
+							procedureDao.getDLVDTbyHolidayGeneral(paramMap);
+							shoppingBasketEx.setStrDLVDT((String) paramMap.get("realDlvDt"));
+						}
+					}else {
+						String baseTime = getDLVDTofToday();
+						paramMap.put("deliveryDate", baseTime);
+						shoppingBasketEx.setStrDLVDT((String) paramMap.get("realDlvDt"));
+					}
+				} else if(shoppingBasketEx.getOdtype().equals("PKG")){
+					if(shoppingBasketEx.getGdcd().equals("A1")){
+						int weekSeq = 0;
+						for(int i = 0; i < 3; i++){
+							weekSeq = weekSeq + i;
+							paramMap.put("weekSeq", weekSeq);
+							procedureDao.getDlvDtByHolidayPackage(paramMap);
+							shoppingBasketEx.setStrDLVDT((String)paramMap.get("dlvdtOut"));
+						}
+					} else {
+						paramMap.put("weekSeq", 1);
+						procedureDao.getDlvDtByHolidayPackage(paramMap);
+						shoppingBasketEx.setStrDLVDT((String)paramMap.get("dlvdtOut"));
+						paramMap.put("weekSeq", 3);
+						procedureDao.getDlvDtByHolidayPackage(paramMap);
+						shoppingBasketEx.setStrDLVDT2((String)paramMap.get("dlvdtOut"));
+					}
+					int packageProduct = 0;
+					packageProduct = packageProduct + 1;
+				}
+			}
+		}
+		return cartProdList;
 	}
 
 	@Override
