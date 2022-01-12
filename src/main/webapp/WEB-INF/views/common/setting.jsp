@@ -12,7 +12,10 @@
 	   		</script>
       	</c:when>
       	<c:otherwise>
-			<%@ include file="/WEB-INF/views/member/joinMember.jsp" %>
+			<script>
+				var redirectURL = "/member/joinmember";
+				window.location.href = redirectURL;
+			</script>      	
       	</c:otherwise> 
 </c:choose>
 
