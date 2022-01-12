@@ -104,7 +104,7 @@ var common_keyevent = function() {
 		        $("#modalConfirm").find("#btnConfirm").bind("click", function() {
 		        	common_link.goMappingUrl("/login/logout");
 		        });				
-		        $("#btnCancel").bind("click", function() {	
+		        $("#modalConfirm").find("#btnCancel").bind("click", function() {
 		        	$('#modalConfirm').modal("hide");
 		        });				
 			});
