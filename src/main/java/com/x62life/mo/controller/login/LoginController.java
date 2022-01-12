@@ -722,7 +722,7 @@ public class LoginController {
 		}
 		session.invalidate();
 
-        return "login/loginForm";
+        return "redirect:/main";
 	}
 
     
