@@ -98,12 +98,16 @@ var common_keyevent = function() {
 			// 로그아웃
 			//---------------------------------------------
 			$("#btnLogOut").bind("click", function() {				
-	            var isConfirm = confirm("로그아웃 하시겠습니까?");
-	            if(isConfirm){
-	                common_link.goMappingUrl("/login/logout");
-	            }
+				$('#modalConfirm').modal("show");
+				$(".wn-modal-body").html("<div><p>로그아웃 하시겠습니까?</p></div>");
+				
+		        $("#modalConfirm").find("#btnConfirm").bind("click", function() {
+		        	common_link.goMappingUrl("/login/logout");
+		        });				
+		        $("#btnCancel").bind("click", function() {	
+		        	$('#modalConfirm').modal("hide");
+		        });				
 			});
-		        
 	        
 		}
 	}

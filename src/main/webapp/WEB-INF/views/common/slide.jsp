@@ -20,8 +20,8 @@
           페이지 이동 시
         </div>
         <div class="wn-modal-footer">
-          <button class="button bt-m bt-gray bt-rect d-block" data-dismiss="modal">취소</button>
-          <button class="button bt-l bt-green bt-rect d-block" data-dismiss="modal">확인</button>
+          <button class="button bt-m bt-gray bt-rect d-block" data-dismiss="modal" id="btnCancel">취소</button>
+          <button class="button bt-l bt-green bt-rect d-block" data-dismiss="modal" id="btnConfirm">확인</button>
         </div>
       </div>
     </div>
@@ -633,7 +633,7 @@
   <div class="modal fade wn-modal wn-modal-msg" id="modalFailed" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="wn-modal-body" id="msg">
+        <div class="wn-modal-body" id="">
           해당정보로 등록된 SK구성원 정보가
           <br>
           없습니다.
