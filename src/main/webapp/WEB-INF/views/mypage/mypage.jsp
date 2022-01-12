@@ -243,7 +243,7 @@
               </li>
               <li>
                 <!-- <a href="WN_PB_MO_MYP_040302.html" class="myp-menu-item"> -->
-                <a href="javascript:void(0)" class="myp-menu-item"  id="btnMyQna">
+                <a href="javascript:void(0)" class="myp-menu-item"  id="btnMyQnaList">
                   <span class="tit">1:1 문의 내역</span>
                   <div class="right">
                     <i class="wn-icon chevron-h-24 gray-5"></i>

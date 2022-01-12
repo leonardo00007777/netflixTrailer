@@ -91,9 +91,14 @@ var mypage = function() {
 				common_link.goMappingUrl("/mypage/mygoodsqna");
 			});
 			// 1:1 문의 내역
+			$("#myActivityGroup").find("#btnMyQnaList").bind("click", function() {
+				common_link.goMappingUrl("/mypage/myqnalist");
+			});
+			// 1:1 문의 내역
 			$("#myActivityGroup").find("#btnMyQna").bind("click", function() {
 				common_link.goMappingUrl("/mypage/myqna");
 			});
+			
 			// 댓글 내역
 			$("#myActivityGroup").find("#btnMyReply").bind("click", function() {
 				common_link.goMappingUrl("/mypage/myreply");

@@ -4,6 +4,24 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/views/common/env.jsp"%>
 
+
+<c:set var="_isLoginYn" value="<%=_isLoginYn %>" />
+<c:choose>
+   		<c:when test="${_isLoginYn eq true}">
+	   		<script>
+	   			// alert("_isLoginYn true ");
+	   		</script>
+      	</c:when>
+      	<c:otherwise>
+			<script>
+				var redirectURL = "/member/joinmember";
+				window.location.href = redirectURL;
+			</script>      	
+      	</c:otherwise> 
+</c:choose>
+
+<script src="<%=_jsUrl %>mypage/mypage.js"></script>
+
 <body>
   <div class="site-container">
     <header class="local-header">
@@ -14,7 +32,7 @@
 	        </button>
           <div class="h-row">
             <div class="h-col h-tit">
-              <h1 class="page-tit text-center">나의 1:1 문의 내역</h1>
+              <h1 class="page-tit text-center">나의 1:1 문의</h1>
             </div>
           </div>
         </div>
@@ -24,133 +42,86 @@
       <div class="main-content" id="main-content">
         <article>
           <nav>
-            <ul class="nav nav-tabs tab-default">
+            <ul class="nav nav-tabs tab-default"  id="myActivityGroup">
               <li class="nav-item">
-                <a class="nav-link active" href="#">내 문의 내역</a>
+                <!-- <a class="nav-link" href="WN_PB_MO_MYP_040302.html">내 문의 내역</a> -->
+                <a class="nav-link" href="javascript:void(0)"  id="btnMyQnaList">내 문의 내역</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="WN_PB_MO_MYP_040306.html">1:1 문의하기</a>
+                <a class="nav-link active" href="#">1:1 문의하기</a>
               </li>
             </ul>
             <hr class="divider-top">
           </nav>
-
-          <section class="mt-20">
-            <div class="search-filters">
-              <div class="bt-select-group select-group">
-                <a href="javascript:void(0)" class="button select-item active">전체</a>
-                <a href="javascript:void(0)" class="button select-item">1개월</a>
-                <a href="javascript:void(0)" class="button select-item">6개월</a>
-                <a href="javascript:void(0)" class="button select-item">1년</a>
+          <section class="content-center pt-25">
+            <div class="form-field">
+              <div class="custom-select" data-select-role="select-main" data-select-sub="#selectQnaSub">
+                <select>
+                  <option value="">문의유형 선택</option>
+                  <option value="" data-select-items="회원인증,불편사항,기타">서비스 이용</option>
+                  <option value="" data-select-items="내용문의,당첨문의,기타">이벤트</option>
+                  <option value="" data-select-items="상품,서비스,쇼핑몰,기타">고객제안</option>
+                  <option value="" data-select-items="첫구매대상,재배송대상,미배송대상,첫자동주문,무작위대상,기타">아웃바운드</option>
+                  <option value="">기타</option>
+                </select>
               </div>
-              <div class="date-range-picker">
-                <a href="#dpCalStart" class="btn-datepicker" data-dp-role="trigger" data-dp-modal="#modalCalStart">
-                  <input type="text" id="dpInputStart" value="2020-10-09" readonly="">
-                </a>
-                <span>~</span>
-                <a href="#dpCalEnd" class="btn-datepicker" data-dp-role="trigger" data-dp-modal="#modalCalEnd">
-                  <input type="text" id="dpInputEnd" value="2020-10-09" readonly="">
-                </a>
+            </div>
+            <div class="form-field">
+              <div class="custom-select" id="selectQnaSub">
+                <select disabled>
+                  <option value="">세부종류 선택</option>
+                </select>
               </div>
-              <div class="form-search">
-                <div class="custom-select">
-                  <select>
-                    <option value="">전체</option>
-                    <option value="">결제완료</option>
-                    <option value="">상품준비중</option>
-                    <option value="">배송중</option>
-                    <option value="">배송완료</option>
-                  </select>
-                </div>
-                <input type="text" class="input-text" placeholder="상품명으로 검색">
-                <button class="button bt-green">검색</button>
-              </div>
-            </div><!-- /.search-filters -->
-
-            <hr class="solid-line mt-20">
+            </div>
           </section>
-
-          <section class="el-container">
-            <a href="#" class="my-qna-tit-container">
-              <div class="detail">
-                <div class="my-qna-tit">
-                  <div class="content">
-                    <div class="tit">아이스크림이 다 녹고 터져서 왔어요</div>
-                    <div class="info">
-                      <span class="state">답변대기</span>
-                      <i class="i"></i>
-                      <span class="date">2020-09-08</span>
-                    </div>
-                  </div>
+          <section class="content-center mt-20">
+            <div class="form-field">
+              <input type="text" class="input-text" placeholder="제목을 입력하세요">
+            </div>
+            <div class="form-field">
+              <textarea class="textarea" rows="7" placeholder="내용을 입력하세요"></textarea>
+            </div>
+          </section>
+          <section class="content-center mt-l">
+            <div class="header-add-r">
+              <h3 class="hd-xs">관련 파일을 첨부해 주세요</h3>
+              <div class="add">
+                <span class="t-13 color-steel">최대 10개 첨부 가능</span>
+              </div>
+            </div>
+            <div class="form-attach-file">
+              <input type="file" name="" id="inputFile1" hidden="">
+              <label for="inputFile1">
+                <span class="button bt-outline bt-steel w-100">파일 첨부</span>
+              </label>
+              <div class="attach-list" data-attach-role="attach-list">
+                <div class="attach-item">
+                  <i class="wn-icon clip-16"></i>
+                  <span class="file-name" title="IMG_2982_84392943.jpg">주민등록 등본 사본 v20200726.pdf</span>
+                  <button class="btn-remove" onclick="attachItemRemoveClick(this)"><i
+                      class="wn-icon x-16"></i></button>
+                </div>
+                <div class="attach-item">
+                  <i class="wn-icon clip-16"></i>
+                  <span class="file-name" title="IMG_2982_84392943.jpg">IMG_2982_84392943.jpg</span>
+                  <button class="btn-remove" onclick="attachItemRemoveClick(this)"><i
+                      class="wn-icon x-16"></i></button>
                 </div>
               </div>
-            </a>
-            <a href="#" class="my-qna-tit-container">
-              <div class="detail">
-                <div class="my-qna-tit">
-                  <div class="content">
-                    <div class="tit">아이스크림이 다 녹고 터져서 왔어요 <i class="wn-icon clip-16"></i></div>
-                    <div class="info">
-                      <span class="state t-green">답변완료</span>
-                      <i class="i"></i>
-                      <span class="date">2020-09-08</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a href="#" class="my-qna-tit-container">
-              <div class="detail">
-                <div class="my-qna-tit">
-                  <div class="content">
-                    <div class="tit">제목이 길에요 제목이 길에요제목이 길에요제목이 길에요</div>
-                    <div class="info">
-                      <span class="state t-green">답변완료</span>
-                      <i class="i"></i>
-                      <span class="date">2020-09-08</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
+            </div>
           </section>
 
           <hr class="spacer-bottom">
+
+          <div class="button-footer">
+            <a href="#" class="button bt-rect bt-green bt-l">저장</a>
+          </div>
         </article>
       </div><!-- /.main-content -->
     </main>
     <div class="quick-menu" id="quick-menu">
       <a href="#" class="quick-menu-button btn-chat"><i class="wn-icon wni-message-square">채팅상담</i></a>
       <a href="#" class="quick-menu-button" id="page-top-button"><i class="wn-icon wni-chevron-v">Top</i></a>
-    </div>
-    <div class="global-bottom">
-      <ul class="global-bottom-menu">
-        <li class="gbm-item">
-          <a href="#">
-            <i class="wn-icon wni-home"></i>
-          </a>
-        </li>
-        <li class="gbm-item">
-          <a href="#">
-            <i class="wn-icon wni-history"></i>
-          </a>
-        </li>
-        <li class="gbm-item">
-          <a href="#">
-            <i class="wn-icon wni-menu"></i>
-          </a>
-        </li>
-        <li class="gbm-item">
-          <a href="#">
-            <i class="wn-icon wni-search"></i>
-          </a>
-        </li>
-        <li class="gbm-item">
-          <a href="#">
-            <i class="wn-icon wni-user"></i>
-          </a>
-        </li>
-      </ul>
     </div>
   </div><!-- /.site-container -->
 
@@ -189,5 +160,3 @@
       </div>
     </div>
   </div>
-
-  

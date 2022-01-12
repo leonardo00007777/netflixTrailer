@@ -252,6 +252,27 @@ public class MypageController {
 	 * @return
 	 * @throws Exception
 	 */
+	@RequestMapping(value="/myqnalist")
+	public ModelAndView myqnalist(@RequestParam Map<String, Object> paramMap
+			, HttpServletRequest request
+			, HttpServletResponse response
+			, Model model) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		logger.info("/myqnalist");
+		
+		mv.setViewName("/mypage/myQnaList");   		
+		
+		return mv;
+	}    
+	
+	/**
+	 * 1:1 문의 
+	 *
+	 * @param memberInfo
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/myqna")
 	public ModelAndView myqna(@RequestParam Map<String, Object> paramMap
 			, HttpServletRequest request
