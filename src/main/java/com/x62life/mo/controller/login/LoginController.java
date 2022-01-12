@@ -1000,7 +1000,7 @@ public class LoginController {
 			}else {
 				int inCnt = memberService.saveNotExistLoginInfo(paramMap);
 			}
-			session.invalidate();
+			request.getSession().invalidate();
 		}
 
         return "login/loginForm";
