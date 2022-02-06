@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.x62life.mo.dao.mypage.MypageDao">
+<mapper namespace="com.netflix.app.dao.mypage.MypageDao">
 
 <!--  
 'System        : m.62life.com
@@ -35,7 +35,7 @@
 '20211119   hwkim   -       적립포인트 에누리할인 처리로 다시 환원처리 / ttlprice only
  -->
   
-   <select id="mypageOrdList" resultType="com.x62life.mo.model.mypage.Mypage" parameterType="java.lang.String">
+   <select id="mypageOrdList" resultType="com.netflix.app.model.mypage.Mypage" parameterType="java.lang.String">
      	 /* 진행주문 / 배송중 / 지난달 구매금액 / 이번달 구매혜택 */
         <![CDATA[
 	    SELECT 
@@ -80,7 +80,7 @@
 	               ]]>
     </select>
                                 
-    <select id="mypageLevelInfo" parameterType="java.util.Map"  resultType="com.x62life.mo.model.member.MemberProfile">
+    <select id="mypageLevelInfo" parameterType="java.util.Map"  resultType="com.netflix.app.model.member.MemberProfile">
         /* 멤버십 레벨 기본값 */
        SELECT 
        				l.mlevel, m.mvlevel, m.mvpntr 
@@ -94,7 +94,7 @@
         AND l.memcd = #{strLoginMemCd} 
     </select>
     
-    <select id="mypageRemainPointInfo" parameterType="java.util.Map" resultType="com.x62life.mo.model.member.MbAccPoint">
+    <select id="mypageRemainPointInfo" parameterType="java.util.Map" resultType="com.netflix.app.model.member.MbAccPoint">
         /* 당월 소멸예정 적립포인트 */
         SELECT 
         		    a.memcd, SUM(a.remain) remain 

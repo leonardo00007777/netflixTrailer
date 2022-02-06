@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.x62life.mo.dao.category.CategoryDao">
+<mapper namespace="com.netflix.app.dao.category.CategoryDao">
 <!--    'System        : m.62life.com
     'Program       :
     'Title         : 자연이랑모바일 - 상품 카테고리별 보기
@@ -57,7 +57,7 @@
     '20210903   hwkim   -       수량구매할인 재 적용(표시)
     '20210929   chhyeon 1.3.0   쿠폰테스트-->
 
-    <select id="itemDetail" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="itemDetail" parameterType="java.util.Map" resultType="com.netflix.app.model.product.GdMasterEx">
         /*itemDetail 상품 상세 페이지*/
         SELECT g.gdcd
              , g.gdname
@@ -206,7 +206,7 @@
            WHERE testidx = #{testidx}
     </select>
 
-    <select id="fruitsSugarInfo" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdSugar">
+    <select id="fruitsSugarInfo" parameterType="java.lang.String" resultType="com.netflix.app.model.product.GdSugar">
         /* fruitsSugarInfo 과일 당도 정보 */
          SELECT TOP 1 gasuga
               , gasug1
@@ -225,7 +225,7 @@
            WHERE ppartc = #{strGDCD}
     </select>
     
-    <select id="usePpCode" parameterType="java.lang.String" resultType="com.x62life.mo.model.product.GdPipnRef">
+    <select id="usePpCode" parameterType="java.lang.String" resultType="com.netflix.app.model.product.GdPipnRef">
         /* usePpCode 상품 설명 ppcode */
         SELECT b.ppartc
              , b.ppcode
@@ -303,7 +303,7 @@
              AND rtype = #{reviewType}
     </select>
     
-    <select id="prodReviewDetail" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.ProductReviewEx">
+    <select id="prodReviewDetail" parameterType="java.util.Map" resultType="com.netflix.app.model.product.ProductReviewEx">
         /* prodReviewDetail 상품리뷰상세  */
         SELECT c.rseqno
              , c.rtype
@@ -386,7 +386,7 @@
       </choose>
     </select>
 
-    <select id="optionProduct" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="optionProduct" parameterType="java.util.Map" resultType="com.netflix.app.model.product.GdMasterEx">
         /*optionProduct 옵션상품 체크*/
         SELECT gm.gdcd
              , gm.gdname

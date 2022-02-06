@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.x62life.mo.dao.member.MemberDao">
+<mapper namespace="com.netflix.app.dao.member.MemberDao">
 
-    <select id="selectMemberInfo" resultType="com.x62life.mo.model.login.LoginProcess" parameterType="java.util.Map">
+    <select id="selectMemberInfo" resultType="com.netflix.app.model.login.LoginProcess" parameterType="java.util.Map">
         /* loginProcess 로그인 정보 get*/
         SELECT a.memcd
              , a.memid

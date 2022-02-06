@@ -38,7 +38,7 @@
 	</beans:bean>
 		
 		
-	<context:component-scan base-package="com.x62life.mo" />
+	<context:component-scan base-package="com.netflix.app" />
 	
 	
 	

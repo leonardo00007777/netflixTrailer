@@ -9,7 +9,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="mapperLocations" value="classpath:mybatis/sqlmaps/**/*.xml" />
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <property name="typeAliasesPackage" value="com.x62life.mo.dao"/>
+        <property name="typeAliasesPackage" value="com.netflix.app.dao"/>
     </bean>
      
     <bean id="sqlSession"
@@ -27,7 +27,7 @@
 	
 	<!-- DAO Mapper Scan -->
 	<bean id="commonMapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-	   <property name="basePackage" value="com.x62life.mo.dao" />
+	   <property name="basePackage" value="com.netflix.app.dao" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
  	

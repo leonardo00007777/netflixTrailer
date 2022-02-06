@@ -19,7 +19,7 @@
 <!--     <import resource="classpath:/spring/properties-config.xml" /> -->
   	  
   	<!-- dao 매핑 -->  
-	<mybatis:scan base-package="com.x62life.mo.dao"/>
+	<mybatis:scan base-package="com.netflix.app.dao"/>
 	
 	
 </beans>

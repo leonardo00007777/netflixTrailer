@@ -4,6 +4,7 @@
 <%@ page session="false" %>
 <%@ include file="/WEB-INF/views/common/env.jsp"
 %>
+<script src="<%=_jsUrl %>login/login.js"></script>
 
 <body>
   <div class="site-container">

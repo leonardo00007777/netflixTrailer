@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.x62life.mo.dao.main.MainDao">
+<mapper namespace="com.netflix.app.dao.main.MainDao">
 <!--    'System        : 62life.com
     'Program       :
     'Title         : 자연이랑 모바일 첫 페이지
@@ -69,7 +69,7 @@
     '                           불필요한 코드 간단하게 정리, 인라인 스타일 정리(추가정리필요)
     '20210906   hnjang  2.1     배송유형별(자연이랑,업체직송) 분류 기능 추가-->
 
-    <select id="mainBannerList" resultType="com.x62life.mo.model.exhibition.AdMainMg" parameterType="java.lang.String">
+    <select id="mainBannerList" resultType="com.netflix.app.model.exhibition.AdMainMg" parameterType="java.lang.String">
         /*mainBannerList 메인배너*/
         SELECT CASE WHEN ISNULL(urlm,'') = '' THEN url
                     ELSE urlm
@@ -90,21 +90,31 @@
           ORDER BY ISNULL(important, 10), update_dt DESC, seq DESC
     </select>
 
-    <select id="renewalBannerList" resultType="com.x62life.mo.model.exhibition.MainPageSkin">
+<!--     <select id="renewalBannerList" resultType="com.netflix.app.model.exhibition.MainPageSkin">
         /*리뉴얼 배너*/
-        SELECT cbnpath01, cbntarget01, cbnurl01, lbntitle01, reservet01  <!--'모바일상단 자연이랑NEW1(슬라이드)-->
-             , cbnpath02, cbntarget02, cbnurl02, lbntitle02, reservet02   <!--'모바일상단 자연이랑NEW2(슬라이드)-->
-             , cbnpath03, cbntarget03, cbnurl03, lbntitle03, reservet03  <!--'모바일상단 자연이랑NEW3(슬라이드)-->
-             , cbnpath04, cbntarget04, cbnurl04  <!--'모바일상단 고정배너1(슬라이드)-->
-             , cbnpath05, cbntarget05, cbnurl05  <!--'모바일상단 고정배너2(슬라이드)-->
-             , cbnpath06, cbntarget06, cbnurl06  <!--'모바일상단 고정배너2(슬라이드)-->
-             , cbnpath07, cbntarget07, cbnurl07  <!--'모바일상단 고정배너2(슬라이드)-->
-             , tbnpath02, tbntarget02, tbnurl02  <!--'모바일상단 고정배너3(슬라이드)-->
-             , tbnpath03, tbntarget03, tbnurl03  <!--'모바일상단 고정배너4(슬라이드)-->
+        SELECT cbnpath01, cbntarget01, cbnurl01, lbntitle01, reservet01  '모바일상단 자연이랑NEW1(슬라이드)
+             , cbnpath02, cbntarget02, cbnurl02, lbntitle02, reservet02   '모바일상단 자연이랑NEW2(슬라이드)
+             , cbnpath03, cbntarget03, cbnurl03, lbntitle03, reservet03  '모바일상단 자연이랑NEW3(슬라이드)
+             , cbnpath04, cbntarget04, cbnurl04  '모바일상단 고정배너1(슬라이드)
+             , cbnpath05, cbntarget05, cbnurl05  '모바일상단 고정배너2(슬라이드)
+             , cbnpath06, cbntarget06, cbnurl06  '모바일상단 고정배너2(슬라이드)
+             , cbnpath07, cbntarget07, cbnurl07  '모바일상단 고정배너2(슬라이드)
+             , tbnpath02, tbntarget02, tbnurl02  '모바일상단 고정배너3(슬라이드)
+             , tbnpath03, tbntarget03, tbnurl03  '모바일상단 고정배너4(슬라이드)
           FROM mainpageskin
     </select>
-
-    <select id="todaySpecialProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.exhibition.OneDaySpecialEx">
+ -->
+ 
+<!--  TEST Query  -->  
+	 <select id="renewalBannerList" resultType="com.netflix.app.model.exhibition.MainPageSkin">
+        select
+            id as cbnpath01,
+            subject cbnpath02
+        from
+           tb1
+    </select> 
+ 
+    <select id="todaySpecialProdList" parameterType="java.util.Map" resultType="com.netflix.app.model.exhibition.OneDaySpecialEx">
         /*todaySpecialProdList 오늘의 특가*/
         SELECT os.idx
              , opt
@@ -208,7 +218,7 @@
            ]]>
     </select>
 
-    <select id="nowHotProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.exhibition.OneDaySpecialEx">
+    <select id="nowHotProdList" parameterType="java.util.Map" resultType="com.netflix.app.model.exhibition.OneDaySpecialEx">
         /* nowHotProdList 지금뜨는상품 */
         SELECT os.idx
              , os.gdcd
@@ -245,7 +255,7 @@
              AND (g.reserveyn = 'N' OR (g.reserveyn = 'Y' AND r.gdcd IS NOT NULL))
     </select>
 
-    <select id="newProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="newProdList" parameterType="java.util.Map" resultType="com.netflix.app.model.product.GdMasterEx">
         /*newProdList 신상품*/
         SELECT TOP 8 *
             , (a.price1 - a.saleprice) / a.price1 * 100 AS discountrate
@@ -318,7 +328,7 @@
           ORDER BY ISNULL(updt, indt) DESC
     </select>
 
-    <select id="seasonalProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.SeasonalFoodHall">
+    <select id="seasonalProdList" parameterType="java.util.Map" resultType="com.netflix.app.model.product.SeasonalFoodHall">
         /*seasonalProdList 계절상품 */
         SELECT sfname
              , sf01_tit2
@@ -353,7 +363,7 @@
          ORDER BY sfidx DESC
     </select>
 
-    <select id="bestProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="bestProdList" parameterType="java.util.Map" resultType="com.netflix.app.model.product.GdMasterEx">
         /* bestProdList 인기상품*/
         SELECT TOP 12 a.odtype
              , (b.price1 - saleprice) / b.price1 * 100 AS discountrate
@@ -438,7 +448,7 @@
          ORDER BY NEWID()
     </select>
 
-    <select id="discountProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.product.GdMasterEx">
+    <select id="discountProdList" parameterType="java.util.Map" resultType="com.netflix.app.model.product.GdMasterEx">
         /*discountProdList 할인상품*/
         SELECT TOP (#{displayCount})  *
              , (xx.price1 - xx.saleprice) / xx.price1 * 100 AS discountrate
@@ -563,7 +573,7 @@
         ORDER BY zhidx DESC
     </select>
 
-    <select id="magazineDetail" resultType="com.x62life.mo.model.boardcontents.MagazineLEx">
+    <select id="magazineDetail" resultType="com.netflix.app.model.boardcontents.MagazineLEx">
         /* magazineDetail 매거진 상세 */
         SELECT *
            FROM (
@@ -658,7 +668,7 @@
           ORDER BY zlidx DESC, zlno ASC
     </select>
 
-    <select id="eventList" parameterType="java.util.Map" resultType="com.x62life.mo.model.boardcontents.BdContents">
+    <select id="eventList" parameterType="java.util.Map" resultType="com.netflix.app.model.boardcontents.BdContents">
         /* eventList 이벤트 리스트 */
         SELECT TOP 3 ctsidx
              , title

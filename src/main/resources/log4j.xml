@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.x62life.mo">
+	<logger name="com.netflix.app">
 		<level value="all" />
 	</logger>
 	

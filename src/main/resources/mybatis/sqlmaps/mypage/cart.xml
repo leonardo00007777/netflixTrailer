@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.x62life.mo.dao.mypage.CartDao">
+<mapper namespace="com.netflix.app.dao.mypage.CartDao">
 <!--
 	'/*****************************************************************************
 	'System        : m.62life.com
@@ -38,7 +38,7 @@
 	'20210804   hwkim   0.9.8   배송비 유료정책 추가, 배송비 무료회원 기능 제거.
 	'20210903   hwkim   -       수량할인 정책 재 표시
 	'******************************************************************************/-->
-	<select id="cartProdList" parameterType="java.util.Map" resultType="com.x62life.mo.model.order.ShoppingBasketEx">
+	<select id="cartProdList" parameterType="java.util.Map" resultType="com.netflix.app.model.order.ShoppingBasketEx">
          /*cartProdList 장바구니 상품 목록*/
 		SELECT x.odtype
 		     , x.crtidx
@@ -172,7 +172,7 @@
 		     ]]>
 	</select>
 
-	<select id="checkAlreadyCart" parameterType="java.util.Map" resultType="com.x62life.mo.model.order.ShoppingBasket">
+	<select id="checkAlreadyCart" parameterType="java.util.Map" resultType="com.netflix.app.model.order.ShoppingBasket">
 		/*'장바구니에 담겨있는 상품인지 아닌지 검사*/
 		SELECT crtidx
 		     , gdcnt
